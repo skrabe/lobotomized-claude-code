@@ -20,7 +20,6 @@ What got axed:
 - Skill-invocation panic text ("BEFORE generating ANY other response")
 
 What stayed:
-- The one-liner "be concise" (removing it = ~50% latency blowup, confirmed)
 - All conditional / always-injected system-critical lines
 - Anything actually load-bearing for tool-use correctness
 
