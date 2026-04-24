@@ -48,16 +48,6 @@ What stayed:
    npx tweakcc-fixed --apply
    ```
 
-## Version
-
-Built against Claude Code **2.1.118**. If you're on a newer CC version, either downgrade:
-
-```bash
-npm install -g @anthropic-ai/claude-code@2.1.118
-```
-
-or bump the `ccVersion` fields in each file and re-run `--apply` (conditional prompts may skip — that's fine, they're not always-injected).
-
 ## Philosophy
 
 - **Opus 4.7 follows instructions literally** — remove the redundant ones.
