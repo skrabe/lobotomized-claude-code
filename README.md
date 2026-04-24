@@ -1,5 +1,9 @@
 # lobotomized-claude-code
 
+<p align="center">
+  <img src="./assets/banner.png" alt="lobotomized-claude-code" width="420">
+</p>
+
 A frankenstein-lobotomized-but-good set of system prompt overrides for [Claude Code](https://claude.com/claude-code), tuned for **Opus 4.7**.
 
 ## tl;dr
