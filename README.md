@@ -42,16 +42,10 @@ What stayed:
    git clone https://github.com/skrabe/lobotomized-claude-code ~/.tweakcc/system-prompts
    ```
 
-2. **Apply via [tweakcc-fixed](https://github.com/BenIsLegit/tweakcc-fixed)** (maintained fork — upstream tweakcc lags CC releases):
+2. **Apply via [tweakcc-fixed](https://github.com/BenIsLegit/tweakcc-fixed)** — a fork with patches that make apply work on Claude Code 2.0.98+ (mainline tweakcc doesn't):
 
    ```bash
    npx tweakcc-fixed --apply
-   ```
-
-3. **Pin Claude Code's version** (auto-updates invalidate the patched cli.js). Add to your shell rc:
-
-   ```bash
-   export DISABLE_AUTOUPDATER=1
    ```
 
 ## Version
