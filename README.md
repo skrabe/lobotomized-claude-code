@@ -4,7 +4,7 @@ A frankenstein-lobotomized-but-good set of system prompt overrides for [Claude C
 
 The defaults ship with a lot of bloat that a modern frontier model doesn't need: redundant instructions, CAPS-yelling, anxious guardrails, duplicated guidance, stale notes. This repo strips the useless stuff, softens overtriggering language, and keeps only what's load-bearing.
 
-Goal: minimal prompt, fewer tokens, no degradation in behavior. Where community data showed a line was load-bearing (e.g. the "concise" line, which causes ~50% latency blow-up when removed), it's kept.
+Goal: minimal prompt, fewer tokens, no degradation in behavior.
 
 ## tl;dr
 
@@ -35,36 +35,24 @@ What stayed:
 
 ## How to install
 
-1. **Use the maintained fork** (upstream tweakcc lags CC releases):
+1. **Clone this repo into your tweakcc system-prompts folder:**
 
    ```bash
-   git clone https://github.com/BenIsLegit/tweakcc-fixed ~/dev/tweakcc-fixed
-   cd ~/dev/tweakcc-fixed
-   npm install --legacy-peer-deps
-   npm run build
-   ```
-
-2. **Clone this repo into your tweakcc system-prompts folder:**
-
-   ```bash
-   # back up anything you already have
    mv ~/.tweakcc/system-prompts ~/.tweakcc/system-prompts.bak 2>/dev/null
    git clone https://github.com/skrabe/lobotomized-claude-code ~/.tweakcc/system-prompts
    ```
 
-3. **Apply the overrides to your installed Claude Code:**
+2. **Apply via [tweakcc-fixed](https://github.com/BenIsLegit/tweakcc-fixed)** (maintained fork — upstream tweakcc lags CC releases):
 
    ```bash
-   node ~/dev/tweakcc-fixed/dist/index.mjs --apply
+   npx tweakcc-fixed --apply
    ```
 
-4. **Pin Claude Code's version** (auto-updates can invalidate the patched cli.js):
+3. **Pin Claude Code's version** (auto-updates invalidate the patched cli.js). Add to your shell rc:
 
    ```bash
    export DISABLE_AUTOUPDATER=1
    ```
-
-   Add that to your shell rc.
 
 ## Version
 
