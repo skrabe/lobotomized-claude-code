@@ -52,7 +52,6 @@ What stayed:
 
 - **Opus 4.7 follows instructions literally** — remove the redundant ones.
 - **CAPS overtriggers** — prefer plain directive voice.
-- **Hooks > prompts** for enforcement — don't expect the prompt to stop what a hook can catch.
 - **Don't strip load-bearing lines** just because they look dumb. Verify with latency/quality before cutting.
 
 ## License
