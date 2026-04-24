@@ -6,6 +6,25 @@ The defaults ship with a lot of bloat that a modern frontier model doesn't need:
 
 Goal: minimal prompt, fewer tokens, no degradation in behavior. Where community data showed a line was load-bearing (e.g. the "concise" line, which causes ~50% latency blow-up when removed), it's kept.
 
+## tl;dr
+
+**~67% fewer prompt chars** across 272 overridden fragments (818 KB → 268 KB).
+
+What got axed:
+- CAPS yelling (`ALWAYS` / `NEVER` / `BLOCKING REQUIREMENT` / `CRITICAL`) → plain directives
+- Redundant "don't do X" that repeats 3 files down
+- Emptied tool descriptions nobody needs (worktree pair, bash built-in notes)
+- "Demonstrate thoroughness to the user" guilt-trips
+- Duplicate parallel-tool-call / bash-quoting / verify-parent-dir boilerplate
+- Stale comments, version notes, sales pitch intros
+- Skill-invocation panic text ("BEFORE generating ANY other response")
+
+What stayed:
+- The one-liner "be concise" (removing it = ~50% latency blowup, confirmed)
+- All conditional / always-injected system-critical lines
+- Anything actually load-bearing for tool-use correctness
+
+
 ## What's in here
 
 `*.md` files are individual override fragments consumed by [tweakcc](https://github.com/BenIsLegit/tweakcc-fixed). Each file's frontmatter names the prompt it replaces and the Claude Code version it was built against. Edits include:
