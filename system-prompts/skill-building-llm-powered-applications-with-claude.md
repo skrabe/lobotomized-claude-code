@@ -5,7 +5,7 @@ description: >-
   covering language detection, API surface selection (Claude API vs Managed
   Agents), model defaults, thinking/effort configuration, and language-specific
   documentation reading
-ccVersion: 2.1.116
+ccVersion: 2.1.119
 -->
 # Building LLM-Powered Applications with Claude
 

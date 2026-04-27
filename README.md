@@ -8,7 +8,7 @@ A frankenstein-lobotomized-but-good set of system prompt overrides for [Claude C
 
 ## tl;dr
 
-**~67% fewer prompt chars** — 818 KB → 268 KB across 272 override fragments.
+**~67% fewer prompt chars** — 863 KB → 282 KB across 283 override fragments.
 
 What got axed:
 - CAPS yelling (`ALWAYS` / `NEVER` / `BLOCKING REQUIREMENT` / `CRITICAL`) → plain directives
