@@ -3,9 +3,13 @@ name: 'Tool Description: CronCreate'
 description: >-
   Describes the CronCreate tool for enqueuing one-shot or recurring cron-based
   jobs with jitter and off-minute scheduling guidance
-ccVersion: 2.1.144
+ccVersion: 2.1.168
 variables:
-  - CRON_DURABLE_FLAG
+  - CRON_DURABILITY_SECTION
+  - IS_MONITOR_TOOL_ENABLED_FN
+  - CRON_CREATE_TOOL_NAME
+  - MONITOR_TOOL_NAME
+  - CRON_DURABLE_RUNTIME_NOTE
   - CANCEL_TIMEFRAME_DAYS
   - CRON_DELETE_TOOL_NAME
 -->
@@ -32,15 +36,15 @@ Everyone asking for "9am" gets \`0 9\` and everyone asking for "hourly" gets \`0
 
 Use minute 0 or 30 only when the user names that exact time and means it ("9:00 sharp", "half past", coordinating with a meeting). When in doubt, nudge a few minutes off.
 
-${CRON_DURABLE_FLAG}
-${CANCEL_TIMEFRAME_DAYS()?`
+${CRON_DURABILITY_SECTION}
+${IS_MONITOR_TOOL_ENABLED_FN()?`
 ## Not for live watching
 
-${CRON_DELETE_TOOL_NAME} re-runs a prompt at fixed wall-clock intervals. To watch a log file, process, or command output and be notified the moment something changes, use the Monitor tool instead — it streams events as they happen; cron polls on a schedule.
+${CRON_CREATE_TOOL_NAME} re-runs a prompt at fixed wall-clock intervals. To watch a log file, process, or command output and be notified the moment something changes, use the ${MONITOR_TOOL_NAME} tool instead — ${MONITOR_TOOL_NAME} streams events as they happen; cron polls on a schedule.
 `:""}
 ## Runtime behavior
 
-Jobs fire only while the REPL is idle (not mid-query). The scheduler adds a small deterministic jitter: recurring tasks fire up to 10% of their period late (max 15 min); one-shot tasks landing on :00 or :30 fire up to 90 s early. Picking an off-minute is the bigger lever.
+Jobs fire only while the REPL is idle (not mid-query). ${CRON_DURABLE_RUNTIME_NOTE}The scheduler adds a small deterministic jitter: recurring tasks fire up to 10% of their period late (max 15 min); one-shot tasks landing on :00 or :30 fire up to 90 s early. Picking an off-minute is the bigger lever.
 
 Recurring tasks auto-expire after ${CANCEL_TIMEFRAME_DAYS} days — they fire one final time, then are deleted. Tell the user about the ${CANCEL_TIMEFRAME_DAYS}-day limit when scheduling recurring jobs.
 
