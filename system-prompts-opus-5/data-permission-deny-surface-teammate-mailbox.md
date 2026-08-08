@@ -5,4 +5,4 @@ description: >-
   consent-disclosure permission-deny message.
 ccVersion: 2.1.214
 -->
-the teammate mailbox (a static-description wire)
+the teammate mailbox

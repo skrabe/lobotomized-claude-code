@@ -5,10 +5,6 @@ ccVersion: 2.1.211
 -->
 # Recently changed surfaces
 
-Your training data may describe Claude Code commands, flags, and terms that have since been renamed or removed. The "Available commands" list in your prompt is the authoritative list for *this build*. Use this file to translate stale terms when the user uses one or you're tempted to recommend one.
-
-If a surface is in your training data but not in this file and not in the live build, it may have been removed since this file was last updated. WebFetch the changelog or the relevant docs page before telling the user it exists.
-
 ## Removed slash commands
 
 | Removed | Replacement |

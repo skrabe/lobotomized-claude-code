@@ -6,4 +6,4 @@ description: >-
   call.
 ccVersion: 2.1.210
 -->
-_NOT GATHERED — the home directory resolves to a network path. Treat shell history as "not queryable here". Do not read history files yourself._
+_NOT GATHERED — the home directory resolves to a network path. Treat shell history as "not queryable here"._

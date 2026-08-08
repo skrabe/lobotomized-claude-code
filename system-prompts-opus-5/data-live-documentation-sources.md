@@ -148,3 +148,4 @@ If WebFetch fails (network issues, URL changed):
 1. Use cached content from the language-specific files (note the cache date)
 2. Inform user the data may be outdated
 3. Suggest they check platform.claude.com or the GitHub repos directly
+

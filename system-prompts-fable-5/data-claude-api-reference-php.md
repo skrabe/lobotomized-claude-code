@@ -96,8 +96,6 @@ foreach ($message->content as $block) {
 
 ## Extended Thinking
 
-**Adaptive thinking is the recommended mode for Claude 4.6+ models.** Claude decides dynamically when and how much to think.
-
 \`\`\`php
 use Anthropic\\Messages\\ThinkingBlock;
 

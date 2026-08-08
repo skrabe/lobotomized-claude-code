@@ -6,4 +6,4 @@ description: >-
   format.
 ccVersion: 2.1.214
 -->
-Apply the memory-writing guidance and frontmatter format from the Memory section of your system prompt — it is already in your context above.
+

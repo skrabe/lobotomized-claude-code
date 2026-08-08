@@ -5,8 +5,6 @@ ccVersion: 2.1.183
 -->
 # Streaming — Java
 
-## Streaming
-
 \`\`\`java
 import com.anthropic.core.http.StreamResponse;
 import com.anthropic.models.messages.RawMessageStreamEvent;

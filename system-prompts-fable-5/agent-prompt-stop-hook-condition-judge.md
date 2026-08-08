@@ -7,6 +7,4 @@ ccVersion: 2.1.206
 variables:
   - AGENT_PROMPT_STOP_HOOK_CONDITION_JUDGE_VAR_0
 -->
-Based on the conversation transcript above, has the following stopping condition been satisfied? Answer based on transcript evidence only.
-
 Condition: ${AGENT_PROMPT_STOP_HOOK_CONDITION_JUDGE_VAR_0.prompt}

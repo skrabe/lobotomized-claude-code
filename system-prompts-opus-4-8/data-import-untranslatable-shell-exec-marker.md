@@ -6,4 +6,4 @@ description: >-
   import-to-claude-code SKILL.md
 ccVersion: 2.1.214
 -->
-Contains a `` !`…` `` or ```! shell-exec marker (inert in Codex, live in Claude Code). Port it manually.
+Contains a `` !`…` `` or ```! shell-exec marker (inert in Codex, live in Claude Code).

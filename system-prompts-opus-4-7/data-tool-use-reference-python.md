@@ -3,11 +3,9 @@ name: 'Data: Tool use reference — Python'
 description: >-
   Python tool use reference including tool runner, manual agentic loop, code
   execution, and structured outputs
-ccVersion: 2.1.78
+ccVersion: 2.1.204
 -->
 # Tool Use — Python
-
-For conceptual overview (tool definitions, tool choice, tips), see [shared/tool-use-concepts.md](../../shared/tool-use-concepts.md).
 
 ## Tool Runner (Recommended)
 
@@ -47,12 +45,42 @@ for message in runner:
 
 For async usage, use \`@beta_async_tool\` with \`async def\` functions.
 
-**Key benefits of the tool runner:**
+### Server tools with the tool runner
 
-- No manual loop — the SDK handles calling tools and feeding results back
-- Type-safe tool inputs via decorators
-- Tool schemas are generated automatically from function signatures
-- Iteration stops automatically when Claude has no more tool calls
+The runner's \`tools\` list accepts raw server-tool definitions (\`web_search_20260209\`, \`web_fetch_20260209\`, code execution) alongside decorated tools — pass the literal tool dict; server tools run on Anthropic's servers, so there is no function to implement.
+
+**Caution — the runner does not auto-resume \`pause_turn\` (as of \`anthropic\` 0.116.0).** A long-running server-tool turn can stop with \`stop_reason: "pause_turn"\`. The runner only continues after a client tool produces a result, so a paused turn ends the loop and is returned as the final message — no error, no warning, just a silently truncated answer. Unlike the TypeScript runner, the Python runner cannot be resumed mid-loop: it exits unconditionally when no client tool ran, and \`runner.append_messages(...)\` does not prevent the exit. To handle \`pause_turn\`, mirror the conversation history as you iterate, then restart the runner with the paused turn appended:
+
+\`\`\`python
+messages = [{"role": "user", "content": user_input}]
+
+max_restarts = 5  # cap pause_turn restarts, mirroring max_continuations advice
+restarts = 0
+while True:
+    runner = client.beta.messages.tool_runner(
+        model="{{OPUS_ID}}",
+        max_tokens=16000,
+        tools=tools,  # may mix @beta_tool functions and server-tool definitions
+        messages=messages,
+    )
+    last = None
+    for message in runner:
+        last = message
+        # Mirror the history — the runner keeps its own copy and does not expose it
+        messages.append({"role": "assistant", "content": message.content})
+        tool_response = runner.generate_tool_call_response()  # cached; tools still run once
+        if tool_response is not None:
+            messages.append(tool_response)
+    if last is None or last.stop_reason != "pause_turn":
+        break
+    restarts += 1
+    if restarts > max_restarts:
+        raise RuntimeError("giving up: turn still paused after max_restarts")
+    # Paused mid-turn: \`messages\` already ends with the paused assistant
+    # turn, so the next runner resumes it
+\`\`\`
+
+Alternatively, use the manual loop below, which handles \`pause_turn\` explicitly.
 
 ---
 
@@ -137,13 +165,15 @@ Conversion functions raise \`UnsupportedMCPValueError\` if an MCP value cannot b
 
 ## Manual Agentic Loop
 
-Use this when you need fine-grained control over the loop (e.g., custom logging, conditional tool execution, human-in-the-loop approval):
+Prefer the tool runner above. Drop to a manual loop only when you need control the runner does not expose (e.g., a custom transport, request shapes the SDK cannot build, or avoiding a beta dependency — the runner is beta). Human-in-the-loop approval does *not* require a manual loop — gate inside the tool function (return a "user declined" result) or inspect pending \`tool_use\` blocks in the \`for message in runner:\` body and call \`runner.set_messages_params()\`.
+
+If you do need a manual loop:
 
 \`\`\`python
 import anthropic
 
 client = anthropic.Anthropic()
-tools = [...] # Your tool definitions
+tools = [...]  # Your tool definitions
 messages = [{"role": "user", "content": user_input}]
 
 # Agentic loop: keep going until Claude stops calling tools
@@ -176,10 +206,10 @@ while True:
     # Execute each tool and collect results
     tool_results = []
     for tool in tool_use_blocks:
-        result = execute_tool(tool.name, tool.input) # Your implementation
+        result = execute_tool(tool.name, tool.input)  # Your implementation
         tool_results.append({
             "type": "tool_result",
-            "tool_use_id": tool.id, # Must match the tool_use block's id
+            "tool_use_id": tool.id,  # Must match the tool_use block's id
             "content": result
         })
 
@@ -192,72 +222,11 @@ final_text = next(b.text for b in response.content if b.type == "text")
 
 ---
 
-## Handling Tool Results
 
-\`\`\`python
-response = client.messages.create(
-    model="{{OPUS_ID}}",
-    max_tokens=16000,
-    tools=tools,
-    messages=[{"role": "user", "content": "What's the weather in Paris?"}]
-)
-
-for block in response.content:
-    if block.type == "tool_use":
-        tool_name = block.name
-        tool_input = block.input
-        tool_use_id = block.id
-
-        result = execute_tool(tool_name, tool_input)
-
-        followup = client.messages.create(
-            model="{{OPUS_ID}}",
-            max_tokens=16000,
-            tools=tools,
-            messages=[
-                {"role": "user", "content": "What's the weather in Paris?"},
-                {"role": "assistant", "content": response.content},
-                {
-                    "role": "user",
-                    "content": [{
-                        "type": "tool_result",
-                        "tool_use_id": tool_use_id,
-                        "content": result
-                    }]
-                }
-            ]
-        )
-\`\`\`
 
 ---
 
-## Multiple Tool Calls
 
-\`\`\`python
-tool_results = []
-
-for block in response.content:
-    if block.type == "tool_use":
-        result = execute_tool(block.name, block.input)
-        tool_results.append({
-            "type": "tool_result",
-            "tool_use_id": block.id,
-            "content": result
-        })
-
-# Send all results back at once
-if tool_results:
-    followup = client.messages.create(
-        model="{{OPUS_ID}}",
-        max_tokens=16000,
-        tools=tools,
-        messages=[
-            *previous_messages,
-            {"role": "assistant", "content": response.content},
-            {"role": "user", "content": tool_results}
-        ]
-    )
-\`\`\`
 
 ---
 
@@ -267,7 +236,7 @@ if tool_results:
 tool_result = {
     "type": "tool_result",
     "tool_use_id": tool_use_id,
-    "content": "Error: Location 'xyz' not found. provide a valid city name.",
+    "content": "Error: Location 'xyz' not found. Please provide a valid city name.",
     "is_error": True
 }
 \`\`\`
@@ -281,7 +250,7 @@ response = client.messages.create(
     model="{{OPUS_ID}}",
     max_tokens=16000,
     tools=tools,
-    tool_choice={"type": "tool", "name": "get_weather"}, # Force specific tool
+    tool_choice={"type": "tool", "name": "get_weather"},  # Force specific tool
     messages=[{"role": "user", "content": "What's the weather in Paris?"}]
 )
 \`\`\`
@@ -395,9 +364,9 @@ response2 = client.messages.create(
 \`\`\`python
 for block in response.content:
     if block.type == "text":
-        print(block.text) # Claude's explanation
+        print(block.text)  # Claude's explanation
     elif block.type == "server_tool_use":
-        print(f"Running: {block.name} - {block.input}") # What Claude is doing
+        print(f"Running: {block.name} - {block.input}")  # What Claude is doing
     elif block.type == "bash_code_execution_tool_result":
         result = block.content
         if result.type == "bash_code_execution_result":
@@ -425,7 +394,7 @@ client = anthropic.Anthropic()
 response = client.messages.create(
     model="{{OPUS_ID}}",
     max_tokens=16000,
-    messages=[{"role": "user", "content": "my preferred language is Python."}],
+    messages=[{"role": "user", "content": "Remember that my preferred language is Python."}],
     tools=[{"type": "memory_20250818", "name": "memory"}],
 )
 \`\`\`
@@ -495,8 +464,8 @@ response = client.messages.parse(
 
 # response.parsed_output is a validated ContactInfo instance
 contact = response.parsed_output
-print(contact.name) # "Jane Doe"
-print(contact.interests) # ["API", "SDKs"]
+print(contact.name)           # "Jane Doe"
+print(contact.interests)      # ["API", "SDKs"]
 \`\`\`
 
 ### Raw Schema

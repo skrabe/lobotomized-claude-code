@@ -6,4 +6,4 @@ description: >-
 ccVersion: 2.1.210
 -->
 
-The user opted into this at Q3. Raw history lines were never read into the transcript — only the command words above. Do not read these files yourself; they carry inline secrets.
+The user opted into this at Q3. Do not read these files yourself; they carry inline secrets.

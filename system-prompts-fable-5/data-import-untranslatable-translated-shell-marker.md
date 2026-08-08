@@ -6,4 +6,4 @@ description: >-
   the import-to-claude-code SKILL.md
 ccVersion: 2.1.214
 -->
-Its translated body contains a `` !`cmd` `` shell-exec marker that wasn't a `!{…}` block in the Gemini prompt (inert there, live in Claude Code). Port it manually.
+Its translated body contains a `` !`cmd` `` shell-exec marker that wasn't a `!{…}` block in the Gemini prompt (inert there, live in Claude Code).

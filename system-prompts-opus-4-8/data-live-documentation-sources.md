@@ -3,7 +3,7 @@ name: 'Data: Live documentation sources'
 description: >-
   WebFetch URLs for fetching current Claude API and Agent SDK documentation from
   official sources
-ccVersion: 2.1.204
+ccVersion: 2.1.224
 -->
 # Live Documentation Sources
 
@@ -99,7 +99,7 @@ Use these when a managed-agents binding, behavior, or wire-level detail isn't co
 | Tools                 | \`https://platform.claude.com/docs/en/managed-agents/tools.md\`                    | "Extract built-in toolset, custom tool definitions, and tool result wire format"                |
 | Files                 | \`https://platform.claude.com/docs/en/managed-agents/files.md\`                    | "Extract file upload, mount paths, session resources, and listing/downloading session outputs"  |
 | Permission Policies   | \`https://platform.claude.com/docs/en/managed-agents/permission-policies.md\`      | "Extract permission policy types (allow/deny/confirm) and per-tool config"                     |
-| Multi-Agent           | \`https://platform.claude.com/docs/en/managed-agents/multi-agent.md\`              | "Extract multi-agent composition patterns, sub-agent invocation, and result handoff"            |
+| Multi-Agent           | \`https://platform.claude.com/docs/en/managed-agents/multiagent-orchestration.md\` | "Extract multi-agent composition patterns, sub-agent invocation, and result handoff"            |
 | Observability         | \`https://platform.claude.com/docs/en/managed-agents/observability.md\`            | "Extract logging, tracing, and usage telemetry exposed by managed agents"                       |
 | Webhooks              | \`https://platform.claude.com/docs/en/managed-agents/webhooks.md\`                 | "Extract webhook endpoint registration, HMAC signature verification, supported event types, and delivery semantics" |
 | GitHub                | \`https://platform.claude.com/docs/en/managed-agents/github.md\`                   | "Extract github_repository resource shape, multi-repo mounting, and token rotation"             |
@@ -148,3 +148,4 @@ If WebFetch fails (network issues, URL changed):
 1. Use cached content from the language-specific files (note the cache date)
 2. Inform user the data may be outdated
 3. Suggest they check platform.claude.com or the GitHub repos directly
+

@@ -6,4 +6,4 @@ description: >-
   prompt and SKILL.md.
 ccVersion: 2.1.214
 -->
-Its translated body would execute a shell command that wasn't a `!{…}` block in the Gemini prompt (inert there, live in Claude Code). Port it manually.
+Its translated body would execute a shell command that wasn't a `!{…}` block in the Gemini prompt (inert there, live in Claude Code).

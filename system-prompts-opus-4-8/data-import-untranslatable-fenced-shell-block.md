@@ -6,4 +6,4 @@ description: >-
   SKILL.md
 ccVersion: 2.1.214
 -->
-Its body contains a ```! fenced shell block (inert in Gemini, live in Claude Code). Port it manually.
+Its body contains a ```! fenced shell block (inert in Gemini, live in Claude Code).

@@ -5,8 +5,6 @@ ccVersion: 2.1.183
 -->
 # Streaming — C#
 
-## Streaming
-
 ```csharp
 using Anthropic.Models.Messages;
 

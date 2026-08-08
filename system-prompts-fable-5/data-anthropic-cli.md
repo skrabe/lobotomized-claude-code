@@ -8,8 +8,6 @@ ccVersion: 2.1.169
 -->
 # Anthropic CLI (`ant`)
 
-The `ant` CLI exposes every Claude API resource as a shell subcommand. Compared to `curl`: request bodies are built from typed flags or piped YAML instead of hand-written JSON, `@path` inlines file contents into any string field, `--transform` extracts fields with a GJSON path (no `jq`), list endpoints auto-paginate (cap total results with `--max-items N`; `--limit` only sets the server page size), and the `beta:` prefix auto-sets the right `anthropic-beta` header.
-
 ## When to use the CLI vs the SDK
 
 **CLI for the control plane, SDK for the data plane.** Agents and environments are relatively static resources you define, configure, and debug with `ant` — check the YAML into your repo, apply from CI, inspect from a terminal. Sessions are dynamic and driven by your application through the SDK — create per task, stream events, react to tool calls, integrate into your product. Both hit the same API; the split is about where the call lives, not what's possible.
@@ -87,13 +85,6 @@ ant <resource>[:<subresource>] <action> [flags]
 ```
 
 Beta resources (agents, sessions, environments, deployments, skills, vaults, memory stores) live under `beta:` — the CLI auto-sends the right `anthropic-beta` header, so don't pass it yourself unless overriding with `--beta <header>`. For self-hosted environments, `ant beta:worker poll/run` and `ant beta:environments:work stats/stop` drive and monitor the work queue — see `shared/managed-agents-self-hosted-sandboxes.md`.
-
-```sh
-ant models list
-ant messages create --model {{OPUS_ID}} --max-tokens 1024 --message '{role: user, content: "Hello"}'
-ant beta:agents retrieve --agent-id agent_01...
-ant beta:sessions:events list --session-id session_01...
-```
 
 `ant --help` lists resources; append `--help` to any subcommand for its flags.
 

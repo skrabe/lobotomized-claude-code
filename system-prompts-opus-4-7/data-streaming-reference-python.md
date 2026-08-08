@@ -3,7 +3,7 @@ name: 'Data: Streaming reference — Python'
 description: >-
   Python streaming reference including sync/async streaming and handling
   different content types
-ccVersion: 2.1.118
+ccVersion: 2.1.219
 -->
 # Streaming — Python
 
@@ -53,13 +53,13 @@ No final-message accumulation is done for you in this form.
 
 Claude may return text, thinking blocks, or tool use. Handle each appropriately:
 
-> **Opus 4.7 / Opus 4.6:** Use \`thinking: {type: "adaptive"}\`. On older models, use \`thinking: {type: "enabled", budget_tokens: N}\` instead.
+> **Fable 5 / {{OPUS_NAME}} / Opus 4.8 / Opus 4.7 / Opus 4.6:** Use \`thinking: {type: "adaptive"}\`. On {{OPUS_NAME}} adaptive is also what you get by omitting \`thinking\` entirely. On older models, use \`thinking: {type: "enabled", budget_tokens: N}\` instead.
 
 \`\`\`python
 with client.messages.stream(
     model="{{OPUS_ID}}",
     max_tokens=64000,
-    thinking={"type": "adaptive"},
+    thinking={"type": "adaptive", "display": "summarized"},  # display opt-in: default is omitted (empty thinking text) on Fable 5 / Mythos 5 / {{OPUS_NAME}} / Opus 4.8 / 4.7
     messages=[{"role": "user", "content": "Analyze this problem"}]
 ) as stream:
     for event in stream:
@@ -80,7 +80,7 @@ with client.messages.stream(
 
 ## Streaming with Tool Use
 
-The Python tool runner currently returns complete messages. Use streaming for individual API calls within a manual loop if you need per-token streaming with tools:
+The Python tool runner supports streaming: pass \`stream=True\` to \`client.beta.messages.tool_runner(...)\` and each iteration yields a stream you consume event-by-event, with \`get_final_message()\` for the accumulated message per turn (see \`shared/tool-use-concepts.md\` → Tool Runner vs Manual Loop). Use the manual-loop pattern below only when you're not using the tool runner and need per-token streaming with tools:
 
 \`\`\`python
 with client.messages.stream(
@@ -156,9 +156,9 @@ try:
         for text in stream.text_stream:
             print(text, end="", flush=True)
 except anthropic.APIConnectionError:
-    print("\\nConnection lost. retry.")
+    print("\\nConnection lost. Please retry.")
 except anthropic.RateLimitError:
-    print("\\nRate limited. wait and retry.")
+    print("\\nRate limited. Please wait and retry.")
 except anthropic.APIStatusError as e:
     print(f"\\nAPI error: {e.status_code}")
 \`\`\`
@@ -184,3 +184,4 @@ except anthropic.APIStatusError as e:
 4. **Use timeouts** — Set appropriate timeouts for your application
 5. **Default to streaming** — Use \`.get_final_message()\` to get the complete response even when streaming, giving you timeout protection without needing to handle individual events
 6. **Large \`max_tokens\` without streaming raises \`ValueError\`** — The SDK refuses non-streaming requests it estimates will exceed ~10 minutes (idle connections drop). Pass \`stream=True\` / use \`messages.stream()\`, or explicitly override \`timeout\`, to suppress the guard.
+

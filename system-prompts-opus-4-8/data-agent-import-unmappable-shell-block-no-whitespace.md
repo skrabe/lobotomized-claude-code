@@ -6,4 +6,4 @@ description: >-
   import-to-claude-code SKILL.md.
 ccVersion: 2.1.214
 -->
-Its `!{…}` block isn't preceded by whitespace — Claude Code's `` !`cmd` `` marker requires it, so the shell exec would be silently lost. Port it manually.
+Its `!{…}` block isn't preceded by whitespace — Claude Code's `` !`cmd` `` marker requires it, so the shell exec would be silently lost.

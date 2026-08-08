@@ -7,8 +7,6 @@ ccVersion: 2.1.204
 -->
 # Tool Use — Python
 
-For conceptual overview (tool definitions, tool choice, tips), see [shared/tool-use-concepts.md](../../shared/tool-use-concepts.md).
-
 ## Tool Runner (Recommended)
 
 **Beta:** The tool runner is in beta in the Python SDK.
@@ -46,13 +44,6 @@ for message in runner:
 \`\`\`
 
 For async usage, use \`@beta_async_tool\` with \`async def\` functions.
-
-**Key benefits of the tool runner:**
-
-- No manual loop — the SDK handles calling tools and feeding results back
-- Type-safe tool inputs via decorators
-- Tool schemas are generated automatically from function signatures
-- Iteration stops automatically when Claude has no more tool calls
 
 ### Server tools with the tool runner
 
@@ -231,72 +222,11 @@ final_text = next(b.text for b in response.content if b.type == "text")
 
 ---
 
-## Handling Tool Results
 
-\`\`\`python
-response = client.messages.create(
-    model="{{OPUS_ID}}",
-    max_tokens=16000,
-    tools=tools,
-    messages=[{"role": "user", "content": "What's the weather in Paris?"}]
-)
-
-for block in response.content:
-    if block.type == "tool_use":
-        tool_name = block.name
-        tool_input = block.input
-        tool_use_id = block.id
-
-        result = execute_tool(tool_name, tool_input)
-
-        followup = client.messages.create(
-            model="{{OPUS_ID}}",
-            max_tokens=16000,
-            tools=tools,
-            messages=[
-                {"role": "user", "content": "What's the weather in Paris?"},
-                {"role": "assistant", "content": response.content},
-                {
-                    "role": "user",
-                    "content": [{
-                        "type": "tool_result",
-                        "tool_use_id": tool_use_id,
-                        "content": result
-                    }]
-                }
-            ]
-        )
-\`\`\`
 
 ---
 
-## Multiple Tool Calls
 
-\`\`\`python
-tool_results = []
-
-for block in response.content:
-    if block.type == "tool_use":
-        result = execute_tool(block.name, block.input)
-        tool_results.append({
-            "type": "tool_result",
-            "tool_use_id": block.id,
-            "content": result
-        })
-
-# Send all results back at once
-if tool_results:
-    followup = client.messages.create(
-        model="{{OPUS_ID}}",
-        max_tokens=16000,
-        tools=tools,
-        messages=[
-            *previous_messages,
-            {"role": "assistant", "content": response.content},
-            {"role": "user", "content": tool_results}
-        ]
-    )
-\`\`\`
 
 ---
 

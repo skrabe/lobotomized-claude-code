@@ -5,4 +5,4 @@ description: >-
   when the user did not opt in at Q3; fed to the propose model call.
 ccVersion: 2.1.210
 -->
-_NOT GATHERED — the user did not opt in at Q3, or was not asked before this ran. Treat shell history as "not queryable here". Do not read history files yourself._
+_NOT GATHERED — the user did not opt in at Q3, or was not asked before this ran. Treat shell history as "not queryable here"._

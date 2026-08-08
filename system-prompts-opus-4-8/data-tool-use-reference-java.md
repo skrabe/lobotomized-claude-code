@@ -5,8 +5,6 @@ ccVersion: 2.1.183
 -->
 # Tool Use — Java
 
-For conceptual overview (tool definitions, tool choice, tips), see [shared/tool-use-concepts.md](../../shared/tool-use-concepts.md).
-
 ## Tool Use (Beta)
 
 The Java SDK supports beta tool use with annotated classes. Tool classes implement \`Supplier<String>\` for automatic execution via \`BetaToolRunner\`.
@@ -79,8 +77,6 @@ for (BetaMessage message : toolRunner) {
 }
 \`\`\`
 
-See the [shared memory tool concepts](../../shared/tool-use-concepts.md) for more details on the memory tool.
-
 ### Non-Beta Tool Declaration (manual JSON schema)
 
 \`Tool.InputSchema.Properties\` is a freeform \`Map<String, JsonValue>\` wrapper — build property schemas via \`putAdditionalProperty\`. \`type: "object"\` is the default. The builder has a direct \`.addTool(Tool)\` overload that wraps in \`ToolUnion\` automatically.
@@ -107,8 +103,6 @@ MessageCreateParams params = MessageCreateParams.builder()
     .addUserMessage("Weather in Paris?")
     .build();
 \`\`\`
-
-For manual tool loops, handle \`tool_use\` blocks in the response, send \`tool_result\` back, loop until \`stop_reason\` is \`"end_turn"\`. See [shared tool use concepts](../../shared/tool-use-concepts.md).
 
 ### Building \`MessageParam\` with Content Blocks (Tool Result Round-Trip)
 

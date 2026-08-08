@@ -3,7 +3,7 @@ name: 'Data: Managed Agents scheduled deployments'
 description: >-
   Managed Agents reference doc for scheduled deployments — cron-scheduled
   autonomous agent sessions
-ccVersion: 2.1.218
+ccVersion: 2.1.224
 -->
 # Managed Agents — Scheduled Deployments
 
@@ -88,6 +88,16 @@ The response is a deployment object (`depl_` ID prefix). Check `schedule.upcomin
 
 > ⚠️ **DST edge:** wall-clock times that don't exist on a spring-forward day (e.g. 2AM) are **skipped**; times that occur twice on a fall-back day **fire twice**. Schedule outside the 1–3AM local window, or use UTC, when missed or duplicate executions are unacceptable.
 
+## Deployment budgets
+
+A deployment accepts the same `budget` object as a session (`{type: "limit", max_list_cost: {amount, currency}}` — minor-unit cents string, `USD` only; see `shared/managed-agents-core.md` § Session budgets). The cap is **copied onto each session at fire time**, and that session then behaves exactly like any budgeted session.
+
+Deployment budget update semantics differ from a session's:
+
+- `budget` is accepted on **create and update** — it is not create-only.
+- `budget: null` on update **clears** it, and a cleared budget **can be re-added later** — there is no one-way door.
+- A change applies **from the next fired session** — sessions already running keep the cap they were created with (change those via their own session update).
+
 ## Deployment runs
 
 Every trigger attempt — successful or not — writes a **deployment run** record (`drun_` prefix), so you can audit failures independent of the session lifecycle. A successful run carries the created `session_id`; follow that session via the event stream (`shared/managed-agents-events.md`) or webhooks (`shared/managed-agents-webhooks.md`) as usual. A failed run carries an `error` whose `type` explains why session creation was rejected.
@@ -151,3 +161,4 @@ Raw HTTP: `POST /v1/deployments/{deployment_id}/pause` (likewise `/unpause`, `/a
 ## Manual runs
 
 `POST /v1/deployments/{deployment_id}/run` (SDK: `client.beta.deployments.run(id)`) creates a session immediately and writes a run with `trigger_context.type: "manual"`. Use it to **test a deployment before committing to the schedule** — and remember it works even while the deployment is paused.
+

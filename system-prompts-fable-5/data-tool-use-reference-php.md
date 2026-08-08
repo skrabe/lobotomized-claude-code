@@ -5,8 +5,6 @@ ccVersion: 2.1.183
 -->
 # Tool Use — PHP
 
-For conceptual overview (tool definitions, tool choice, tips), see [shared/tool-use-concepts.md](../../shared/tool-use-concepts.md).
-
 ## Tool Use
 
 ### Tool Runner (Beta)
@@ -51,7 +49,7 @@ foreach ($runner as $message) {
 
 ### Manual Loop
 
-Tools are passed as arrays. **The SDK uses camelCase keys** (\`inputSchema\`, \`toolUseID\`, \`stopReason\`) and auto-maps to the API's snake_case on the wire — since v0.5.0. See [shared tool use concepts](../../shared/tool-use-concepts.md) for the loop pattern.
+Tools are passed as arrays. **The SDK uses camelCase keys** (\`inputSchema\`, \`toolUseID\`, \`stopReason\`) and auto-maps to the API's snake_case on the wire — since v0.5.0.
 
 \`\`\`php
 use Anthropic\\Messages\\ToolUseBlock;

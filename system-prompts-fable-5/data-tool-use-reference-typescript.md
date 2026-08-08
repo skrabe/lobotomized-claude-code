@@ -7,8 +7,6 @@ ccVersion: 2.1.204
 -->
 # Tool Use — TypeScript
 
-For conceptual overview (tool definitions, tool choice, tips), see [shared/tool-use-concepts.md](../../shared/tool-use-concepts.md).
-
 ## Tool Runner (Recommended)
 
 **Beta:** The tool runner is in beta in the TypeScript SDK.
@@ -47,13 +45,6 @@ console.log(finalMessage.content);
 \`\`\`
 
 Zod is optional — \`betaTool()\` from \`@anthropic-ai/sdk/helpers/beta/json-schema\` accepts a raw JSON Schema \`inputSchema\` plus a \`run\` function if you don't want a Zod dependency.
-
-**Key benefits of the tool runner:**
-
-- No manual loop — the SDK handles calling tools and feeding results back
-- Type-safe tool inputs via Zod schemas (or raw JSON Schema via \`betaTool()\`)
-- Tool schemas are generated automatically from Zod definitions
-- Iteration stops automatically when Claude has no more tool calls
 
 ### Server tools with the tool runner
 
@@ -207,38 +198,7 @@ while (true) {
 
 ---
 
-## Handling Tool Results
 
-\`\`\`typescript
-const response = await client.messages.create({
-  model: "{{OPUS_ID}}",
-  max_tokens: 16000,
-  tools: tools,
-  messages: [{ role: "user", content: "What's the weather in Paris?" }],
-});
-
-for (const block of response.content) {
-  if (block.type === "tool_use") {
-    const result = await executeTool(block.name, block.input);
-
-    const followup = await client.messages.create({
-      model: "{{OPUS_ID}}",
-      max_tokens: 16000,
-      tools: tools,
-      messages: [
-        { role: "user", content: "What's the weather in Paris?" },
-        { role: "assistant", content: response.content },
-        {
-          role: "user",
-          content: [
-            { type: "tool_result", tool_use_id: block.id, content: result },
-          ],
-        },
-      ],
-    });
-  }
-}
-\`\`\`
 
 ---
 

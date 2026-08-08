@@ -6,4 +6,4 @@ description: >-
   import-to-claude-code SKILL.md and the /import preview prompt.
 ccVersion: 2.1.214
 -->
-One of its shell blocks contains '!' while the command also has argument placeholders — a backtick in the typed arguments could re-pair the marker into executing text the block never consented to. Port it manually.
+One of its shell blocks contains '!' while the command also has argument placeholders — a backtick in the typed arguments could re-pair the marker into executing text the block never consented to.

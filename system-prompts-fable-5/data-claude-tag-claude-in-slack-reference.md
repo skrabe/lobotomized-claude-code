@@ -72,10 +72,3 @@ These \`.md\` URLs are for fetching. When you link a page for the user, drop the
 | Migrating from the earlier "Claude in Slack" app | \`https://claude.com/docs/claude-tag/admins/migrate-from-earlier.md\` |
 
 If a WebFetch of the overview page fails, fetch \`https://claude.com/docs/llms.txt\` (the index of that docs domain) and search it for "Claude Tag"; the Claude Code docs map is a separate index and does not list Claude Tag pages.
-
-## Answering style
-
-- Answer from this file and the fetched docs, never from stale training data. Claude Tag is newer than most training cutoffs; the earlier per-user Slack app is what training data usually describes.
-- If the user is **in a Claude Tag Slack session** and asks how to change its configuration (repos, tools, connections, spend limit, identity): the change is made by an **organization owner** in Admin settings → Claude Tag at \`https://claude.ai/admin-settings/claude-tag\`, and it takes effect in **new threads**, not the current one. Tell them to start a new thread after the owner saves the change.
-- If the user asks "can Claude live in my Slack?" or "how do I set this up?": point them at \`/install-slack-app\` from the CLI (if present in this build) and at an org owner enabling it in Admin settings, then link the overview docs page.
-- Be explicit about which surface the user is asking about. "Claude in Slack" may mean the earlier app or Claude Tag — the current answer is Claude Tag; note the rename if they use the old name.

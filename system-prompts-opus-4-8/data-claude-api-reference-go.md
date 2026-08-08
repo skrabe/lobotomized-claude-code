@@ -67,8 +67,6 @@ for _, block := range response.Content {
 
 Enable Claude's internal reasoning by setting \`Thinking\` in \`MessageNewParams\`. The response will contain \`ThinkingBlock\` content before the final \`TextBlock\`.
 
-**Adaptive thinking is the recommended mode for Claude 4.6+ models.** Claude decides dynamically when and how much to think. Combine with the \`effort\` parameter for cost-quality control.
-
 Derived from \`anthropic-sdk-go/message.go\` (\`ThinkingConfigParamUnion\`, \`ThinkingConfigAdaptiveParam\`).
 
 \`\`\`go

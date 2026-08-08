@@ -5,4 +5,4 @@ description: >-
   /import summary prompt the model is asked to relay.
 ccVersion: 2.1.214
 -->
-Has an unexpected shape (expected a table of named entries). Review it manually.
+Has an unexpected shape (expected a table of named entries).

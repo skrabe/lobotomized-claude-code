@@ -161,3 +161,4 @@ Raw HTTP: `POST /v1/deployments/{deployment_id}/pause` (likewise `/unpause`, `/a
 ## Manual runs
 
 `POST /v1/deployments/{deployment_id}/run` (SDK: `client.beta.deployments.run(id)`) creates a session immediately and writes a run with `trigger_context.type: "manual"`. Use it to **test a deployment before committing to the schedule** — and remember it works even while the deployment is paused.
+

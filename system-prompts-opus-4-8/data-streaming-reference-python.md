@@ -184,3 +184,4 @@ except anthropic.APIStatusError as e:
 4. **Use timeouts** — Set appropriate timeouts for your application
 5. **Default to streaming** — Use \`.get_final_message()\` to get the complete response even when streaming, giving you timeout protection without needing to handle individual events
 6. **Large \`max_tokens\` without streaming raises \`ValueError\`** — The SDK refuses non-streaming requests it estimates will exceed ~10 minutes (idle connections drop). Pass \`stream=True\` / use \`messages.stream()\`, or explicitly override \`timeout\`, to suppress the guard.
+

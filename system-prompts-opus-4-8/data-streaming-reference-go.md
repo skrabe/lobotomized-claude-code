@@ -5,8 +5,6 @@ ccVersion: 2.1.183
 -->
 # Streaming — Go
 
-## Streaming
-
 \`\`\`go
 stream := client.Messages.NewStreaming(context.Background(), anthropic.MessageNewParams{
     Model:     anthropic.ModelClaudeOpus4_8,

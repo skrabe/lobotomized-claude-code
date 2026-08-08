@@ -6,4 +6,4 @@ description: >-
   fallback skill
 ccVersion: 2.1.214
 -->
-Contains a dangling shell-exec marker that argument substitution could complete into a live command at invocation time. Port it manually.
+Contains a dangling shell-exec marker that argument substitution could complete into a live command at invocation time.

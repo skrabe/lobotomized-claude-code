@@ -259,3 +259,4 @@ The header must be exactly \`server-side-fallback-2026-06-01\` **for this array 
 | \`x-api-key\`         | Your API key       | Authentication             |
 | \`anthropic-version\` | \`2023-06-01\`       | API version                |
 | \`anthropic-beta\`    | Beta feature IDs   | Required for beta features |
+

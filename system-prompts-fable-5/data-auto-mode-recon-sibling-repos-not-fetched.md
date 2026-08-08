@@ -6,4 +6,4 @@ description: >-
   model call.
 ccVersion: 2.1.210
 -->
-_NOT GATHERED — the user picked "just this project" (Q2), or was not asked before this ran. No sibling repos were fetched. Do not fetch them yourself._
+_NOT GATHERED — the user picked "just this project" (Q2), or was not asked before this ran. No sibling repos were fetched._

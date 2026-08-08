@@ -5,4 +5,4 @@ description: >-
   `prompt` string; injected into the `/import` prompt and SKILL.md.
 ccVersion: 2.1.214
 -->
-Doesn't match the expected command format (needs a 'prompt' string). Review it manually.
+Doesn't match the expected command format (needs a 'prompt' string).

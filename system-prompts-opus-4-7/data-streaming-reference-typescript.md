@@ -3,7 +3,7 @@ name: 'Data: Streaming reference — TypeScript'
 description: >-
   TypeScript streaming reference including basic streaming and handling
   different content types
-ccVersion: 2.1.111
+ccVersion: 2.1.219
 -->
 # Streaming — TypeScript
 
@@ -30,13 +30,13 @@ for await (const event of stream) {
 
 ## Handling Different Content Types
 
-> **Opus 4.7 / Opus 4.6:** Use \`thinking: {type: "adaptive"}\`. On older models, use \`thinking: {type: "enabled", budget_tokens: N}\` instead.
+> **Fable 5 / {{OPUS_NAME}} / Opus 4.8 / Opus 4.7 / Opus 4.6:** Use \`thinking: {type: "adaptive"}\`. On {{OPUS_NAME}} adaptive is also what you get by omitting \`thinking\` entirely. On older models, use \`thinking: {type: "enabled", budget_tokens: N}\` instead.
 
 \`\`\`typescript
 const stream = client.messages.stream({
   model: "{{OPUS_ID}}",
   max_tokens: 64000,
-  thinking: { type: "adaptive" },
+  thinking: { type: "adaptive", display: "summarized" }, // display opt-in: default is omitted (empty thinking text) on Fable 5 / Mythos 5 / {{OPUS_NAME}} / Opus 4.8 / 4.7
   messages: [{ role: "user", content: "Analyze this problem" }],
 });
 
@@ -183,3 +183,4 @@ data: {"type":"message_delta","delta":{"stop_reason":"end_turn"},"usage":{"outpu
 event: message_stop
 data: {"type":"message_stop"}
 \`\`\`
+

@@ -6,4 +6,4 @@ description: >-
   SKILL.md.
 ccVersion: 2.1.214
 -->
-Has an unexpected shape in ~/.gemini/settings.json (expected an object of named entries). Review it manually.
+Has an unexpected shape in ~/.gemini/settings.json (expected an object of named entries).

@@ -6,4 +6,4 @@ description: >-
   import-to-claude-code SKILL.md
 ccVersion: 2.1.214
 -->
-A `!{…}` shell block would be silently dropped by Claude Code's `` !`cmd` `` parsing after translation (its marker re-pairs with nearby backticks). Port it manually.
+A `!{…}` shell block would be silently dropped by Claude Code's `` !`cmd` `` parsing after translation (its marker re-pairs with nearby backticks).

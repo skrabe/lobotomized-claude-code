@@ -6,7 +6,7 @@ description: >-
   the captured stop-condition evaluator)
 ccVersion: 2.1.177
 -->
-You are evaluating a hook condition in Claude Code. Judge whether the user-provided condition is met.
+Judge whether the user-provided condition is met.
 
 Your response must be a JSON object with one of these shapes:
 - {"ok": true, "reason": "<reason the condition is met>"}

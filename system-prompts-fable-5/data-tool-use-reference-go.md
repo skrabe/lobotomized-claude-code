@@ -5,8 +5,6 @@ ccVersion: 2.1.204
 -->
 # Tool Use — Go
 
-For conceptual overview (tool definitions, tool choice, tips), see [shared/tool-use-concepts.md](../../shared/tool-use-concepts.md).
-
 ## Tool Use
 
 ### Tool Runner (Beta — Recommended)

@@ -5,4 +5,4 @@ description: >-
   ~/.gemini/settings.json; injected into the `/import` prompt and SKILL.md.
 ccVersion: 2.1.214
 -->
-Entry in ~/.gemini/settings.json has an unexpected shape. Review it manually.
+Entry in ~/.gemini/settings.json has an unexpected shape.

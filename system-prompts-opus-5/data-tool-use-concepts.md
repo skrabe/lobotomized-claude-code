@@ -528,3 +528,4 @@ The Python and TypeScript SDKs automatically handle unsupported constraints by r
 For detailed tool use documentation, use WebFetch:
 
 - URL: \`https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview\`
+

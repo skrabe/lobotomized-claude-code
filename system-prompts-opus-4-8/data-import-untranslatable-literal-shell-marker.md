@@ -6,4 +6,4 @@ description: >-
   import-to-claude-code SKILL.md
 ccVersion: 2.1.214
 -->
-It has a literal `` !` `` outside any `!{…}` block (inert in Gemini, live in Claude Code — and it may pair with a translated block's backtick to run something other than the block). Port it manually.
+It has a literal `` !` `` outside any `!{…}` block (inert in Gemini, live in Claude Code — and it may pair with a translated block's backtick to run something other than the block).

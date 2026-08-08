@@ -102,7 +102,7 @@ for result in client.messages.batches.results(message_batch.id):
 
 \`\`\`python
 cancelled = client.messages.batches.cancel(message_batch.id)
-print(f"Status: {cancelled.processing_status}") # "canceling"
+print(f"Status: {cancelled.processing_status}")  # "canceling"
 \`\`\`
 
 ---
@@ -127,7 +127,7 @@ shared_system = [
     {"type": "text", "text": "You are a literary analyst."},
     {
         "type": "text",
-        "text": large_document_text, # Shared across all requests
+        "text": large_document_text,  # Shared across all requests
         "cache_control": {"type": "ephemeral"}
     }
 ]
@@ -203,3 +203,4 @@ for result in client.messages.batches.results(batch.id):
 for custom_id, classification in sorted(results.items()):
     print(f"{custom_id}: {classification}")
 \`\`\`
+

@@ -11,13 +11,9 @@ This file covers how to design prompt-building code for effective caching. For l
 
 ## The one invariant everything follows from
 
-**Prompt caching is a prefix match. Any change anywhere in the prefix invalidates everything after it.**
+The cache key is derived from the exact bytes of the rendered prompt up to each \`cache_control\` breakpoint.
 
-The cache key is derived from the exact bytes of the rendered prompt up to each \`cache_control\` breakpoint. A single byte difference at position N — a timestamp, a reordered JSON key, a different tool in the list — invalidates the cache for all breakpoints at positions ≥ N.
-
-Render order is: \`tools\` → \`system\` → \`messages\`. A breakpoint on the last system block caches both tools and system together.
-
-Design the prompt-building path around this constraint. Get the ordering right and most caching works for free. Get it wrong and no amount of \`cache_control\` markers will help.
+A breakpoint on the last system block caches both tools and system together.
 
 ---
 
@@ -71,8 +67,6 @@ Many requests share a large fixed preamble (few-shot examples, retrieved docs, i
 
 ### Mid-conversation system messages
 
-**{{OPUS_NAME}}, {{PREV_OPUS_NAME}}, {{FABLE_NAME}}, and {{MYTHOS_NAME}}; no beta header. Not available on {{SONNET_NAME}}** — use top-level \`system\` there. (Sources conflict on {{SONNET_NAME}}: the model config marks it supported, but every canonical docs page omits it. Treat it as unsupported and catch the 400.) When an operator instruction arrives mid-conversation — a mode switch, updated context, dynamically injected state — send it as \`{"role": "system", "content": "..."}\` appended to \`messages[]\`, rather than editing top-level \`system\`. Editing top-level \`system\` changes the prefix ahead of the entire conversation history, so every cached turn is re-processed uncached; a \`role: "system"\` message sits after the history and leaves the cached prefix intact.
-
 \`\`\`json
 // Top-level system stays byte-identical; new instruction goes after the cached history
 "system": [{"type": "text", "text": "<stable core>", "cache_control": {"type": "ephemeral"}}],
@@ -82,8 +76,6 @@ Many requests share a large fixed preamble (few-shot examples, retrieved docs, i
   {"role": "system", "content": "Terse mode enabled — keep responses under 40 words."}
 ]
 \`\`\`
-
-This is also the prompt-injection-safe replacement for embedding operator instructions as text inside a user turn (the \`<system-reminder>\` pattern): both have the same caching profile, but \`role: "system"\` is the non-spoofable operator channel, whereas text inside user/tool content can be forged by anything that writes to user-visible input.
 
 Must follow a \`role: "user"\` message (or an \`assistant\` message ending in server-tool use), and must be either the last entry in \`messages\` or be followed by an \`assistant\` turn; cannot be \`messages[0]\` — use top-level \`system\` for the initial prompt. Content is text-only. Unsupported models return a 400 (\`BadRequestError\`: \`role 'system' is not supported on this model\`); catch that error and fall back to putting the instruction in a user-turn \`<system-reminder>\` block.
 
@@ -129,9 +121,7 @@ Fix by moving the dynamic piece after the last breakpoint, making it determinist
 "cache_control": {"type": "ephemeral", "ttl": "1h"} // 1-hour TTL
 \`\`\`
 
-- Max **4** \`cache_control\` breakpoints per request.
 - Goes on any content block: system text blocks, tool definitions, message content blocks (\`text\`, \`image\`, \`tool_use\`, \`tool_result\`, \`document\`).
-- Top-level \`cache_control\` on \`messages.create()\` auto-places on the last cacheable block — simplest option when you don't need fine-grained placement.
 - Minimum cacheable prefix is model-dependent. Shorter prefixes silently won't cache even with a marker — no error, just \`cache_creation_input_tokens: 0\`:
 
 | Model | Minimum |
@@ -152,14 +142,6 @@ These minimums apply on **every** platform where the model is available — the 
 ## Verifying cache hits
 
 The response \`usage\` object reports cache activity:
-
-| Field | Meaning |
-|---|---|
-| \`cache_creation_input_tokens\` | Tokens written to cache this request (you paid the ~1.25× write premium) |
-| \`cache_read_input_tokens\` | Tokens served from cache this request (you paid ~0.1×) |
-| \`input_tokens\` | Tokens processed at full price (not cached) |
-
-If \`cache_read_input_tokens\` is zero across repeated requests with identical prefixes, a silent invalidator is at work — diff the rendered prompt bytes between two requests to find it.
 
 **\`input_tokens\` is the uncached remainder only.** Total prompt size = \`input_tokens + cache_creation_input_tokens + cache_read_input_tokens\`. If your agent ran for hours but \`input_tokens\` shows 4K, the rest was served from cache — check the sum, not the single field.
 

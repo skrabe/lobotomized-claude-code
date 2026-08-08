@@ -3,7 +3,7 @@ name: 'Data: Prompt Caching — Design & Optimization'
 description: >-
   Document on how to design prompt-building code for effective caching,
   including placement patterns and anti-patterns.
-ccVersion: 2.1.145
+ccVersion: 2.1.219
 -->
 # Prompt Caching — Design & Optimization
 
@@ -11,13 +11,9 @@ This file covers how to design prompt-building code for effective caching. For l
 
 ## The one invariant everything follows from
 
-**Prompt caching is a prefix match. Any change anywhere in the prefix invalidates everything after it.**
+The cache key is derived from the exact bytes of the rendered prompt up to each \`cache_control\` breakpoint.
 
-The cache key is derived from the exact bytes of the rendered prompt up to each \`cache_control\` breakpoint. A single byte difference at position N — a timestamp, a reordered JSON key, a different tool in the list — invalidates the cache for all breakpoints at positions ≥ N.
-
-Render order is: \`tools\` → \`system\` → \`messages\`. A breakpoint on the last system block caches both tools and system together.
-
-Design the prompt-building path around this constraint. Get the ordering right and most caching works for free. Get it wrong and no amount of \`cache_control\` markers will help.
+A breakpoint on the last system block caches both tools and system together.
 
 ---
 
@@ -69,6 +65,20 @@ Many requests share a large fixed preamble (few-shot examples, retrieved docs, i
 ]}]
 \`\`\`
 
+### Mid-conversation system messages
+
+\`\`\`json
+// Top-level system stays byte-identical; new instruction goes after the cached history
+"system": [{"type": "text", "text": "<stable core>", "cache_control": {"type": "ephemeral"}}],
+"messages": [
+  ...history,
+  {"role": "user", "content": "..."},
+  {"role": "system", "content": "Terse mode enabled — keep responses under 40 words."}
+]
+\`\`\`
+
+Must follow a \`role: "user"\` message (or an \`assistant\` message ending in server-tool use), and must be either the last entry in \`messages\` or be followed by an \`assistant\` turn; cannot be \`messages[0]\` — use top-level \`system\` for the initial prompt. Content is text-only. Unsupported models return a 400 (\`BadRequestError\`: \`role 'system' is not supported on this model\`); catch that error and fall back to putting the instruction in a user-turn \`<system-reminder>\` block.
+
 ### Prompts that change from the beginning every time
 
 Don't cache. If the first 1K tokens differ per request, there is no reusable prefix. Adding \`cache_control\` only pays the cache-write premium with zero reads. Leave it off.
@@ -79,7 +89,7 @@ Don't cache. If the first 1K tokens differ per request, there is no reusable pre
 
 These are the decisions that matter more than marker placement. Fix these first.
 
-**Keep the system prompt frozen.** Don't interpolate "current date: X", "mode: Y", "user name: Z" into the system prompt — those sit at the front of the prefix and invalidate everything downstream. Inject dynamic context as a user or assistant message later in \`messages\`. A message at turn 5 invalidates nothing before turn 5.
+**Keep the system prompt frozen.** Don't interpolate "current date: X", "mode: Y", "user name: Z" into the system prompt — those sit at the front of the prefix and invalidate everything downstream. Inject dynamic context later in \`messages\` instead — as a \`{"role": "system", ...}\` message where supported (see § Mid-conversation system messages above), or as text in a user message otherwise. A message at turn 5 invalidates nothing before turn 5.
 
 **Don't change tools or model mid-conversation.** Tools render at position 0; adding, removing, or reordering a tool invalidates the entire cache. Same for switching models (caches are model-scoped). If you need "modes", don't swap the tool set — give Claude a tool that records the mode transition, or pass the mode as message content. Serialize tools deterministically (sort by name).
 
@@ -111,18 +121,19 @@ Fix by moving the dynamic piece after the last breakpoint, making it determinist
 "cache_control": {"type": "ephemeral", "ttl": "1h"} // 1-hour TTL
 \`\`\`
 
-- Max **4** \`cache_control\` breakpoints per request.
 - Goes on any content block: system text blocks, tool definitions, message content blocks (\`text\`, \`image\`, \`tool_use\`, \`tool_result\`, \`document\`).
-- Top-level \`cache_control\` on \`messages.create()\` auto-places on the last cacheable block — simplest option when you don't need fine-grained placement.
 - Minimum cacheable prefix is model-dependent. Shorter prefixes silently won't cache even with a marker — no error, just \`cache_creation_input_tokens: 0\`:
 
 | Model | Minimum |
 |---|---:|
-| Opus 4.7, Opus 4.6, Opus 4.5, Haiku 4.5 | 4096 tokens |
-| Sonnet 4.6, Haiku 3.5, Haiku 3 | 2048 tokens |
-| Sonnet 4.5, Sonnet 4.1, Sonnet 4, Sonnet 3.7 | 1024 tokens |
+| {{OPUS_NAME}}, {{FABLE_NAME}}, {{MYTHOS_NAME}} | 512 tokens |
+| Opus 4.8, {{SONNET_NAME}}, Sonnet 4.6, Sonnet 4.5, Opus 4.1, Opus 4, Sonnet 4 | 1024 tokens |
+| Opus 4.7, Mythos Preview, Haiku 3.5 | 2048 tokens |
+| Opus 4.6, Opus 4.5, Haiku 4.5 | 4096 tokens |
 
-A 3K-token prompt caches on Sonnet 4.5 but silently won't on Opus 4.7.
+**The minimum is not monotonic across generations** — 512 on the newest models, but 4096 on Opus 4.6/4.5 and Haiku 4.5. A 3K-token prompt caches on {{OPUS_NAME}}, Opus 4.8, and Sonnet 4.5, and silently won't on Opus 4.6 or Haiku 4.5. {{OPUS_NAME}} halves the Opus 4.8 minimum (1024 → 512), so prompts previously too short to cache now create entries with no code change.
+
+These minimums apply on **every** platform where the model is available — the old Amazon Bedrock override for {{FABLE_NAME}} was removed, and no per-platform exception remains.
 
 **Economics:** Cache reads cost ~0.1× base input price. Cache writes cost **1.25× for 5-minute TTL, 2× for 1-hour TTL**. Break-even depends on TTL: with 5-minute TTL, two requests break even (1.25× + 0.1× = 1.35× vs 2× uncached); with 1-hour TTL, you need at least three requests (2× + 0.2× = 2.2× vs 3× uncached). The 1-hour TTL keeps entries alive across gaps in bursty traffic, but the doubled write cost means it needs more reads to pay off.
 
@@ -131,14 +142,6 @@ A 3K-token prompt caches on Sonnet 4.5 but silently won't on Opus 4.7.
 ## Verifying cache hits
 
 The response \`usage\` object reports cache activity:
-
-| Field | Meaning |
-|---|---|
-| \`cache_creation_input_tokens\` | Tokens written to cache this request (you paid the ~1.25× write premium) |
-| \`cache_read_input_tokens\` | Tokens served from cache this request (you paid ~0.1×) |
-| \`input_tokens\` | Tokens processed at full price (not cached) |
-
-If \`cache_read_input_tokens\` is zero across repeated requests with identical prefixes, a silent invalidator is at work — diff the rendered prompt bytes between two requests to find it.
 
 **\`input_tokens\` is the uncached remainder only.** Total prompt size = \`input_tokens + cache_creation_input_tokens + cache_read_input_tokens\`. If your agent ran for hours but \`input_tokens\` shows 4K, the rest was served from cache — check the sum, not the single field.
 
@@ -160,6 +163,15 @@ Not every parameter change invalidates everything. The API has three cache tiers
 | Message content | ✅ | ✅ | ❌ |
 
 Implication: you can change \`tool_choice\` per-request or toggle \`thinking\` without losing the tools+system cache. Don't over-worry about these — only tool-definition and model changes force a full rebuild.
+
+**Two of these rows have a cache-preserving escape hatch**, each by moving the change out of the top-level request and into a system message inside \`messages[]\`, after the cached prefix. **Availability differs per row** — the two are not gated together:
+
+| Top-level change that invalidates | Cache-preserving form | Available on |
+|---|---|---|
+| Tool definitions (add/remove) | \`tool_addition\` / \`tool_removal\` blocks — see \`shared/tool-use-concepts.md\` § Mid-conversation tool changes | {{OPUS_NAME}} onward, behind \`mid-conversation-tool-changes-2026-07-01\` |
+| System prompt content | A \`{"role": "system", "content": "…"}\` message — see § Mid-conversation system messages above | {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, {{FABLE_NAME}}, {{MYTHOS_NAME}} — **already available today**, no beta header |
+
+Model switch has no escape hatch: caches are model-scoped. Keep the main loop on one model and spawn a subagent for cheaper sub-tasks (see \`agent-design.md\` § Caching for Agents).
 
 ---
 

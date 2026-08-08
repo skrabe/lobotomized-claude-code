@@ -6,4 +6,4 @@ description: >-
   import-to-claude-code SKILL.md
 ccVersion: 2.1.214
 -->
-Its `@{…}` path contains a nested brace, which this importer would truncate. Port it manually.
+Its `@{…}` path contains a nested brace, which this importer would truncate.

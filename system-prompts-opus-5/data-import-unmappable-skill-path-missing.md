@@ -5,4 +5,4 @@ description: >-
   into the /import summary prompt sent to the model.
 ccVersion: 2.1.214
 -->
-Missing or non-string `path`. Review it manually.
+Missing or non-string `path`.
