@@ -4,7 +4,7 @@ description: >-
   Bundled artifact-diagramming skill — Diagramming know-how for Artifacts — when
   a picture earns its place, how to draw one that shows the real mechanism, and
   the inline-SVG mechanics that keep it legible in both themes.
-ccVersion: null
+ccVersion: 2.1.221
 -->
 
 ---

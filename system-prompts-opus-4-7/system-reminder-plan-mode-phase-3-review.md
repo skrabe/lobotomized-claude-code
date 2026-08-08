@@ -4,7 +4,7 @@ description: >-
   Phase 3 of the plan-mode workflow reminder: re-read critical files, check the
   plans against the user's original request, and use AskUserQuestion to close
   remaining gaps.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - SYSTEM_REMINDER_PLAN_MODE_PHASE_3_REVIEW_VAR_0
 -->

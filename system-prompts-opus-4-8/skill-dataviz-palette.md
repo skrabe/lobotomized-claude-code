@@ -3,7 +3,7 @@ name: 'Skill Reference: Data-viz Reference Palette'
 description: >-
   Data-viz skill reference file (references/palette.md) — the reference-instance
   palette with validated default hex values
-ccVersion: null
+ccVersion: 2.1.218
 -->
 # Reference palette
 
@@ -21,6 +21,7 @@ and the chart body is written against roles rather than raw hex:
 
 \`\`\`css
 .viz-root {
+  color-scheme: light;
   --surface-1:      #fcfcfb;   /* chart surface */
   --text-primary:   #0b0b0b;
   --text-secondary: #52514e;
@@ -28,14 +29,27 @@ and the chart body is written against roles rather than raw hex:
   /* …only the roles this chart uses */
 }
 @media (prefers-color-scheme: dark) {
-  .viz-root {
+  :root:where(:not([data-theme="light"])) .viz-root {
+    color-scheme: dark;
     --surface-1:      #1a1a19;
     --text-primary:   #ffffff;
     --text-secondary: #c3c2b7;
     --series-1:       #3987e5;
   }
 }
+:root[data-theme="dark"] .viz-root {
+  color-scheme: dark;
+  --surface-1:      #1a1a19;
+  --text-primary:   #ffffff;
+  --text-secondary: #c3c2b7;
+  --series-1:       #3987e5;
+}
 \`\`\`
+
+Declare the dark values under both scopes as above — the media query covers
+the OS setting; the \`data-theme\` scope covers the viewer's theme toggle,
+which must win both ways (the \`:not(…)\` guard lets a light stamp beat
+OS-dark; \`:where()\` keeps the media block below the toggle scope).
 
 ## Categorical palette
 
@@ -45,30 +59,51 @@ dark surface, not a separate palette:
 | Slot | Hue | Light | Dark |
 |------|-----|-------|------|
 | 1 | blue | \`#2a78d6\` | \`#3987e5\` |
-| 2 | aqua | \`#1baf7a\` | \`#199e70\` |
-| 3 | yellow | \`#eda100\` | \`#c98500\` |
-| 4 | green | \`#008300\` | \`#008300\` |
-| 5 | violet | \`#4a3aa7\` | \`#9085e9\` |
-| 6 | red | \`#e34948\` | \`#e66767\` |
-| 7 | magenta | \`#e87ba4\` | \`#d55181\` |
-| 8 | orange | \`#eb6834\` | \`#d95926\` |
+| 2 | orange | \`#eb6834\` | \`#d95926\` |
+| 3 | aqua | \`#1baf7a\` | \`#199e70\` |
+| 4 | yellow | \`#eda100\` | \`#c98500\` |
+| 5 | magenta | \`#e87ba4\` | \`#d55181\` |
+| 6 | green | \`#008300\` | \`#008300\` |
+| 7 | violet | \`#4a3aa7\` | \`#9085e9\` |
+| 8 | red | \`#e34948\` | \`#e66767\` |
 
-Light-mode worst adjacent CVD ΔE is 24.2 — well clear of the ≥12 target. Three
-light-mode slots (aqua, yellow, magenta) sit below 3:1 contrast on the light
-surface: the **relief rule** applies (ship visible direct labels or the table
-view). The dark steps were chosen for the dark band (OKLCH L ≈ 0.48–0.67, ≥ 3:1
-on the dark surface) and validated as a set — worst adjacent ΔE 10.3, the floor
-band, so four-plus series lean on direct labels or texture in dark mode too.
+This order passes every hard gate in both modes on the default *adjacent*
+pairlist (stacks, bars, lines): worst adjacent CVD ΔE 9.1 light / 8.4 dark
+(OKLab ×100, ≥8 target), worst adjacent normal-vision ΔE 19.6 light / 19.3
+dark (≥15 floor). Under \`--pairs all\` (scatter, bubble, choropleth, small
+multiples) the full eight cannot clear the floors — with all 28 pairs in
+play no ordering can (the pairlist no longer depends on order), and
+re-stepping is off the table by the documented-palette rule — so those
+chart forms carry a series cap: **the first three slots validate all-pairs
+in both modes** (worst pair CVD ΔE 9.2 light / 9.4 dark, normal-vision 24.0
+light / 20.9 dark — clear of the CVD warn band). Past three, fold to "Other" or
+facet: the fourth slot puts yellow and orange on screen
+together, and that pair fails the all-pairs floors (normal-vision 13.7
+light; CVD 4.8 dark). Three light-mode slots (magenta, yellow, aqua)
+sit below 3:1 contrast on the light surface: the **relief rule** applies (ship
+visible direct labels or the table view). The dark steps were chosen for the
+dark band (OKLCH L ≈ 0.48–0.67, ≥ 3:1 on the dark surface) and validated as a
+set. (Ordering history: adopted July 2026 for its more harmonious opening —
+the same eight hues and steps as its predecessor, re-ordered, zero hex
+changes. The predecessor validated its first FOUR slots all-pairs, with its
+dark run in the 6–8 CVD warn band, so secondary encoding was required there;
+this order deliberately trades that fourth slot — yellow now sits beside orange —
+for better-looking leading colors. Revisit the trade if yellow↔orange
+confusion shows up in real charts with four or more series; undoing it is a
+pure re-order.) When you swap in your own ramps, hold your palette to the full
+gate.
 
-The slot **ordering** is the CVD-safety mechanism, not cosmetic — it was derived
-by enumerating orderings and picking the one that maximizes the minimum adjacent
-ΔE (see \`color-formula.md\` § Themes). When you swap in your brand's hues, do the
-same: run the validator on candidate orderings and keep the best.
+The slot **ordering** is the CVD-safety mechanism, not cosmetic — candidate
+orderings were enumerated and only those clearing every adjacent gate in both
+modes kept (see \`color-formula.md\` § Themes); this default is one of the
+passing orders, picked among them for its opening colors. When you swap in
+your brand's hues, do the same: run the validator on candidate orderings and
+choose only among the passing ones.
 
 ## Sequential hue
 
 Default single hue: **blue**, light→dark. When two sequential contexts appear at
-once, the second takes the next categorical slot's hue (aqua), each as its own
+once, the second takes the next categorical slot's hue (orange), each as its own
 one-hue ramp.
 
 | step | hex | step | hex | step | hex | step | hex |
@@ -104,7 +139,16 @@ Dark: same four steps — all clear 3:1 on the dark surface (\`#1a1a19\`) and re
 distinct from the dark categorical slots. On the light surface, warning and
 serious are sub-3:1 by design; the **icon + label** pairing is the mitigation, so
 a status color never carries meaning alone. These steps are deliberately distinct
-from the categorical slots so a status color never impersonates a series.
+from the categorical slots so a status color never impersonates a series —
+distinct enough that nothing collides at a glance, not enough for hue to
+carry the distinction unaided: measured by the series floor's own bar
+(unsimulated ΔE ≥ 15), around nine categorical-vs-status pairs per mode sit
+below 15 — in light mode red vs critical and yellow vs warning both measure
+4.8, slot-2 orange sits 5.8 from status-serious, and the light success text
+green \`#006300\` sits 10.1 from the series green; green vs status-good (9.7)
+holds in both modes, since both hexes are mode-invariant. The rule is general: any series color beside a
+same-hue-family status or delta cue leans on the icon + label pairing and on
+placement; never on hue alone.
 
 ## Texture fill (the accessibility channel)
 

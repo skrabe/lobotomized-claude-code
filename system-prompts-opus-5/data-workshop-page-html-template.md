@@ -9,56 +9,12 @@ ccVersion: 2.1.224
 name: workshop-page
 description: The blessed template for DIRECT-HTML workshops (\`*.workshop.html\`):
   the model copies this file, fills and iteratively edits it as a local HTML
-  document, and publishes it — no markdown pipeline. The publish path runs a
-  structural verifier (src/frame/workshopHtmlVerify.ts) on the final payload
-  of EVERY \`*.workshop.html\` publish and refuses anything out of contract, so
-  treat these as hard rules, not advice:
-  - NEVER edit, reorder, or add <script> elements. The two scripts below
-    (theme, decisions) must remain byte-identical to this template; any other
-    executable script refuses the publish. The ws-decisions island is the one
-    JSON script, and its literal id sentinel may appear NOWHERE else in the
-    page bytes.
-  - No inline event handlers (on*), no ping or referrerpolicy
-    attributes, no rel containing the opener token (noopener/noreferrer
-    are fine), no target other than _blank/_self, no
-    javascript:/data: URLs, no iframes,
-    embeds, objects, noscript, plaintext, frameset/frame, MathML (math elements),
-    forms, <base>, <link>, http-equiv metas, or referrer/origin-trial
-    metas.
-  - Decision markup and the island MUST agree: one [data-decision-id] element
-    per island entry and vice versa, states and choices in lockstep, one
-    data-choice row per opts token, the recommended row (the option matching
-    data-lean-choice) first. Keep the markup contract identical to the
-    markdown lane's renderer (classes below; data attributes are the wire
-    contract).
-  - Quote external content (repo excerpts, user text, tool output) ONLY
-    inside <pre><code> with entities escaped — & first, then < > " ' — and
-    never into attribute values.
-  - Diagrams, hand-authored inline SVG, two kinds: ONE overall <figure> in the
-    working draft, leading the page, showing the current plan as a whole
-    (redrawn every round as decisions land), and one <figure> directly above
-    EVERY call-item, scoped to that decision only and drawn to show the real
-    mechanism or architecture under each option. No <script>, <style>, or
-    <foreignObject> inside SVG, and none of the rawtext-named elements
-    (xmp, noembed, noframes, plaintext, noscript); resource references
-    (use, gradients) stay fragment-internal (#id); <a>/<image> inside
-    SVG follow the page URL rules (http(s), mailto, relative, fragment); never animate
-    URL (href/src/srcset), navigation (target/rel/ping/referrerpolicy),
-    style, class, data-anchor, or on* attributes.
+  document, and publishes it — no markdown pipeline.
   - The top banner carries data-ws-state="in-progress|ready|started" and
     must MATCH the island-derived state (any open non-kickoff decision →
     in-progress; canonical kickoff open and nothing else open → ready;
     kickoff resolved to get-started → started) — the verifier checks the
     attribute; the text is yours.
-  - The reserved kickoff block (island id get-started with exactly the
-    get-started|keep-iterating token pair) renders as a status footer
-    (see SKILL.md), never as a decision card; never use the id for an
-    ordinary decision.
-  Everything else — layout, sections, prose, styles in the <style> block —
-  is yours to shape. SKILL.md carries the full authoring contract.
-style: tokens come from @ant/cds's vanilla export, embedded verbatim (drift
-  tested); the presentation layer at the end of the style block is the
-  workshop-page default look — editable, unlike the scripts.
 -->
 <title>sample.workshop.html</title>
 <script>

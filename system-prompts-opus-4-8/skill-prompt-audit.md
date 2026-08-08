@@ -3,7 +3,7 @@ name: 'Skill: Prompt audit'
 description: >-
   Audits prompts, skills, tool descriptions, and request configuration for
   obsolete model-specific patterns and produces a report plus proposed diff
-ccVersion: null
+ccVersion: 2.1.221
 -->
 
 # Prompt Audit — Finding and Removing Dated Prompting Patterns

@@ -5,6 +5,6 @@ description: >-
   it is the prefix of the thrown _Ce (DesignSyncPreconditionError), which
   mapToolResultToToolResultBlockParam turns into a tool_result carried to the
   model.
-ccVersion: null
+ccVersion: 2.1.201
 -->
-Connect to Claude Design? Claude can read and edit your Design projects from this tool. Change anytime in Claude Design settings or with /design revoke.
+Connect to Claude Design? Claude can read and edit your Design projects from this tool. Change anytime at claude.ai/design/settings or with /design revoke.

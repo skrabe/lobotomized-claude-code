@@ -7,9 +7,8 @@ description: >-
   build, then iterate on feedback in the same artifact. Use when the user asks
   to prototype an idea, mock up a concept, build a proof of concept, or wants to
   see something working before committing to a real build.
-ccVersion: null
+ccVersion: 2.1.224
 -->
-
 ---
 name: prototype
 description: Turn an idea into a working proof of concept and publish it as an Artifact — a single self-contained page the user can open, click through, and react to. Run a short intake, state your assumptions, build, then iterate on feedback in the same artifact. Use when the user asks to prototype an idea, mock up a concept, build a proof of concept, or wants to see something working before committing to a real build.
@@ -25,14 +24,27 @@ rest, and say what you faked.
 ## Intake
 
 Restate the idea in a sentence so the user can see you understood it.
-Then decide whether anything genuinely blocks you: what the prototype
-should prove, who it is for, or where the scope ends.
+Then pick a lane before anything else happens:
 
-Ask only the questions whose answers would change what you build — two
-to four at most, in one short message — and only when the request is
-actually ambiguous. If the repository, its CLAUDE.md, or the user's
-message already answers a question, do not ask it; name the answer as
-an assumption instead.
+- Build now. The message names a thing and its core interaction — "a
+  pomodoro timer that tracks my streak" — even if details are missing.
+  Cover the gaps with stated assumptions and go; a request like this
+  needs no questions at all.
+- Ask first. The message names an outcome or a pain point and leaves the
+  product open — "something to help my team communicate better". There is
+  no idea to build yet, only the need for one, and a concrete-sounding
+  domain does not change that. Do not invent the product yourself —
+  ask.
+
+When asking: two to four questions, each a single pointed sentence, in
+one short message — what the prototype should prove, who it is for,
+what hurts most, where the scope ends. A couple of example options
+under a question are fine; one catch-all question with a menu is not,
+and neither is an essay. Then stop and wait for answers. Do not write
+any of the page while they are open.
+
+If the repository, its CLAUDE.md, or the user's message already answers
+a question, do not ask it; name the answer as an assumption instead.
 
 ## Assumptions up front
 
@@ -47,15 +59,23 @@ Load the \`artifact-design\` skill, then write one self-contained HTML
 page in your scratchpad directory: inline styles and script, no build
 step, no external services, realistic sample data where real data would
 go. Make the core interaction actually work — that is the proof — and
-mock whatever sits behind it. Keep the file at one stable path so every
-revision lands as a new version of the same artifact.
+mock whatever sits behind it. Build the smallest page that proves the
+idea: every extra screen, setting, or flourish slows the loop and is
+one more thing to break in the demo. Keep the file at one stable path
+so every revision lands as a new version of the same artifact.
 
-Before publishing, re-read the file once for the mistake that would
+Before publishing, re-read the file once for the mistakes that would
 break the demo — an unclosed tag, a handler wired to nothing, a script
-error — and fix it. Then publish with the Artifact tool, following its
-own instructions — a stable title, a favicon emoji, and a one-sentence
-description. Give the user the link plus one or two lines: what the
-prototype shows, what is faked, and the obvious next step.
+error — and fix what that read turns up. One read and its fixes are the
+whole check: do not spin up browsers, servers, or test harnesses to
+drive the page, and do not start a second polish pass.
+
+Then publish with the Artifact tool, following its own instructions — a
+stable title, a favicon emoji, and a one-sentence description. If the
+Artifact tool is unavailable, say so in one plain line and point the
+user at the file instead — do not hunt for another way to host it.
+Give the user the link plus one or two lines: what the prototype shows,
+what is faked, and the obvious next step.
 
 ## Iterate
 

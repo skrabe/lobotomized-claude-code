@@ -88,11 +88,11 @@ your kickoff sentence, issue the setup tool calls together: load the
 artifact-capabilities skill, load the artifact-diagramming skill, and `cp`
 the template to your `.workshop.html` path — three calls, one turn, never
 one per turn. Then read ONLY the parts of your copy you author, as two
-parallel ranged Reads in ONE turn: lines 1–56 (the in-file contract) and
-lines 1438–1526 (the fillable `<article>` and the `ws-decisions` island
-right after it). The template is 2,919 lines, and everything outside those
-two ranges — the theme script (lines 57–80), the `<style>` block (lines
-81–1437), and the decisions script (lines 1548–2919) — is fixed template
+parallel ranged Reads in ONE turn: lines 1–12 (the in-file contract) and
+lines 1394–1482 (the fillable `<article>` and the `ws-decisions` island
+right after it). The template is 2,875 lines, and everything outside those
+two ranges — the theme script (lines 13–36), the `<style>` block (lines
+37–1393), and the decisions script (lines 1504–2875) — is fixed template
 bytes your copy must keep byte-identical: you never edit it, so never spend
 a turn or your context reading it (a whole-file Read would page through all
 of it, 2–3 sequential reads). Slice into the style block only on the rare

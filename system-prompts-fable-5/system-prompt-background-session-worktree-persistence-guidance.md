@@ -3,7 +3,7 @@ name: 'System Prompt: Background session worktree persistence guidance'
 description: >-
   Directs background sessions to commit and push worktree changes when
   appropriate while preserving user git-control instructions and branch safety
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - GIT_PUSH_SAFETY_NOTE
 -->
