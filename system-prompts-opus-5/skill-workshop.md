@@ -7,7 +7,7 @@ description: >-
   until the workshop is finalized. Use when asked to workshop a design,
   brainstorm with decision points, or drive an iterative decide-and-revise loop
   through an artifact.
-ccVersion: 2.1.224
+ccVersion: 2.1.226
 -->
 ---
 name: workshop
@@ -87,18 +87,20 @@ page's figures (next paragraphs).
 your kickoff sentence, issue the setup tool calls together: load the
 artifact-capabilities skill, load the artifact-diagramming skill, and `cp`
 the template to your `.workshop.html` path — three calls, one turn, never
-one per turn. Then read ONLY the parts of your copy you author, as two
-parallel ranged Reads in ONE turn: lines 1–12 (the in-file contract) and
-lines 1394–1482 (the fillable `<article>` and the `ws-decisions` island
-right after it). The template is 2,875 lines, and everything outside those
-two ranges — the theme script (lines 13–36), the `<style>` block (lines
-37–1393), and the decisions script (lines 1504–2875) — is fixed template
-bytes your copy must keep byte-identical: you never edit it, so never spend
-a turn or your context reading it (a whole-file Read would page through all
-of it, 2–3 sequential reads). Slice into the style block only on the rare
-round you deliberately restyle — just the presentation layer at its END is
-editable. Edit the copy in place, surgically — never rewrite the whole
-file, which would re-emit bytes you never read. Those line numbers describe
+one per turn. Then read ONLY the parts of your
+copy you author, as two parallel ranged Reads in ONE turn: lines
+1–56 (the in-file contract) and lines 1438–1526 (the fillable
+\`<article>\` and the \`ws-decisions\` island right after it). The
+template is 2,948 lines, and everything outside those two ranges —
+the theme script, the \`<style>\` block, and the decisions script — is
+fixed template bytes your copy must keep byte-identical: you never
+edit it, so never spend a turn or your context reading it (a
+whole-file Read would page through all of it, 2–3 sequential reads).
+Slice into the style
+block only on the rare round you deliberately restyle — just the
+presentation layer at its END is editable. Edit the copy in place,
+surgically — never rewrite the whole file, which would re-emit bytes
+you never read. Those line numbers describe
 the pristine copy you just made; once your edits shift them, navigate by
 content (an Edit anchors on its surrounding text), not by line.
 
@@ -123,8 +125,11 @@ call-item from the template's sample call-item you read (that sample stays
 your verbatim source for the markup even after your copy dropped it — and
 if a long session has pushed it out of your context, re-read the Decisions
 section of the source template rather than writing the markup from memory),
-fill the island to match, and republish — the open tab live-reloads.
-Between the two publishes, tell the user the page is up, the decisions are
+fill the island to match, and republish — the
+open tab live-reloads (if the decisions don't appear after the second
+publish, ask the user to refresh the tab). Between the two publishes,
+tell the user the
+page is up, the decisions are
 next, and an approval for the update may be waiting back in this terminal
 so they glance back from the browser — and, because this opening publish IS
 the first publish, say then what the interactive page means for them (see

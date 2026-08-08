@@ -1,9 +1,12 @@
 <!--
-name: 'Send target: cloud list unavailable'
+name: 'Send Target: Cloud List Unavailable'
 description: >-
-  Note appended to a refused SendFile target result that the cloud session list
-  could not be fetched, so cloud sessions were not searched.
-ccVersion: 2.1.210
+  Note appended to an ambiguous SendFile target result when other-machine
+  sessions could not be checked, so the model is warned that the candidate list
+  may be incomplete.
+ccVersion: 2.1.226
+variables:
+  - TOOL_RESULT_SEND_TARGET_CLOUD_LIST_UNAVAILABLE_VAR_0
 -->
 
-The cloud session list could not be fetched just now, so cloud sessions were not searched.
+${TOOL_RESULT_SEND_TARGET_CLOUD_LIST_UNAVAILABLE_VAR_0} sessions on other machines could not be checked just now, so this list may be missing one; retry if you meant a session on another machine.

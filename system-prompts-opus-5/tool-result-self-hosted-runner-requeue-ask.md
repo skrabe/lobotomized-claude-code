@@ -5,7 +5,7 @@ description: >-
   permissionResult.message (it renders the tool description and decisionReason),
   so this text only ever reaches the model as the tool_result when the ask goes
   unresolved.
-ccVersion: 2.1.224
+ccVersion: 2.1.226
 variables:
   - TOOL_RESULT_SELF_HOSTED_RUNNER_REQUEUE_ASK_VAR_0
 -->

@@ -1,0 +1,12 @@
+<!--
+name: Auto Mode Classifier Failure Wrapper
+description: >-
+  Wraps an auto-mode classifier failure reason with guidance clarifying that the
+  failure is not an unsafe-action judgment.
+ccVersion: 2.1.226
+variables:
+  - TOOL_RESULT_AUTO_MODE_CLASSIFIER_FAILURE_NOT_UNSAFE_WRAPPER_VAR_0
+  - TOOL_RESULT_AUTO_MODE_CLASSIFIER_FAILURE_NOT_UNSAFE_WRAPPER_VAR_1
+  - TOOL_RESULT_AUTO_MODE_CLASSIFIER_FAILURE_NOT_UNSAFE_WRAPPER_VAR_2
+-->
+${TOOL_RESULT_AUTO_MODE_CLASSIFIER_FAILURE_NOT_UNSAFE_WRAPPER_VAR_0}. This is not a judgment that the action is unsafe. ${TOOL_RESULT_AUTO_MODE_CLASSIFIER_FAILURE_NOT_UNSAFE_WRAPPER_VAR_1} ${TOOL_RESULT_AUTO_MODE_CLASSIFIER_FAILURE_NOT_UNSAFE_WRAPPER_VAR_2}
