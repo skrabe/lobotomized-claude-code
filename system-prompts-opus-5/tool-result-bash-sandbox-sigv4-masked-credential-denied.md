@@ -4,7 +4,7 @@ description: >-
   Sandbox proxy denial text for presigned/streaming/sigv4a AWS requests signed
   with a masked credential, explaining the credentials.sigv4 passthrough option;
   surfaces in sandboxed command output.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - TOOL_RESULT_BASH_SANDBOX_SIGV4_MASKED_CREDENTIAL_DENIED_VAR_0
 -->

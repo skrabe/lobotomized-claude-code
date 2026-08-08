@@ -5,7 +5,7 @@ description: >-
   {content:[{type:'text',text}],isError:true} — telling the calling model that a
   server-initiated input request (elicitation/sampling/roots) cannot be made
   because the 2025-era client did not declare the required capability.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - TOOL_RESULT_MCP_INPUT_REQUEST_CAPABILITY_MISSING_VAR_0
   - TOOL_RESULT_MCP_INPUT_REQUEST_CAPABILITY_MISSING_VAR_1

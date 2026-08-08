@@ -6,7 +6,7 @@ description: >-
   in q$o(); injected as a task notification telling the model that N artifact
   auto-reply subscriptions stopped and not to republish to re-enable them
   unprompted.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - DATA_TASK_NOTIFICATION_ARTIFACT_AUTO_REPLY_STOPPED_2_VAR_0
   - DATA_TASK_NOTIFICATION_ARTIFACT_AUTO_REPLY_STOPPED_2_VAR_1

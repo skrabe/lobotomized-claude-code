@@ -4,7 +4,7 @@ description: >-
   Ultrareview/code-review precondition failure explaining the fetched base
   branch shares no history with HEAD and how to pass the real base branch
   explicitly.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - SLASH_COMMAND_ULTRAREVIEW_BASE_UNRELATED_HISTORY_VAR_0
   - SLASH_COMMAND_ULTRAREVIEW_BASE_UNRELATED_HISTORY_VAR_1

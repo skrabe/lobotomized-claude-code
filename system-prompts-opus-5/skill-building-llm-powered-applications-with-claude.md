@@ -5,7 +5,7 @@ description: >-
   covering language detection, API surface selection (Claude API vs Managed
   Agents), model defaults, thinking/effort configuration, and language-specific
   documentation reading
-ccVersion: 2.1.221
+ccVersion: 2.1.224
 -->
 
 # Building LLM-Powered Applications with Claude
@@ -279,7 +279,7 @@ with client.beta.messages.stream(
     response = stream.get_final_message()
 ```
 
-`task_budget` fields: `type` (always `"tokens"`), `total`, optional `remaining` (defaults to `total`). The budget counts what Claude generates plus the tool results it reads this turn — **not** the full history you resend. Leave `remaining` unset in the normal loop (the server tracks the countdown); only pass it when you compact or rewrite history between requests and the server can't derive prior spend.
+`task_budget` fields: `type` (always `"tokens"`), `total`, optional `remaining` (defaults to `total`). The budget counts what Claude generates plus the tool results it reads this turn — **not** the full history you resend. Leave `remaining` unset in the normal loop (the server tracks the countdown); only pass it when you compact or rewrite history between requests and the server can't derive prior spend. Not the same thing as **Managed Agents session budgets** — those are hard, dollar-denominated, platform-enforced caps on one CMA session (`shared/managed-agents-core.md` § Session budgets); a task budget is advisory and token-denominated.
 
 ---
 
@@ -377,6 +377,8 @@ Available on the first-party API and Claude Platform on AWS. **Not** available o
 **When the user asks "how do I write the client code for X":** read `shared/managed-agents-client-patterns.md` — lossless stream reconnect, `processed_at` queued/processed gate, interrupt, `tool_confirmation` round-trip, the idle/terminated break gate, post-idle status race, stream-first ordering, file-mount gotchas, credentials (vault `environment_variable` first, host-side custom tools as fallback), etc.
 
 **When the user wants the agent to run on a schedule** (cron, "every night", "weekly report"): read `shared/managed-agents-scheduled-deployments.md` — deployments fire sessions autonomously on a cron cadence, with per-firing run records and lifecycle controls (pause/unpause/archive).
+
+**When the agent's work fans out** (research across several sources, per-file or per-record work, "look into N things, then summarize") **or one loop would fill its context with reading:** read `shared/managed-agents-multiagent.md` and recommend a multiagent session — start with just `{"type": "self"}` in the roster so the agent can delegate to copies of itself, then move reading-heavy sub-tasks to a cheaper worker agent (e.g. {{HAIKU_NAME}}) referenced by ID.
 
 ---
 
@@ -497,12 +499,12 @@ Use WebFetch for the latest documentation when the user asks for "latest"/"curre
 - **Error handling — catch a chain, not one broad class.** A single `except APIStatusError` / `catch (AnthropicServiceException)` / `rescue APIError` loses the retryable (429, ≥500, network) vs non-retryable (400/404) distinction. Write a most-specific-first chain — `NotFoundError` → `RateLimitError` → `APIStatusError` → `APIConnectionError` (Go: `errors.As` into `*anthropic.Error`, then `switch apierr.StatusCode`). Class names per language: `shared/error-codes.md`.
 - **Bash and text-editor tools are Anthropic-defined, schema-less.** Declare `{"type": "bash_20250124", "name": "bash"}` / `{"type": "text_editor_20250728", "name": "str_replace_based_edit_tool"}` — no `input_schema`. A custom tool with your own schema named `"bash"` is a different tool. Handler paths in `shared/tool-use-concepts.md` § Client-Side Tools.
 - **Advisor tool model pairing.** The advisor tool's `model` must be at least as capable as the request's top-level `model` (e.g. executor `claude-sonnet-4-6` → advisor `claude-opus-4-8`/`-4-7`); an invalid pair returns 400. Table in `shared/tool-use-concepts.md` § Advisor.
-- **Use a model the feature supports.** Fast mode is {{OPUS_NAME}} / Opus 4.8 only, and Claude API only (4.7 fast mode has been removed — `speed: "fast"` on 4.7 errors; don't auto-substitute, leave the caller's model string and flag it); task budgets are {{OPUS_NAME}} / Fable 5 / Sonnet 5 / Opus 4.8/4.7 only; the advisor tool needs a valid executor↔advisor pair. If the prompt names a model the feature doesn't support, use a supported one and note the substitution.
+- **Use a model the feature supports.** Fast mode is {{OPUS_NAME}} / Opus 4.8 only, and Claude API only (4.7 fast mode has been removed — `speed: "fast"` on 4.7 errors; don't auto-substitute, leave the caller's model string and flag it); task budgets (Messages API only — Managed Agents session budgets have no model-tier restriction) are {{OPUS_NAME}} / Fable 5 / Sonnet 5 / Opus 4.8/4.7 only; the advisor tool needs a valid executor↔advisor pair. If the prompt names a model the feature doesn't support, use a supported one and note the substitution.
 - **Bedrock / Foundry: use the platform client class.** Bedrock → the `…BedrockMantle…` client with `anthropic.`-prefixed model IDs (`AnthropicBedrock`/`BedrockBackend` without `Mantle` is legacy). Foundry → `AnthropicFoundry`/`FoundryBackend`/`AnthropicFoundryClient` (C#, Java, PHP, Python, TypeScript); Go and Ruby have no Foundry client (Ruby falls back to first-party client + custom `base_url`). Table in the Provider Clients section above.
 - **Agent Skills ≠ Managed Agents.** To generate a `.pptx`/`.xlsx`/etc. via Agent Skills, call `client.beta.messages.create` with `container={"skills": [...]}`, the `code_execution_20260521` tool, and both `code-execution-2025-08-25` + `skills-2025-10-02` betas — not `client.beta.agents`/`sessions`/`environments` (that's Managed Agents).
 - **MCP connector needs both halves.** `mcp_servers=[{type:"url", url, name}]` alone is rejected — also add `tools=[{type:"mcp_toolset", mcp_server_name:<same name>}]` with beta `mcp-client-2025-11-20`.
 - **Context editing ≠ compaction.** Context editing *clears* tool results and thinking; compaction *summarizes* history. For context editing use `context_management.edits` with `clear_tool_uses_20250919` (or `clear_thinking_20251015`) on `client.beta.messages.*` with beta `context-management-2025-06-27` — not the `compact_20260112` type or `compact-2026-01-12` beta.
-- **`inference_geo` is a direct top-level request parameter** — `client.messages.create(..., inference_geo="us")` / `.inferenceGeo("us")`, not in `extra_body`. Opus 4.6 / Sonnet 4.6 and later; `response.usage.inference_geo` reports where inference ran.
+- **`inference_geo` is a direct top-level request parameter** — `client.messages.create(..., inference_geo="us")` / `.inferenceGeo("us")`, not in `extra_body`. (Messages API only — on Managed Agents, `inference_geo` instead nests inside the agent's `model` object, never top-level; see `shared/managed-agents-core.md` § Pinning inference geography.) Opus 4.6 / Sonnet 4.6 and later; `response.usage.inference_geo` reports where inference ran.
 - **Fine-grained tool streaming is not a beta feature.** Set `eager_input_streaming: true` on the tool definition and call the regular `client.messages.stream(...)` — no beta header, no `client.beta.*` path.
 - **Cache diagnostics is beta.** `client.beta.messages.*` with beta `cache-diagnosis-2026-04-07`. Pass `diagnostics: {previous_message_id: null}` on the first turn, `{previous_message_id: <prev response id>}` after; result on `response.diagnostics`.
 - **Memory tool type is `memory_20250818`.** Declare `{"type": "memory_20250818", "name": "memory"}`. Go uses the beta-namespace type on `client.Beta.Messages.New`; Python/TS/Ruby/PHP/C# use non-beta `client.messages.create`; Java has both. Python/TS provide `BetaAbstractMemoryTool` / `betaMemoryTool` helpers for the backend.

@@ -4,7 +4,7 @@ description: >-
   k9o() manifest-validation failure telling Claude a write-class tool was
   granted in the live read slot, which would be a standing grant nothing
   certified can use.
-ccVersion: null
+ccVersion: 2.1.221
 -->
 
 the live read slot names a write-class tool — the pinned scripts call the live tool read-only

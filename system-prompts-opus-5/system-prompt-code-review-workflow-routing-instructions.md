@@ -2,8 +2,9 @@
 name: 'System Prompt: Code-review workflow routing instructions'
 description: >-
   Tool_result instructing the model to run the workflow-backed code review (with
-  the Workflow invocation) instead of reviewing inline
-ccVersion: 2.1.219
+  the Workflow invocation) instead of reviewing inline; gained one extra
+  appended slot in 2.1.224.
+ccVersion: 2.1.224
 variables:
   - SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_0
   - SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_1
@@ -21,6 +22,7 @@ variables:
   - SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_13
   - SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_14
   - SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_15
+  - SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_16
 -->
 
 ${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_0}After the Workflow tool's opt-in condition is satisfied, run the workflow-backed code review at ${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_1} effort instead of reviewing inline.
@@ -29,4 +31,4 @@ Invoke: ${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_2}({ name:
 
 Everything after the level in the args string is passed to the workflow as the review target / instructions. If the user gave additional instructions for this review elsewhere in the conversation (a scope restriction, files to focus on, things to skip), append them to the args string so the workflow honors them.
 
-The workflow runs the same finder angles and verify pass as the inline review, in the background; the verified findings arrive as a task notification. When they arrive, ${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_6?`call ${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_7} once with {level, findings} from the result payload (most-severe first; empty array if nothing survived). Give each finding a \`short_summary\`: the claim compressed to ≤60 characters, no rationale or consequence clause. Do not also print the findings as text.`:"present the findings ranked most-severe first (or note that nothing survived verification)."}${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_8?SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_9:""}${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_10?SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_11(SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_6):""}${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_6&&!SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_12?SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_13:""}${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_14}${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_15}
+The workflow runs the same finder angles and verify pass as the inline review, in the background; the verified findings arrive as a task notification. When they arrive, ${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_6?`call ${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_7} once with {level, findings} from the result payload (most-severe first; empty array if nothing survived). Give each finding a \`short_summary\`: the claim compressed to ≤60 characters, no rationale or consequence clause. Do not also print the findings as text.`:"present the findings ranked most-severe first (or note that nothing survived verification)."}${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_8?SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_9:""}${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_10?SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_11(SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_6):""}${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_6&&!SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_12?SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_13:""}${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_14}${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_15}${SYSTEM_PROMPT_CODE_REVIEW_WORKFLOW_ROUTING_INSTRUCTIONS_VAR_16}

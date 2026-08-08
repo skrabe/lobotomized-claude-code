@@ -99,9 +99,9 @@ Every routine needs an \`environment_id\` in the job config — it determines wh
 ${ENVIRONMENTS_LIST}
 
 Use the \`id\` value as \`job_config.ccr.environment_id\`.
-${NEW_ENVIRONMENT_OBJECT?\`
+${NEW_ENVIRONMENT_OBJECT?`
 Note: a new environment \`${NEW_ENVIRONMENT_OBJECT.name}\` (id: \`${NEW_ENVIRONMENT_OBJECT.environment_id}\`) was just created for the user because they had none. Use this id for \`job_config.ccr.environment_id\` and mention the creation when you confirm the config.
-\`:""}
+`:""}
 
 ## API Field Reference
 
@@ -131,13 +131,13 @@ The user's timezone is ${USER_TIMEZONE}. Cron expressions${ONE_OFF_ENABLED_FN?" 
 - \`0 8 1 * *\` — first of every month at 8am UTC
 
 Minimum interval is 1 hour; \`*/30 * * * *\` will be rejected.
-${ONE_OFF_ENABLED_FN?\`
+${ONE_OFF_ENABLED_FN?`
 ### Current Time (for one-off runs)
 
 At invocation it was ${NOW_LOCAL_TIME} (${USER_TIMEZONE}) / ${NOW_UTC_ISO} UTC — an approximate anchor only; the conversation may have run a while since.
 
 Before computing any \`run_once_at\`, re-check the current time with \`date -u +%Y-%m-%dT%H:%M:%SZ\` via Bash rather than inferring the date from conversation context. Resolve relative requests ("tomorrow at 9am", "in 3 hours", "next Monday") against that fresh value, then echo the resolved local and UTC time back for confirmation before creating. If the resolved time is already past, ask the user to clarify instead of silently rolling forward.
-\`:""}## Workflow
+`:""}## Workflow
 
 ### CREATE a routine
 

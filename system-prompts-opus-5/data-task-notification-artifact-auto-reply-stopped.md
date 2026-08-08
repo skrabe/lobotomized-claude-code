@@ -5,7 +5,7 @@ description: >-
   from qGs/q$o when artifact auto-react subscriptions are torn down; tells the
   model the auto-replies stopped, that a future publish re-arms them, and not to
   republish just to re-enable them.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - DATA_TASK_NOTIFICATION_ARTIFACT_AUTO_REPLY_STOPPED_VAR_0
   - DATA_TASK_NOTIFICATION_ARTIFACT_AUTO_REPLY_STOPPED_VAR_1

@@ -5,7 +5,7 @@ description: >-
   island; I7d() wraps it via `s(P)` into `{ok:false,reason}`, which eJd()
   interpolates into a thrown `Sp` (ArtifactInputError) whose message the tool
   dispatcher returns to the model as an is_error tool_result.
-ccVersion: null
+ccVersion: 2.1.221
 -->
 
 the prr-stamp island is not {stamp: ...}

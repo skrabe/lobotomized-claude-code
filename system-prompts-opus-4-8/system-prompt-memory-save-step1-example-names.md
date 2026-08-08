@@ -1,8 +1,11 @@
 <!--
-name: 'Memory: save step 1 with example names'
+name: 'System Prompt: Memory save step 1'
 description: >-
-  Two-step save instruction (step 1, single-directory variant) with example
-  filenames.
-ccVersion: 2.1.206
+  Reworded/parameterized successor of the 2.1.221 id (the file-name examples
+  moved into the ${file} parameter): step 1 of the two-step memory-save
+  instructions.
+ccVersion: 2.1.224
+variables:
+  - SYSTEM_PROMPT_MEMORY_SAVE_STEP1_EXAMPLE_NAMES_VAR_0
 -->
-**Step 1** — write the memory to its own file (e.g., `user_role.md`, `feedback_testing.md`) using this frontmatter format:
+**Step 1** — write the ${SYSTEM_PROMPT_MEMORY_SAVE_STEP1_EXAMPLE_NAMES_VAR_0} using this frontmatter format:

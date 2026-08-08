@@ -4,7 +4,7 @@ description: >-
   Nlp() validation failure naming a live.input key that matches both the owner
   and repository key families, which the stamped path refuses rather than
   guessing.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - TOOL_RESULT_ARTIFACT_PR_REVIEW_LIVE_INPUT_AMBIGUOUS_OWNER_REPO_KEY_VAR_0
 -->

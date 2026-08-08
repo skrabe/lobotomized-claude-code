@@ -4,7 +4,7 @@ description: >-
   Returned by /mcp enable when the named server was disabled by a concurrent
   session, telling the reader the enable did not take effect until it is
   re-toggled in the terminal /mcp UI.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - SLASH_COMMAND_MCP_DISABLED_IN_ANOTHER_SESSION_VAR_0
 -->

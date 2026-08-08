@@ -5,7 +5,7 @@ description: >-
   JavaScript workflow script that orchestrates subagents via
   agent()/parallel()/pipeline()/phase(); env-gated behind
   CLAUDE_CODE_WORKFLOWS
-ccVersion: 2.1.218
+ccVersion: 2.1.224
 variables:
   - AGENT_TOOL_NAME
   - WORKFLOW_INVOCATION_QUALIFIER
@@ -60,6 +60,6 @@ The `meta` object must be a PURE LITERAL — no variables, function calls, sprea
 
 Script body hooks:
 - agent(prompt: string, opts?: {label?: string, phase?: string, schema?: object, model?: string, effort?: 'low' | 'medium' | 'high' | 'xhigh' | 'max', isolation?: ${WORKFLOW_AGENT_ISOLATION_OPTION}, agentType?: string}): Promise<any> — spawn a subagent. Without schema, returns its final text as a string. With schema (a JSON Schema), the subagent is forced to call a StructuredOutput tool and agent() returns the validated object. `agent()` returns `null` when the user skips it mid-run. opts.label overrides the display label. opts.phase explicitly assigns this agent to a progress group; the same phase string uses the same group box. opts.model overrides the model for this call; omit it to inherit the main-loop model. The `agent()` options include `effort?: 'low' | 'medium' | 'high' | 'xhigh' | 'max'`; omit it to inherit the session effort. opts.isolation: 'worktree' runs the agent in a fresh git worktree; the worktree is auto-removed if unchanged.${WORKFLOW_AGENT_ISOLATION_NOTE} opts.agentType uses a custom subagent type (e.g. 'Explore', 'code-reviewer') instead of the default workflow subagent — resolved from the same registry as the Agent tool; composes with schema.
-- `parallel()` and `pipeline()` run collections of workflow work. A single `parallel()` or `pipeline()` call accepts at most 4096 items; passing more raises an explicit error rather than silently truncating.
+- `parallel()` and `pipeline()` run collections of workflow work. A single `parallel()` or `pipeline()` call accepts at most ${MAX_WORKFLOW_ITEMS_PER_CALL} items; passing more raises an explicit error rather than silently truncating.
 
 In loop-until-dry reviews, deduplicate against every finding in `seen`, not only `confirmed`.

@@ -3,7 +3,7 @@ name: MCP Action Failed Result
 description: >-
   Generic /mcp failure result naming the attempted action, the server, and the
   underlying error, returned when an enable/disable/reconnect promise rejects.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - SLASH_COMMAND_MCP_ACTION_FAILED_VAR_0
   - SLASH_COMMAND_MCP_ACTION_FAILED_VAR_1

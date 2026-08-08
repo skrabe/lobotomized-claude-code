@@ -9,7 +9,7 @@ description: >-
   a narrative walkthrough — for a tour-the-diff walkthrough artifact use
   pr-explainer. Only for CREATING a new artifact; edits to an existing artifact
   modify its HTML directly.
-ccVersion: 2.1.221
+ccVersion: 2.1.224
 -->
 ---
 name: artifact-pr-review
@@ -332,10 +332,12 @@ is inactive; the briefing is otherwise complete):
    PR once — a get-pull-request-style read that actually exists in your list,
    never anything that writes, approves, or merges, and never a guessed name.
    The baked script re-checks the tool's \`readOnlyHint\` at view time and stays
-   silent if the connector has not annotated it read-only, so your job here is
-   only to pick a genuine read and observe it succeed. From that one real
-   request/response, note: the
-   upstream tool name — not your full prefixed tool name, but the connector's
+   silent if the connector has not annotated it read-only — with one
+   name-pinned exemption: \`pull_request_read\` with the annotation absent
+   still binds on a GitHub-presenting connector, because some serving paths
+   strip annotations. Your job here is unchanged either way: pick a genuine
+   read and observe it succeed. From that one real request/response, note:
+   the upstream tool name — not your full prefixed tool name, but the connector's
    own name for it (normally the segment after the
    \`mcp__claude_ai_<connector>__\` prefix; the \`artifact-capabilities\` skill
    gives the rule); the exact JSON input you passed; and the key path in the
@@ -420,9 +422,8 @@ off and why (the pills render as visibly inert spans):
    display-only. Either way, tell the user in your reply what the page they got
    does: with pills, the page is org-internal; anyone with WRITE access to the
    artifact — the user, and any teammates it is shared with as writers, never
-   view-only readers — can decide from it after a one-time browser prompt
-   asking to let the page update itself; each decision becomes a new version of
-   the page; and this session then acts on GitHub in response (decision
+   view-only readers — can decide from it; each decision becomes a new version
+   of the page; and this session then acts on GitHub in response (decision
    comments autonomously, a review verdict only with the user's explicit
    confirmation — see "Acting on decisions").
 4. A human is in the loop to read that disclosure. When you are running without
@@ -432,8 +433,8 @@ off and why (the pills render as visibly inert spans):
 
 The pills' click behavior is the baked decisions script — fixed, vetted
 template code under the same byte-for-byte rule as the staleness script. The
-writer gate and the consent prompt are enforced server-side per click; the
-script is an affordance, not an authority.
+writer gate is enforced server-side per click; the script is an affordance,
+not an authority.
 
 ## Step 4 — Publish
 
@@ -454,10 +455,11 @@ In your reply, restate what each passed gate told the user. For the live signal
 (step 3b item 4): org-members-only visibility, the per-viewer connector prompt,
 the periodic re-read while open, and that the signal is detect-and-inform —
 viewers who have the GitHub connector connected see an "Out of date" banner
-once the branch moves (it activates only if the connector marks its PR-read
-tool read-only; otherwise the page stays quietly static), and refreshing the
-briefing means re-running this skill. For decisions: restate step 3c item 3's
-disclosure.
+once the branch moves (it activates if the connector marks its PR-read tool
+read-only — \`pull_request_read\` on a GitHub-presenting connector also
+activates with the annotation absent, the one name-pinned exemption — and
+otherwise the page stays quietly static), and refreshing the briefing means
+re-running this skill. For decisions: restate step 3c item 3's disclosure.
 
 If a publish that declares capabilities is rejected because the artifact is
 already shared outside the organization, that is the sharing gate working as

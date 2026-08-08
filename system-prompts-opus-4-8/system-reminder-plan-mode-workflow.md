@@ -4,7 +4,7 @@ description: >-
   Full plan-mode workflow reminder covering plan file constraints, optional
   workshop and prototype offers, exploration, design, review, final planning,
   and approval
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - PLAN_MODE_READONLY_INSTRUCTIONS
   - PLAN_FILE_INFO

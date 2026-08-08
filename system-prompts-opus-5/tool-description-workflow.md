@@ -4,7 +4,7 @@ description: >-
   Describes the Workflow tool (alias RunWorkflow) — runs a deterministic
   JavaScript workflow script that orchestrates subagents via
   agent()/parallel()/pipeline()/phase(); env-gated behind CLAUDE_CODE_WORKFLOWS
-ccVersion: 2.1.218
+ccVersion: 2.1.224
 variables:
   - AGENT_TOOL_NAME
   - WORKFLOW_INVOCATION_QUALIFIER
@@ -12,6 +12,7 @@ variables:
   - WORKFLOW_AGENT_ISOLATION_OPTION
   - WORKFLOW_AGENT_ISOLATION_NOTE
   - WORKFLOW_GROUP_PREFIX
+  - MAX_WORKFLOW_ITEMS_PER_CALL
 -->
 
 Execute a workflow script that orchestrates multiple subagents deterministically. Workflows run in the background — this tool returns immediately with a task ID, and a `<task-notification>` arrives when the workflow completes. Use /workflows to watch live progress.
@@ -59,6 +60,6 @@ The `meta` object must be a PURE LITERAL — no variables, function calls, sprea
 
 Script body hooks:
 - agent(prompt: string, opts?: {label?: string, phase?: string, schema?: object, model?: string, effort?: 'low' | 'medium' | 'high' | 'xhigh' | 'max', isolation?: ${WORKFLOW_AGENT_ISOLATION_OPTION}, agentType?: string}): Promise<any> — spawn a subagent. Without schema, returns its final text as a string. With schema (a JSON Schema), the subagent is forced to call a StructuredOutput tool and agent() returns the validated object. `agent()` returns `null` when the user skips it mid-run or the subagent dies on a terminal API error after retries. opts.label overrides the display label. opts.phase explicitly assigns this agent to a progress group; the same phase string uses the same group box. opts.model overrides the model for this call; omit it to inherit the main-loop model. opts.effort overrides reasoning effort for an agent call and accepts `'low'`, `'medium'`, `'high'`, `'xhigh'`, or `'max'`; omit it to inherit the session effort. opts.isolation: 'worktree' runs the agent in a fresh git worktree; the worktree is auto-removed if unchanged.${WORKFLOW_AGENT_ISOLATION_NOTE} opts.agentType uses a custom subagent type (e.g. 'Explore', 'code-reviewer') instead of the default workflow subagent — resolved from the same registry as the Agent tool; composes with schema.
-- `parallel()` and `pipeline()` run collections of workflow work. A single `parallel()` or `pipeline()` call accepts at most 4096 items; passing more is an explicit error, not silent truncation.
+- `parallel()` and `pipeline()` run collections of workflow work. A single `parallel()` or `pipeline()` call accepts at most ${MAX_WORKFLOW_ITEMS_PER_CALL} items; passing more is an explicit error, not silent truncation.
 
 If ToolSearch returns no results or errors, skip this step silently—don't mention the failure, attempt a workaround, or try an alternative approach.

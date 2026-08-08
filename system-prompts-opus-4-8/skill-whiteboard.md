@@ -8,7 +8,7 @@ description: >-
   to sketch a design or diagram to talk through, or wants to draw something and
   have you plan from it. Only for CREATING a new whiteboard; an existing one is
   read and edited through its published artifact.
-ccVersion: 2.1.221
+ccVersion: 2.1.224
 -->
 ---
 name: whiteboard
@@ -64,9 +64,7 @@ getting ("putting your board together", "adding my questions to it").
    rework or add to it — the link, and how to talk back: sketch, then
    click **Send to Claude**, and you'll answer on the board in orange; if
    a send seems to slip past me, say "check the whiteboard" and I'll read
-   it. That is the whole message. If the user later asks about a browser
-   prompt to let the page update itself, tell them to allow it — don't
-   pre-announce it.
+   it. That is the whole message.
 
 ## What comes back
 

@@ -5,7 +5,7 @@ description: >-
   its char cap; the truncated body is packed by eCr/KSn/Ok into the '###
   CLAUDE.md files and project docs' markdown section handed to the model during
   auto-mode environment setup.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - DATA_ENV_CONTEXT_FILE_TRUNCATED_CHARS_VAR_0
   - DATA_ENV_CONTEXT_FILE_TRUNCATED_CHARS_VAR_1

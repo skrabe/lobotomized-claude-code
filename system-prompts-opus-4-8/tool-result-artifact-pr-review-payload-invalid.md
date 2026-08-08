@@ -3,7 +3,7 @@ name: 'Tool Result: Artifact PR-Review Payload Invalid'
 description: >-
   Error returned by the Artifact tool when a composed pr_review payload fails
   schema validation on publish.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - TOOL_RESULT_ARTIFACT_PR_REVIEW_PAYLOAD_INVALID_VAR_0
   - TOOL_RESULT_ARTIFACT_PR_REVIEW_PAYLOAD_INVALID_VAR_1

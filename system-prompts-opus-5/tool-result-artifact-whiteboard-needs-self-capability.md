@@ -5,7 +5,7 @@ description: >-
   whiteboard_needs_self_capability) and returned to the model as an is_error
   tool_result when a whiteboard page is published without declaring the `self`
   capability.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - TOOL_RESULT_ARTIFACT_WHITEBOARD_NEEDS_SELF_CAPABILITY_VAR_0
 -->

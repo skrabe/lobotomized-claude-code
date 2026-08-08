@@ -3,7 +3,7 @@ name: 'Data: Managed Agents scheduled deployments'
 description: >-
   Managed Agents reference doc for scheduled deployments — cron-scheduled
   autonomous agent sessions
-ccVersion: 2.1.218
+ccVersion: 2.1.224
 -->
 # Managed Agents — Scheduled Deployments
 
@@ -87,6 +87,16 @@ The response is a deployment object (`depl_` ID prefix). Check `schedule.upcomin
 - **DST:** literal wall-clock matching — `"0 20 * * *"` in `America/New_York` fires at 8:00 PM local regardless of EST/EDT.
 
 > ⚠️ **DST edge:** wall-clock times that don't exist on a spring-forward day (e.g. 2AM) are **skipped**; times that occur twice on a fall-back day **fire twice**. Schedule outside the 1–3AM local window, or use UTC, when missed or duplicate executions are unacceptable.
+
+## Deployment budgets
+
+A deployment accepts the same `budget` object as a session (`{type: "limit", max_list_cost: {amount, currency}}` — minor-unit cents string, `USD` only; see `shared/managed-agents-core.md` § Session budgets). The cap is **copied onto each session at fire time**, and that session then behaves exactly like any budgeted session.
+
+Deployment budget update semantics differ from a session's:
+
+- `budget` is accepted on **create and update** — it is not create-only.
+- `budget: null` on update **clears** it, and a cleared budget **can be re-added later** — there is no one-way door.
+- A change applies **from the next fired session** — sessions already running keep the cap they were created with (change those via their own session update).
 
 ## Deployment runs
 

@@ -4,7 +4,7 @@ description: >-
   Appended to a forked session system prompt when the original session is still
   working in the same checkout, telling the fork to create its own worktree
   before editing.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - SYSTEM_PROMPT_FORKED_SESSION_OWN_WORKTREE_VAR_0
   - SYSTEM_PROMPT_FORKED_SESSION_OWN_WORKTREE_VAR_1

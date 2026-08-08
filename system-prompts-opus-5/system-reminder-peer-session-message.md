@@ -1,8 +1,9 @@
 <!--
-name: Peer Claude session message notice
+name: 'System Reminder: Peer Session Message'
 description: >-
-  Context injected into the model when another Claude session sends a message
-  during work.
-ccVersion: 2.1.206
+  Header line prefixing a message relayed from another Claude session mid-turn;
+  reworded successor to the 2.1.221 "Another Claude session sent a message while
+  you were working:" literal, id kept stable to preserve the override.
+ccVersion: 2.1.224
 -->
-Another Claude session sent a message while you were working:
+A peer session sent a message while you were working:

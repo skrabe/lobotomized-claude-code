@@ -3,7 +3,7 @@ name: 'Tool Result: Permission Check Crashed Fail-Closed Denial'
 description: >-
   Deny message returned when a tool permissionCheckFailureDecision throws and
   its fail-closed posture cannot be determined.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - TOOL_RESULT_PERMISSION_CHECK_FAILED_FAIL_CLOSED_VAR_0
 -->

@@ -4,7 +4,7 @@ description: >-
   Header line of the built-in-command inventory that lWT assembles into the
   claude-code help skill's context so the model knows which slash commands exist
   in the running build.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - SKILL_CLAUDE_CODE_HELP_AVAILABLE_COMMANDS_VAR_0
   - SKILL_CLAUDE_CODE_HELP_AVAILABLE_COMMANDS_VAR_1

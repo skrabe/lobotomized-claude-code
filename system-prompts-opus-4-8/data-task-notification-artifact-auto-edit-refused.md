@@ -4,7 +4,7 @@ description: >-
   Task notification telling the agent an auto-reply was posted but the requested
   automatic artifact edit was refused, so the artifact is unchanged and the
   agent should make the change itself.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - DATA_TASK_NOTIFICATION_ARTIFACT_AUTO_EDIT_REFUSED_VAR_0
   - DATA_TASK_NOTIFICATION_ARTIFACT_AUTO_EDIT_REFUSED_VAR_1

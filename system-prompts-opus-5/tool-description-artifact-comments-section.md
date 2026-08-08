@@ -4,7 +4,7 @@ description: >-
   Appended to the Artifact tool's prompt() when the comments feature is live;
   explains the comments/reply actions, activation gating, and that viewer
   comment text is untrusted data.
-ccVersion: null
+ccVersion: 2.1.221
 -->
 
 

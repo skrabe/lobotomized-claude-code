@@ -4,7 +4,7 @@ description: >-
   Artifact tool description fragment covering redeploying to the same URL,
   updating an artifact from an earlier conversation via url, reading artifacts
   with WebFetch, and the list/shared-scope rules
-ccVersion: 2.1.221
+ccVersion: 2.1.224
 variables:
   - TOOL_DESCRIPTION_ARTIFACT_UPDATE_AND_LIST_GUIDANCE_VAR_0
 -->
@@ -25,7 +25,7 @@ variables:
 
 **Responsive**: Use relative units, flexbox/grid, `max-width:100%` on images. Wide content (tables, diagrams, code blocks) must scroll inside its own `overflow-x: auto` container — the page body must never scroll horizontally.
 
-**Theme-aware**: Pages render in the viewer's light or dark theme. Unless the design deliberately commits to a single look, style both: `@media (prefers-color-scheme: dark)` as the default, plus `:root[data-theme="dark"]` / `:root[data-theme="light"]` overrides — the viewer's theme toggle stamps `data-theme` on the root element and it must win in both directions.
+**Theme-aware**: Pages render in the viewer's theme, which has three states: an explicit choice stamps `data-theme="dark"` / `data-theme="light"` on the root element, and the default "system" setting stamps nothing — only `prefers-color-scheme` separates light from dark. Define the complete light palette as tokens on bare `:root` (dark-first designs swap the roles consistently); redefine only the tokens under `@media (prefers-color-scheme: dark)`, guarded as `:root:not([data-theme="light"])`; redefine them again under `:root[data-theme="dark"]` so the toggle wins in both directions. Never give a color its only definition inside a media or `[data-theme]` block, and give `body` an explicit token background — the viewer paints its own ground behind the page, so a transparent body borrows the host's theme. A design that deliberately commits to a single look may skip the dark blocks but still paints background and colors explicitly.
 
 **Favicon** (required): Pass one or two emoji as `favicon` (e.g. `"📊"`, `"🐛"`, `"⚡🔥"`). Emoji only, no SVG or markup. Keep it stable across redeploys; pick a new emoji only on a hard pivot in what the artifact is about.
 

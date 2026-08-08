@@ -5,7 +5,7 @@ description: >-
   threaded into `S3s({…statusMessage:`${a}: ${s}`})`, which E3s() wraps as a
   `<result>` task-notification body injected into the model's context when a
   resumed MCP task cannot be reattached.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - DATA_TASK_NOTIFICATION_MCP_TASK_RESTORE_NO_TASKS_SUPPORT_VAR_0
   - DATA_TASK_NOTIFICATION_MCP_TASK_RESTORE_NO_TASKS_SUPPORT_VAR_1

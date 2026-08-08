@@ -1,7 +1,7 @@
 <!--
 name: 'System Prompt: Memory (read-only session)'
 description: 'Read-only memory intro: memory is read-only this session; recalled memories in <system-reminder> blocks are background context to verify before acting.'
-ccVersion: 2.1.206
+ccVersion: 2.1.224
 variables:
   - SYSTEM_PROMPT_MEMORY_READ_ONLY_SESSION_2_VAR_0
   - SYSTEM_PROMPT_MEMORY_READ_ONLY_SESSION_2_VAR_1

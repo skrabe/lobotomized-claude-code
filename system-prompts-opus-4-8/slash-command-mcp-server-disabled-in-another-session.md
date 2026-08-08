@@ -4,7 +4,7 @@ description: >-
   Returned by the /mcp slash command when enabling a server that another session
   disabled; explains the server still works this session but will not reconnect
   on next launch.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - SLASH_COMMAND_MCP_SERVER_DISABLED_IN_ANOTHER_SESSION_VAR_0
 -->

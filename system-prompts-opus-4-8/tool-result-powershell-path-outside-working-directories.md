@@ -4,7 +4,7 @@ description: >-
   Fallback block message for a PowerShell command whose path argument resolves
   outside the session's allowed working directories; returned to the model as
   the deny message when a deny rule matched, and shown in the dialog otherwise.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - TOOL_RESULT_POWERSHELL_PATH_OUTSIDE_WORKING_DIRECTORIES_VAR_0
   - TOOL_RESULT_POWERSHELL_PATH_OUTSIDE_WORKING_DIRECTORIES_VAR_1

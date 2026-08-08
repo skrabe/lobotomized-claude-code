@@ -3,7 +3,7 @@ name: MCP Server Re-Enabled In Another Session
 description: >-
   Returned by /mcp disable when a concurrent session re-enabled the server,
   explaining that the disable did not persist and how to make it stick.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - SLASH_COMMAND_MCP_REENABLED_IN_ANOTHER_SESSION_VAR_0
 -->

@@ -4,7 +4,7 @@ description: >-
   Replaces the Bash tool's stderr when a sandboxed Windows command exits 16
   because the cwd is a mapped network drive, telling the model to move to a
   local-drive workspace.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - TOOL_RESULT_BASH_SANDBOX_WINDOWS_MAPPED_DRIVE_VAR_0
 -->

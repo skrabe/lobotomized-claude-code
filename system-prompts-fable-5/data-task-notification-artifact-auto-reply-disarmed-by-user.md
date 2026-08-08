@@ -5,7 +5,7 @@ description: >-
   gesture with live artifact auto-reply subscriptions, telling the model the
   subscriptions were stopped and auto-replies stay disarmed for the rest of the
   session.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - DATA_TASK_NOTIFICATION_ARTIFACT_AUTO_REPLY_DISARMED_BY_USER_VAR_0
   - DATA_TASK_NOTIFICATION_ARTIFACT_AUTO_REPLY_DISARMED_BY_USER_VAR_1

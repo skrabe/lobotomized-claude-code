@@ -4,7 +4,7 @@ description: >-
   The `toAutoClassifierInput` summary for Artifact action=reply, carrying thread
   id, artifact URL, sanitized reply text and share status into the
   auto-permission classifier's prompt.
-ccVersion: null
+ccVersion: 2.1.221
 variables:
   - DATA_ARTIFACT_REPLY_AUTO_CLASSIFIER_INPUT_VAR_0
   - DATA_ARTIFACT_REPLY_AUTO_CLASSIFIER_INPUT_VAR_1
