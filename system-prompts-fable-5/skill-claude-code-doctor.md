@@ -1,10 +1,13 @@
 <!--
-name: Slash-Command Name Framing Tag
+name: 'Skill: Claude Code Doctor'
 description: >-
-  Model-facing framing tag wrapping a slash-command invocation into a user-role
-  message sent to the model ("<command-name>...</command-name>"); present
-  whenever a slash command is expanded into the conversation.
-ccVersion: 2.1.210
+  Bundled /doctor skill — health-checks the user's Claude Code setup from
+  local data only (installation and settings integrity, unused skills/MCP
+  servers/plugins, CLAUDE.md dedup and trimming, slow hooks, context-heavy
+  extensions, version currency, auto mode, frequently-denied read-only
+  commands), then proposes fixes behind a confirm gate. Injected only when the
+  skill is invoked.
+ccVersion: 2.1.226
 -->
 # Claude Code Doctor
 
