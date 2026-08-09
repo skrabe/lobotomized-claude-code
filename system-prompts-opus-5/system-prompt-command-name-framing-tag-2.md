@@ -6,4 +6,4 @@ description: >-
   whenever a slash command is expanded into the conversation.
 ccVersion: 2.1.210
 -->
-
+"content":"<command-name>/
