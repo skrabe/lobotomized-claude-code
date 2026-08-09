@@ -7,7 +7,7 @@ description: >-
   extensions, version currency, auto mode, frequently-denied read-only
   commands), then proposes fixes behind a confirm gate. Injected only when the
   skill is invoked.
-ccVersion: 2.1.226
+ccVersion: 2.1.210
 -->
 # Claude Code Doctor
 
