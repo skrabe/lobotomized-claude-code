@@ -4,7 +4,7 @@ description: >-
   Exact body match in pieb-bodymap; appended via --append-system-prompt to the
   `claude self-hosted-runner doctor` child session to drive the runner
   diagnostic decision tree.
-ccVersion: 2.1.224
+ccVersion: 2.1.227
 variables:
   - ANTHROPIC_API_BASE_URL
   - ANTHROPIC_API_HOST
@@ -29,7 +29,7 @@ Each row: **signature** (what the operator or logs show) → **check** → **roo
 
 | Signature | Check | Root cause | Fix |
 |---|---|---|---|
-| \`[runner:fatal] RegisterRunner auth failed — environment secret invalid or revoked\` | Bash \`curl -sS -H "Authorization: Bearer $(cat <environment-secret-file>)" "${ANTHROPIC_API_BASE_URL}/v1/code/runners/self-hosted/runners/register" -X POST -d '{}'\` | environment secret revoked or wrong | Re-issue in Admin UI → Keys tab; remount on the runner |
+| \`[runner:fatal] RegisterRunner auth failed — environment secret invalid or revoked\` | Bash \`curl -sS -H "Authorization: Bearer $(cat <environment-secret-file>)" "${ANTHROPIC_API_BASE_URL}/v1/code/runners/self-hosted/runners/register" -X POST -d '{}'\` | environment secret revoked or wrong | Re-issue via **Issue new key** on the environment's Configuration tab (Admin settings → Cloud environments); remount on the runner |
 | \`RegisterRunner auth failed\` but secret was just minted | Decode the secret's \`ccr:org_id\` claim: \`sed 's/^sk-ant-[a-z]*-//' <secret-file> \\| cut -d. -f2 \\| tr '_-' '/+' \\| base64 -d 2>/dev/null \\| jq .\` | Secret issued by a *different* org | Use a secret minted from **this** org's environment |
 | Runner fatal at startup before any network call: \`ENOENT\` / \`EACCES\` reading environment secret | \`ls -l <environment-secret-file> && cat <environment-secret-file> >/dev/null\` | Secret file unreadable, missing, or volume mount hung | Fix file perms / re-mount the secret volume |
 | \`[runner:fatal] poll auth failed — token expired or revoked. Draining and exiting for clean restart.\` after running fine for a while | Check whether the runner restarted cleanly (orchestrator logs / pod restart count) | runner_token TTL hit or was revoked. Runner does **not** self-heal — it drains and exits cleanly so the orchestrator restarts it, which re-registers. | If the restart loop persists across fresh pods, the **environment secret** itself was revoked → re-issue |
@@ -71,7 +71,7 @@ Each row: **signature** (what the operator or logs show) → **check** → **roo
 | Session aborted after N min wall-clock | \`--kill-session-after-min\` value | Max-lifetime watchdog fired on a single child session | Raise if too aggressive |
 | \`[runner:session] <sid> no child output for <N> — releasing\` | \`--startup-timeout-min\` value (default 15) | Startup-timeout clock fired — child produced no output (slow MCP connect / large \`--resume\` hydration / no pending input) | Raise \`--startup-timeout-min\` or set \`0\` to disable |
 | \`failure_log\`: \`Another runner has taken over this session\` (409) | Network blips / long pauses before? | Lease expired, another runner claimed it | Usually self-resolves |
-| Session shows **Stuck** in Queue tab (\`excluded_runner_ids\` length ≥ 3) | \`self_hosted_runner_list_sessions\` → check \`failure_log\` + \`excluded_runner_ids\` | Failed on 3 different runners — usually the session, not the infra | Investigate the session; if you've confirmed the infra is healthy and want to retry on a fresh runner, \`self_hosted_runner_requeue_session({session_id, runner_id})\` clears the block (pass the last runner in excluded_runner_ids as runner_id) |
+| Session shows a **Failed** badge (with an attempt count and **Retry**) in the Activity tab's Sessions view (\`excluded_runner_ids\` length ≥ 3) | \`self_hosted_runner_list_sessions\` → check \`failure_log\` + \`excluded_runner_ids\` | Failed on 3 different runners — usually the session, not the infra | Investigate the session; if you've confirmed the infra is healthy and want to retry on a fresh runner, \`self_hosted_runner_requeue_session({session_id, runner_id})\` clears the block (pass the last runner in excluded_runner_ids as runner_id) |
 | \`EACCES\` writing to base-dir | \`ls -ld $BASE_DIR\`; \`id\` | Wrong UID | Fix ownership or point \`--base-dir\` at a writable path |
 
 ### 5. Queue / placement
@@ -120,7 +120,7 @@ curl -s http://localhost:8080/healthz | jq .
 | \`"last_poll_at"\` more than ~60s old while \`connected: true\` | Orchestrator log for the last \`dispatching N hint(s)\` line and matching hook completions; \`ps\`/\`kubectl exec\` for stuck \`spawn-runner\` children. (Backoff after poll errors flips \`connected: false\` first, so it appears on row 2 — not here.) | Poll loop wedged between successful polls on a slow/stuck \`spawn-runner\` hook (D-state on a hung mount, or a hook that doesn't return within \`--hook-timeout\`) | Kill the stuck hook; check \`hooksDir\` mount health; the orchestrator abandons a D-state child after \`--hook-timeout\` + 2×5s grace. Restart the orchestrator if the log shows no progress |
 | \`"last_error"\` set (non-null) | Read the string — it's either \`spawn-runner hook failed: <stderr tail>\` or a poll failure (HTTP status or transport error) | Hook script failing / can't reach \`${ANTHROPIC_API_HOST}\` | Fix the hook (run it by hand with a fake \`CLAUDE_RUNNER_ORDER_ID\`); for poll failures see §2 |
 | \`"queue_counts.backing_off" > 0\` | \`self_hosted_runner_list_sessions\` → per-session \`spawn_last_error\` (sanitized hook stderr) | spawn-runner hook is failing intermittently; each session retries with exponential backoff | Fix the hook; sessions self-recover on the next retry |
-| \`"queue_counts.circuit_broken" > 0\` | \`self_hosted_runner_list_sessions\` → per-session \`spawn_last_error\` | spawn-runner hook failed 5× (or returned non-retryable) for those sessions; they are **paused** and will not be re-offered | Fix the infra (k8s quota, image pull, hook exit code), then for each paused session: Admin UI → Queue tab → **Retry spawn**, or \`curl -X POST -H "Authorization: Bearer $OAUTH" "${ANTHROPIC_API_BASE_URL}/v1/code/runners/self-hosted/sessions/<session_id>/retry-spawn" -d '{}'\` |
+| \`"queue_counts.circuit_broken" > 0\` | \`self_hosted_runner_list_sessions\` → per-session \`spawn_last_error\` | spawn-runner hook failed 5× (or returned non-retryable) for those sessions; they are **paused** and will not be re-offered | Fix the infra (k8s quota, image pull, hook exit code), then for each paused session: Admin settings → Cloud environments → Self-hosted environments → (environment) → Activity tab → Sessions → **Retry**, or \`curl -X POST -H "Authorization: Bearer $OAUTH" "${ANTHROPIC_API_BASE_URL}/v1/code/runners/self-hosted/sessions/<session_id>/retry-spawn" -d '{}'\` |
 
 When bundling for escalation, also capture \`orchestrator-healthz.json\` alongside the runner's \`healthz.json\`.
 

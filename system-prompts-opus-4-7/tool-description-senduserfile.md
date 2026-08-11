@@ -3,7 +3,7 @@ name: 'Tool Description: SendUserFile'
 description: >-
   Describes the SendUserFile tool for surfacing generated deliverable files to
   the user, with optional captions and normal or proactive status
-ccVersion: 2.1.142
+ccVersion: 2.1.227
 -->
 Send a file to the user. Use when the file is the deliverable (generated diagram, report, screenshot, built artifact) — not just to mention it. Paths absolute or cwd-relative.
 

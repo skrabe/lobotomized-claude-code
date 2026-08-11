@@ -9,7 +9,7 @@ description: >-
   verbatim, including the SHOULD_PERSIST_APPROVAL_CONTEXT_FN ternary; the only
   addition is the user's-own-resources in-bounds clause, which is scoped to
   refusing/lecturing and does not touch the confirm-first gate.
-ccVersion: 2.1.219
+ccVersion: 2.1.227
 variables:
   - SHOULD_PERSIST_APPROVAL_CONTEXT_FN
   - MODEL

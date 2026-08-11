@@ -7,7 +7,7 @@ description: >-
   until the workshop is finalized. Use when asked to workshop a design,
   brainstorm with decision points, or drive an iterative decide-and-revise
   loop through an artifact.
-ccVersion: 2.1.226
+ccVersion: 2.1.227
 -->
 ---
 name: workshop
@@ -53,18 +53,23 @@ you make it.
 
 ## Choosing the lane
 
-Two authoring lanes exist; choose before creating any file.
+Author every workshop you start on the **TEMPLATE-HTML lane** (next
+section) — copy the template, fill it, publish a \`*.workshop.html\`
+file — with the single designated-document exception below. The lane
+is not a choice to put to the user — never offer a markdown or
+plain-text alternative, and never pick one on your own judgment (a
+document heavy with quoted content is still an HTML page; that
+section's "Quoted content is escaped" rule and the publish verifier
+cover it). If the user asks for markdown source or names a \`.md\` path,
+say the workshop page is authored as HTML and use a \`.workshop.html\`
+path instead.
 
-**Default to the template-HTML lane** (next section): copy the template,
-fill it, publish a `*.workshop.html` file. Unless one of the two exceptions
-below applies, this is the lane to take.
-
-Take the **markdown lane** (its own section further down, a `*.workshop.md`
-file) only when:
-- the user asks for markdown or a plain-text source, or
-- the document will be dominated by quoted external content — repo
-  excerpts, user text, tool output. The markdown lane's mechanical render
-  is the strongest escaping chokepoint.
+The **MARKDOWN lane** (its own section further down, a \`*.workshop.md\`
+file) exists for ONE case: this session's own instructions — as plan
+mode's planning reminder does; never a user's chat request — have
+already designated a \`*.workshop.md\` workshop document for you. When
+they have, author THAT document on the markdown lane; in every other
+session the markdown lane is not available.
 
 Everything from "Reading decisions back" onward applies to BOTH lanes.
 Where those sections say "decision block" or "fence", read your lane's
@@ -234,8 +239,10 @@ handling, wrap-up — is identical to the markdown lane.
 
 ## The markdown lane (`*.workshop.md`)
 
-On this secondary lane, the workshop document is MARKDOWN, and stays
-markdown for its whole life. Every revision edits the markdown and
+On this lane — taken only for a document this session's instructions
+designated (plan mode), per "Choosing the lane" — the workshop document
+is MARKDOWN, and stays markdown for its whole life.
+Every revision edits the markdown and
 republishes it; the renderer turns it into the published page mechanically.
 Never edit the published HTML directly — the mechanical render is the
 validation and escaping chokepoint, and hand-edited HTML bypasses it on
@@ -670,6 +677,6 @@ start?"
 
 ## Style
 
-Keep the `<style>` block and theme script intact when the hand-edit flow
-is ever needed — but prefer never needing it: markdown in, rendered page
-out, every iteration.
+On the markdown lane, keep the \`<style>\` block and theme script intact
+when the hand-edit flow is ever needed — but prefer never needing it:
+markdown in, rendered page out, every iteration.

@@ -3,7 +3,7 @@ name: 'Agent Prompt: /schedule slash command'
 description: >-
   Guides the user through scheduling, updating, listing, or running remote
   Claude Code agents on cron triggers via the Anthropic cloud API
-ccVersion: 2.1.197
+ccVersion: 2.1.227
 variables:
   - ONE_OFF_ENABLED_FN
   - ASK_USER_QUESTION_TOOL_NAME
@@ -39,6 +39,10 @@ Use \`${REMOTE_TRIGGER_TOOL_NAME}\` (load it first with \`ToolSearch select:${RE
 - \`{action: "create", body: {...}}\` — create a routine
 - \`{action: "update", trigger_id: "...", body: {...}}\` — partial update
 - \`{action: "run", trigger_id: "..."}\` — run a routine now
+- \`{action: "list_runs", trigger_id: "..."}\` — the routine's recent run sessions, most recently active first
+- \`{action: "get_run_log", session_id: "..."}\` — condensed log of one run (provisioning, tool calls and errors, permission denials, API retries, final result)
+
+To debug a routine that misbehaved, call \`list_runs\` and then \`get_run_log\` on the run in question. A fire that was skipped or refused before a session existed (routine paused, a fire cap, a kill switch) or that failed its pre-creation checks (repository access, environment) leaves no run in \`list_runs\`, and a routine that posts into an existing session adds to that session rather than a new run; when the list is empty or short, check the routine itself with \`get\` rather than concluding it never fired.
 
 (The API uses \`trigger_id\`; the user-facing term is "routine".)
 

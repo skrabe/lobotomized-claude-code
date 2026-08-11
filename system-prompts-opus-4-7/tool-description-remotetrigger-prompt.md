@@ -3,7 +3,7 @@ name: 'Tool Description: RemoteTrigger prompt'
 description: >-
   Tool prompt for calling the claude.ai RemoteTrigger API to list, get, create,
   update, or run scheduled remote agent routines
-ccVersion: 2.1.226
+ccVersion: 2.1.227
 -->
 Call the claude.ai remote-trigger API. Use this instead of curl — the OAuth token is added automatically in-process and never exposed.
 

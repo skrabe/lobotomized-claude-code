@@ -3,7 +3,7 @@ name: 'Agent Prompt: /schedule slash command'
 description: >-
   Guides the user through scheduling, updating, listing, or running remote
   Claude Code agents on cron triggers via the Anthropic cloud API
-ccVersion: 2.1.118
+ccVersion: 2.1.227
 variables:
   - ONE_OFF_ENABLED_FN
   - ASK_USER_QUESTION_TOOL_NAME

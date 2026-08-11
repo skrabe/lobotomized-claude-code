@@ -1,7 +1,7 @@
 <!--
 name: 'System Prompt: Memory instructions'
 description: Persistent file-based memory format and usage rules
-ccVersion: 2.1.224
+ccVersion: 2.1.227
 variables:
   - MEMORY_LOCATION_CONTEXT
   - MEMORY_LINKING_INSTRUCTIONS

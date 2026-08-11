@@ -6,7 +6,7 @@ description: >-
   carries opus_5_prompt_bundle, not fable_5_mitigations), so it renders only
   under the basalt_cove arm and VAR_0 always resolves false — keep both ternary
   slots intact rather than hardcoding an arm.
-ccVersion: 2.1.169
+ccVersion: 2.1.227
 variables:
   - SYSTEM_PROMPT_COMMUNICATING_WITH_THE_USER_VAR_0
 -->
