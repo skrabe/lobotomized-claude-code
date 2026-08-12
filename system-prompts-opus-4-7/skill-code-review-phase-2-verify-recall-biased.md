@@ -3,14 +3,14 @@ name: 'Skill: Code Review (Phase 2 — verify, recall-biased)'
 description: >-
   Phase 2 of the code-review skill for recall tiers — one verifier per
   candidate, recall-biased keep rule
-ccVersion: 2.1.148
+ccVersion: 2.1.160
 variables:
   - AGENT_TOOL_NAME
 -->
 ## Phase 2 — Verify (1-vote, recall-biased)
 
 Dedup near-duplicates (same defect, same location, same reason → keep one). For
-each remaining candidate, run **one verifier** via the ${AGENT_TOOL_NAME} tool:
+each remaining candidate, run one verifier via the ${AGENT_TOOL_NAME} tool:
 give it the diff, the relevant file(s), and the candidate; it returns exactly
 one of **CONFIRMED / PLAUSIBLE / REFUTED**.
 
@@ -19,10 +19,10 @@ one of **CONFIRMED / PLAUSIBLE / REFUTED**.
 nil/undefined on a rare-but-reachable path (error handler, cold cache, missing
 optional field), falsy-zero treated as missing, off-by-one on a boundary the
 code does not exclude, retry storms / partial failures, regex/allowlist that
-lost an anchor. These are PLAUSIBLE.
+lost an anchor.
 
 **REFUTED** only when constructible from the code: factually wrong (quote the
 actual line); provably impossible (type/constant/invariant — show it); already
 handled in this diff (cite the guard); or pure style with no observable effect.
 
-Keep **CONFIRMED and PLAUSIBLE**. Drop REFUTED.
+Keep CONFIRMED and PLAUSIBLE. Drop REFUTED.

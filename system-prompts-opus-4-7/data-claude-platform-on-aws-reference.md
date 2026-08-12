@@ -4,11 +4,12 @@ description: >-
   Reference documentation for using the Claude Developer Platform through AWS
   infrastructure, including AnthropicAWS clients, required region and workspace
   configuration, SigV4 authentication, and short-term API keys
-ccVersion: 2.1.145
+ccVersion: 2.1.183
 -->
+
 # Claude Platform on AWS
 
-**Anthropic-operated** access to the Claude Developer Platform through AWS infrastructure — SigV4 authentication, AWS IAM access control, and AWS Marketplace billing. Because Anthropic operates it, **the API surface matches first-party with same-day parity**: Managed Agents, server-side tools, batches, Files, and every feature in this skill work the same way (**except self-hosted sandboxes** — \`config:{type:"self_hosted"}\` is not available here; use \`cloud\`). Model IDs are the bare first-party strings (\`{{OPUS_ID}}\`, \`{{SONNET_ID}}\`) — **no provider prefix**.
+**Anthropic-operated** access to the Claude Developer Platform through AWS infrastructure — SigV4 authentication, AWS IAM access control, and AWS Marketplace billing. Because Anthropic operates it, **the API surface matches first-party with same-day parity** — for per-feature exceptions, see \`shared/platform-availability.md\` (the single source of truth; do not rely on an inline exception list here). Model IDs are the bare first-party strings (\`{{OPUS_ID}}\`, \`{{SONNET_ID}}\`) — **no provider prefix**.
 
 > **Not the same as Amazon Bedrock.** Bedrock is partner-operated (AWS runs the service; release schedules vary, feature subset, \`anthropic.\`-prefixed model IDs). Claude Platform on AWS and Bedrock coexist; pick by whether you need AWS-native IAM/billing with full Anthropic API parity (this page) vs. Bedrock's own ecosystem.
 
@@ -58,10 +59,4 @@ The client resolves AWS credentials via the standard precedence chain: explicit 
 
 **Short-term API keys** are also supported for cases where SigV4 isn't practical (e.g., browser, simple scripts). Mint one with the per-language token-generator package; pass it as \`api_key\` on the client. Lifetime is the **lesser of** the requested duration, the underlying credential's expiry, and **12 hours**. For package names and IAM details, WebFetch the Claude Platform on AWS page in \`shared/live-sources.md\`.
 
----
-
-## What to tell users
-
-- Treat it as first-party: every section of this skill applies unchanged. Do **not** apply Bedrock's feature-availability mask.
-- Model IDs are bare (\`{{OPUS_ID}}\`). Do **not** add an \`anthropic.\` prefix.
-- A missing region or \`workspace_id\` throws at client-construction time (no request is sent). A **403** means the request reached the server — check for a **wrong** \`workspace_id\` or a missing IAM action on the principal. See the IAM actions reference in \`shared/live-sources.md\`.
+A missing region or \`workspace_id\` throws at client-construction time (no request is sent). A **403** means the request reached the server — check for a **wrong** \`workspace_id\` or a missing IAM action on the principal. See the IAM actions reference in \`shared/live-sources.md\`.

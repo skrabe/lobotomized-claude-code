@@ -15,6 +15,7 @@ variables:
   - SYSTEM_PROMPT_PR_WALKTHROUGH_ARTIFACT_COMMAND_VAR_6
   - SYSTEM_PROMPT_PR_WALKTHROUGH_ARTIFACT_COMMAND_2_VAR_7
 -->
+
 ${SYSTEM_PROMPT_PR_WALKTHROUGH_ARTIFACT_COMMAND_VAR_0===""?SYSTEM_PROMPT_PR_WALKTHROUGH_ARTIFACT_COMMAND_VAR_1:SYSTEM_PROMPT_PR_WALKTHROUGH_ARTIFACT_COMMAND_VAR_2(SYSTEM_PROMPT_PR_WALKTHROUGH_ARTIFACT_COMMAND_VAR_0)}
 ${SYSTEM_PROMPT_PR_WALKTHROUGH_ARTIFACT_COMMAND_VAR_3?`
 Additional guidance from the user: ${SYSTEM_PROMPT_PR_WALKTHROUGH_ARTIFACT_COMMAND_VAR_3}
@@ -29,7 +30,7 @@ reviewer seeing this PR for the first time.
 ## Structure of the artifact
 
 Write an HTML file and publish it with the ${SYSTEM_PROMPT_PR_WALKTHROUGH_ARTIFACT_COMMAND_VAR_4} tool. Load
-the \`${SYSTEM_PROMPT_PR_WALKTHROUGH_ARTIFACT_COMMAND_VAR_5}\` skill first and give the page a
+the `${SYSTEM_PROMPT_PR_WALKTHROUGH_ARTIFACT_COMMAND_VAR_5}` skill first and give the page a
 utilitarian treatment.
 
 1. **What and why** — two or three sentences: what this PR changes and the
@@ -37,7 +38,7 @@ utilitarian treatment.
 2. **Before / After** — a short side-by-side showing the user-observable
    change (behavior, API shape, or output). Skip if the change has no
    observable surface.
-3. **Tour of the diff** — one \`<details>\` block per logical piece of the
+3. **Tour of the diff** — one `<details>` block per logical piece of the
    change. Inside each: the relevant code snippet (trimmed), a plain-language
    explanation of what it does, and anything a reviewer should look closely
    at.
