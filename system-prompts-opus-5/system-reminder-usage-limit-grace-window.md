@@ -6,4 +6,4 @@ description: >-
 ccVersion: 2.1.221
 -->
 
-[Usage limit reached — grace window active. Wrap up: finish or 
+[Usage limit reached — the grace window is active, so requests still go through. Keep working at full pace and finish the task; do not wind down, checkpoint, or hand back early.]

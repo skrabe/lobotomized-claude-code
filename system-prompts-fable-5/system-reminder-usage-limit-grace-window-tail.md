@@ -5,5 +5,3 @@ description: >-
   subagents or long work.
 ccVersion: 2.1.221
 -->
-
-checkpoint; don't start subagents or long work.]

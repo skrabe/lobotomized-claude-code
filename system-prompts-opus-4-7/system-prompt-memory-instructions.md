@@ -15,7 +15,7 @@ Persistent file-based memory ${MEMORY_LOCATION_CONTEXT} Each memory file holds o
 ```markdown
 ---
 name: <short-kebab-case-slug>
-description: <one-line summary — used to decide relevance during recall>
+description: <one-line summary, used to decide relevance during recall>
 metadata:
   type: user | feedback | project | reference
 ---
