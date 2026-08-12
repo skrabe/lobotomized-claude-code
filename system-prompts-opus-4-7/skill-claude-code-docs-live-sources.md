@@ -1,13 +1,13 @@
 <!--
 name: 'Skill: claude-code-docs live documentation sources'
 description: 'Skill: claude-code-docs live documentation sources'
-ccVersion: 2.1.201
+ccVersion: 2.1.202
 -->
 # Live Documentation Sources
 
 WebFetch URLs for fetching current Claude Code documentation. Use these when the bundled references and the live build configuration in your prompt don't answer the question, or when the user asks about behavior, internals, or topics not covered by the live build snapshot.
 
-Mintlify serves both \`.md\` and \`.mdx\` for every page; prefer \`.md\` for clean fetches.
+Mintlify serves both \`.md\` and \`.mdx\` for every page; prefer \`.md\` for clean fetches. The \`.md\` form is for fetching only: when linking a page for the user, drop the trailing \`.md\` so they get the rendered page.
 
 ## Start here
 

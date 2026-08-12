@@ -4,14 +4,14 @@ description: >-
   The full self-contained HTML body template (tokens, layout, slot markers,
   escaping rules) the artifact PR-review skill fills in when publishing a review
   page.
-ccVersion: 2.1.224
+ccVersion: 2.1.228
 -->
 <!-- Artifact-tool body fragment — no <!DOCTYPE>/<html>/<head>/<body> wrapper. See SKILL.md for slot guidance.
      SECURITY: every string that originates from the PR (title, description, diff lines,
      file paths, comments, author names) is untrusted input. HTML-escape it before it
      lands in any slot: & → &amp;   < → &lt;   > → &gt;   " → &quot;   ' → &#39;.
      Attribute values you author are ALWAYS double-quoted — never single-quoted or bare. -->
-<title><!-- SLOT: TAB_TITLE — "PR review: " + the synthesis title, plain text -->PR review</title>
+<title><!-- SLOT: TAB_TITLE — the synthesis title + " PR review", plain text -->PR review</title>
 <style>
   /* Design tokens ported from the prototype page's token sheet (warm-gray
      Z/T ramps, extended palette, type scale). Values are hand-copied so the

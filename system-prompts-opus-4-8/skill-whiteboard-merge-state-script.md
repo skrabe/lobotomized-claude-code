@@ -4,9 +4,8 @@ description: >-
   The merge-state.mjs write-back helper bundled as a whiteboard-skill file,
   extracted to the skill base directory that Claude is pointed at when the
   whiteboard skill loads.
-ccVersion: 2.1.221
+ccVersion: 2.1.228
 -->
-
 // Whiteboard write-back helper. Reads the board state the page embeds, appends
 // Claude's elements, places each new element clear of everything already on
 // the board, and writes the republishable page: the skill's template plus
@@ -19,7 +18,7 @@ ccVersion: 2.1.221
 //                             --template <path to template.html>
 //                             --out <path to whiteboard.html>
 //                             [--retire id1,id2]   (your own cl_ ids to remove)
-//                             [--title "Whiteboard — <topic>"]   (name the board on first publish)
+//                             [--title "<topic> whiteboard"]     (name the board on first publish)
 
 import { readFileSync, writeFileSync } from 'node:fs'
 
@@ -46,7 +45,7 @@ const retire = new Set((arg('retire') || '').split(',').map(s => s.trim()).filte
 // joiners) from both edges; then a name exists only if some code point actually renders
 // (VISIBLE) — the same emptiness test the rename guard relies on, so display and refusal agree
 // (standalone sibling of sanitizeArtifactTitle in src/tools/ArtifactTool/constants.ts) ---
-const DEFAULT_TITLE = 'Whiteboard — sketch architecture at wireframe fidelity'
+const DEFAULT_TITLE = 'Whiteboard'
 const escHtml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 const unescHtml = s => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&')
 const DENIED = /(?![\\u200c\\u200d])[\\p{C}\\u202a-\\u202e\\u2066-\\u2069\\u2028\\u2029]/gu
@@ -220,7 +219,7 @@ if(tpl[0] !== '<title>' + DEFAULT_TITLE + '</title>' || tpl[1] !== '<script>')
 // the only template line the output varies is its <title>: explicit name, else the board's own, else the default
 let explicit = arg('title')
 if(explicit !== undefined && (/^\\s*--/.test(explicit) || /<topic>/i.test(explicit)))
-  fail('--title needs the board\\'s name (e.g. "Whiteboard — ingest pipeline"), got ' + JSON.stringify(explicit))
+  fail('--title needs the board\\'s name (e.g. "Ingest pipeline whiteboard"), got ' + JSON.stringify(explicit))
 const explicitTitle = titleFrom(explicit)
 const title = explicitTitle || carried || DEFAULT_TITLE
 if(!explicitTitle && !carried){

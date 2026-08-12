@@ -7,7 +7,7 @@ description: >-
   until the workshop is finalized. Use when asked to workshop a design,
   brainstorm with decision points, or drive an iterative decide-and-revise
   loop through an artifact.
-ccVersion: 2.1.227
+ccVersion: 2.1.228
 -->
 ---
 name: workshop
@@ -113,7 +113,10 @@ content (an Edit anchors on its surrounding text), not by line.
 opening version: the header (banner `data-ws-state="in-progress"` with text
 true to THIS version — no decision count yet, since none are on the page;
 the page script rewrites the banner only when a decision lands, so what you
-author is what the reader sees), eyebrow, title, lede, the context section
+author is what the reader sees), eyebrow, title (the template's `<title>` element gets the same fill: replace its placeholder with
+the page's name — the subject as a short, distinctive noun phrase,
+never a generic label or a name with an appended qualifier after a
+dash or colon), lede, the context section
 filled with the reader's real context (or dropped — never the template's
 placeholder prose; do not retell the conversation: only the goals and
 constraints a decision depends on), the working-draft prose (a few short

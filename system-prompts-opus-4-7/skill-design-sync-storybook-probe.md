@@ -4,7 +4,7 @@ description: >-
   Bundled storybook/probe.mjs for the design-sync skill: visits the repo's own
   _sb/iframe.html in headless chromium to extract argTypes (prop tables) and
   fiber-walk provider detection
-ccVersion: 2.1.169
+ccVersion: 2.1.172
 -->
 // One chromium page visit against the reference storybook-static: fiber-walk
 // provider detection. Fallback diagnostic for when
@@ -132,8 +132,14 @@ if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.m
   if (!storyId) { console.error('no story entries in index.json — pass --story-id'); process.exit(2); }
   const names = (flag('names') ?? '').split(',').map((s) => s.trim()).filter(Boolean);
   const { provider } = await probe({ sbStatic, firstStoryId: storyId, exportedNames: names });
-  // The cfg.provider suggestion — paste into design-sync.config.json after
-  // replacing each $hint with a real value.
+  // The cfg.provider suggestion — paste into .design-sync/config.json after
+  // resolving each $hint: literals for small scalars; for data the repo
+  // already owns (locale JSON, theme objects), prefer a 2-line module via
+  // cfg.extraEntries referenced with {"$ref": "<export>"} (repo files need
+  // an explicit ./ or ../ package-relative entry; bare names resolve from
+  // node_modules) — an inlined copy duplicates into every card and rots
+  // when the source file changes, so anything sizable or evolving belongs
+  // behind a $ref.
   console.log(JSON.stringify({ provider }, null, 2));
   process.exit(0);
 }

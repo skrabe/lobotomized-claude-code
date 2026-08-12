@@ -4,53 +4,54 @@ description: >-
   The whiteboard canvas template.html bundled with the whiteboard skill,
   extracted to the skill base directory for Claude to publish and edit as the
   whiteboard artifact.
-ccVersion: 2.1.221
+ccVersion: 2.1.228
 -->
-
-<title>Whiteboard — sketch architecture at wireframe fidelity</title>
+<title>Whiteboard</title>
 <script>
 "use strict";
 const CSS = \`
-  /* Claude Design System (CDS) token literals, inlined because artifacts render self-contained
-     (no network, no injected --cds-* vars); the board's own tokens resolve through them. */
+  /* The board's own vars resolve through the vendored @ant/cds token sheet (the static
+     style element this page carries — artifacts render self-contained, so the sheet is
+     embedded rather than injected). Canvas-read vars (--ground, --grid, --ink, --muted,
+     --accent) must land on plain-hex ramp stops: getComputedStyle hands the canvas the
+     substituted token TEXT, and ctx.fillStyle cannot evaluate the sheet's hsl(from ...)
+     alpha tokens. CSS-only vars (--panel, --shadow) may use any token. Dark mode rides
+     the sheet's own data-mode/OS axes (the script mirrors the viewer's data-theme stamp
+     onto data-mode), so only board-owned vars need dark overrides here. */
   :root{
-    --cds-surface-0:#f9f9f7; --cds-surface-2:#ffffff;
-    --cds-text-primary:#0b0b0b; --cds-text-secondary:#52514e;
-    --cds-border:rgba(11,11,11,.1); --cds-text-accent:#184f95; --cds-fill-accent:#2a78d6; --cds-on-accent:#ffffff;
-    --cds-shadow-md:0 2px 4px 0 rgba(11,11,11,.07), 0 6px 16px 0 rgba(11,11,11,.08);
-    --ground:var(--cds-surface-0); --grid:var(--cds-border); --ink:var(--cds-text-primary); --muted:var(--cds-text-secondary);
-    --accent:var(--cds-text-accent); --panel:var(--cds-surface-2); --shadow:var(--cds-shadow-md);
+    color-scheme: light dark; /* counter the skeleton's :root{color-scheme:light} so UA chrome (scrollbars, caret, overscroll) follows the board's theme */
+    --ground:var(--surface-0); --panel:var(--surface-2); --ink:var(--text-primary); --muted:var(--text-secondary);
+    --grid:var(--gray-100); --accent:var(--text-accent); --shadow:var(--shadow-md);
     --claude:#c2410c; --sticky:#f4e187; --sticky-ink:#3b3320;
     --claude-sticky:#fdba74; --claude-sticky-ink:#231d0d;
     --ui:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
     --hand:"Segoe Print","Bradley Hand","Marker Felt","Comic Sans MS","Chalkboard SE",cursive;
   }
+  /* Dark overrides for the board-owned values only — the CDS semantic tokens the vars
+     above point at flip by themselves. Both axes, mirroring the vendored block's own
+     structure: the media block's :where() keeps an explicit light stamp winning over
+     OS-dark, and the attribute block forces dark on an OS-light machine. */
   @media (prefers-color-scheme: dark){
-    :root{
-      --cds-surface-0:#0d0d0d; --cds-surface-1:#1a1a19; --cds-surface-2:#2c2c2a;
-      --cds-text-primary:#ffffff; --cds-text-secondary:#c3c2b7;
-      --cds-border:rgba(255,255,255,.1); --cds-text-accent:#6da7ec;
-      --cds-shadow-md:0 2px 4px 0 rgba(11,11,11,.07), 0 6px 16px 0 rgba(0,0,0,.24);
-      --ground:var(--cds-surface-1); /* dark: the board is the lower surface, chrome floats above it */
+    :root:where(:not([data-mode="light"])){
+      color-scheme: dark;
+      --ground:var(--surface-1); /* dark: the board is the lower surface, chrome floats above it */
+      --grid:var(--gray-700);
       --claude:#f0a24a; --sticky:#c9b25a; --sticky-ink:#231d0d;
       --claude-sticky:#f0a24a; --claude-sticky-ink:#231d0d;
     }
   }
-  :root[data-theme="dark"]{
-    --cds-surface-0:#0d0d0d; --cds-surface-1:#1a1a19; --cds-surface-2:#2c2c2a;
-    --cds-text-primary:#ffffff; --cds-text-secondary:#c3c2b7;
-    --cds-border:rgba(255,255,255,.1); --cds-text-accent:#6da7ec;
-    --cds-shadow-md:0 2px 4px 0 rgba(11,11,11,.07), 0 6px 16px 0 rgba(0,0,0,.24);
-    --ground:var(--cds-surface-1); /* dark: the board is the lower surface, chrome floats above it */
+  :root[data-mode="dark"]{
+    color-scheme: dark;
+    --ground:var(--surface-1); /* dark: the board is the lower surface, chrome floats above it */
+    --grid:var(--gray-700);
     --claude:#f0a24a; --sticky:#c9b25a; --sticky-ink:#231d0d;
     --claude-sticky:#f0a24a; --claude-sticky-ink:#231d0d;
   }
-  :root[data-theme="light"]{
-    --cds-surface-0:#f9f9f7; --cds-surface-2:#ffffff;
-    --cds-text-primary:#0b0b0b; --cds-text-secondary:#52514e;
-    --cds-border:rgba(11,11,11,.1); --cds-text-accent:#184f95;
-    --cds-shadow-md:0 2px 4px 0 rgba(11,11,11,.07), 0 6px 16px 0 rgba(11,11,11,.08);
-    --ground:var(--cds-surface-0); /* a light stamp over a dark OS must undo the dark board mapping */
+  :root[data-mode="light"]{
+    color-scheme: light;
+    /* the paper colours restate their light defaults so every theme block carries
+       the sticky palette; --ground/--grid need no restating — the :where() guard
+       keeps both dark axes inert under a light stamp, so the base values win */
     --claude:#c2410c; --sticky:#f4e187; --sticky-ink:#3b3320;
     --claude-sticky:#fdba74; --claude-sticky-ink:#231d0d;
   }
@@ -95,7 +96,7 @@ const CSS = \`
   .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   .btn[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
-  .btn.primary{background:var(--cds-fill-accent);color:var(--cds-on-accent);border-color:var(--cds-fill-accent)}
+  .btn.primary{background:var(--fill-accent);color:var(--on-accent);border-color:var(--fill-accent)}
   .btn:disabled{opacity:.4;cursor:default}
   #themeBtn svg{display:none}
   #themeBtn[data-choice="auto"] .t-auto,#themeBtn[data-choice="light"] .t-light,#themeBtn[data-choice="dark"] .t-dark{display:block}
@@ -200,6 +201,83 @@ const MARKUP = \`
 </div>
 \`;
 
+// escape every "<" so nothing a viewer types can close the JSON block or open a tag
+function esc(s){ return JSON.stringify(s).replace(/</g, '\\\\u003c'); }
+// the board keeps the name it was published with; re-escape the decoded title for the head
+// (element content only — this does not escape single quotes, so never use it in attributes)
+function escHtml(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+// The vendored CDS token sheet rides the page as a static style element (it contains
+// backticks, so it cannot live inside the CSS template literal). Reading it back off the
+// DOM is what lets buildPage re-emit it on every republish.
+function cdsTokenCss(){
+  const el = document.getElementById('cds-tokens');
+  return (el && el.textContent) || '';
+}
+// Publish gate for the captured sheet: buildPage re-emits it raw, so an empty capture
+// (sheet loss would bake into every later generation) or a "</" (would terminate the
+// style element and truncate the republished page) must refuse the publish.
+function tokenCssPublishable(tokenCss){
+  // U+FFFD is the remaining parser-divergence signal: a NUL in the served bytes
+  // reaches the DOM capture as U+FFFD (RAWTEXT tokenization replaces it), which
+  // would fork the captured block from the drift-gated template bytes forever.
+  // The END-marker check refuses a tail-truncated capture (a cut-off transfer
+  // still boots, and its Send would bake the truncation into every generation).
+  return !!tokenCss && tokenCss.indexOf('</') === -1 && tokenCss.indexOf('\\uFFFD') === -1
+    && tokenCss.indexOf('===== END vendored @ant/cds tokens =====') !== -1;
+}
+// Pure serializer — no DOM, no closure state — so the republish round-trip (the token
+// block must survive publish → reload → publish byte-identically) is testable headless.
+// The JSON block comes first so a reading session finds the board state without running JS.
+// Every top-level function must appear in the emission list below — one left out survives
+// generation 1 and breaks only when the republished page itself republishes.
+// Parse-safety: the state-block HTML comment emitted below is the page's only
+// comment-open/close pair, and it must close before either script-opener literal
+// that follows — a comment-open left unclosed ahead of a script-opener puts the
+// WHATWG script-data tokenizer into double-escaped state, where the real end tag
+// stops terminating the element and browsers swallow the rest of the page into
+// the script. Never introduce comment-open bytes into any serialized function
+// (including JS comments — toString() emits them); whiteboardTokens.test.ts pins
+// this with a three-state tokenizer scan against the indexOf terminator.
+function buildPage(state, title, tokenCss){
+  // The state block stays ahead of the ~26KB sheet and the code script so a
+  // reading session's head-slice fetch still captures it whole; the sheet only
+  // has to parse before boot() reads colors, which scheduleBoot guarantees.
+  return '<!doctype html><html><head><meta charset="utf-8">'
+    + '<title>' + escHtml(title) + '</title></head><body>'
+    + '<!-- whiteboard state (boxes, labels, arrows, ping marker) is the JSON block below -->'
+    + '<script type="application/json" id="wb-state">' + esc(state) + '<\\/script>'
+    + '<style id="cds-tokens">' + tokenCss + '</style>'
+    + '<script>"use strict";const CSS=' + esc(CSS) + ';const MARKUP=' + esc(MARKUP) + ';'
+    + esc.toString() + ';' + escHtml.toString() + ';' + cdsTokenCss.toString() + ';'
+    + tokenCssPublishable.toString() + ';'
+    + buildPage.toString() + ';' + themeMirror.toString() + ';' + scheduleBoot.toString() + ';'
+    + main.toString() + ';' + boot.toString() + ';themeMirror();scheduleBoot();'
+    + '<\\/script></body></html>';
+}
+// The viewer toggle stamps data-theme on the root element; the vendored CDS token block
+// keys its toggle axis on data-mode (the CDS convention) and cannot be edited
+// (provenance-tested byte-identical). Mirroring the attribute lets that block serve the
+// viewer toggle with its own precedence rules — toggle beats OS in both directions.
+function themeMirror(){
+  const root = document.documentElement;
+  const sync = () => {
+    const t = root.getAttribute('data-theme');
+    if(t) root.setAttribute('data-mode', t);
+    else root.removeAttribute('data-mode');
+  };
+  sync();
+  if(typeof MutationObserver !== 'undefined'){
+    new MutationObserver(sync).observe(root, {attributes: true, attributeFilter: ['data-theme']});
+  }
+}
+// The token style element sits after this script in the template, so boot must wait for
+// the parser to reach it: the canvas reads its colors off the sheet at startup, and an
+// immediate boot would read them before the sheet exists.
+function scheduleBoot(){
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+}
+
 function main(){
   // ---------- state ----------
   const GRID = 20;
@@ -292,6 +370,14 @@ function main(){
   // sessionStorage. Multiplayer merging waits for CRDTs.
   const KEY = 'wb-v0', SESSION = 'wb-session';
   const selfCap = () => (window.claude && window.claude.self) || null;
+  // One-way send marker: first-party template code posts the capability envelope
+  // itself (no runtime-API surface grows for it); the shell relays allowlisted
+  // names to the server-side count and everything else drops silently.
+  // The name must also exist in the shell broker's and the control
+  // plane's page-event allowlists, or the relay drops it.
+  const noteSend = () => {
+    try { parent.postMessage({__frame_cap: true, cap: 'analytics', id: 'wb-send-' + Date.now(), method: 'track', args: ['frame_whiteboard_send']}, '*'); } catch (e) {}
+  };
   let readOnly = false, inflight = false, unsent = false, blockedChip = '';
   const pingBtn = document.getElementById('pingBtn'), submitBtn = document.getElementById('submitBtn');
   const sync = document.getElementById('sync'), syncText = document.getElementById('syncText');
@@ -398,23 +484,6 @@ function main(){
     const live = new Set(els.map(e => e.id));
     for(const id of [...selected]) if(!live.has(id)) selected.delete(id);
   }
-  // escape every "<" so nothing a viewer types can close the JSON block or open a tag
-  function esc(s){ return JSON.stringify(s).replace(/</g, '\\\\u003c'); }
-  // the board keeps the name it was published with; re-escape the decoded title for the head
-  function escHtml(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-  function buildPage(ping){
-    // rebuild the full document from the same three sources this page was authored from;
-    // the JSON block comes first so a reading session finds the board state without running JS
-    // a save carries the last send's marker forward so an unanswered ping is never erased by a Submit
-    const state = {v: 1, els: els, savedAt: Date.now(), pingCount: ping ? ping.n : pingCount, ping: ping || lastPing};
-    return '<!doctype html><html><head><meta charset="utf-8">'
-      + '<title>' + escHtml(document.title || 'Whiteboard — sketch architecture at wireframe fidelity') + '</title></head><body>'
-      + '<!-- whiteboard state (boxes, labels, arrows, ping marker) is the JSON block below -->'
-      + '<script type="application/json" id="wb-state">' + esc(state) + '<\\/script>'
-      + '<script>const CSS=' + esc(CSS) + ';const MARKUP=' + esc(MARKUP) + ';'
-      + main.toString() + ';' + boot.toString() + ';boot();'
-      + '<\\/script></body></html>';
-  }
   function goLocal(){ readOnly = true; saveLocal(); syncStatus(); }
   function syncStatus(){
     if(inflight){ setSync('saving', 'saving to the shared board…'); return; }
@@ -492,11 +561,22 @@ function main(){
     // call to publish(), which needs the shared artifact runtime to exist at all
     if(grant !== 'granted' && grant !== 'unknown'){ settle(); disableSend(grant); return; }
     if(!selfCap()){ settle(); syncStatus(); toast(blockedMessage('no_runtime'), 7000); return; }
+    const tokenCss = cdsTokenCss();
+    if(!tokenCssPublishable(tokenCss)){
+      // publishing without the sheet would bake the loss into every later generation
+      settle(); syncStatus();
+      toast('This view lost its design tokens — reload the board, then try again.');
+      return;
+    }
     const ping = toClaude ? {n: pingCount + 1, at: new Date().toISOString()} : null;
+    // a save carries the last send's marker forward so an unanswered ping is never erased by a Submit
+    const state = {v: 1, els: els, savedAt: Date.now(), pingCount: ping ? ping.n : pingCount, ping: ping || lastPing};
     // remember which of Claude's marks we've already seen so the reply can be spotted after reload
     if(toClaude) rememberWaiting();
-    selfCap().publish(buildPage(ping)).then(() => {
+    selfCap().publish(buildPage(state, document.title || 'Whiteboard', tokenCss)).then(() => {
       settle(); unsent = false; saveLocal();
+      // the send count rides a one-way analytics envelope, not the publish API; a shell that predates it drops the message
+      if(toClaude) noteSend();
       setSync('idle', toClaude ? 'sent to Claude' : 'saved to the shared board'); // the shell reloads this view to the new version
       if(toClaude){ lastPing = ping; pingCount = ping.n; showPainter(true); }
     }).catch(err => {
@@ -1582,5 +1662,805 @@ function boot(){
   document.body.insertAdjacentHTML('beforeend', MARKUP);
   main();
 }
-boot();
+themeMirror();
+scheduleBoot();
 </script>
+<!-- The sheet sits AFTER the script so the template keeps the exact two-line head
+     merge-state.mjs pins (<title>, <script>); scheduleBoot compensates by waiting for
+     the parser to reach it before the canvas reads colors. -->
+<style id="cds-tokens">
+  /* ===== BEGIN vendored @ant/cds tokens (src/frame/cdsTokens.vanilla.generated.css) =====
+     Byte-identical to that file (drift-tested in test/frame/planArtifactHtml.test.ts).
+     Do not edit this block: refresh the vendored file from @ant/cds and re-embed. */
+/*
+ * VENDORED — verbatim copy of @ant/cds tokens.vanilla.css (the CDS team's
+ * framework-agnostic token export) from anthropics/apps@230786b7e9757b07527ac4283db9b19676a8ae91
+ * (packages/cds/src/generated/tokens.vanilla.css).
+ * upstream-sha256: 94f136cf38cc5f54c1b6dda76677c466b122f6b7e6f8702ef18774cbc7643152
+ *   (sha256 of everything below this header comment, i.e. of the raw
+ *   upstream file — recomputed and asserted by the "provenance hash"
+ *   test, so a refresh that swaps bytes without updating this line
+ *   fails CI rather than shipping a lying header.)
+ *
+ * Browser floor: the export uses hsl(from …) and color-mix() — ~Chrome 119 /
+ * Safari 16.4. On older viewers the consuming declarations are dropped
+ * SILENTLY (no error, no telemetry): borders, the alpha ramp, and dark
+ * surfaces degrade. This line is the triage breadcrumb for "published
+ * artifact looks broken" reports — ask the browser version first.
+ *
+ * The plan-artifact, workshop, and whiteboard templates embed this file
+ * byte-for-byte between BEGIN/END markers; drift tests assert the copies
+ * stay identical. To refresh: copy the upstream generated file below this
+ * header, update the commit hash and upstream-sha256 above, run
+ * \`bun scripts/embed-cds-tokens.ts\`, then \`bun test
+ * test/frame/planArtifactHtml.test.ts test/skills/bundled/whiteboardTokens.test.ts\`.
+ */
+
+/**
+ * GENERATED — do not edit. Run \`yarn workspace @ant/cds gen:tokens\`.
+ *
+ * Framework-agnostic CDS token export: unprefixed \`--*\` custom
+ * properties under \`:root\`, with dark-mode overrides under
+ * \`[data-mode="dark"]\` and \`@media (prefers-color-scheme: dark)\`.
+ * No \`.cds-root\` scoping, density steps, or component-private tokens.
+ *
+ * Source: \`packages/cds/tokens/\`. For the full React/Tailwind build
+ * (scoped under \`.cds-root\`), see \`tokens.css\`.
+ */
+
+:root {
+  --radius: 8px;
+  --h-control: 32px;
+  --h-control-nested: 22px;
+  --icon: 20px;
+  --pad-sm: 8px;
+  --pad-md: 12px;
+  --pad-lg: 16px;
+  --pad-xl: 24px;
+  --gap-xs: 8px;
+  --gap-sm: 12px;
+  --gap-md: 16px;
+  --gap-lg: 28px;
+  --gap-xl: 40px;
+  --outset-x: 0px;
+  --outset-y: 0px;
+  --border: var(--alpha-2);
+  --border-accent: var(--blue-250);
+  --border-danger: var(--red-250);
+  --border-success: var(--green-250);
+  --border-warning: var(--yellow-250);
+  --border-pro: var(--violet-250);
+  --border-git-added: color-mix(in srgb, var(--text-git-added) 40%, transparent);
+  --border-git-removed: color-mix(in srgb, var(--text-git-removed) 40%, transparent);
+  --border-git-modified: color-mix(in srgb, var(--text-git-modified) 40%, transparent);
+  --border-git-merged: color-mix(in srgb, var(--text-git-merged) 40%, transparent);
+  --border-git-closed: color-mix(in srgb, var(--text-git-closed) 40%, transparent);
+  --border-git-conflicting: color-mix(in srgb, var(--text-git-conflicting) 40%, transparent);
+  --border-git-draft: color-mix(in srgb, var(--text-git-draft) 40%, transparent);
+  --border-git-opened: var(--border-git-added);
+  --border-git-queued: var(--border-git-modified);
+  --border-strong: var(--alpha-3);
+  --border-stronger: hsl(from var(--neutral-900) h s l / 40%);
+  --shadow-sm: 0 1px 2px 0 hsl(from var(--gray-900) h s l / 6%), 0 2px 8px 0 var(--shadow-color);
+  --shadow-md: 0 2px 4px 0 hsl(from var(--gray-900) h s l / 7%), 0 6px 16px 0 var(--shadow-color);
+  --shadow-lg: 0 4px 8px 0 hsl(from var(--gray-900) h s l / 8%), 0 12px 28px -2px var(--shadow-color);
+  --shadow-color: hsl(from var(--gray-900) h s l / 8%);
+  --shadow-popover: 0 8px 24px rgb(0 0 0 / 0.12), 0 2px 6px rgb(0 0 0 / 0.08);
+  --ring-outer: 1px;
+  --ring-inner: 0px;
+  --ring-color: var(--border);
+  --focus-shadow: inset 0 0 0 1px var(--page-bg), 0 0 0 1px var(--fill-accent), 0 0 6px 1px var(--bg-accent);
+  --font-mono: var(--font-anthropic-mono, "Anthropic Mono Variable"), "Anthropic Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  --font-system: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--font-anthropic-sans, "Anthropic Sans Variable", "Anthropic Sans"), var(--font-system);
+  --font-voice: var(--font-anthropic-serif, "Anthropic Serif Variable", "Anthropic Serif"), ui-serif, Georgia, "Times New Roman", serif;
+  --ease-out: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-snap: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-overshoot: cubic-bezier(0.34, 1.3, 0.64, 1);
+  --dur-fast: 60ms;
+  --dur-snap: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 450ms;
+  --btn-spring: linear(0, 0.2459, 0.6526, 0.9468, 1.0764, 1.0915, 1.0585, 1.0219, 0.9993, 0.9914, 0.9921, 0.9957, 0.9988, 1.0004, 1);
+  --black: #000000;
+  --oncolor-200: hsl(60 6.7% 97.1% / 0.75);
+  --oncolor-300: hsl(60 6.7% 97.1% / 0.5);
+  --clay: #d97757;
+  --clay-emphasized: #c6613f;
+  --heather: #cbcadb;
+  --plum: #827dbd;
+  --cactus: #bcd1ca;
+  --mineral: #629987;
+  --peach: #ebc9b7;
+  --gray-0: #ffffff;
+  --gray-10: #fcfcfb;
+  --gray-20: #f9f9f7;
+  --gray-30: #f6f6f4;
+  --gray-40: #f3f3f0;
+  --gray-50: #f0efec;
+  --gray-60: #edece8;
+  --gray-70: #eae9e4;
+  --gray-80: #e7e6e1;
+  --gray-90: #e4e3dd;
+  --gray-100: #e1e0d9;
+  --gray-150: #d2d1c7;
+  --gray-200: #c3c2b7;
+  --gray-250: #b4b3a8;
+  --gray-300: #a5a49a;
+  --gray-350: #97958d;
+  --gray-400: #898781;
+  --gray-450: #7b7974;
+  --gray-500: #6d6b67;
+  --gray-550: #5f5e5a;
+  --gray-600: #52514e;
+  --gray-650: #454442;
+  --gray-700: #383835;
+  --gray-750: #2c2c2a;
+  --gray-800: #20201f;
+  --gray-810: #1e1e1d;
+  --gray-820: #1c1c1b;
+  --gray-830: #1a1a19;
+  --gray-840: #181817;
+  --gray-850: #151515;
+  --gray-860: #131313;
+  --gray-870: #111111;
+  --gray-880: #0f0f0f;
+  --gray-890: #0d0d0d;
+  --gray-900: #0b0b0b;
+  --red-0: #ffffff;
+  --red-10: #fffbfb;
+  --red-20: #fef7f7;
+  --red-30: #fef3f3;
+  --red-40: #fdefef;
+  --red-50: #fbebeb;
+  --red-60: #fae7e7;
+  --red-70: #fae3e3;
+  --red-80: #fadfdf;
+  --red-90: #fadada;
+  --red-100: #fad6d6;
+  --red-150: #f7c1c1;
+  --red-200: #f4abab;
+  --red-250: #f09595;
+  --red-300: #ec7e7e;
+  --red-350: #e66767;
+  --red-400: #e34948;
+  --red-450: #d03b3b;
+  --red-500: #b93535;
+  --red-550: #a32c2c;
+  --red-600: #8e2626;
+  --red-650: #791e1e;
+  --red-700: #641919;
+  --red-750: #511212;
+  --red-800: #3c0e0e;
+  --red-810: #380d0d;
+  --red-820: #340c0c;
+  --red-830: #310b0b;
+  --red-840: #2d0a0a;
+  --red-850: #280a0a;
+  --red-860: #230b0a;
+  --red-870: #1d0b0a;
+  --red-880: #170c0b;
+  --red-890: #110c0b;
+  --red-900: #0b0b0b;
+  --orange-0: #ffffff;
+  --orange-10: #fefbfa;
+  --orange-20: #fdf7f5;
+  --orange-30: #fcf4f0;
+  --orange-40: #faf0ec;
+  --orange-50: #f9ece7;
+  --orange-60: #f8e9e2;
+  --orange-70: #f7e5dd;
+  --orange-80: #f7e1d7;
+  --orange-90: #f7dcd1;
+  --orange-100: #f7d8cb;
+  --orange-150: #f3c5b2;
+  --orange-200: #f4ae94;
+  --orange-250: #f09978;
+  --orange-300: #ec835a;
+  --orange-350: #eb6834;
+  --orange-400: #d95926;
+  --orange-450: #c25124;
+  --orange-500: #ae461c;
+  --orange-550: #993d19;
+  --orange-600: #863311;
+  --orange-650: #712b0f;
+  --orange-700: #5d230b;
+  --orange-750: #4b1b08;
+  --orange-800: #371407;
+  --orange-810: #341307;
+  --orange-820: #301106;
+  --orange-830: #2d1006;
+  --orange-840: #290f06;
+  --orange-850: #240e07;
+  --orange-860: #1f0e08;
+  --orange-870: #1a0e09;
+  --orange-880: #150d0a;
+  --orange-890: #100c0b;
+  --orange-900: #0b0b0b;
+  --yellow-0: #ffffff;
+  --yellow-10: #fefcf8;
+  --yellow-20: #fcf8f1;
+  --yellow-30: #fbf5ea;
+  --yellow-40: #f9f2e4;
+  --yellow-50: #f9eeda;
+  --yellow-60: #faebce;
+  --yellow-70: #fae7c2;
+  --yellow-80: #fae3b8;
+  --yellow-90: #f9e0b0;
+  --yellow-100: #f9dca4;
+  --yellow-150: #f9c868;
+  --yellow-200: #fab219;
+  --yellow-250: #eda100;
+  --yellow-300: #db9300;
+  --yellow-350: #c98500;
+  --yellow-400: #b77700;
+  --yellow-450: #a66a00;
+  --yellow-500: #945d00;
+  --yellow-550: #835100;
+  --yellow-600: #734500;
+  --yellow-650: #623900;
+  --yellow-700: #512e00;
+  --yellow-750: #412400;
+  --yellow-800: #311a00;
+  --yellow-810: #2e1800;
+  --yellow-820: #2b1700;
+  --yellow-830: #271500;
+  --yellow-840: #231402;
+  --yellow-850: #1f1204;
+  --yellow-860: #1b1106;
+  --yellow-870: #171007;
+  --yellow-880: #130e09;
+  --yellow-890: #0f0d0a;
+  --yellow-900: #0b0b0b;
+  --green-0: #ffffff;
+  --green-10: #fafdfa;
+  --green-20: #f5fbf4;
+  --green-30: #f0f9ef;
+  --green-40: #ebf7e9;
+  --green-50: #e5f4e4;
+  --green-60: #e0f2de;
+  --green-70: #dbf0d8;
+  --green-80: #d5eed3;
+  --green-90: #d0eccd;
+  --green-100: #caeac7;
+  --green-150: #aee0a9;
+  --green-200: #91d68b;
+  --green-250: #73cb6d;
+  --green-300: #55bf50;
+  --green-350: #35b231;
+  --green-400: #0ca30c;
+  --green-450: #009300;
+  --green-500: #008300;
+  --green-550: #007300;
+  --green-600: #006300;
+  --green-650: #005400;
+  --green-700: #074506;
+  --green-750: #0f350d;
+  --green-800: #11260f;
+  --green-810: #10230f;
+  --green-820: #10210f;
+  --green-830: #101e0f;
+  --green-840: #101b0f;
+  --green-850: #0f180e;
+  --green-860: #0e160e;
+  --green-870: #0e130d;
+  --green-880: #0d100d;
+  --green-890: #0c0e0c;
+  --green-900: #0b0b0b;
+  --aqua-0: #ffffff;
+  --aqua-10: #f9fdfb;
+  --aqua-20: #f3fbf8;
+  --aqua-30: #edf9f4;
+  --aqua-40: #e8f7f1;
+  --aqua-50: #e2f4ed;
+  --aqua-60: #dcf2ea;
+  --aqua-70: #d5f0e6;
+  --aqua-80: #ceefe2;
+  --aqua-90: #c7eddf;
+  --aqua-100: #bfebdb;
+  --aqua-150: #a0e1c9;
+  --aqua-200: #7ad7b4;
+  --aqua-250: #5acba0;
+  --aqua-300: #3bbd8c;
+  --aqua-350: #1baf7a;
+  --aqua-400: #199e70;
+  --aqua-450: #138e65;
+  --aqua-500: #0f7e5c;
+  --aqua-550: #0e6e53;
+  --aqua-600: #065f49;
+  --aqua-650: #095040;
+  --aqua-700: #034235;
+  --aqua-750: #02342b;
+  --aqua-800: #022720;
+  --aqua-810: #02241e;
+  --aqua-820: #02221c;
+  --aqua-830: #021f1a;
+  --aqua-840: #031c18;
+  --aqua-850: #051a16;
+  --aqua-860: #071713;
+  --aqua-870: #081411;
+  --aqua-880: #0a110f;
+  --aqua-890: #0b0e0d;
+  --aqua-900: #0b0b0b;
+  --blue-0: #ffffff;
+  --blue-10: #fafcff;
+  --blue-20: #f5f9fe;
+  --blue-30: #f0f7fe;
+  --blue-40: #ebf4fc;
+  --blue-50: #e7f1fb;
+  --blue-60: #e2eefa;
+  --blue-70: #ddebfa;
+  --blue-80: #d7e8fa;
+  --blue-90: #d2e5fa;
+  --blue-100: #cde2fb;
+  --blue-150: #b7d3f6;
+  --blue-200: #9ec5f4;
+  --blue-250: #86b6ef;
+  --blue-300: #6da7ec;
+  --blue-350: #5598e7;
+  --blue-400: #3987e5;
+  --blue-450: #2a78d6;
+  --blue-500: #256abf;
+  --blue-550: #1c5cab;
+  --blue-600: #184f95;
+  --blue-650: #104281;
+  --blue-700: #0d366b;
+  --blue-750: #062b57;
+  --blue-800: #032042;
+  --blue-810: #031e3d;
+  --blue-820: #021c39;
+  --blue-830: #021a36;
+  --blue-840: #021831;
+  --blue-850: #03162c;
+  --blue-860: #051426;
+  --blue-870: #07121f;
+  --blue-880: #091018;
+  --blue-890: #0a0d11;
+  --blue-900: #0b0b0b;
+  --violet-0: #ffffff;
+  --violet-10: #fcfbff;
+  --violet-20: #f8f8ff;
+  --violet-30: #f5f4ff;
+  --violet-40: #f2f1ff;
+  --violet-50: #efedff;
+  --violet-60: #ebeafe;
+  --violet-70: #e8e6fe;
+  --violet-80: #e5e2fd;
+  --violet-90: #e2dffd;
+  --violet-100: #dfdbfd;
+  --violet-150: #cfcafb;
+  --violet-200: #bfb9f5;
+  --violet-250: #b0a7f2;
+  --violet-300: #a096eb;
+  --violet-350: #9085e9;
+  --violet-400: #8173e3;
+  --violet-450: #7161e0;
+  --violet-500: #6250d6;
+  --violet-550: #5645be;
+  --violet-600: #4a3aa7;
+  --violet-650: #3e318e;
+  --violet-700: #322777;
+  --violet-750: #271e60;
+  --violet-800: #1d1649;
+  --violet-810: #1b1544;
+  --violet-820: #19133f;
+  --violet-830: #17123b;
+  --violet-840: #151036;
+  --violet-850: #130f32;
+  --violet-860: #110e2b;
+  --violet-870: #0f0e23;
+  --violet-880: #0e0d1b;
+  --violet-890: #0c0c13;
+  --violet-900: #0b0b0b;
+  --magenta-0: #ffffff;
+  --magenta-10: #fefbfc;
+  --magenta-20: #fef6f9;
+  --magenta-30: #fdf2f6;
+  --magenta-40: #fbeff3;
+  --magenta-50: #faebf0;
+  --magenta-60: #f9e6ed;
+  --magenta-70: #f9e2eb;
+  --magenta-80: #f9dee8;
+  --magenta-90: #f9d9e5;
+  --magenta-100: #f9d4e2;
+  --magenta-150: #f3c0d3;
+  --magenta-200: #f3a8c3;
+  --magenta-250: #ed93b4;
+  --magenta-300: #e87ba4;
+  --magenta-350: #e46191;
+  --magenta-400: #d55181;
+  --magenta-450: #c04873;
+  --magenta-500: #ad3d66;
+  --magenta-550: #993458;
+  --magenta-600: #862a4c;
+  --magenta-650: #722340;
+  --magenta-700: #5e1c34;
+  --magenta-750: #4c1429;
+  --magenta-800: #390f1f;
+  --magenta-810: #360d1c;
+  --magenta-820: #320c1a;
+  --magenta-830: #2f0b18;
+  --magenta-840: #2b0a16;
+  --magenta-850: #270a14;
+  --magenta-860: #220a12;
+  --magenta-870: #1c0b11;
+  --magenta-880: #170b0f;
+  --magenta-890: #110b0d;
+  --magenta-900: #0b0b0b;
+  --pictogram-highlight-default: var(--gray-80);
+  --pictogram-highlight-heather: var(--heather);
+  --pictogram-highlight-cactus: var(--cactus);
+  --pictogram-highlight-peach: var(--peach);
+  --cursor-interactive: pointer;
+  --neutral-0: var(--gray-0);
+  --neutral-10: var(--gray-10);
+  --neutral-20: var(--gray-20);
+  --neutral-30: var(--gray-30);
+  --neutral-40: var(--gray-40);
+  --neutral-50: var(--gray-50);
+  --neutral-60: var(--gray-60);
+  --neutral-70: var(--gray-70);
+  --neutral-80: var(--gray-80);
+  --neutral-90: var(--gray-90);
+  --neutral-100: var(--gray-100);
+  --neutral-150: var(--gray-150);
+  --neutral-200: var(--gray-200);
+  --neutral-250: var(--gray-250);
+  --neutral-300: var(--gray-300);
+  --neutral-350: var(--gray-350);
+  --neutral-400: var(--gray-400);
+  --neutral-450: var(--gray-450);
+  --neutral-500: var(--gray-500);
+  --neutral-550: var(--gray-550);
+  --neutral-600: var(--gray-600);
+  --neutral-650: var(--gray-650);
+  --neutral-700: var(--gray-700);
+  --neutral-750: var(--gray-750);
+  --neutral-800: var(--gray-800);
+  --neutral-810: var(--gray-810);
+  --neutral-820: var(--gray-820);
+  --neutral-830: var(--gray-830);
+  --neutral-840: var(--gray-840);
+  --neutral-850: var(--gray-850);
+  --neutral-860: var(--gray-860);
+  --neutral-870: var(--gray-870);
+  --neutral-880: var(--gray-880);
+  --neutral-890: var(--gray-890);
+  --neutral-900: var(--gray-900);
+  --alpha-0: hsl(from var(--neutral-900) h s l / 0%);
+  --alpha-1: hsl(from var(--neutral-900) h s l / 5%);
+  --alpha-2: hsl(from var(--neutral-900) h s l / 10%);
+  --alpha-3: hsl(from var(--neutral-900) h s l / 20%);
+  --alpha-4: hsl(from var(--neutral-900) h s l / 35%);
+  --alpha-5: hsl(from var(--neutral-900) h s l / 50%);
+  --alpha-6: hsl(from var(--neutral-900) h s l / 60%);
+  --alpha-7: hsl(from var(--neutral-900) h s l / 70%);
+  --alpha-8: hsl(from var(--neutral-900) h s l / 85%);
+  --alpha-9: hsl(from var(--neutral-900) h s l / 95%);
+  --surface-0: var(--gray-20);
+  --surface-1: var(--gray-10);
+  --surface-2: var(--gray-0);
+  --surface-3: var(--gray-0);
+  --surface-popover: var(--surface-3);
+  --surface-panel: var(--surface-2);
+  --page-bg: var(--surface-0);
+  --fill-accent: var(--blue-450);
+  --fill-accent-hover: var(--blue-400);
+  --fill-danger: var(--red-450);
+  --fill-danger-hover: var(--red-400);
+  --fill-success: var(--green-450);
+  --fill-success-hover: var(--green-400);
+  --fill-warning: var(--yellow-200);
+  --fill-warning-hover: var(--yellow-250);
+  --fill-pro: var(--violet-450);
+  --fill-pro-hover: var(--violet-400);
+  --fill-git-added: #1a8633;
+  --fill-git-added-hover: #1e9b3b;
+  --fill-git-removed: var(--text-git-removed);
+  --fill-git-removed-hover: #de295f;
+  --fill-git-modified: #8b751c;
+  --fill-git-modified-hover: #a08720;
+  --fill-git-merged: #855fd6;
+  --fill-git-merged-hover: #9473db;
+  --fill-git-closed: #ed0b00;
+  --fill-git-closed-hover: #ff1307;
+  --fill-git-conflicting: #b85b19;
+  --fill-git-conflicting-hover: #c5621b;
+  --fill-git-draft: var(--text-git-draft);
+  --fill-git-draft-hover: #808080;
+  --fill-git-opened: var(--fill-git-added);
+  --fill-git-opened-hover: var(--fill-git-added-hover);
+  --fill-git-queued: var(--fill-git-modified);
+  --fill-git-queued-hover: var(--fill-git-modified-hover);
+  --fill-brand: var(--clay-emphasized);
+  --fill-brand-hover: var(--clay);
+  --fill-primary: var(--neutral-900);
+  --fill-primary-hover: var(--neutral-750);
+  --fill-secondary: hsl(0 0% 100% / 0.1);
+  --fill-secondary-hover: var(--alpha-1);
+  --fill-secondary-ring: var(--border);
+  --fill-field: hsl(0 0% 100% / 0.5);
+  --fill-ghost-hover: var(--alpha-1);
+  --fill-disabled: var(--alpha-1);
+  --fill-control: var(--alpha-2);
+  --fill-control-hover: var(--alpha-3);
+  --bg-accent: var(--blue-100);
+  --bg-danger: var(--red-100);
+  --bg-success: var(--green-100);
+  --bg-warning: var(--yellow-100);
+  --bg-pro: var(--violet-100);
+  --bg-git-added: color-mix(in srgb, var(--text-git-added) 20%, transparent);
+  --bg-git-removed: color-mix(in srgb, var(--text-git-removed) 20%, transparent);
+  --bg-git-modified: color-mix(in srgb, var(--text-git-modified) 20%, transparent);
+  --bg-git-merged: color-mix(in srgb, var(--text-git-merged) 20%, transparent);
+  --bg-git-closed: color-mix(in srgb, var(--text-git-closed) 20%, transparent);
+  --bg-git-conflicting: color-mix(in srgb, var(--text-git-conflicting) 20%, transparent);
+  --bg-git-draft: color-mix(in srgb, var(--text-git-draft) 20%, transparent);
+  --bg-git-opened: var(--bg-git-added);
+  --bg-git-queued: var(--bg-git-modified);
+  --bg-neutral: var(--alpha-1);
+  --bg-neutral-hover: var(--alpha-2);
+  --backdrop: rgb(0 0 0 / 0.4);
+  --text-accent: var(--blue-600);
+  --text-danger: var(--red-600);
+  --text-success: var(--green-600);
+  --text-warning: var(--yellow-600);
+  --text-pro: var(--violet-600);
+  --text-git-added: #1e9e3c;
+  --text-git-removed: #cd2054;
+  --text-git-modified: #98801f;
+  --text-git-merged: #8e6bd9;
+  --text-git-closed: #ff3a30;
+  --text-git-conflicting: #c5621b;
+  --text-git-draft: #737373;
+  --text-git-opened: var(--text-git-added);
+  --text-git-queued: var(--text-git-modified);
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-600);
+  --text-muted: var(--neutral-400);
+  --text-disabled: var(--alpha-4);
+  --font-size-caption: 12px;
+  --font-size-footnote: 13px;
+  --font-size-code: 13px;
+  --font-size-body: 14px;
+  --font-size-heading: 15px;
+  --font-size-title: 22px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --leading-caption: 14px;
+  --leading-footnote: 16px;
+  --leading-code: 19px;
+  --leading-body: 20px;
+  --leading-heading: 20px;
+  --leading-title: 26px;
+  --on-primary: var(--neutral-0);
+  --on-accent: var(--gray-0);
+  --on-danger: var(--gray-0);
+  --on-success: var(--gray-900);
+  --on-warning: var(--gray-900);
+  --on-pro: var(--gray-0);
+  --on-git-added: var(--gray-0);
+  --on-git-removed: var(--gray-0);
+  --on-git-modified: var(--gray-0);
+  --on-git-merged: var(--gray-0);
+  --on-git-closed: var(--gray-0);
+  --on-git-conflicting: var(--gray-0);
+  --on-git-draft: var(--gray-0);
+  --on-git-opened: var(--on-git-added);
+  --on-git-queued: var(--on-git-modified);
+  --on-brand: var(--gray-0);
+  --z-modal: 40;
+  --z-coachmark: 35;
+  --z-popover: 50;
+  --z-tooltip: 50;
+  --z-toast: 60;
+}
+
+[data-mode="dark"] {
+  --border-accent: var(--blue-700);
+  --border-danger: var(--red-700);
+  --border-success: var(--green-700);
+  --border-warning: var(--yellow-700);
+  --border-pro: var(--violet-700);
+  --shadow-color: hsl(0 0% 0% / 0.24);
+  --shadow-popover: 0 8px 24px rgb(0 0 0 / 0.32), 0 2px 6px rgb(0 0 0 / 0.2);
+  --ring-outer: 0px;
+  --ring-inner: 1px;
+  --ring-color: var(--alpha-2);
+  --focus-shadow: inset 0 0 0 1px var(--page-bg), 0 0 0 1px var(--fill-accent), 0 0 6px 1px hsl(from var(--blue-600) h s l / 60%);
+  --pictogram-highlight-default: var(--gray-650);
+  --pictogram-highlight-heather: var(--plum);
+  --pictogram-highlight-cactus: var(--mineral);
+  --pictogram-highlight-peach: var(--clay-emphasized);
+  --neutral-0: var(--gray-900);
+  --neutral-10: var(--gray-890);
+  --neutral-20: var(--gray-880);
+  --neutral-30: var(--gray-870);
+  --neutral-40: var(--gray-860);
+  --neutral-50: var(--gray-850);
+  --neutral-60: var(--gray-840);
+  --neutral-70: var(--gray-830);
+  --neutral-80: var(--gray-820);
+  --neutral-90: var(--gray-810);
+  --neutral-100: var(--gray-800);
+  --neutral-150: var(--gray-750);
+  --neutral-200: var(--gray-700);
+  --neutral-250: var(--gray-650);
+  --neutral-300: var(--gray-600);
+  --neutral-350: var(--gray-550);
+  --neutral-400: var(--gray-500);
+  --neutral-450: var(--gray-450);
+  --neutral-500: var(--gray-400);
+  --neutral-550: var(--gray-350);
+  --neutral-600: var(--gray-300);
+  --neutral-650: var(--gray-250);
+  --neutral-700: var(--gray-200);
+  --neutral-750: var(--gray-150);
+  --neutral-800: var(--gray-100);
+  --neutral-810: var(--gray-90);
+  --neutral-820: var(--gray-80);
+  --neutral-830: var(--gray-70);
+  --neutral-840: var(--gray-60);
+  --neutral-850: var(--gray-50);
+  --neutral-860: var(--gray-40);
+  --neutral-870: var(--gray-30);
+  --neutral-880: var(--gray-20);
+  --neutral-890: var(--gray-10);
+  --neutral-900: var(--gray-0);
+  --surface-0: var(--gray-890);
+  --surface-1: var(--gray-830);
+  --surface-2: var(--gray-750);
+  --surface-3: var(--gray-700);
+  --fill-git-added: var(--text-git-added);
+  --fill-git-added-hover: #27c840;
+  --fill-git-removed-hover: #ff1342;
+  --fill-git-modified: var(--text-git-modified);
+  --fill-git-modified-hover: #fac800;
+  --fill-git-merged: var(--text-git-merged);
+  --fill-git-merged-hover: #a67dff;
+  --fill-git-closed: var(--text-git-closed);
+  --fill-git-closed-hover: #ff4940;
+  --fill-git-conflicting: var(--text-git-conflicting);
+  --fill-git-conflicting-hover: #f97a1f;
+  --fill-git-draft-hover: #999999;
+  --fill-primary-hover: var(--gray-100);
+  --fill-secondary: var(--alpha-2);
+  --fill-secondary-hover: hsl(0 0% 100% / 0.14);
+  --fill-secondary-ring: transparent;
+  --fill-field: var(--fill-secondary);
+  --bg-accent: var(--blue-800);
+  --bg-danger: var(--red-800);
+  --bg-success: var(--green-800);
+  --bg-warning: var(--yellow-800);
+  --bg-pro: var(--violet-800);
+  --backdrop: rgb(0 0 0 / 0.5);
+  --text-accent: var(--blue-300);
+  --text-danger: var(--red-300);
+  --text-success: var(--green-400);
+  --text-warning: var(--yellow-300);
+  --text-pro: var(--violet-300);
+  --text-git-added: #32d74b;
+  --text-git-removed: #ff2c56;
+  --text-git-modified: #ffd014;
+  --text-git-merged: #b796ff;
+  --text-git-closed: #ff6159;
+  --text-git-conflicting: #fa832e;
+  --text-git-draft: #a6a6a6;
+  --text-secondary: var(--gray-200);
+  --text-muted: var(--gray-400);
+  --on-git-added: var(--gray-900);
+  --on-git-removed: var(--gray-900);
+  --on-git-modified: var(--gray-900);
+  --on-git-merged: var(--gray-900);
+  --on-git-closed: var(--gray-900);
+  --on-git-conflicting: var(--gray-900);
+  --on-git-draft: var(--gray-900);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-mode="light"])) {
+    --border-accent: var(--blue-700);
+    --border-danger: var(--red-700);
+    --border-success: var(--green-700);
+    --border-warning: var(--yellow-700);
+    --border-pro: var(--violet-700);
+    --shadow-color: hsl(0 0% 0% / 0.24);
+    --shadow-popover: 0 8px 24px rgb(0 0 0 / 0.32), 0 2px 6px rgb(0 0 0 / 0.2);
+    --ring-outer: 0px;
+    --ring-inner: 1px;
+    --ring-color: var(--alpha-2);
+    --focus-shadow: inset 0 0 0 1px var(--page-bg), 0 0 0 1px var(--fill-accent), 0 0 6px 1px hsl(from var(--blue-600) h s l / 60%);
+    --pictogram-highlight-default: var(--gray-650);
+    --pictogram-highlight-heather: var(--plum);
+    --pictogram-highlight-cactus: var(--mineral);
+    --pictogram-highlight-peach: var(--clay-emphasized);
+    --neutral-0: var(--gray-900);
+    --neutral-10: var(--gray-890);
+    --neutral-20: var(--gray-880);
+    --neutral-30: var(--gray-870);
+    --neutral-40: var(--gray-860);
+    --neutral-50: var(--gray-850);
+    --neutral-60: var(--gray-840);
+    --neutral-70: var(--gray-830);
+    --neutral-80: var(--gray-820);
+    --neutral-90: var(--gray-810);
+    --neutral-100: var(--gray-800);
+    --neutral-150: var(--gray-750);
+    --neutral-200: var(--gray-700);
+    --neutral-250: var(--gray-650);
+    --neutral-300: var(--gray-600);
+    --neutral-350: var(--gray-550);
+    --neutral-400: var(--gray-500);
+    --neutral-450: var(--gray-450);
+    --neutral-500: var(--gray-400);
+    --neutral-550: var(--gray-350);
+    --neutral-600: var(--gray-300);
+    --neutral-650: var(--gray-250);
+    --neutral-700: var(--gray-200);
+    --neutral-750: var(--gray-150);
+    --neutral-800: var(--gray-100);
+    --neutral-810: var(--gray-90);
+    --neutral-820: var(--gray-80);
+    --neutral-830: var(--gray-70);
+    --neutral-840: var(--gray-60);
+    --neutral-850: var(--gray-50);
+    --neutral-860: var(--gray-40);
+    --neutral-870: var(--gray-30);
+    --neutral-880: var(--gray-20);
+    --neutral-890: var(--gray-10);
+    --neutral-900: var(--gray-0);
+    --surface-0: var(--gray-890);
+    --surface-1: var(--gray-830);
+    --surface-2: var(--gray-750);
+    --surface-3: var(--gray-700);
+    --fill-git-added: var(--text-git-added);
+    --fill-git-added-hover: #27c840;
+    --fill-git-removed-hover: #ff1342;
+    --fill-git-modified: var(--text-git-modified);
+    --fill-git-modified-hover: #fac800;
+    --fill-git-merged: var(--text-git-merged);
+    --fill-git-merged-hover: #a67dff;
+    --fill-git-closed: var(--text-git-closed);
+    --fill-git-closed-hover: #ff4940;
+    --fill-git-conflicting: var(--text-git-conflicting);
+    --fill-git-conflicting-hover: #f97a1f;
+    --fill-git-draft-hover: #999999;
+    --fill-primary-hover: var(--gray-100);
+    --fill-secondary: var(--alpha-2);
+    --fill-secondary-hover: hsl(0 0% 100% / 0.14);
+    --fill-secondary-ring: transparent;
+    --fill-field: var(--fill-secondary);
+    --bg-accent: var(--blue-800);
+    --bg-danger: var(--red-800);
+    --bg-success: var(--green-800);
+    --bg-warning: var(--yellow-800);
+    --bg-pro: var(--violet-800);
+    --backdrop: rgb(0 0 0 / 0.5);
+    --text-accent: var(--blue-300);
+    --text-danger: var(--red-300);
+    --text-success: var(--green-400);
+    --text-warning: var(--yellow-300);
+    --text-pro: var(--violet-300);
+    --text-git-added: #32d74b;
+    --text-git-removed: #ff2c56;
+    --text-git-modified: #ffd014;
+    --text-git-merged: #b796ff;
+    --text-git-closed: #ff6159;
+    --text-git-conflicting: #fa832e;
+    --text-git-draft: #a6a6a6;
+    --text-secondary: var(--gray-200);
+    --text-muted: var(--gray-400);
+    --on-git-added: var(--gray-900);
+    --on-git-removed: var(--gray-900);
+    --on-git-modified: var(--gray-900);
+    --on-git-merged: var(--gray-900);
+    --on-git-closed: var(--gray-900);
+    --on-git-conflicting: var(--gray-900);
+    --on-git-draft: var(--gray-900);
+  }
+}
+
+  /* ===== END vendored @ant/cds tokens ===== */
+</style>

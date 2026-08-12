@@ -4,7 +4,7 @@ description: >-
   Bundled lib/source-storybook.mjs adapter for the design-sync skill: builds
   storybook-static, parses index.json, and runs composeStories to extract story
   args
-ccVersion: 2.1.169
+ccVersion: 2.1.175
 -->
 // Storybook source adapter. Builds (or copies) storybook-static, parses
 // index.json into the component list, resolves each component's story SOURCE
@@ -14,9 +14,9 @@ ccVersion: 2.1.169
 // against the shipped bundle.
 
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { dirname, join, relative, resolve, sep } from 'node:path';
-import { titleParts } from './common.mjs';
+import { existsSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
+import { IIFE_IMPORT_META_DEFINE, titleParts } from './common.mjs';
 import { findStorybookDirs } from './detect.mjs';
 import { storybookStubPlugin } from './story-imports.mjs';
 
@@ -156,8 +156,24 @@ export async function resolveStorybook(ctx) {
     // package. Prefer stories whose importPath is under the target
     // package's own directory.
     const sbRoot = sbDir ? resolve(dirname(sbDir)) : null;
-    const isOwn = (e) =>
-      !!sbRoot && !!e.importPath && resolve(sbRoot, e.importPath).startsWith(resolve(PKG_DIR) + sep);
+    // Same relative()+realpath treatment as story-imports' barrel rule:
+    // startsWith is case-sensitive (win32 drive-letter casing makes it
+    // silently inert) and raw resolve() misses pnpm-style symlinked package
+    // dirs. A wrong isOwn lets a sibling package's same-named stories win.
+    const realOf = (p) => { try { return realpathSync(p); } catch { return p; } };
+    const pkgReal = realOf(resolve(PKG_DIR));
+    // Memoized per importPath: the sort comparator below calls isOwn
+    // O(n log n) times, and a comparator's view of an entry must not
+    // re-derive syscalls mid-sort.
+    const ownCache = new Map();
+    const isOwn = (e) => {
+      if (!sbRoot || !e.importPath) return false;
+      if (!ownCache.has(e.importPath)) {
+        const rel = relative(pkgReal, realOf(resolve(sbRoot, e.importPath)));
+        ownCache.set(e.importPath, rel !== '' && !rel.startsWith('..') && !isAbsolute(rel));
+      }
+      return ownCache.get(e.importPath);
+    };
     const idxEntries = Object.values(idx.entries ?? {}).sort((a, b) => isOwn(b) - isOwn(a));
     const byComp = new Map();
     for (const e of idxEntries) {
@@ -307,13 +323,27 @@ module.exports=\${proxy('window.React', '{jsx:jsx,jsxs:jsx,jsxDEV:jsx,Fragment:u
       // Same defines as the preview compile — provider chains routinely guard
       // on NODE_ENV/__DEV__, and esbuild leaves undefined identifiers to
       // throw at load time.
-      define: { 'process.env.NODE_ENV': '"development"', __DEV__: 'true' },
+      define: {
+        'process.env.NODE_ENV': '"development"', __DEV__: 'true',
+        ...IIFE_IMPORT_META_DEFINE,
+      },
       logLevel: 'silent',
     });
     console.error(\`  preview-decorators.js: bundled from \${relative(pkgRoot, sbPreview)}\`);
     return true;
   } catch (e) {
-    console.error(\`  ! preview decorator bundle failed: \${String(e).split('\\n')[0]} — set cfg.provider manually\`);
+    {
+      // A decorator bundle failure always means the provider chain needs
+      // manual config, so that line prints unconditionally.
+      // esbuild rejections carry the signature in e.errors[0].text, not String(e).
+      const err = e?.errors?.[0];
+      const firstLine = String(err?.text ?? e?.message ?? String(e)).split('\\n')[0];
+      console.error(\`  ! preview decorator bundle failed: \${firstLine}\`);
+      // No hypothesis line here: the resolve-class remedies name the
+      // story-imports fork seam, which this bundle's hardcoded plugins never
+      // consult — the only actionable remedy is the unconditional line below.
+      console.error('    decorators will not wrap previews — set cfg.provider to supply the context they provided');
+    }
     return false;
   } finally {
     rmSync(entry, { force: true });

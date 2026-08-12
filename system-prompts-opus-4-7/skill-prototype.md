@@ -7,7 +7,7 @@ description: >-
   build, then iterate on feedback in the same artifact. Use when the user asks
   to prototype an idea, mock up a concept, build a proof of concept, or wants to
   see something working before committing to a real build.
-ccVersion: 2.1.224
+ccVersion: 2.1.228
 -->
 ---
 name: prototype

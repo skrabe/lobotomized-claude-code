@@ -1,12 +1,11 @@
 <!--
 name: 'Skill: Whiteboard HTML Template'
 description: >-
-  The whiteboard canvas template.html bundled with the whiteboard skill,
-  extracted to the skill base directory for Claude to publish and edit as the
-  whiteboard artifact.
-ccVersion: 2.1.224
+  Provides the bundled whiteboard HTML template extracted for Claude when the
+  whiteboard skill is activated.
+ccVersion: 2.1.228
 -->
-<title>Whiteboard — sketch architecture at wireframe fidelity</title>
+<title>Whiteboard</title>
 <script>
 "use strict";
 const CSS = \`
@@ -573,7 +572,7 @@ function main(){
     const state = {v: 1, els: els, savedAt: Date.now(), pingCount: ping ? ping.n : pingCount, ping: ping || lastPing};
     // remember which of Claude's marks we've already seen so the reply can be spotted after reload
     if(toClaude) rememberWaiting();
-    selfCap().publish(buildPage(state, document.title || 'Whiteboard — sketch architecture at wireframe fidelity', tokenCss)).then(() => {
+    selfCap().publish(buildPage(state, document.title || 'Whiteboard', tokenCss)).then(() => {
       settle(); unsent = false; saveLocal();
       // the send count rides a one-way analytics envelope, not the publish API; a shell that predates it drops the message
       if(toClaude) noteSend();

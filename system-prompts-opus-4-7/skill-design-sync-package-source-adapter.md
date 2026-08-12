@@ -4,7 +4,7 @@ description: >-
   Bundled lib/source-kit.mjs adapter for the design-sync skill: the
   non-Storybook package source adapter that bundles dist/ and enriches
   components from shipped .d.ts
-ccVersion: 2.1.169
+ccVersion: 2.1.172
 -->
 // Non-storybook \`package\` adapter. Bundles dist/ when present (the authoritative
 // component list comes from shipped .d.ts; with no dist it synthesizes an
@@ -12,7 +12,7 @@ ccVersion: 2.1.169
 // component from src/ — JSDoc and dir-derived group. Every enrichment miss
 // degrades to the plain-dist behaviour.
 //
-// Discovery is heuristic-based; each heuristic has a \`design-sync.config.json\`
+// Discovery is heuristic-based; each heuristic has a \`.design-sync/config.json\`
 // override (ASSUMPTION comments below name them) so repos that don't match the
 // defaults write config, not code. \`componentSrcMap\` is the single override
 // knob for component inclusion: non-null value = add/pin src path, null =
