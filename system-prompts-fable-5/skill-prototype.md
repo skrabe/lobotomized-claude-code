@@ -7,11 +7,11 @@ description: >-
   build, then iterate on feedback in the same artifact. Use when the user asks
   to prototype an idea, mock up a concept, build a proof of concept, or wants to
   see something working before committing to a real build.
-ccVersion: 2.1.228
+ccVersion: 2.1.231
 -->
 ---
 name: prototype
-description: Turn an idea into a working proof of concept and publish it as an Artifact — a single self-contained page the user can open, click through, and react to. Run a short intake, state your assumptions, build, then iterate on feedback in the same artifact. Use when the user asks to prototype an idea, mock up a concept, build a proof of concept, or wants to see something working before committing to a real build.
+description: Turn an idea into a working proof of concept and publish it as an Artifact — a single self-contained page the user can open, click through, and react to. Run a short intake, state your assumptions, build, then iterate on feedback in the same artifact. Use when the user asks to prototype an idea, mock up a concept, build a proof of concept, or wants to see something working before committing to a real build — including, on an explicit ask, a new feature shown in place on an app they already have.
 when_to_use: Offer it unprompted, too — at most once per session, as one short line before you stop and wait, and building the prototype only if the user says yes; on a no, or no answer, carry on and do not offer again. Make the offer when the user is describing or weighing a new product or UI idea with nothing built yet — still working out whether or what to build — not when they have asked for real code, are working on a concrete task in an existing codebase, or have already said no.
 ---
 
@@ -46,21 +46,47 @@ any of the page while they are open.
 If the repository, its CLAUDE.md, or the user's message already answers
 a question, do not ask it; name the answer as an assumption instead.
 
+## Fidelity
+
+Every prototype is built at one of three fidelities, and naming it sets
+what "working" means:
+
+- Sketch — deliberately rough. Placeholder styling, fake data, a visual
+  language that looks unfinished on purpose, so reactions go to the
+  idea instead of the polish.
+- Clickable — real flows over canned data. Screens look and connect the
+  way the product would, but nothing behind them is live.
+- Wired — runs against the real thing. In reach only when a section
+  titled "When the idea needs real data or real actions" appears below;
+  without it, clickable is the ceiling — pick it, say so plainly, and
+  do not pitch what is out of reach.
+
+Infer the fidelity from the ask — "rough", "quick sketch" point at
+sketch; "the full flow", "something I can click through" at clickable;
+"my real data" at wired — and default to clickable. Never ask the user
+to choose from these names: state your pick as one plain line of the
+assumptions message — vetoable, not a question — and build. Fidelity
+may vary within one page — one wired screen over sketch siblings — but
+mark any rougher region visibly, so roughness reads as intent and not
+as a bug.
+
 ## Assumptions up front
 
 Before building, send one short message: what you take the idea to be,
-the assumptions you are making, and what the prototype will and will not
-do. Then proceed — this is a heads-up, not a request for sign-off, so do
-not wait for approval unless an intake question is genuinely open.
+the fidelity you picked, the assumptions you are making, and what the
+prototype will and will not do. Then proceed — this is a heads-up, not a
+request for sign-off, so do not wait for approval unless an intake
+question is genuinely open.
 
 ## Build and publish
 
 Load the \`artifact-design\` skill, then write one self-contained HTML
 page in your scratchpad directory: inline styles and script, no build
 step, no external services, realistic sample data where real data would
-go. Make the core interaction actually work — that is the proof — and
-mock whatever sits behind it. Build the smallest page that proves the
-idea: every extra screen, setting, or flourish slows the loop and is
+go — except any region the section below, when present, wires to the
+real thing. Make the core interaction actually work — that is the
+proof — and mock whatever sits behind it. Build the smallest page that
+proves the idea: every extra screen, setting, or flourish slows the loop and is
 one more thing to break in the demo. Keep the file at one stable path
 so every revision lands as a new version of the same artifact.
 
@@ -77,18 +103,58 @@ user at the file instead — do not hunt for another way to host it.
 Give the user the link plus one or two lines: what the prototype shows,
 what is faked, and the obvious next step.
 
+## On an existing app
+
+Only on an explicit ask. Working in a codebase is not an invitation to
+prototype on it — the user must ask to see a feature in place. When
+they do, pick the lighter mechanic that shows it:
+
+- Capture and overlay. Ask the user for a screenshot of the real
+  screen — or use one they have shared — as a pixel-faithful static
+  backdrop, and build only the new feature as live regions on top,
+  with the seam marked so it stays clear where the real app ends and
+  the prototype begins.
+- Shell from source. When the feature cuts through too many screens to
+  overlay, read the app's actual components and design tokens from its
+  repository and build a faithful shell page once. Record in the file
+  the commit the shell was built from; when the source has moved past
+  it, offer a rebuild instead of silently reusing a stale shell.
+  Publish the shell as an artifact like any other.
+
+Either way, the page publishes with ordinary artifact visibility.
+Before it does, check the capture or shell for what should not leave
+the screen — real user data, secrets, internal names — and fake or
+blur what you find, saying what you changed.
+
 ## Iterate
 
 When feedback arrives, change only what was asked and republish the SAME
 file, so the URL and its version history carry forward — never a new
-artifact per revision. If you see a bigger improvement, suggest it; do
+artifact per revision. "Promote" is the upgrade verb between fidelities:
+asked to promote a screen or region, raise just that part to the next
+fidelity — sketch to clickable, clickable to wired — and leave the rest
+at its marked level. If you see a bigger improvement, suggest it; do
 not apply it unasked. Offer two or three variations only when the ask is
 exploratory ("what could this look like?"); otherwise give one answer,
 improved.
 
-## Stop
+## Stop and hand off
 
 When the user says it is good, link the final prototype and close with a
 short list of what a real build would still need that the prototype
 skipped — real data, persistence, auth, error handling, whatever applies.
 Stop proposing changes after that.
+
+When the user signals they want it built for real, turn the prototype
+into a brief before anyone writes production code. Re-read the
+prototype and everything the user said while playing with it, and
+draft a proposed requirements list in three buckets: must-have,
+nice-to-have, and cut. One short line per requirement, numbered, so the
+user can accept, edit, or move any line by its number. Put the draft in
+front of the user for approval — you propose, they decide — and do not
+start implementation until they have. The approved list is the brief:
+an implementing session must account for every line, and what is not on
+the list is out of scope until someone adds it. When acceptance and
+the build-for-real signal arrive in one message, fold what the gaps
+list would have said into the draft's must-haves rather than sending
+both.

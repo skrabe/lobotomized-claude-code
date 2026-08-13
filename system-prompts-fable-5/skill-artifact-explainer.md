@@ -26,6 +26,24 @@ Teaching-oriented layout: a lede that states what the reader will learn, followe
 
 **Creation only.** When editing an existing explainer artifact, work with its current HTML directly — don't re-read or re-apply this template.
 
+## Grounding and honesty
+
+- If no target was given, ask which file, directory, PR, system, or concept to explain — one short question — and stop until the user answers.
+- For code, read the target and its immediate dependencies, callers, callees, types, and relevant tests before drafting. Explain what the code actually does by tracing it, not what its names suggest.
+- Surface open questions and missing evidence plainly. A brief honest gap is better than a guess; do not pad simple sections.
+
+## PR walkthroughs
+
+Ground a PR walkthrough in the diff, PR body, and commit messages. The finished page must answer all five questions, wherever their answers fit naturally:
+
+1. What problem is the PR trying to solve?
+2. Why is it a problem?
+3. How does the PR solve it?
+4. What alternatives were considered?
+5. Why is the current approach better than those alternatives?
+
+If the available evidence does not answer a question — most often 4 or 5 — say so instead of inventing an answer. Include a concise before/after when the change has an observable surface; group the diff by logical change rather than file; identify what deserves reviewer attention; and close the tour with context the diff alone does not show, including rejected approaches and intentionally deferred follow-ups when documented.
+
 ## Flavor
 
 The template's body offers two structures — keep one, delete the other (and its wrapper):

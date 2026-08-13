@@ -1,8 +1,8 @@
 <!--
 name: 'Tool Result: Artifact Durable Wake Already Watching Note'
 description: >-
-  Returned to the model when the session already has a durable wake subscription
-  for the artifact.
-ccVersion: 2.1.227
+  Already-watching durable-wake note for the branch where artifact republishes
+  wake the session.
+ccVersion: 2.1.231
 -->
-Already holding a durable wake subscription for this artifact.
+Already holding a durable wake subscription for this artifact (publish wakes).
