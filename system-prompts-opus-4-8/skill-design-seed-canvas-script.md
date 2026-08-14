@@ -3,7 +3,7 @@ name: 'Skill: Design seed-canvas.mjs script'
 description: >-
   Bundled /design skill helper for safely seeding, extracting, and checking
   multi-artboard canvas Artifact pages.
-ccVersion: 2.1.231
+ccVersion: 2.1.232
 -->
 // Design-canvas seeding helper. Copies the skill's editor payload, names it,
 // and seeds the design files into the state block the page embeds — so the
@@ -37,7 +37,7 @@ const DOC_RE = /(<script type="application\\/json" id="appifact-doc">\\n)([\\s\\
 // editor code further down carries lookalike strings of its own.
 const README_COMMENT_RE = /<!-- README\\n[\\s\\S]*?\\n-->/
 const README_META_RE = /<meta name="README" content="[^"]*">/
-const README_TEXT = 'This page is a design canvas published from Claude Code — an early preview of\\nthe Claude Design canvas editor, packaged to run as a published artifact page.\\nThe editor code AND the design content live in this one file: the content is\\nthe "files" record inside the script block with id "appifact-doc" (one\\n.dc.html source per artboard, entry file Main.dc.html, plus canvas.json for\\nthe layout) together with the title. Edits stay local until a\\nviewer with write access hits Save, which republishes the whole page as a new\\nimmutable version through the artifact runtime self capability (see the\\nappifact-capabilities meta for the declaration the page expects).'
+const README_TEXT = 'This page is a design canvas published from Claude Code — an early preview of\\nthe Claude Design canvas editor, packaged to run as a published artifact page.\\nThe editor code AND the design content live in this one file: the content is\\nthe "files" record inside the script block with id "appifact-doc" (one\\n.dc.html source per artboard, entry file Main.dc.html, plus canvas.json for\\nthe layout) together with the title. Edits stay local until a\\nviewer with write access hits Save, which republishes the whole page as a new\\nimmutable version through the artifact runtime\\'s publish capability (the\\nappifact-capabilities meta records the declaration the page was built for).'
 const README_META_TEXT = 'Design canvas (' + PLACEHOLDER + ') published from Claude Code. Its entire editable state (the .dc.html artboards, canvas.json, title) lives in this file, in the script block with id appifact-doc; saving republishes the whole page. See the README comment at the top of head.'
 // The editor's own file-name grammar. Artboard stems follow its rename rule
 // (lead with a letter, digit or underscore; inner dots as in "Card.v2.dc.html").

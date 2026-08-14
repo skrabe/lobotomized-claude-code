@@ -8,7 +8,7 @@ description: >-
   a PR as an artifact, publish a PR review page, or share a review briefing. NOT
   a narrative walkthrough. Only for CREATING a new artifact; edits to an existing artifact
   modify its HTML directly.
-ccVersion: 2.1.231
+ccVersion: 2.1.232
 -->
 ---
 name: artifact-pr-review
@@ -20,7 +20,7 @@ reviewer's judgment, and where to look — readable in two minutes without
 opening the diff. Built in four steps: gather the PR, author one JSON object,
 fill the bundled template from it (wiring the optional live out-of-date signal
 and the decision pills), publish. When the page is published with its
-self-update capability, the "Needs your call" items are decidable from the page
+artifact-publish capability, the "Needs your call" items are decidable from the page
 itself and this session acts on those decisions — see "Acting on decisions" at
 the end.
 
@@ -403,7 +403,7 @@ plain object — not by hand-concatenating strings. The island is the only
 surface the acting loop reads decisions from, so an item missing there can
 never be decided.
 
-**Declare the self capability only when all of these hold** — and when any does
+**Declare the artifact-publish capability only when all of these hold** — and when any does
 not, publish without it and say in your reply that deciding from the page is
 off and why (the pills render as visibly inert spans):
 
@@ -411,7 +411,7 @@ off and why (the pills render as visibly inert spans):
    any other review kind the pills stay display-only.
 2. The \`Artifact\` tool currently accepts a \`capabilities\` field, and you have
    loaded the \`artifact-capabilities\` skill before declaring — it carries the
-   current runtime contract and says whether the self-update capability is
+   current runtime contract and says whether the artifact-publish capability is
    available to this user.
 3. The user has not asked for a page shareable outside their organization.
    Declaring the capability changes who can see the page: a page that can
@@ -447,7 +447,7 @@ connector declaration (step 3b passed — the island has a non-null \`live\`) is
 \`"mcp": {"servers": [{"server": "<your GitHub connector, as that skill names
 it>", "tools": ["<the tool in live.tool>"]}]}\` — one server, one read-only
 tool, nothing else. The decisions declaration (step 3c's gate passed) is
-\`"self": {}\`. Pass both when both gates passed, one when one did, and omit the
+\`"artifact": {}\` (older servers accept the legacy spelling \`"self": {}\`). Pass both when both gates passed, one when one did, and omit the
 field entirely when neither did.
 
 In your reply, restate what each passed gate told the user. For the live signal
@@ -472,14 +472,14 @@ the stored declaration forward unchanged — that is the default, and what the
 "Acting on decisions" republishes do. A re-run that re-fills the page is a
 fresh publish for capabilities purposes: compose the field from the gates again
 (declaring something already declared is harmless; a page whose island is
-filled but whose stored declaration lacks self never becomes decidable by
+filled but whose stored declaration lacks the artifact-publish capability never becomes decidable by
 omission alone). Pass the field only to SET what the page declares, and pass it
-COMPLETE: the input replaces the whole stored declaration, so \`{"self": {}}\`
+COMPLETE: the input replaces the whole stored declaration, so \`{"artifact": {}}\`
 on a page that also had the connector binding clears the connector, and \`{}\`
 clears everything — live signal and decision pills both go dead. So on a re-run
 where a gate newly fails on a page that previously declared capabilities: if
 the \`Artifact\` tool currently accepts the \`capabilities\` field, pass exactly
-what should remain (\`{"self": {}}\` to keep decisions and drop the connector,
+what should remain (\`{"artifact": {}}\` to keep decisions and drop the connector,
 the full mcp shape to keep the connector and drop decisions, \`{}\` to clear
 everything), and say what was cleared and what remains. If the tool does not
 accept the field (the capabilities system itself is gated off), the field would
@@ -491,7 +491,7 @@ says there rather than assuming.
 
 ## Acting on decisions
 
-When the publish declared the self capability, the published page is also the
+When the publish declared the artifact-publish capability, the published page is also the
 decision channel: a writer clicks a pill, the page republishes itself with that
 item recorded (island entry \`"state": "resolved"\`, the clicked token in
 \`"choice"\`), and the new version reaches you two ways. Live: while this

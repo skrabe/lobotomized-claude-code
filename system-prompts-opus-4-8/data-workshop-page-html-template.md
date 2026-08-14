@@ -3,7 +3,7 @@ name: 'Data: Workshop page HTML template'
 description: >-
   Blessed template for DIRECT-HTML *.workshop.html workshops that the model
   copies, fills, and publishes
-ccVersion: 2.1.226
+ccVersion: 2.1.232
 -->
 <!--
 name: workshop-page
@@ -1478,9 +1478,9 @@ description: The blessed template for DIRECT-HTML workshops (\`*.workshop.html\`
       <div class="call-body">
         <p><span class="q">Redis or Spanner for the session cache?</span></p>
         <div class="options">
-          <span class="option recommended" role="button" aria-disabled="true" title="Deciding from the page needs its self-update capability" data-choice="spanner"><span class="option-label">Spanner (already relational)</span><span class="badge">Recommended</span><span class="why">the data is already relational</span></span>
-          <span class="option" role="button" aria-disabled="true" title="Deciding from the page needs its self-update capability" data-choice="redis"><span class="option-label">Redis (simpler ops)</span></span>
-          <div class="custom-answer"><input class="option-input" type="text" maxlength="280" disabled aria-disabled="true" title="Deciding from the page needs its self-update capability" placeholder="Or type your own answer…" aria-label="Your own answer"></div>
+          <span class="option recommended" role="button" aria-disabled="true" title="Deciding from the page needs this Artifact to be able to update itself" data-choice="spanner"><span class="option-label">Spanner (already relational)</span><span class="badge">Recommended</span><span class="why">the data is already relational</span></span>
+          <span class="option" role="button" aria-disabled="true" title="Deciding from the page needs this Artifact to be able to update itself" data-choice="redis"><span class="option-label">Redis (simpler ops)</span></span>
+          <div class="custom-answer"><input class="option-input" type="text" maxlength="280" disabled aria-disabled="true" title="Deciding from the page needs this Artifact to be able to update itself" placeholder="Or type your own answer…" aria-label="Your own answer"></div>
         </div>
       </div>
     </div>
@@ -1490,8 +1490,8 @@ description: The blessed template for DIRECT-HTML workshops (\`*.workshop.html\`
 <!-- DECISIONS SCRIPT — FIXED, VETTED CODE. Never edit, reorder, or extend it;
      a test pins this block by exact hash, so any change is a deliberate,
      reviewed hash update in the same change. It arms the decision option rows
-     only where the page can save a decision (the publish declared the self
-     capability; the shell enforces the writer gate server-side — this
+     only where the page can save a decision (the publish declared the
+     artifact-publish capability; the shell enforces the writer gate server-side — this
      script holds no authority) AND the render
      emitted the ws-decisions island. The interaction is two-step by design:
      selecting rows — one option per decision, across any number of
@@ -1627,7 +1627,8 @@ description: The blessed template for DIRECT-HTML workshops (\`*.workshop.html\`
   }
   function selfApi() {
     var c = window.claude;
-    return c && c.self && typeof c.self.publish === 'function' ? c.self : null;
+    var a = c && (c.artifact || c.self);
+    return a && typeof a.publish === 'function' ? a : null;
   }
   function openRows(scope) {
     return scope.querySelectorAll('[data-decision-state="open"] .option[data-choice]');
@@ -1636,7 +1637,8 @@ description: The blessed template for DIRECT-HTML workshops (\`*.workshop.html\`
     return '[data-decision-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]';
   }
   /* Affordance only — authorization stays server-side. The viewer runtime
-     mounts a queueing window.claude.self stub synchronously when the
+     mounts a queueing self-write stub (window.claude.artifact, legacy
+     window.claude.self) synchronously when the
      capability is declared, so a brief poll covers only script-order skew.
      No island means nothing to arm: the render emits the island exactly
      when the page shows open call-items. */
@@ -2584,7 +2586,7 @@ description: The blessed template for DIRECT-HTML workshops (\`*.workshop.html\`
     if (code === 'conflict') return null; /* shell reloads to the winner */
     if (code === 'upstream_error' && msg.indexOf('(409)') !== -1) return null;
     if (code === 'consent_required')
-      return 'Page updates were not allowed for this artifact — reload and allow self-update to decide here.';
+      return 'Page updates were not allowed for this artifact — reload and allow it to update itself to decide here.';
     if (code === 'not_writer')
       return 'Only someone with edit access can decide from the page.';
     if (code === 'not_declared')

@@ -4,7 +4,7 @@ description: >-
   The whiteboard canvas template.html bundled with the whiteboard skill,
   extracted to the skill base directory for Claude to publish and edit as the
   whiteboard artifact.
-ccVersion: 2.1.228
+ccVersion: 2.1.232
 -->
 <title>Whiteboard</title>
 <script>
@@ -369,7 +369,7 @@ function main(){
   // that reload is deliberate, and pan/zoom, tool, selection and undo ride across it in
   // sessionStorage. Multiplayer merging waits for CRDTs.
   const KEY = 'wb-v0', SESSION = 'wb-session';
-  const selfCap = () => (window.claude && window.claude.self) || null;
+  const selfCap = () => (window.claude && (window.claude.artifact || window.claude.self)) || null;
   // One-way send marker: first-party template code posts the capability envelope
   // itself (no runtime-API surface grows for it); the shell relays allowlisted
   // names to the server-side count and everything else drops silently.
@@ -506,7 +506,7 @@ function main(){
     const perms = window.claude && window.claude.permissions;
     if(!perms) return 'unknown';
     let s;
-    try{ s = await perms.state('self'); }
+    try{ s = await perms.state(window.claude.artifact ? 'artifact' : 'self'); }
     catch(_){ return 'unknown'; }
     return (s === 'granted' || s === 'prompt' || PERMANENT.indexOf(s) !== -1) ? s : 'unknown';
   }
@@ -533,7 +533,7 @@ function main(){
   async function ensureGrant(){
     let s = await sendAccess();
     if(s === 'prompt'){
-      try{ const r = await window.claude.permissions.request(['self']); s = (r && r.self) || 'unknown'; }
+      try{ const n = window.claude.artifact ? 'artifact' : 'self'; const r = await window.claude.permissions.request([n]); s = (r && r[n]) || 'unknown'; }
       catch(err){ s = (err && err.code) || 'unknown'; }
       if(s !== 'granted' && PERMANENT.indexOf(s) === -1) s = 'unknown';
     }

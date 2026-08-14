@@ -3,7 +3,7 @@ name: 'Data: Artifact spreadsheet HTML template'
 description: >-
   Provides the bundled live-spreadsheet HTML template extracted for Claude when
   the sheet Artifact skill is activated.
-ccVersion: 2.1.228
+ccVersion: 2.1.232
 -->
 <!doctype html>
 <html lang="en">
@@ -1475,7 +1475,7 @@ ccVersion: 2.1.228
   // artifact, read-only viewer) edits stay local to this view. The
   // capability is read lazily at each use — the runtime can attach
   // window.claude a beat after inline scripts run — and presence alone
-  // does not prove a live doc (a declared self capability mounts a
+  // does not prove a live doc (a declared self-write capability mounts a
   // rejecting edit on a non-live doc), so the save status reports
   // persistence only after a first server-accepted commit.
   (() => {
@@ -1483,7 +1483,7 @@ ccVersion: 2.1.228
     const status = document.querySelector('[data-status]')
     if (!page) return
     const selfCap = () => {
-      const api = window.claude && window.claude.self
+      const api = window.claude && (window.claude.artifact || window.claude.self)
       return api && typeof api.edit === 'function' ? api : null
     }
     // A collaborator's commit lands as a server-applied write to a
@@ -2920,4 +2920,3 @@ ccVersion: 2.1.228
     })
   })()
 </script>
-

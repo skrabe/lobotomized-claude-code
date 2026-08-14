@@ -4,7 +4,7 @@ description: >-
   Reference documentation for Managed Agents multiagent sessions, including
   coordinator rosters, threads, session stream events, subagent tool
   permissions, and pitfalls
-ccVersion: 2.1.218
+ccVersion: 2.1.232
 -->
 
 # Managed Agents — multiagent sessions

@@ -15,7 +15,7 @@ description: >-
   poster, flyer, brochure, banner, card, one-pager, or any visual layout they
   would rather tweak by hand than in code. Only for CREATING or re-seeding a
   canvas; an existing one is edited in its published Artifact.
-ccVersion: 2.1.231
+ccVersion: 2.1.232
 -->
 ---
 name: design
@@ -56,15 +56,18 @@ of the payload with the skill's helper, and publish. Every \`.dc.html\`
 file in the document renders as its own ARTBOARD (its own sandboxed
 preview iframe) on one host-owned pan/zoom canvas; a \`canvas.json\`
 entry lays the artboards out and picks the launch view. Where saving
-is enabled for the user (the Artifact's \`self\` capability — step 4
-finds out), the viewer gets a full WYSIWYG canvas: an Edit button,
-click-to-select, a properties panel bound to the focused artboard,
-inline text editing, undo/redo, with edits local until the explicit
-**Save** publishes the whole page for everyone. Without it the canvas
-opens read-only — no Edit button at all — and viewing plus PNG/PDF
-export are what the user gets. Never edit the payload's code: the only
-bytes that vary between canvases are the title, the README note and
-the state block the helper writes.
+is enabled for the user (the artifact-publish capability, spelled
+\`artifact\`, or \`self\` on older servers — step 4 finds out which, if
+either), the viewer gets a full WYSIWYG canvas that opens ready to
+edit: click-to-select, a properties panel bound to the focused artboard
+(closed until opened from the toolbar's Properties button or a
+selection's quick menu), inline text editing, undo/redo, with edits
+local until the explicit **Save** publishes the whole page for
+everyone. Without it the canvas cannot keep changes — Save is refused
+and the view turns read-only — so viewing plus PNG/PDF export are what
+the user really gets. Never edit the payload's code: the only bytes
+that vary between canvases are the title, the README note and the
+state block the helper writes.
 
 The foundation every design canvas rests on — the save model (local
 edits, explicit Save, stash restore, whole-document compare-and-set),
@@ -208,27 +211,34 @@ Everything lives in the one payload file:
 4. **Publish** the seeded file with the \`Artifact\` tool. Load the
    \`artifact-capabilities\` skill first and read its roster for THIS
    user, then, on this FIRST publish, declare exactly the capabilities
-   the roster lists out of these two: \`self\` (what lets **Save**
-   republish the page) and \`downloads\` (backs PNG/PDF export) — so
-   \`capabilities: {self: {}, downloads: {}}\` when both are listed.
-   Never declare one the roster does not list, and never infer one:
-   the publish is rejected outright rather than degraded. If the skill
-   returns no roster at all (its service can be unreachable), load it
-   once more; if there is still no roster, publish with NO
-   \`capabilities\` and remember that this publish was ROSTER-BLIND. Tell
-   the user what is actually known: if the roster listed no \`self\`,
-   say plainly that in this preview their canvas opens read-only —
-   there is no Edit mode for them yet; viewing and PNG/PDF export work;
-   if the roster was unreachable, say you could not confirm that saving
-   is enabled and will retry when you next update the canvas. Never
-   ship a stand-in for the save path. On a REPUBLISH of the same file
-   from this session, omit \`capabilities\` (omission keeps the stored
-   declaration; \`{}\` would clear it) — EXCEPT after a roster-blind
-   publish: then load the roster again and, if it answers, declare
-   exactly what it lists on that republish (a passed declaration
-   replaces the stored one). Do not pass \`force\` — its one legitimate
-   use is the conflict case under "Updating an existing canvas".
-   Remember the path you published.
+   the roster lists out of these two: the artifact-publish capability
+   and \`downloads\` (backs PNG/PDF export). The artifact-publish
+   capability is what lets **Save** republish the page; it is spelled
+   \`artifact\`, or \`self\` on older servers — one capability under two
+   names, so declare the ONE spelling the roster lists (\`artifact\` if it
+   lists both, never both). So \`capabilities: {artifact: {}, downloads: {}}\`
+   when the roster lists \`artifact\` and \`downloads\`, or
+   \`{self: {}, downloads: {}}\` when it lists only \`self\` (and \`downloads\`).
+   Never declare one the roster does not list — not even the other
+   spelling — and never infer one: the publish is rejected outright
+   rather than degraded. If the skill returns no roster at all (its
+   service can be unreachable), load it once more; if there is still
+   no roster, publish with NO \`capabilities\` and remember that this
+   publish was ROSTER-BLIND. Tell the user what is actually known: if
+   the roster listed neither spelling of the artifact-publish
+   capability, say plainly that in this preview their canvas cannot
+   save changes — they can open it and export PNG/PDF, but edits will
+   not be kept; if the roster was unreachable, say you could not
+   confirm that saving is enabled and will retry when you next update
+   the canvas. Never ship a stand-in for the save path. On a REPUBLISH
+   of the same file from this session, omit \`capabilities\` (omission
+   keeps the stored declaration; \`{}\` would clear it) — EXCEPT after a
+   roster-blind publish: then load the roster again and, if it answers,
+   declare on that republish by the first-publish rule above (one
+   spelling of the artifact-publish capability, plus \`downloads\`, as
+   listed; a passed declaration replaces the stored one). Do not pass
+   \`force\` — its one legitimate use is the conflict case under
+   "Updating an existing canvas". Remember the path you published.
 5. **Hand it over** in plain language (see "How to talk to the user
    about it"): the link, one clause on what you drafted and what is
    still placeholder, and the save model.
@@ -377,8 +387,9 @@ re-resolve against the destination's logic).
   list is dropped on save).
 - \`pages\` (optional) splits the canvas into named pages the viewer
   flips between from the toolbar's pages menu (each row carries a
-  Rename button in edit mode). List order is menu order — it never
-  picks the page a fresh open shows; \`launch\`'s \`page\` does (above).
+  Rename button for viewers who can save). List order is menu order —
+  it never picks the page a fresh open shows; \`launch\`'s \`page\` does
+  (above).
   The list: \`"pages": [{"id": "page-1", "name": "Flows"}, {"id":
   "page-2", "name": "Components"}]\` — at most 40 entries, each exactly
   \`{id, name}\`: \`id\` a UNIQUE handle (same 1–40 character grammar as
@@ -799,9 +810,9 @@ exists to prevent.
   artboard multi-select works).
 - Wheel over an expanded artboard scrolls its document; on the
   canvas it pans the canvas.
-- PNG export works per artboard from the toolbar's Export (and, in
-  Edit mode, per selected element from the properties panel). The
-  file is offered through the shell's save dialog first (the viewer
+- PNG export works per artboard from the toolbar's Export (and, where
+  saving is enabled, per selected element from the properties panel).
+  The file is offered through the shell's save dialog first (the viewer
   confirms each save); where that's unavailable the image appears in a
   dialog to right-click-save (sandboxed artifacts can't trigger
   downloads directly; one is still attempted in case the environment
@@ -846,11 +857,12 @@ If a save fails persistently, say so plainly rather than handing over a
 degraded canvas. "Publish" is mechanism vocabulary: in anything the
 user sees — task titles, narration, the handover — say "saving" or
 "updating" your design, and never internal words like payload, state
-block, seed or helper. When the first publish did not declare \`self\` (step
-4), lead with that instead: the canvas opens read-only for now — no
-Edit button — and they can view it and export PNG/PDF. If the user
-asks what this is: an early preview of Claude Design's
-canvas editor running inside Claude Code, published as an Artifact.
+block, seed or helper. When the first publish declared no
+artifact-publish capability (step 4), lead with that instead: the
+canvas cannot save changes for now — they can view it and export
+PNG/PDF, but edits they try will not be kept. If the user asks what
+this is: an early preview of Claude Design's canvas editor running
+inside Claude Code, published as an Artifact.
 
 ## Foundation
 
@@ -861,8 +873,8 @@ These facts shape every decision:
   serving origin (where nothing useful lives); every other destination
   — CDNs, font hosts, APIs — is blocked, and WebRTC is removed by the
   runtime on top of the CSP. The ONLY way anything persists is the
-  page's own Save (the \`self\` capability's republish, which the
-  payload already wires — never call it yourself and never add a
+  page's own Save (the artifact-publish capability's republish, which
+  the payload already wires — never call it yourself and never add a
   stand-in for it). Assets must be inline: the editor's JS/CSS already
   is, images ride as bare base64 files entries, and webfonts must be
   \`@font-face\` data: URIs inside the artboard. \`'unsafe-eval'\` IS
@@ -877,7 +889,7 @@ These facts shape every decision:
   Only viewers with WRITE access can publish anything — the first
   refused write comes back \`not_writer\` and the page flips to
   read-only chrome from that moment and on later boots in the tab. A
-  viewer consents to the self-publish grant on first use; declining
+  viewer consents to the artifact-publish grant on first use; declining
   leaves that view read-only.
 - **Concurrency is whole-document compare-and-set.** The publish is
   CAS'd on the version the saving view is running. If someone else

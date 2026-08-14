@@ -7,7 +7,7 @@ description: >-
   until the workshop is finalized. Use when asked to workshop a design,
   brainstorm with decision points, or drive an iterative decide-and-revise loop
   through an artifact.
-ccVersion: 2.1.228
+ccVersion: 2.1.232
 -->
 ---
 name: workshop
@@ -96,7 +96,7 @@ one per turn. Then read ONLY the parts of your
 copy you author, as two parallel ranged Reads in ONE turn: lines
 1–56 (the in-file contract) and lines 1438–1526 (the fillable
 \`<article>\` and the \`ws-decisions\` island right after it). The
-template is 2,948 lines, and everything outside those two ranges —
+template is 2,950 lines, and everything outside those two ranges —
 the theme script, the \`<style>\` block, and the decisions script — is
 fixed template bytes your copy must keep byte-identical: you never
 edit it, so never spend a turn or your context reading it (a
@@ -276,10 +276,10 @@ Decisions are answered from the published page only when the artifact can
 update itself. Before the FIRST publish of a workshop document — the
 opening version — have the artifact-capabilities skill loaded (on the
 template-HTML lane it rides the setup turn; on the markdown lane, load it
-before you publish), then pass `capabilities: {"self": {}}` on that
+before you publish), then pass `capabilities: {"artifact": {}}` on that
 publish. Default to doing this — the user invoked an interactive skill, so
 an actionable page is the point. One exception: if the user asked for a
-page they can share outside the org, publish static instead (the self
+page they can share outside the org, publish static instead (the artifact-publish
 capability narrows the page to org-internal viewing and blocks public
 links) and say why the decision rows are not clickable.
 
@@ -336,8 +336,10 @@ visible code fence so you can fix it):
   resolution path (mutually exclusive with `resolved:`). ≤280 characters
   and ≤1120 UTF-8 bytes; no control characters, no U+2028/U+2029 line
   separators, and no invisible-in-rendering characters — the whole Unicode
-  format/default-ignorable class is rejected (invisible text a human cannot
-  see but a model reads), except the joiners (ZWJ/ZWNJ) and variation
+  format/default-ignorable class is rejected (bidi controls and marks,
+  zero-width space, word joiner, the tag block, and whatever the next
+  Unicode version mints: invisible text a human cannot see but a model
+  reads), except the joiners (ZWJ/ZWNJ) and variation
   selectors real emoji and shaping need, capped at 8 per answer total.
   Newlines from a reader's answer become spaces when you write the line.
   The item renders decided with the text.
@@ -623,7 +625,7 @@ carries the typed-answer input), placed at the end of the article with its
 matching island entry:
 
 ````
-<div class="ws-status-footer" data-decision-id="get-started" data-decision-state="open"><span class="option cta" role="button" aria-disabled="true" title="Deciding from the page needs its self-update capability" data-choice="get-started"><span class="option-label">Start building</span></span><span class="option cta-quiet" role="button" aria-disabled="true" title="Deciding from the page needs its self-update capability" data-choice="keep-iterating"><span class="option-label">Keep iterating</span></span><span class="ws-status-note">All decisions are in.</span></div>
+<div class="ws-status-footer" data-decision-id="get-started" data-decision-state="open"><span class="option cta" role="button" aria-disabled="true" title="Deciding from the page needs this Artifact to be able to update itself" data-choice="get-started"><span class="option-label">Start building</span></span><span class="option cta-quiet" role="button" aria-disabled="true" title="Deciding from the page needs this Artifact to be able to update itself" data-choice="keep-iterating"><span class="option-label">Keep iterating</span></span><span class="ws-status-note">All decisions are in.</span></div>
 ````
 
 The first option's `option cta` class is the one-click Start building; the

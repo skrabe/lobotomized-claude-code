@@ -4,7 +4,7 @@ description: >-
   Cross-session section appended to the SendMessage tool description explaining
   peer addressing, reply routing, disambiguation and the permission-laundering
   ban.
-ccVersion: 2.1.224
+ccVersion: 2.1.232
 variables:
   - LIST_AGENTS_TOOL_NAME
 -->

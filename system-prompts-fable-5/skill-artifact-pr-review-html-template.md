@@ -4,7 +4,7 @@ description: >-
   The full self-contained HTML body template (tokens, layout, slot markers,
   escaping rules) the artifact PR-review skill fills in when publishing a review
   page.
-ccVersion: 2.1.228
+ccVersion: 2.1.232
 -->
 <!-- Artifact-tool body fragment — no <!DOCTYPE>/<html>/<head>/<body> wrapper. See SKILL.md for slot guidance.
      SECURITY: every string that originates from the PR (title, description, diff lines,
@@ -338,9 +338,9 @@ ccVersion: 2.1.228
             <p><span class="q">The bolded question a reviewer should weigh?</span> Context for the question — why it is worth the reviewer's attention.</p>
             <p class="lean">Claude leans: the one-line recommended answer.</p>
             <div class="pills">
-              <span class="pill" role="button" aria-disabled="true" title="Deciding from the page needs its self-update capability" data-choice="opt1">Option one</span>
-              <span class="pill" role="button" aria-disabled="true" title="Deciding from the page needs its self-update capability" data-choice="opt2">Option two</span>
-              <span class="pill" role="button" aria-disabled="true" title="Deciding from the page needs its self-update capability" data-choice="skip">Skip</span>
+              <span class="pill" role="button" aria-disabled="true" title="Deciding from the page needs this Artifact to be able to update itself" data-choice="opt1">Option one</span>
+              <span class="pill" role="button" aria-disabled="true" title="Deciding from the page needs this Artifact to be able to update itself" data-choice="opt2">Option two</span>
+              <span class="pill" role="button" aria-disabled="true" title="Deciding from the page needs this Artifact to be able to update itself" data-choice="skip">Skip</span>
             </div>
           </div>
         </div>
@@ -674,7 +674,7 @@ ccVersion: 2.1.228
 <!-- DECISIONS SCRIPT — FIXED, VETTED CODE. Copy byte-for-byte; never edit, reorder, or
      extend it. A test pins this block by exact hash, so any change is a deliberate,
      reviewed hash update in the same change. It arms the "Needs your call" pills only
-     where the page can save a decision (the publish declared the self capability; the
+     where the page can save a decision (the publish declared the artifact-publish capability; the
      shell enforces the writer gate server-side — this
      script holds no authority). A click republishes THIS page with the clicked item
      recorded: the published bytes come from a same-origin fetch of the page's own STORED
@@ -692,13 +692,15 @@ ccVersion: 2.1.228
   var TOKEN = /^[a-z0-9-]{1,24}$/;
   function selfApi() {
     var c = window.claude;
-    return c && c.self && typeof c.self.publish === 'function' ? c.self : null;
+    var a = c && (c.artifact || c.self);
+    return a && typeof a.publish === 'function' ? a : null;
   }
   function openPills(scope) {
     return scope.querySelectorAll('[data-decision-state="open"] .pill[data-choice]');
   }
   /* Affordance only — authorization stays server-side. The viewer runtime
-     mounts a queueing window.claude.self stub synchronously when the
+     mounts a queueing self-write stub (window.claude.artifact, legacy
+     window.claude.self) synchronously when the
      capability is declared, so a brief poll covers only script-order skew. */
   var tries = 0;
   var timer = setInterval(function () {
@@ -1032,7 +1034,7 @@ ccVersion: 2.1.228
     if (code === 'conflict') return null; /* shell reloads to the winner */
     if (code === 'upstream_error' && msg.indexOf('(409)') !== -1) return null;
     if (code === 'consent_required')
-      return 'Page updates were not allowed for this artifact — reload and allow self-update to decide here.';
+      return 'Page updates were not allowed for this artifact — reload and allow it to update itself to decide here.';
     if (code === 'not_writer')
       return 'Only someone with edit access can decide from the page.';
     if (code === 'not_declared')
