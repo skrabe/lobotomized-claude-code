@@ -24,7 +24,9 @@ The earlier "trim, don't wipe" framing came from one specific incident — `syst
 
 - **No override** (file absent, or override identical to pristine): zero unique signals worth saving — pristine is fine.
 - **Trimmed override**: some claims are unique-and-load-bearing, others are duplicated/default — keep the uniques, cut the duplicates.
-- **Full-wiped override** (empty body): every claim is duplicated/default/useless — we override with empty content to suppress the pristine entirely. Used when pristine actively gets in the way (anti-laziness theater Anthropic ships, features the user doesn't use). Empty body = file present, frontmatter with `ccVersion:`, zero body content. Precedent: all `data-managed-agents-*` (user doesn't use Managed Agents).
+- **Full-wiped override** (empty body): every claim is duplicated/default/useless — we override with empty content to suppress the pristine entirely. Used when pristine **actively gets in the way of an always-on turn** (anti-laziness theater Anthropic ships, sibling-duplicated scaffolding). Empty body = file present, frontmatter with `ccVersion:`, zero body content.
+
+**"The user doesn't use this feature" is a wipe reason ONLY for an unconditional prompt.** A conditionally-loaded prompt — a bundled skill file, a `data-*` reference, a tool result — costs nothing until the moment something reads it, and at that moment it is the only copy of what it says. There is no token to save by wiping it, and a wipe converts "niche" into "unavailable". **Trim it: keep the facts that cannot be inferred (headers, limits, reserved names, exact error strings, event shapes), cut the tutorial prose and the SDK examples.** User directive, 2026-08-15, overturning the earlier blanket precedent that named `data-managed-agents-*` here — that family is conditionally loaded, so the family-wide wipe was wrong on its own terms. `data-managed-agents-multiagent-sessions` is now a 15.5 KB trim of a 25.1 KB pristine; `data-managed-agents-scheduled-deployments` was already an 8.6 KB trim. The rest of the family stays wiped until someone reads one and finds it needed.
 
 ### Sibling-check protocol (mandatory)
 
