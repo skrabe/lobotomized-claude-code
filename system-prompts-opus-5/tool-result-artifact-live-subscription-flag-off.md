@@ -5,4 +5,4 @@ description: >-
   the live-subscribe feature flag is off in cached config.
 ccVersion: 2.1.218
 -->
-Live subscription: skipped — the live-subscribe feature flag is off in this session's cached config, so other sessions' republishes will not be reported here.
+Live subscription: skipped — the live-subscribe feature flag is off in this session's cached config.

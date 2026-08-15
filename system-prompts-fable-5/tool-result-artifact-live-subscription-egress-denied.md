@@ -5,4 +5,4 @@ description: >-
   network egress to the claude.ai edge is denied by policy.
 ccVersion: 2.1.218
 -->
-Live subscription: skipped — network egress to the claude.ai edge is denied by policy, so other sessions' republishes will not be reported here.
+Live subscription: skipped — network egress to the claude.ai edge is denied by policy.

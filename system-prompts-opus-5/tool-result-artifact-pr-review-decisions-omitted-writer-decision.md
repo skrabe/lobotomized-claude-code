@@ -9,4 +9,4 @@ ccVersion: 2.1.218
 variables:
   - TOOL_RESULT_ARTIFACT_PR_REVIEW_DECISIONS_OMITTED_WRITER_DECISION_VAR_0
 -->
-the published page records a writer decision on "${TOOL_RESULT_ARTIFACT_PR_REVIEW_DECISIONS_OMITTED_WRITER_DECISION_VAR_0.id}" that this republish omits — re-rendering it open would erase the click; carry every resolved and acted item in decisions_state
+the published page records a writer decision on "${TOOL_RESULT_ARTIFACT_PR_REVIEW_DECISIONS_OMITTED_WRITER_DECISION_VAR_0.id}" that this republish omits

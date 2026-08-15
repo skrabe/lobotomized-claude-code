@@ -5,4 +5,4 @@ description: >-
   live republish watch is arming in the background.
 ccVersion: 2.1.218
 -->
-Live subscription: arming in the background — once connected, this session is notified if another session republishes this artifact.
+Live subscription: arming in the background.
