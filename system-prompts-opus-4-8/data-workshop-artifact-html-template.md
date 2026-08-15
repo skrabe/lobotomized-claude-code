@@ -4,7 +4,7 @@ description: >-
   The full HTML template for the iteratively-republished workshop
   decision-document artifact (fill contract, CDS tokens, decision-block styling)
   that the model fills and publishes.
-ccVersion: 2.1.232
+ccVersion: 2.1.233
 -->
 <!--
 name: workshop
@@ -1537,8 +1537,24 @@ style: tokens come from @ant/cds's own vanilla export, embedded verbatim
     }
     return n;
   }
+  /* A 0.2.x viewer runtime hands the namespace to claude.use('artifact'),
+     null when this view cannot run it; a 0.1.x runtime has no use() and
+     mounts it on window.claude synchronously (artifact, legacy self). A
+     read-only view gets it either way and learns so when publish() rejects. */
+  var used = null;
+  var asked = false;
   function selfApi() {
     var c = window.claude;
+    if (c && typeof c.use === 'function') {
+      if (!asked) {
+        asked = true;
+        c.use('artifact').then(function (got) {
+          used = got;
+          arm();
+        });
+      }
+      return used && typeof used.publish === 'function' ? used : null;
+    }
     var a = c && (c.artifact || c.self);
     return a && typeof a.publish === 'function' ? a : null;
   }
@@ -1548,39 +1564,45 @@ style: tokens come from @ant/cds's own vanilla export, embedded verbatim
   function itemSel(id) {
     return '[data-decision-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]';
   }
-  /* Affordance only — authorization stays server-side. The viewer runtime
-     mounts a queueing self-write stub (window.claude.artifact, legacy
-     window.claude.self) synchronously when the
-     capability is declared, so a brief poll covers only script-order skew.
-     No island means nothing to arm: the render emits the island exactly
-     when the page shows open call-items. */
+  /* Affordance only — authorization stays server-side. Arms once, from
+     whichever answers first: use()'s resolution, or a brief poll that on
+     a 0.1.x runtime covers only script-order skew (the stub mounts
+     synchronously when the capability is declared). No island once the
+     markup has parsed means nothing to arm (the render emits the island
+     exactly when the page shows open call-items); none while it is still
+     parsing only means not yet, so the latch waits for a later tick. */
+  var armed = false;
+  function arm() {
+    if (armed || !selfApi()) return;
+    var island = document.getElementById('ws-decisions');
+    if (!island && document.readyState === 'loading') return;
+    armed = true;
+    if (island) {
+      var rows = openRows(document);
+      for (var i = 0; i < rows.length; i++) {
+        rows[i].removeAttribute('aria-disabled');
+        rows[i].removeAttribute('title');
+        rows[i].setAttribute('tabindex', '0');
+        rows[i].className += ' armed';
+      }
+      /* The typed-answer inputs arm under the SAME gate as the rows
+         (review r3618320565): on a static publish they stay disabled
+         and explain themselves via the title, exactly like the greyed
+         rows, instead of eating text that can never confirm. */
+      var ins = document.querySelectorAll('[data-decision-state="open"] .option-input');
+      for (var j = 0; j < ins.length; j++) {
+        ins[j].removeAttribute('disabled');
+        ins[j].removeAttribute('aria-disabled');
+        ins[j].removeAttribute('title');
+      }
+    }
+  }
   var tries = 0;
   var timer = setInterval(function () {
-    if (selfApi()) {
-      if (document.getElementById('ws-decisions')) {
-        var rows = openRows(document);
-        for (var i = 0; i < rows.length; i++) {
-          rows[i].removeAttribute('aria-disabled');
-          rows[i].removeAttribute('title');
-          rows[i].setAttribute('tabindex', '0');
-          rows[i].className += ' armed';
-        }
-        /* The typed-answer inputs arm under the SAME gate as the rows
-           (review r3618320565): on a static publish they stay disabled
-           and explain themselves via the title, exactly like the greyed
-           rows, instead of eating text that can never confirm. */
-        var ins = document.querySelectorAll('[data-decision-state="open"] .option-input');
-        for (var j = 0; j < ins.length; j++) {
-          ins[j].removeAttribute('disabled');
-          ins[j].removeAttribute('aria-disabled');
-          ins[j].removeAttribute('title');
-        }
-      }
-      clearInterval(timer);
-    } else if (++tries > 20) {
-      clearInterval(timer);
-    }
+    arm();
+    if (armed || ++tries > 20) clearInterval(timer);
   }, 250);
+  selfApi();
   function note(item, text) {
     var n = item.querySelector('.note-live');
     if (!n) {

@@ -1,7 +1,7 @@
 <!--
 name: 'Tool Description: SendMessageTool'
 description: Agent teams version of SendMessageTool.
-ccVersion: 2.1.224
+ccVersion: 2.1.233
 variables:
   - SHOULD_INCLUDE_LEGACY_PROTOCOL_RESPONSES
 -->
@@ -24,4 +24,4 @@ For a JSON message with \`type: "shutdown_request"\` or \`type: "plan_approval_r
 {"to": "researcher", "message": {"type": "plan_approval_response", "request_id": "...", "approve": false, "feedback": "add error handling"}}
 \`\`\`
 
-Approving shutdown terminates your process. Rejecting a plan sends the teammate back to revise. Don't originate \`shutdown_request\` unless asked. Don't send structured JSON status messages — use TaskUpdate.
+Approving shutdown terminates your process. Rejecting a plan sends the teammate back to revise. Don't originate \`shutdown_request\` unless asked. Don't send structured JSON status messages — report progress through your task tools if you have them, otherwise in plain prose.

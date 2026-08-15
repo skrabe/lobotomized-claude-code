@@ -3,7 +3,7 @@ name: 'Skill: Artifact slides HTML template'
 description: >-
   Bundled live slide-deck Artifact editor template used by the slides skill,
   including presentation mode, notes, comments, and overflow handling.
-ccVersion: 2.1.232
+ccVersion: 2.1.233
 -->
 <!doctype html>
 <html lang="en">
@@ -93,10 +93,9 @@ ccVersion: 2.1.232
   /* KIT:tokens:end */
 
   /* KIT:chrome:begin — the editor chrome: toolbar band, buttons, canvas,
-     comment bubble and composer. One implementation for the family. The
-     chrome recedes until pointed at — the text is the interface; only
-     the save status keeps full presence, since trust in it is the
-     product. */
+     status. One implementation for the family. The chrome recedes until
+     pointed at — the text is the interface; only the save status keeps
+     full presence, since trust in it is the product. */
   .toolbar {
     position: sticky; top: 0; z-index: 22;
     display: flex; align-items: center; gap: 2px;
@@ -131,6 +130,15 @@ ccVersion: 2.1.232
   .tb-right { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--cds-text-muted); }
   .tb-status { white-space: nowrap; color: var(--cds-text-secondary); opacity: 1; }
   .canvas { padding: 20px 24px 120px; }
+  /* A flash on text that changed under the reader (another viewer's
+     edit arriving). */
+  .cmark { background: var(--cds-accent-bg); border-bottom: 1px solid var(--cds-text-accent); }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  :focus-visible { outline: 2px solid var(--cds-text-accent); outline-offset: 1px; }
+  /* KIT:chrome:end */
+  /* KIT:comment-chrome:begin — styles for the select-to-comment kit:
+     bubble, composer, side panel, anchor marks. Carried only by the
+     kinds that ship KIT:comment. */
   .cbub {
     position: absolute; z-index: 20; transform: translate(-50%, 0);
     font-family: var(--cds-font-sans); font-size: 13px;
@@ -183,12 +191,9 @@ ccVersion: 2.1.232
     @keyframes kit-pulse { 0% { transform: scale(1); } 35% { transform: scale(1.35); } 100% { transform: scale(1); } }
   }
   .toolbar button[data-cpanel-toggle] { opacity: 1; font-size: 12px; }
-  .cmark { background: var(--cds-accent-bg); border-bottom: 1px solid var(--cds-text-accent); }
-  /* Resting comment-anchor mark: a quiet accent underline only; the
-     wash is reserved for hover and panel focus. */
-  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   /* The anchor mark is a change-bar in the margin, not an underline a
-     reader mistakes for a rule. */
+     reader mistakes for a rule; the wash is reserved for hover and
+     panel focus. */
   .canchor { position: relative; }
   .canchor::before {
     content: ""; position: absolute; left: -14px; top: 2px; bottom: 2px;
@@ -196,12 +201,11 @@ ccVersion: 2.1.232
   }
   .canchor:hover { background: var(--cds-accent-bg); }
   .canchor:hover::before { opacity: 1; }
-  :focus-visible { outline: 2px solid var(--cds-text-accent); outline-offset: 1px; }
   @media (prefers-reduced-motion: no-preference) {
     .cpanel, .ccomposer, .cbub { animation: kit-enter 140ms ease-out; }
     @keyframes kit-enter { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: none; } }
   }
-  /* KIT:chrome:end */
+  /* KIT:comment-chrome:end */
 
   /* ── The studio (slides-specific): rail of live thumbnails on the
      left, the current slide large on the right. ─────────────────── */
@@ -689,8 +693,11 @@ ccVersion: 2.1.232
       if (structural.includes(cmd) && page.querySelector('[data-id]')) return false
       return document.execCommand(cmd, false, arg)
     }
-    // One predicate for "a reply draft is live": the toolbar and the
-    // style picker must never disagree about what counts as a draft.
+    // Kinds that ship the comment kit float drafts over the page (a
+    // composer, reply fields in a side panel); the guards below keep
+    // toolbar commands off the page selection while one is live, and are
+    // inert where no kit exists. One predicate decides "a reply draft is
+    // live" so the toolbar and the style picker never disagree.
     const anyReplyDrafting = () => [...document.querySelectorAll('.cpanel .crow-reply iframe')].some(f => {
       const d = f.contentDocument
       const ins0 = d ? d.querySelectorAll('input') : []
@@ -702,16 +709,16 @@ ccVersion: 2.1.232
     toolbar.addEventListener('click', ev => {
       const btn = ev.target.closest('button[data-cmd]')
       if (!btn) return
-      // Clicks land while the composer keeps focus (mousedown is prevented):
-      // commands must not touch the page selection mid-draft. The composer
-      // hosts its textarea in its own iframe (own document, own undo
-      // stack on Blink and Gecko; WebKit's is per-page — a recorded
+      // Clicks land while a draft keeps focus (mousedown is prevented):
+      // commands must not touch the page selection mid-draft. A draft's
+      // textarea lives in its own iframe (own document, own undo stack
+      // on Blink and Gecko; WebKit's is per-page — a recorded
       // limitation), so undo/redo need no mid-draft handling here — the
       // selection-targeted commands still must not fire from outside the
       // page while a draft is live (.has-draft is the composer's signal).
       const ae = document.activeElement
-      // A focused reply draft (an iframe under the comments panel) is
-      // mid-typing like the composer's fields: commands must not run.
+      // A focused reply draft (an iframe in the side panel) is mid-typing
+      // like the composer's fields: commands must not run.
       if (ae && (ae.tagName === 'TEXTAREA' || (ae.closest && (ae.closest('.ccomposer') || (ae.tagName === 'IFRAME' && ae.closest('.cpanel')))))) return
       // A parked reply draft carries the composer's has-draft weight.
       if ((document.querySelector('.ccomposer.has-draft') || anyReplyDrafting()) && !(ae && ae.closest && ae.closest('.page'))) return
@@ -735,7 +742,7 @@ ccVersion: 2.1.232
       // the picked style lands on the block the user was in.
       let lastRange = null, lastEl = null, lastTag = 'p'
       document.addEventListener('selectionchange', () => {
-        // Composer keystrokes pin the page selection — the tracker would
+        // Draft keystrokes pin the page selection — the tracker would
         // recompute values it already holds.
         const tae = document.activeElement
         if (tae && tae.closest && tae.closest('.ccomposer')) return
@@ -818,7 +825,7 @@ ccVersion: 2.1.232
       }
     }
     document.addEventListener('selectionchange', () => {
-      // Composer keystrokes fire selectionchange while the page selection
+      // Draft keystrokes fire selectionchange while the page selection
       // is pinned — toolbar state provably cannot change there.
       const ae = document.activeElement
       if (ae && ae.closest && ae.closest('.ccomposer')) return
@@ -1721,22 +1728,42 @@ ccVersion: 2.1.232
   })();
   // KIT:comment:end
 
-  // KIT:persist:begin — live persistence, live docs only: self.edit is the
-  // live-doc write surface, so anywhere it is absent or refused (no runtime, classic
-  // artifact, read-only viewer) edits stay local to this view. The
-  // capability is read lazily at each use — the runtime can attach
-  // window.claude a beat after inline scripts run — and presence alone
-  // does not prove a live doc (a declared self-write capability mounts a
+  // KIT:persist:begin — live persistence, live docs only: artifact.edit
+  // (legacy self.edit) is the live-doc write surface, so anywhere it is
+  // absent or refused (no runtime, classic artifact, read-only viewer)
+  // edits stay local to this view. It comes from claude.use('artifact')
+  // when the runtime offers that, else lazily off window.claude; presence
+  // alone does not prove a live doc (a declared capability mounts a
   // rejecting edit on a non-live doc), so the save status reports
   // persistence only after a first server-accepted commit.
   (() => {
     const page = document.querySelector('.page')
     const status = document.querySelector('[data-status]')
     if (!page) return
+    let used = null
+    let asked = false
+    let answered = false
     const selfCap = () => {
-      const api = window.claude && (window.claude.artifact || window.claude.self)
+      const c = window.claude
+      if (c && typeof c.use === 'function') {
+        if (!asked) {
+          asked = true
+          c.use('artifact').then(got => {
+            used = got
+            answered = true
+            if (got) sweep()
+            else if (dirty.size && !disabled) say('Local only')
+          })
+        }
+        return used && typeof used.edit === 'function' ? used : null
+      }
+      const api = c && (c.artifact || c.self)
       return api && typeof api.edit === 'function' ? api : null
     }
+    // Asked but not yet answered: edits are tracked as if the doc were
+    // live (the fail-safe direction for the local-only latches) and the
+    // status names them local only once use() has actually said no.
+    const pending = () => asked && !answered
     // A collaborator's commit lands as a server-applied write to a
     // block's DOM — with no local event. A baseline pinned at load would
     // then call a local revert-to-baseline a no-op and skip its commit
@@ -1869,7 +1896,7 @@ ccVersion: 2.1.232
           if (cand && dirty.has(cand)) continue
           const block = cand && unitOk(cand) ? cand : null
           if (block) dirty.add(block)
-          else if (page.querySelector('[data-id]') && selfCap()) degraded = true
+          else if (page.querySelector('[data-id]') && (selfCap() || pending())) degraded = true
         }
       }
     })
@@ -1916,7 +1943,7 @@ ccVersion: 2.1.232
       // The latch fires only when CONTENT landed — a formatting-only
       // input never makes the Saved claim false — and re-resolves after
       // the task so same-task DOM settling is seen.
-      if (!block && selfCap() && !fmtInput) {
+      if (!block && (selfCap() || pending()) && !fmtInput) {
         const n = sel && sel.anchorNode
         queueMicrotask(() => {
           const live = document.getSelection()
@@ -1924,7 +1951,7 @@ ccVersion: 2.1.232
           if (!(probe && blockOf(probe))) degraded = true
         })
       }
-      if (!disabled && !fmtInput) say(block && selfCap() ? 'Editing…' : 'Local only')
+      if (!disabled && !fmtInput) say(block && (selfCap() || pending()) ? 'Editing…' : 'Local only')
     })
     document.addEventListener('selectionchange', () => {
       const sel = document.getSelection()
@@ -1957,7 +1984,7 @@ ccVersion: 2.1.232
       const block = blockOf(e.target)
       if (block) { dirty.add(block); flush(block) }
       else {
-        if (selfCap()) degraded = true
+        if (selfCap() || pending()) degraded = true
         if (!disabled) say('Local only')
       }
     }, true)
@@ -1965,7 +1992,7 @@ ccVersion: 2.1.232
       const key = el.dataset.id
       if (disabled || inflight.has(key) || !dirty.has(el)) return
       const api = selfCap()
-      if (api === null) { say('Local only'); return }
+      if (api === null) { if (!pending()) say('Local only'); return }
       if (!el.isConnected || key === undefined) {
         dirty.delete(el)
         // A corpse whose id has no connected holder is lost text.
@@ -2065,6 +2092,8 @@ ccVersion: 2.1.232
         onReject()
       }
     }
+    // Ask for the namespace at load so the first edit rarely waits on it.
+    selfCap()
   })();
   // KIT:persist:end
 

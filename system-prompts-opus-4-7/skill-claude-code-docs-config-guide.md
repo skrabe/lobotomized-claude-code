@@ -1,7 +1,7 @@
 <!--
 name: 'Skill: claude-code-docs config guide'
 description: 'Skill: claude-code-docs config guide'
-ccVersion: 2.1.211
+ccVersion: 2.1.233
 -->
 # Claude Code Configuration Guide
 
@@ -34,6 +34,9 @@ When your training data disagrees with the live configuration or the bundled ref
 | Rebinding keys / \`~/.claude/keybindings.json\` | The keybindings entry in \`references/recent-changes.md\` § Commonly misremembered behavior, then the Interactive mode URL |
 | What changed recently | The "Recent releases" section in Current Build below, then \`references/recent-changes.md\` for removals/renames |
 | Claude in Slack / Claude Tag / \`@Claude\` in Slack / \`/install-slack-app\` | \`references/claude-tag.md\`, then the docs page |
+| \`claude plugin eval\` / \`claude plugin eval init\`: enabling it, writing eval cases and graders, flags, exit codes, the results JSON or HTML report, the eval sandbox, CI | The "Plugin eval" line and the "\`claude plugin\` CLI subcommands" list in Current Build below, then \`references/plugin-eval-quickref.md\`, then the matching section of \`references/plugin-eval.md\` |
+| \`/skill-doctor\` (skill usage and context-cost report) | The "Available commands" list in Current Build below, then \`references/plugin-eval.md\` § \`/skill-doctor\` |
+| A \`claude plugin …\` shell subcommand (install, marketplace, validate, …) | The "\`claude plugin\` CLI subcommands" list in Current Build below, then the Plugins docs URL |
 | Anything else about Claude Code | The docs map URL, then the specific page |
 
 ## Claude Tag (Claude in Slack)
@@ -41,6 +44,10 @@ When your training data disagrees with the live configuration or the bundled ref
 This skill also covers Claude's Slack surface. Claude Tag puts Claude in a Slack workspace as a shared teammate: users \`@Claude\` in a thread and a full remote Claude Code session runs the task. It replaces the earlier per-user "Claude in Slack" app.
 
 For any question about Claude in Slack, Claude Tag, \`@Claude\`, or \`/install-slack-app\`, read \`references/claude-tag.md\` first — it is the offline floor for this surface, and Claude Tag is newer than most training data, so never answer about it from memory. Then fetch the docs URLs it lists.
+
+## Plugin eval (\`claude plugin eval\`) and \`/skill-doctor\`
+
+This skill also covers the plugin evaluation harness (\`claude plugin eval\`, \`claude plugin eval init\`) and the \`/skill-doctor\` usage report. Both are in early access and newer than most training data, and there is no public docs page for them yet — so never answer about them from memory. The Current Build section says whether plugin eval is enabled in this session; \`references/plugin-eval-quickref.md\` is the orientation and \`references/plugin-eval.md\` is the full offline floor (case file format, every grader, every flag, the v1 results JSON field by field, how the sandbox works, CI, troubleshooting). Read them before answering, and if plugin eval is not enabled here, lead with that and the enablement facts rather than saying the command doesn't exist.
 
 ## When you can't reach the network
 

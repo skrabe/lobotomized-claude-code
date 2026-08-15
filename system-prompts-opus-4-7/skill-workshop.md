@@ -7,7 +7,7 @@ description: >-
   until the workshop is finalized. Use when asked to workshop a design,
   brainstorm with decision points, or drive an iterative decide-and-revise
   loop through an artifact.
-ccVersion: 2.1.232
+ccVersion: 2.1.233
 -->
 ---
 name: workshop
@@ -96,7 +96,7 @@ one per turn. Then read ONLY the parts of your
 copy you author, as two parallel ranged Reads in ONE turn: lines
 1–56 (the in-file contract) and lines 1438–1526 (the fillable
 \`<article>\` and the \`ws-decisions\` island right after it). The
-template is 2,950 lines, and everything outside those two ranges —
+template is 2,972 lines, and everything outside those two ranges —
 the theme script, the \`<style>\` block, and the decisions script — is
 fixed template bytes your copy must keep byte-identical: you never
 edit it, so never spend a turn or your context reading it (a

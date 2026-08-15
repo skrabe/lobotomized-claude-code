@@ -3,7 +3,7 @@ name: 'Skill: Whiteboard HTML Template'
 description: >-
   Provides the bundled whiteboard HTML template extracted for Claude when the
   whiteboard skill is activated.
-ccVersion: 2.1.232
+ccVersion: 2.1.233
 -->
 <title>Whiteboard</title>
 <script>
@@ -368,7 +368,23 @@ function main(){
   // that reload is deliberate, and pan/zoom, tool, selection and undo ride across it in
   // sessionStorage. Multiplayer merging waits for CRDTs.
   const KEY = 'wb-v0', SESSION = 'wb-session';
-  const selfCap = () => (window.claude && (window.claude.artifact || window.claude.self)) || null;
+  // a 0.2.x runtime hands each capability to claude.use(name), null when this view can't run it;
+  // a 0.1.x runtime has no use() and mounts them on window.claude synchronously
+  const cap = async (name) => {
+    const c = window.claude;
+    if(!c) return null;
+    return (typeof c.use === 'function' ? await c.use(name) : c[name]) || null;
+  };
+  const selfCap = async () => {
+    const c = window.claude;
+    if(!c) return null;
+    return (typeof c.use === 'function' ? await c.use('artifact') : (c.artifact || c.self)) || null;
+  };
+  // the permission name for republishing; only a 0.1.x runtime from before the rename says 'self'
+  const selfName = () => {
+    const c = window.claude;
+    return c && (typeof c.use === 'function' || c.artifact) ? 'artifact' : 'self';
+  };
   // One-way send marker: first-party template code posts the capability envelope
   // itself (no runtime-API surface grows for it); the shell relays allowlisted
   // names to the server-side count and everything else drops silently.
@@ -490,11 +506,11 @@ function main(){
     if(unsent) setSync('local', readOnly ? 'saved on this device' : 'saved here · not shared yet');
     else setSync('idle', 'saved · shared board is up to date');
   }
-  // the runtime can attach window.claude a beat after this script (script-order skew), so give
-  // it a few seconds before concluding the permissions module is absent
+  // a 0.1.x runtime can attach window.claude a beat after this script (script-order skew), so
+  // give it a few seconds before concluding the permissions module is absent; use() waits itself
   async function runtimeReady(){
-    for(let i = 0; i < 20 && !(window.claude && window.claude.permissions); i++)
-      await new Promise(r => setTimeout(r, 250));
+    const up = () => window.claude && (typeof window.claude.use === 'function' || window.claude.permissions);
+    for(let i = 0; i < 20 && !up(); i++) await new Promise(r => setTimeout(r, 250));
   }
   // verdicts that never change for this view: a live module's answers and publish() refusals;
   // lifecycle codes (capability_disabled / _removed: a stale or re-booted runtime) stay transient
@@ -502,17 +518,20 @@ function main(){
   // only a live module's resolved answer is a verdict; an absent module, a rejection, or a
   // transient code is 'unknown', which leaves Send live for publish() to judge
   async function sendAccess(){
-    const perms = window.claude && window.claude.permissions;
+    const c = window.claude;
+    if(!c) return 'unknown';
+    const viaUse = typeof c.use === 'function';
+    let perms, s;
+    try{ perms = viaUse ? await c.use('permissions') : c.permissions; }
+    catch(_){ return 'unknown'; }
     if(!perms) return 'unknown';
-    let s;
-    try{ s = await perms.state(window.claude.artifact ? 'artifact' : 'self'); }
+    try{ s = await perms.state(selfName()); }
     catch(_){ return 'unknown'; }
     return (s === 'granted' || s === 'prompt' || PERMANENT.indexOf(s) !== -1) ? s : 'unknown';
   }
   // 'denied' / 'consent_required' are the viewer's own choice; not_granted / not_declared mean the
   // board itself lacks send access; the rest can't be fixed from here, so copy stays ownership-neutral.
   function blockedMessage(state){
-    if(state === 'no_runtime') return 'This view only saves on this device. Send to Claude needs the shared artifact runtime.';
     if(state === 'denied' || state === 'consent_required') return 'Sending is off for this visit. Your sketch saves on this device.';
     if(state === 'not_writer') return 'You can view this board but not send it. It belongs to someone else.';
     if(state === 'not_granted' || state === 'not_declared')
@@ -532,7 +551,7 @@ function main(){
   async function ensureGrant(){
     let s = await sendAccess();
     if(s === 'prompt'){
-      try{ const n = window.claude.artifact ? 'artifact' : 'self'; const r = await window.claude.permissions.request([n]); s = (r && r[n]) || 'unknown'; }
+      try{ const n = selfName(); const r = await (await cap('permissions')).request([n]); s = (r && r[n]) || 'unknown'; }
       catch(err){ s = (err && err.code) || 'unknown'; }
       if(s !== 'granted' && PERMANENT.indexOf(s) === -1) s = 'unknown';
     }
@@ -557,9 +576,10 @@ function main(){
     inflight = true; pingBtn.disabled = submitBtn.disabled = true; syncStatus(); saveSession();
     const grant = await ensureGrant();
     // ensureGrant answers 'granted', 'unknown', or a PERMANENT verdict; 'unknown' leaves the
-    // call to publish(), which needs the shared artifact runtime to exist at all
+    // verdict to the publish itself
     if(grant !== 'granted' && grant !== 'unknown'){ settle(); disableSend(grant); return; }
-    if(!selfCap()){ settle(); syncStatus(); toast(blockedMessage('no_runtime'), 7000); return; }
+    const api = await selfCap();
+    if(!api){ settle(); syncStatus(); toast(blockedMessage('unavailable'), 7000); return; }
     const tokenCss = cdsTokenCss();
     if(!tokenCssPublishable(tokenCss)){
       // publishing without the sheet would bake the loss into every later generation
@@ -572,7 +592,7 @@ function main(){
     const state = {v: 1, els: els, savedAt: Date.now(), pingCount: ping ? ping.n : pingCount, ping: ping || lastPing};
     // remember which of Claude's marks we've already seen so the reply can be spotted after reload
     if(toClaude) rememberWaiting();
-    selfCap().publish(buildPage(state, document.title || 'Whiteboard', tokenCss)).then(() => {
+    api.publish(buildPage(state, document.title || 'Whiteboard', tokenCss)).then(() => {
       settle(); unsent = false; saveLocal();
       // the send count rides a one-way analytics envelope, not the publish API; a shell that predates it drops the message
       if(toClaude) noteSend();
@@ -1617,7 +1637,7 @@ function main(){
     for(const e of els) drawElement(oc, e);
     const blob = await new Promise(res => off.toBlob(res, 'image/png'));
     // the viewer runtime offers real file saves; the frame itself can't start downloads
-    const dl = window.claude && window.claude.downloads;
+    const dl = await cap('downloads');
     if(dl && blob){
       try{ await dl.save({filename: 'whiteboard.png', data: blob}); toast('Saved whiteboard.png'); return; }
       catch(err){ if(err && err.code === 'declined') return; }

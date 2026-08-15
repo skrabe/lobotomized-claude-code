@@ -4,7 +4,7 @@ description: >-
   The full self-contained HTML body template (tokens, layout, slot markers,
   escaping rules) the artifact PR-review skill fills in when publishing a review
   page.
-ccVersion: 2.1.232
+ccVersion: 2.1.233
 -->
 <!-- Artifact-tool body fragment — no <!DOCTYPE>/<html>/<head>/<body> wrapper. See SKILL.md for slot guidance.
      SECURITY: every string that originates from the PR (title, description, diff lines,
@@ -475,10 +475,10 @@ ccVersion: 2.1.232
 <!-- STALENESS SCRIPT — FIXED, VETTED CODE. Copy byte-for-byte; never edit, reorder, or extend
      it. A test pins this block by exact hash, so any change is a deliberate, reviewed hash
      update in the same change. It reads only the #prr-anchor island above and
-     the viewer's GitHub connector via window.claude.mcp, and the only thing it can ever change
-     is the hidden flag of the .stale-banner element (fixed copy).
-     Contract: written against the artifact viewer's runtime MCP surface (window.claude.mcp
-     listTools/watchTool, ToolInfo.annotations.readOnlyHint, result.payload, McpError codes);
+     the viewer's GitHub connector via the runtime's mcp capability, and the only thing it can
+     ever change is the hidden flag of the .stale-banner element (fixed copy).
+     Contract: written against the artifact viewer's runtime MCP surface (claude.use('mcp'), or
+     window.claude.mcp on a 0.1.x runtime: listTools/watchTool, readOnlyHint, McpError codes);
      the exact contract version is recorded next to the hash pin in the test suite. A change to
      that surface requires editing this block and re-deriving its pinned hash together;
      published pages keep the block they shipped with and fall back to the static page on any
@@ -559,8 +559,15 @@ ccVersion: 2.1.232
     used[foundAt] = true;
   }
 
-  var mcp = window.claude ? window.claude.mcp : undefined;
-  if (!mcp || typeof mcp.listTools !== 'function' || typeof mcp.watchTool !== 'function') return;
+  /* A 0.2.x viewer runtime hands the connector surface to claude.use('mcp') and
+     answers null when this view cannot run it; a 0.1.x runtime has no use() and
+     mounts window.claude.mcp synchronously instead. */
+  function mcpApi() {
+    var c = window.claude;
+    if (!c) return Promise.resolve(null);
+    return typeof c.use === 'function' ? c.use('mcp') : Promise.resolve(c.mcp);
+  }
+  var mcp = null;
 
   var anchorSha = anchor.headSha.toLowerCase();
 
@@ -595,7 +602,11 @@ ccVersion: 2.1.232
     return typeof serverName === 'string' && /github/i.test(serverName);
   }
 
-  mcp.listTools().then(function (res) {
+  mcpApi().then(function (got) {
+    if (!got || typeof got.listTools !== 'function' || typeof got.watchTool !== 'function') return null;
+    mcp = got;
+    return mcp.listTools();
+  }).then(function (res) {
     var servers = (res ? res.servers : null) || [];
     var server = null;
     var matches = 0;
@@ -690,34 +701,56 @@ ccVersion: 2.1.232
   'use strict';
   var busy = false;
   var TOKEN = /^[a-z0-9-]{1,24}$/;
+  /* A 0.2.x viewer runtime hands the namespace to claude.use('artifact'),
+     null when this view cannot run it; a 0.1.x runtime has no use() and
+     mounts it on window.claude synchronously (artifact, legacy self). A
+     read-only view gets it either way and learns so when publish() rejects. */
+  var used = null;
+  var asked = false;
   function selfApi() {
     var c = window.claude;
+    if (c && typeof c.use === 'function') {
+      if (!asked) {
+        asked = true;
+        c.use('artifact').then(function (got) {
+          used = got;
+          arm();
+        });
+      }
+      return used && typeof used.publish === 'function' ? used : null;
+    }
     var a = c && (c.artifact || c.self);
     return a && typeof a.publish === 'function' ? a : null;
   }
   function openPills(scope) {
     return scope.querySelectorAll('[data-decision-state="open"] .pill[data-choice]');
   }
-  /* Affordance only — authorization stays server-side. The viewer runtime
-     mounts a queueing self-write stub (window.claude.artifact, legacy
-     window.claude.self) synchronously when the
-     capability is declared, so a brief poll covers only script-order skew. */
+  /* Affordance only — authorization stays server-side. Arms once, from
+     whichever answers first: use()'s resolution, or a brief poll that on
+     a 0.1.x runtime covers only script-order skew (the stub mounts
+     synchronously when the capability is declared). No open pills while
+     the markup is still parsing only means not yet, so the latch waits
+     for a later tick. */
+  var armed = false;
+  function arm() {
+    if (armed || !selfApi()) return;
+    var pills = openPills(document);
+    if (!pills.length && document.readyState === 'loading') return;
+    armed = true;
+    for (var i = 0; i < pills.length; i++) {
+      pills[i].removeAttribute('aria-disabled');
+      pills[i].removeAttribute('title');
+      pills[i].setAttribute('tabindex', '0');
+      pills[i].style.cursor = 'pointer';
+      pills[i].style.opacity = '1';
+    }
+  }
   var tries = 0;
   var timer = setInterval(function () {
-    if (selfApi()) {
-      var pills = openPills(document);
-      for (var i = 0; i < pills.length; i++) {
-        pills[i].removeAttribute('aria-disabled');
-        pills[i].removeAttribute('title');
-        pills[i].setAttribute('tabindex', '0');
-        pills[i].style.cursor = 'pointer';
-        pills[i].style.opacity = '1';
-      }
-      clearInterval(timer);
-    } else if (++tries > 20) {
-      clearInterval(timer);
-    }
+    arm();
+    if (armed || ++tries > 20) clearInterval(timer);
   }, 250);
+  selfApi();
   function note(item, text) {
     var n = item.querySelector('.note-live');
     if (!n) {
@@ -1126,8 +1159,8 @@ ccVersion: 2.1.232
      the viewer's explicit click beside the always-visible as-you disclosure, and only after
      a fresh re-read confirms the pull request's head still matches the anchor. It writes no
      fetched data into the page, follows no URLs, and never retries a write.
-     Contract: written against the artifact viewer's runtime MCP surface (window.claude.mcp
-     listTools/callTool, ToolInfo.annotations.readOnlyHint, result.payload, McpError codes);
+     Contract: written against the artifact viewer's runtime MCP surface (claude.use('mcp'), or
+     window.claude.mcp on a 0.1.x runtime: listTools/callTool, readOnlyHint, McpError codes);
      the exact contract version is recorded next to the hash pin in the test suite. The
      click-time freshness re-read passes callTool's cache refresh option; a runtime that
      ignores it serves a cached head at most staleTime old, and the write then rides a
@@ -1377,11 +1410,18 @@ ccVersion: 2.1.232
   if (!statePath) return;
   if (stamp.tool === live.tool) return;
 
-  var mcp = window.claude ? window.claude.mcp : undefined;
-  if (!mcp || typeof mcp.listTools !== 'function' || typeof mcp.callTool !== 'function') return;
   /* The stale-button coupling observes the banner element; an environment that cannot
      observe it cannot keep the control honest, so stay static. */
   if (typeof MutationObserver !== 'function') return;
+  /* A 0.2.x viewer runtime hands the connector surface to claude.use('mcp') and
+     answers null when this view cannot run it; a 0.1.x runtime has no use() and
+     mounts window.claude.mcp synchronously instead. */
+  function mcpApi() {
+    var c = window.claude;
+    if (!c) return Promise.resolve(null);
+    return typeof c.use === 'function' ? c.use('mcp') : Promise.resolve(c.mcp);
+  }
+  var mcp = null;
 
   /* Walk a result payload along a key path; the terminal string or null. */
   function walk(payload, path) {
@@ -1506,6 +1546,7 @@ ccVersion: 2.1.232
   }
 
   btn.addEventListener('click', function () {
+    if (!mcp) return;
     if (state !== 'ready' && state !== 'retry') return;
     if (moved || banner.hidden === false) {
       render();
@@ -1557,7 +1598,11 @@ ccVersion: 2.1.232
       });
   });
 
-  mcp.listTools().then(function (res) {
+  mcpApi().then(function (got) {
+    if (!got || typeof got.listTools !== 'function' || typeof got.callTool !== 'function') return null;
+    mcp = got;
+    return mcp.listTools();
+  }).then(function (res) {
     var servers = (res ? res.servers : null) || [];
     var readServer = findServer(servers, live.tool, true);
     if (readServer === null) return;

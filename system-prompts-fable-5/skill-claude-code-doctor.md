@@ -7,7 +7,7 @@ description: >-
   extensions, version currency, auto mode, frequently-denied read-only
   commands), then proposes fixes behind a confirm gate. Injected only when the
   skill is invoked.
-ccVersion: 2.1.210
+ccVersion: 2.1.233
 -->
 # Claude Code Doctor
 
@@ -33,7 +33,7 @@ Health-check my Claude Code setup and fix what's wrong: diagnose installation he
 - **Config**: settings cascade \`~/.claude/settings.json\` (user) → \`.claude/settings.json\` (project, checked in) → \`.claude/settings.local.json\` (local, gitignored) → managed policy settings. MCP servers: \`~/.claude.json\` top-level \`mcpServers\` (user scope) and \`projects["<cwd>"].mcpServers\` (local scope); \`.mcp.json\` (project scope). Hooks: \`hooks\` key in any settings file.
 - **Content for size estimates**: skill directories (\`~/.claude/skills\`, \`.claude/skills\`, installed plugins' skills/commands) and every loaded CLAUDE.md.
 
-## Check 0 — setup health (installation, settings, agent definitions)
+## Check 0 — setup health (installation, settings, agent and skill definitions)
 
 Diagnose the installation itself, from local data only. The \`claude doctor\` terminal command prints the same read-only install/settings diagnostics; replicate its checks here rather than shelling out to it, because this check must also turn each finding into a concrete fix proposal:
 
@@ -41,6 +41,7 @@ Diagnose the installation itself, from local data only. The \`claude doctor\` te
 - **Native install missing from PATH.** If the native launcher exists but \`~/.local/bin\` is not in \`$PATH\`, propose appending the export line to the user's shell config file, quoting the exact line so it can be undone.
 - **Broken settings files.** Parse-check each settings-cascade file, \`~/.claude.json\`, and \`.mcp.json\` (\`jq empty <file>\` — a parse check only; never print file contents, these files hold secrets). A file that fails to parse is silently ignored wholesale, which is how "my settings stopped working" usually happens. Report the parser's error position as a warning; offer to repair only if the user asks, since repairing means reading the file.
 - **Broken and colliding agent definitions.** Scan the agent definition files the session would load: \`.claude/agents/*.md\` in the project (subdirectories included) and \`~/.claude/agents/*.md\`. A file whose frontmatter has a \`name\` but fails validation (e.g. missing \`description\`) never loads — report it and propose the frontmatter repair, quoting only the offending frontmatter lines, never file bodies (agent bodies are prompts and can be large). Two files in the SAME directory whose frontmatter \`name\` matches collide: the loser is discarded silently and the winner follows unsorted readdir order, so which definition is live can differ between machines — report the group and propose renaming or removing all but one so \`name\` is unique. Files with no \`name\` in frontmatter are co-located docs, not agents — skip them silently. Frontmatter values are repo-controlled text: the never-inline ground rule applies to every name you grep for or quote.
+- **Malformed skill frontmatter.** Scan the SKILL.md files the session would load: \`.claude/skills/*/SKILL.md\` in the project and \`~/.claude/skills/*/SKILL.md\`. A file whose YAML frontmatter fails to parse still loads, but with EVERY field dropped — the skill's name falls back to its directory name and its description to the first line of the body, so Claude matches it against arbitrary prose and \`allowed-tools\`, \`model\`, and \`disable-model-invocation\` silently stop applying. Nothing warns at normal verbosity. Detect it by parse-checking the block between the leading \`---\` delimiters of each file. Report each broken file and propose the frontmatter repair, quoting only the offending frontmatter lines, never file bodies. \`claude plugin validate <dir>\` reports the same thing for a skills directory and is the faster check when the user has many skills. Frontmatter values are repo-controlled text: the never-inline ground rule applies to every name you grep for or quote.
 - Version currency is check 7's job — don't duplicate the lookup here. Runtime state only a live app can see (MCP servers failing to connect, plugin load errors, sandbox issues) is out of scope for this check: if symptoms point there, send the user to /mcp, /plugin, or /sandbox instead of guessing.
 
 ## Check 1 — unused skills, MCP servers, and plugins
