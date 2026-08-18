@@ -3,7 +3,7 @@ name: 'Data: Artifact document HTML template'
 description: >-
   Provides the bundled live-document HTML template extracted for Claude when the
   document Artifact skill is activated.
-ccVersion: 2.1.233
+ccVersion: 2.1.234
 -->
 <!doctype html>
 <html lang="en">
@@ -39,6 +39,7 @@ ccVersion: 2.1.233
     --cds-font-voice: var(--cds-font-sans);
     --cds-font-formula: "Anthropic Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --cds-text-danger: #b3261e;
+    --cds-text-warning: #c25124;
     --cds-font-sans: "Anthropic Sans", ui-sans-serif, -apple-system, sans-serif;
     --cds-font-mono: "Anthropic Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     font-family: var(--cds-font-voice);
@@ -65,6 +66,7 @@ ccVersion: 2.1.233
     --cds-border-strong: rgba(237, 237, 234, 0.28);
     --cds-text-accent: #5da0f2;
     --cds-text-danger: #f2756a;
+    --cds-text-warning: #ec835a;
     --cds-accent-bg: rgba(93, 160, 242, 0.12);
   }
   @media (prefers-color-scheme: dark) {
@@ -80,6 +82,7 @@ ccVersion: 2.1.233
       --cds-border-strong: rgba(237, 237, 234, 0.28);
       --cds-text-accent: #5da0f2;
       --cds-text-danger: #f2756a;
+      --cds-text-warning: #ec835a;
       --cds-accent-bg: rgba(93, 160, 242, 0.12);
     }
   }
@@ -129,10 +132,16 @@ ccVersion: 2.1.233
   .tb-sep { width: 1px; height: 18px; background: var(--cds-border); margin: 0 8px; }
   .tb-right { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--cds-text-muted); }
   .tb-status { white-space: nowrap; color: var(--cds-text-secondary); opacity: 1; }
+  .tb-status[data-tone="warning"] { color: var(--cds-text-warning); font-weight: 600; }
+  .tb-status[data-tone="error"] { color: var(--cds-text-danger); font-weight: 600; }
+  .tb-status[data-tone="busy"], .tb-status[data-tone="muted"] { color: var(--cds-text-muted); }
+  .toolbar .tb-save { opacity: 1; font-size: 12px; padding: 5px 10px; color: var(--cds-text-primary); border-color: var(--cds-border-strong); }
+  .toolbar .tb-save:disabled { opacity: 0.45; color: var(--cds-text-secondary); border-color: var(--cds-border); }
+  .tb-save.is-dirty::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--cds-text-warning); }
+  .toolbar [hidden] { display: none; }
   .canvas { padding: 20px 24px 120px; }
-  /* A flash on text that changed under the reader (another viewer's
-     edit arriving). */
-  .cmark { background: var(--cds-accent-bg); border-bottom: 1px solid var(--cds-text-accent); }
+  /* Page content stacks below the chrome whatever it declares. */
+  .page { isolation: isolate; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   :focus-visible { outline: 2px solid var(--cds-text-accent); outline-offset: 1px; }
   /* KIT:chrome:end */
@@ -168,7 +177,7 @@ ccVersion: 2.1.233
       --cds-surface-0: #ffffff; --cds-surface-1: #ffffff; --cds-surface-2: #ffffff;
       --cds-text-primary: #0b0b0b; --cds-text-secondary: #52514e; --cds-text-muted: #898781;
       --cds-border: rgba(11, 11, 11, 0.1); --cds-border-strong: rgba(11, 11, 11, 0.2);
-      --cds-text-accent: #184f95; --cds-accent-bg: transparent; --cds-text-danger: #b3261e;
+      --cds-text-accent: #184f95; --cds-accent-bg: transparent; --cds-text-danger: #b3261e; --cds-text-warning: #c25124;
     }
     .toolbar { display: none; }
     .canvas { padding: 0; }
@@ -199,6 +208,9 @@ ccVersion: 2.1.233
   <button data-cmd="undo" title="Undo" aria-label="Undo"><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 3 2.5 6l3 3"/><path d="M2.5 6h7a4 4 0 0 1 0 8H6"/></svg></button>
   <button data-cmd="redo" title="Redo" aria-label="Redo"><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 3l3 3-3 3"/><path d="M13.5 6h-7a4 4 0 0 0 0 8H10"/></svg></button>
   <span class="tb-right">
+    <button class="tb-save" data-save hidden disabled title="Save (Ctrl+S / Cmd+S)" aria-label="Save">Save</button>
+    <button class="tb-save" data-restore hidden title="Save the recovered edits as a new version" aria-label="Save recovered edits">Save</button>
+    <button class="tb-save" data-discard hidden title="Discard the recovered edits and reload the saved version" aria-label="Discard recovered edits">Discard</button>
     <span class="tb-status" data-status role="status">Saved</span>
     <span data-words></span>
   </span>
@@ -255,12 +267,6 @@ ccVersion: 2.1.233
       // Everything but the select — its native picker is its mousedown default action.
       if (!ev.target.closest('select')) ev.preventDefault()
     })
-    // Run an editing command. The live-edit op vocabulary cannot express
-    // structure — a formatBlock or list toggle could destroy server-annotated
-    // elements no commit can ever restore — so structural commands refuse
-    // outright on annotated docs. Everything works on classic pages.
-    // \`structural\` must name every block-replacing command a family toolbar ships.
-    const structural = ['formatBlock', 'insertUnorderedList', 'insertOrderedList']
     // Firefox removed script-triggered undo/redo (execCommand returns
     // false there) — disable the buttons up front with the chord as the
     // pointer, instead of a click that reports success and does nothing.
@@ -272,26 +278,10 @@ ccVersion: 2.1.233
         }
       }
     }
-    // Annotation is decided at publish, so the controls that can never
-    // work on a live doc are disabled up front instead of dying silently.
-    if (page.querySelector('[data-id]')) {
-      for (const b of toolbar.querySelectorAll('button[data-cmd]')) {
-        if (structural.includes(b.dataset.cmd)) {
-          b.disabled = true
-          b.title = 'Not available on live docs yet'
-        }
-      }
-      const bs = toolbar.querySelector('select[data-block]')
-      if (bs) {
-        bs.disabled = true
-        bs.title = 'Not available on live docs yet'
-      }
-    }
     const runCmd = (cmd, arg) => {
       const sel = document.getSelection()
       if (!sel || !sel.rangeCount) return false
       if (!page.contains(sel.getRangeAt(0).commonAncestorContainer)) return false
-      if (structural.includes(cmd) && page.querySelector('[data-id]')) return false
       return document.execCommand(cmd, false, arg)
     }
     // Kinds that ship the comment kit float drafts over the page (a
@@ -336,9 +326,7 @@ ccVersion: 2.1.233
       refresh()
     })
     const blockSel = toolbar.querySelector('select[data-block]')
-    // Disabled at init on live docs and never re-enabled — the tracker
-    // would maintain state its only consumer can never read.
-    if (blockSel && !blockSel.disabled) {
+    if (blockSel) {
       // The select steals focus — track the page's last selection live, so
       // the picked style lands on the block the user was in.
       let lastRange = null, lastEl = null, lastTag = 'p'
@@ -354,7 +342,7 @@ ccVersion: 2.1.233
         lastRange = r.cloneRange()
         const n = r.commonAncestorContainer
         const el = n.nodeType === 1 ? n : n.parentElement
-        lastEl = el && el.closest('[data-id], h1, h2, h3, p, blockquote, li') || el
+        lastEl = el && el.closest('h1, h2, h3, p, blockquote, li') || el
         const b = el && el.closest('h1, h2, h3')
         lastTag = b ? b.tagName.toLowerCase() : 'p'
       })
@@ -448,372 +436,501 @@ ccVersion: 2.1.233
   })();
   // KIT:editor:end
 
-  // KIT:persist:begin — live persistence, live docs only: artifact.edit
-  // (legacy self.edit) is the live-doc write surface, so anywhere it is
-  // absent or refused (no runtime, classic artifact, read-only viewer)
-  // edits stay local to this view. It comes from claude.use('artifact')
-  // when the runtime offers that, else lazily off window.claude; presence
-  // alone does not prove a live doc (a declared capability mounts a
-  // rejecting edit on a non-live doc), so the save status reports
-  // persistence only after a first server-accepted commit.
+  // KIT:persist:begin — Save republishes the served source with the live
+  // page content spliced in, through the artifact publish capability;
+  // without the capability or write access, edits stay in this tab.
+  // Unsaved edits are kept in session storage; a page that loads with some
+  // shows them, read-only, until the writer saves or discards them.
   (() => {
     const page = document.querySelector('.page')
     const status = document.querySelector('[data-status]')
+    const saveBtn = document.querySelector('[data-save]')
+    const restoreBtn = document.querySelector('[data-restore]')
+    const discardBtn = document.querySelector('[data-discard]')
     if (!page) return
-    let used = null
-    let asked = false
-    let answered = false
-    const selfCap = () => {
-      const c = window.claude
-      if (c && typeof c.use === 'function') {
-        if (!asked) {
-          asked = true
-          c.use('artifact').then(got => {
-            used = got
-            answered = true
-            if (got) sweep()
-            else if (dirty.size && !disabled) say('Local only')
-          })
-        }
-        return used && typeof used.edit === 'function' ? used : null
-      }
-      const api = c && (c.artifact || c.self)
-      return api && typeof api.edit === 'function' ? api : null
+    const KIND = page.className
+    const COPY = {
+      saved: 'Saved',
+      dirty: 'Unsaved changes',
+      saving: 'Saving…',
+      failed: 'Couldn’t save. Try again.',
+      limited: 'Save limit reached. Try again later.',
+      tooLarge: 'Too large to save. Remove some content.',
+      refused: 'Couldn’t save. Part of this content can’t be published.',
+      conflict: 'A newer version exists. Reload to edit it.',
+      viewOnly: 'View only. Edits stay in this tab.',
+      kept: 'Showing recovered edits. Not saved yet.',
+      keptOver: 'Showing recovered edits over a newer version. Saving replaces it.',
+      keptHeld: 'Showing recovered edits. Can’t save right now. Reload to try again.',
+      keptRefused: 'Can’t save these edits as they are. Edit or discard them.',
     }
-    // Asked but not yet answered: edits are tracked as if the doc were
-    // live (the fail-safe direction for the local-only latches) and the
-    // status names them local only once use() has actually said no.
-    const pending = () => asked && !answered
-    // A collaborator's commit lands as a server-applied write to a
-    // block's DOM — with no local event. A baseline pinned at load would
-    // then call a local revert-to-baseline a no-op and skip its commit
-    // under "Saved" — the one silent drop path. Observing the blocks and
-    // dropping the baseline for foreign writes makes the next flush
-    // commit instead of skip: the fail-safe direction.
-    // (Registered after baseline/dirty/inflight exist — see init below.)
+    const SETTLE_MS = 3000
+    const MIN_GAP_MS = 10000
+    const PUBLISH_MS = 45000
+    const ASK_MS = 5000
+    const STASH_TTL_MS = 120000
+    const STASH_KEY = 'kit:restore:' + location.host
+    const KEEP_MS = 1000
+    const KEEP_TTL_MS = 86400000
+    const KEEP_KEY = 'kit:unsaved:' + location.host
+    // Split literals: the source must never contain the sentinels it strips.
+    const RUNTIME_OPEN = '<!-- frame-' + 'runtime -->'
+    const RUNTIME_CLOSE = '<!-- /frame-' + 'runtime -->'
+    const COMMENTS_OPEN = '<' + 'script type="application/json" id="__frame_comments__">'
+    const COMMENTS_CLOSE = '</' + 'script>'
+    let mode = 'boot'
+    let dirty = false
+    let rev = 0
+    let saving = false
+    let waitTimer = null
+    let lastPublishAt = 0
+    let settling = false
+    let stale = false
+    let errKey = null
+    let source = null
+    let art = null
+    let shown = ''
+    let kept = null
+    let keptFrom = null
+    let keptBase = null
+    let keepTimer = null
+    let base = null
+    let srcMark = null
+    let recovered = false
+    let over = false
 
-    // Commit unit: the nearest server-annotated BLOCK (data-id). Blocks
-    // edited since their last commit are flushed on blur and when the
-    // caret leaves them. Plain text is what the op vocabulary carries —
-    // a committed block's published bytes keep only its text.
-    const dirty = new Set()
-    const inflight = new Set()
-    // Flatten-safe marks: a commit unit may contain these and nothing
-    // else — set-text drops them from the published bytes (the op
-    // vocabulary is plain text), which is the accepted degradation.
-    const marks = new Set(['B', 'I', 'EM', 'STRONG', 'U', 'S', 'STRIKE', 'FONT',
-      'A', 'SPAN', 'CODE', 'SUB', 'SUP', 'MARK', 'SMALL', 'ABBR', 'TIME',
-      'KBD', 'CITE', 'DFN', 'VAR', 'SAMP', 'DEL', 'INS', 'BDI', 'BDO', 'DATA',
-      'WBR'])
-    // Block-level tags — the commit-unit and roster vocabulary.
-    // Anything unenumerated (inline marks, media, foreign namespaces)
-    // defaults to INLINE, so an exotic deletion can never brick commits.
-    const BLOCK_TAGS = /^(P|H1|H2|H3|H4|H5|H6|LI|UL|OL|BLOCKQUOTE|ASIDE|SECTION|ARTICLE|DIV|TABLE|TR|TD|TH|DT|DD|FIGCAPTION|CAPTION|PRE|FIGURE|DL|MAIN|HEADER|FOOTER|NAV|SUMMARY|DETAILS|ADDRESS|HGROUP|FIELDSET|FORM|HR)$/
-    // Block-level commit units the server knows about: committing after
-    // one vanishes would publish a local merge the op vocabulary cannot
-    // express. Inline ids are excluded — inline removal is already the
-    // accepted set-text degradation, not structural divergence.
-    // Baseline holds the server-known text per id: a flush whose text
-    // matches is a no-op — sending it could revert a collaborator's
-    // newer commit. The roster derives from the same walk, so the two
-    // classifications can never drift apart.
-    const baseline = new Map()
-    for (const el of page.querySelectorAll('[data-id]')) {
-      // Leaf commit units only: a container's aggregate text goes stale
-      // the moment a child commits, and a stale container baseline
-      // false-dirties on the next history sweep.
-      if (BLOCK_TAGS.test(el.tagName) && !el.querySelector('[data-id]')) baseline.set(el.dataset.id, el.dataset.fxSrc !== undefined ? el.dataset.fxSrc : el.textContent)
+    const say = (key, tone) => {
+      if (!status || shown === key) return
+      shown = key
+      status.textContent = COPY[key]
+      if (tone) status.dataset.tone = tone
+      else delete status.dataset.tone
     }
-    const roster = [...baseline.keys()]
-    const rosterIntact = () =>
-      roster.every(id => page.querySelector('[data-id="' + CSS.escape(id) + '"]'))
-    // Foreign-write coherence (see the note above the commit-unit rules):
-    // a mutated block with no local dirty or inflight claim was written
-    // by someone else — its baseline no longer describes server state.
-    new MutationObserver(muts => {
-      for (const m of muts) {
-        const n = m.target.nodeType === 1 ? m.target : m.target.parentElement
-        const holder = n && n.closest ? n.closest('[data-id]') : null
-        const id = holder && holder.dataset.id
-        // Formatting-only mutations leave textContent equal to the
-        // baseline — only a real text divergence is a foreign write.
-        // Engine-managed cells (data-fx-src) compare their SOURCE: the
-        // display swap is presentation, not an edit.
-        const cur = holder && holder.dataset && holder.dataset.fxSrc !== undefined ? holder.dataset.fxSrc : holder ? holder.textContent : ''
-        if (id && !dirty.has(holder) && !inflight.has(id) && baseline.has(id) &&
-            cur !== baseline.get(id)) {
-          baseline.delete(id)
-          // The live layer shows itself: a colleague's change flashes
-          // where it landed (never while presenting).
-          if (!document.body.classList.contains('present')) {
-            holder.classList.add('cmark')
-            setTimeout(() => holder.classList.remove('cmark'), 1600)
+    const render = () => {
+      // Page-wide hook: per-kind chrome keys reader styling off the mode.
+      document.documentElement.dataset.kitMode = mode
+      // Recovered edits hold the page until they are saved or discarded.
+      const offer = kept !== null && mode === 'writer' && !stale
+      // Read-only through the flight and the host reload that follows, so
+      // nothing typed can miss the version being saved.
+      page.toggleAttribute('inert', saving || settling || kept !== null)
+      if (saveBtn) {
+        saveBtn.hidden = mode !== 'writer' || offer
+        saveBtn.disabled = !dirty || saving || settling || stale || waitTimer !== null
+        saveBtn.classList.toggle('is-dirty', dirty)
+      }
+      if (restoreBtn) restoreBtn.hidden = !offer
+      // The copy can go from first paint until a save carries it, even from
+      // a page that could not confirm write access or could not save it as
+      // it was.
+      if (discardBtn) discardBtn.hidden = !recovered || stale
+      for (const b of [restoreBtn, discardBtn]) if (b) b.disabled = saving || settling || waitTimer !== null
+      if (mode === 'reader') say(kept === null ? 'viewOnly' : 'keptHeld', 'muted')
+      else if (stale) say('conflict', 'error')
+      else if (saving || waitTimer !== null) say('saving', 'busy')
+      else if (errKey) say(errKey, 'error')
+      else if (kept !== null) say(over ? 'keptOver' : 'kept', 'warning')
+      else if (dirty) say('dirty', 'warning')
+      else say('saved')
+    }
+    const markDirty = () => {
+      rev++
+      dirty = true
+      if (keepTimer === null) keepTimer = setTimeout(keep, KEEP_MS)
+      render()
+    }
+    page.addEventListener('input', markDirty)
+    // Programmatic edits (a formula bar, a comment, a slide control)
+    // announce themselves; capture phase so non-bubbling dispatches count.
+    page.addEventListener('kit-commit', markDirty, true)
+
+    // Source handling: strip exactly what the serve path adds, so a save
+    // stores the same shape a tool publish does and never compounds.
+    const stripServed = text => {
+      let src = text
+      const a = src.indexOf(RUNTIME_OPEN)
+      const b = a === -1 ? -1 : src.indexOf(RUNTIME_CLOSE, a)
+      if (a !== -1 && b !== -1 && a < 8192) {
+        src = src.slice(0, a) + src.slice(b + RUNTIME_CLOSE.length)
+      }
+      let end = src.length
+      while (end > 0 && ' \\t\\r\\n'.includes(src[end - 1])) end--
+      const trimmed = src.slice(0, end)
+      if (trimmed.endsWith(COMMENTS_CLOSE)) {
+        const body = trimmed.slice(0, -COMMENTS_CLOSE.length)
+        const at = body.lastIndexOf(COMMENTS_OPEN)
+        if (at !== -1 && isEnvelope(body.slice(at + COMMENTS_OPEN.length))) {
+          src = body.slice(0, body[at - 1] === '\\n' ? at - 1 : at)
+        }
+      }
+      return src
+    }
+    // The serve path's own test for its block, so both sides agree on
+    // what is one: a '<'-free JSON object with a mac and a payload.
+    const isEnvelope = s => {
+      if (s.includes('<')) return false
+      let env
+      try { env = JSON.parse(s) } catch { return false }
+      return !!env && typeof env === 'object' && !Array.isArray(env) &&
+        typeof env.mac === 'string' && env.mac !== '' && Object.hasOwn(env, 'payload')
+    }
+    // The page article's span, located by position alone: the first page
+    // open tag, and the last close before this script, so nothing the
+    // content happens to contain can move either end.
+    const articleSpan = src => {
+      const open = /<article\\s[^>]*\\bclass="(?:[^"]*\\s)?page(?:\\s[^"]*)?"[^>]*>/.exec(src)
+      const tail = src.lastIndexOf('KIT:persist:' + 'begin')
+      if (!open || tail === -1 || src.indexOf('KIT:persist:' + 'end', tail) === -1) return null
+      const openEnd = open.index + open[0].length
+      const closeStart = src.lastIndexOf('</' + 'article>', tail)
+      return closeStart >= openEnd ? { openEnd, closeStart } : null
+    }
+    const validSource = src =>
+      /^\\s*<!doctype html>/i.test(src) && !src.includes(RUNTIME_OPEN) && articleSpan(src) !== null
+    const parse = html => new DOMParser().parseFromString(html, 'text/html')
+
+    // Scriptable surface picked up by a paste must not ride into a version
+    // that other viewers' grants will run.
+    const DROP = /^(SCRIPT|STYLE|IFRAME|FRAME|FRAMESET|OBJECT|EMBED|APPLET|LINK|META|BASE|TITLE|TEMPLATE|NOSCRIPT|FORM|INPUT|BUTTON|SELECT|TEXTAREA|OPTION|DIALOG|PORTAL|FOREIGNOBJECT|MATH|XMP|LISTING|PLAINTEXT|NOEMBED|NOFRAMES)$/i
+    const URL_ATTRS = /^(href|src|xlink:href|action|formaction|poster|background|cite|data|srcset|ping)$/i
+    const SAFE_URL = /^(?:https?:|mailto:|#|\\/|\\.\\.?\\/|[^:/?#]*(?:[/?#]|$))/i
+    const DATA_IMG = /^data:image\\/(?:png|jpeg|gif|webp|avif);/i
+    const TOP_LAYER = /^(popover|popovertarget|interestfor|commandfor|command)$/
+    const sanitize = root => {
+      // Comments that could end early, or that would read as the runtime's
+      // marker once saved, do not come back.
+      const notes = Document.prototype.createTreeWalker.call(root.ownerDocument || root, root, NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_PROCESSING_INSTRUCTION)
+      const found = []
+      while (notes.nextNode()) found.push(notes.currentNode)
+      for (const note of found) if (note.nodeType !== Node.COMMENT_NODE || /--|^-|-$|^>|frame-runtime/i.test(note.data)) note.remove()
+      // Saved content never poses as the page, the comment store (the
+      // article's own trailing block), or the kit's ids.
+      const store = [...root.children].findLast(el => el.classList.contains('cstore')) || [...root.querySelectorAll('.cstore')].pop() || null
+      for (const el of [...root.querySelectorAll('*')]) {
+        if (!root.contains(el)) continue
+        // Named descendants can shadow a form's own localName/attributes.
+        if (typeof el.localName !== 'string' || !(el.attributes instanceof NamedNodeMap) || DROP.test(el.localName) ||
+            /^(animate|set$|discard$)/i.test(el.localName)) {
+          Element.prototype.remove.call(el)
+          continue
+        }
+        for (const at of [...el.attributes]) {
+          const n = at.name.toLowerCase()
+          const v = at.value
+          if (n.startsWith('on') || n === 'srcdoc' || n === 'data-frame-runtime' || n === 'autofocus' || n === 'name' ||
+              TOP_LAYER.test(n) || (n === 'id' && (v === 'claude' || v.startsWith('__frame') || v.startsWith('cpanel-')))) {
+            el.removeAttributeNode(at)
+          } else if (URL_ATTRS.test(n)) {
+            const val = v.replace(/[\\u0000-\\u0020\\u007f]+/g, '')
+            // List-valued attributes are only as safe as each entry.
+            const urls = n === 'srcset' ? v.split(',').map(s => s.trim().split(/\\s+/)[0] || '')
+              : n === 'ping' ? v.trim().split(/\\s+/) : [val]
+            const ok = urls.every(u => SAFE_URL.test(u.replace(/[\\u0000-\\u0020\\u007f]+/g, ''))) ||
+              (n === 'src' && el.localName === 'img' && DATA_IMG.test(val))
+            if (!ok) el.removeAttributeNode(at)
+          } else if (n === 'style' && (!v.trim() || /\\/\\*|\\\\|expression\\s*\\(|url\\s*\\(|image-set\\s*\\(/i.test(v))) {
+            el.removeAttributeNode(at)
           }
         }
+        el.classList.remove('page')
+        if (el !== store) el.classList.remove('cstore')
+        if (el.getAttribute('class') === '') el.removeAttribute('class')
       }
-    }).observe(page, { childList: true, characterData: true, subtree: true })
-    let proven = false
-    let disabled = false
-    let fmtNoticeShown = false
-    // Sticky once an edit lands in an untrackable block — the top-line
-    // Saved claim would be false for the rest of the session.
-    let degraded = false
-    const say = s => { if (status) status.textContent = s }
-    const rawBlockOf = node => {
-      let el = node
-      if (el && el.nodeType !== 1) el = el.parentElement
-      // The commit unit is the nearest annotated BLOCK: climb past
-      // annotated inline elements — their ids are not commit targets.
-      let cand = el && el.closest('[data-id]')
-      while (cand && !BLOCK_TAGS.test(cand.tagName)) {
-        cand = cand.parentElement && cand.parentElement.closest('[data-id]')
-      }
-      return cand || null
+      return root
     }
-    const blockOf = node => {
-      const cand = rawBlockOf(node)
-      return cand && unitOk(cand) ? cand : null
+    const serialize = () => {
+      const clone = page.cloneNode(true)
+      // Load-time decoration (grid chrome, comment marks, a presenting
+      // deck) comes off the CLONE, so the saved article is the authored model.
+      page.dispatchEvent(new CustomEvent('kit-serialize', { detail: { root: clone } }))
+      return sanitize(clone).innerHTML
     }
-    // Anything beyond marks inside a unit — child blocks, images,
-    // controls — would be destroyed by its set-text: degrade to Local
-    // only instead. Same for a split block whose id is no longer
-    // unique: committing either half would clobber the other. Checked
-    // again at flush time — a block can go bad after it was dirtied.
-    const unitOk = el => {
-      for (const d of el.querySelectorAll('*')) {
-        if (!marks.has(d.tagName)) return false
-      }
-      return page.querySelectorAll('[data-id="' + CSS.escape(el.dataset.id) + '"]').length === 1
+    // A save must be a fixed point of the browser's own parse: outside the
+    // page it is the served source node for node, and inside the page
+    // nothing is left for sanitize to strip.
+    const shell = doc => {
+      const pages = doc.querySelectorAll('article.page')
+      if (pages.length !== 1) return null
+      pages[0].replaceChildren()
+      return [...doc.childNodes].map(n => n.nodeType + (n.outerHTML ?? n.data ?? n.name ?? '')).join('\\n')
     }
-    let lastBlock = null
-    let lastRaw = null
-    // A mutation can span TWO commit units (cross-block delete, type-over,
-    // drag) while the post-mutation selection names only one — resolve
-    // BOTH boundary blocks of each pre-mutation target range, and degrade
-    // per unresolvable boundary rather than letting the other side's
-    // success mask it. Formatting inputTypes stay excluded: their
-    // textContent is unchanged, and an eager dirty there could commit a
-    // stale snapshot over newer collaborator text.
-    page.addEventListener('beforeinput', e => {
-      const t = e.inputType || ''
-      if (t.startsWith('format') || t === 'insertOrderedList' || t === 'insertUnorderedList') return
-      // The collapsed caret's own block is claimed here, PRE-mutation:
-      // the foreign-write observer's microtask can run between this
-      // event's listeners, and an unclaimed first keystroke in a clean
-      // block would read as a foreign write and drop its baseline.
-      {
-        const sel0 = document.getSelection()
-        const cand0 = sel0 && sel0.anchorNode && page.contains(sel0.anchorNode) ? rawBlockOf(sel0.anchorNode) : null
-        if (cand0 && !dirty.has(cand0) && unitOk(cand0)) dirty.add(cand0)
-      }
-      const ranges = typeof e.getTargetRanges === 'function' ? e.getTargetRanges() : []
-      for (const r of ranges) {
-        if (r.collapsed && t !== 'insertFromDrop') continue
-        for (const node of [r.startContainer, r.endContainer]) {
-          // An already-dirty candidate skips the O(page) validation:
-          // the add would be a no-op, and flush re-validates at commit.
-          const cand = rawBlockOf(node)
-          if (cand && dirty.has(cand)) continue
-          const block = cand && unitOk(cand) ? cand : null
-          if (block) dirty.add(block)
-          else if (page.querySelector('[data-id]') && (selfCap() || pending())) degraded = true
-        }
-      }
-    })
-    page.addEventListener('input', e => {
-      const sel = document.getSelection()
-      const block = sel && sel.anchorNode ? blockOf(sel.anchorNode) : null
-      // A formatting-only input leaves textContent unchanged — marking
-      // the block dirty would commit a stale snapshot over newer
-      // collaborator text.
-      const fmtInput = typeof e.inputType === 'string' &&
-        (e.inputType.startsWith('format') ||
-         e.inputType === 'insertOrderedList' || e.inputType === 'insertUnorderedList')
-      // Formatting renders locally but never reaches other viewers on a
-      // live doc — say so once, at the moment it first happens.
-      if (fmtInput && selfCap() && !fmtNoticeShown &&
-          !disabled && !degraded && !dirty.size && !inflight.size) {
-        fmtNoticeShown = true
-        say('Saved — formatting shows only in your view')
-        setTimeout(() => {
-          if (!dirty.size && !inflight.size) say(disabled || degraded ? 'Some edits local only' : 'Saved')
-        }, 4000)
-      }
-      if (block && !fmtInput) {
-        dirty.add(block)
-        if (lastBlock && lastBlock !== block) flush(lastBlock)
-        lastBlock = block
-      }
-      // History inputs dispatch with empty target ranges, and a composite
-      // (a reverted drag) can revert TWO blocks while the selection names
-      // one — sweep every block whose text differs from its baseline.
-      if (e.inputType === 'historyUndo' || e.inputType === 'historyRedo') {
-        for (const el of page.querySelectorAll('[data-id]')) {
-          if (!BLOCK_TAGS.test(el.tagName) || el.querySelector('[data-id]')) continue
-          const id = el.dataset.id
-          // A missing baseline means a foreign write was observed — the
-          // block must commit on the next flush regardless, so a
-          // composite revert can never hide behind the dropped entry.
-          const cur2 = el.dataset.fxSrc !== undefined ? el.dataset.fxSrc : el.textContent
-          if (!baseline.has(id) || cur2 !== baseline.get(id)) dirty.add(el)
-        }
-      }
-      // A block that can never flush (no data-id, or no live-doc api)
-      // must resolve the status, not leave 'Editing…' frozen on screen.
-      // The latch fires only when CONTENT landed — a formatting-only
-      // input never makes the Saved claim false — and re-resolves after
-      // the task so same-task DOM settling is seen.
-      if (!block && (selfCap() || pending()) && !fmtInput) {
-        const n = sel && sel.anchorNode
-        queueMicrotask(() => {
-          const live = document.getSelection()
-          const probe = n && n.isConnected ? n : live && live.anchorNode
-          if (!(probe && blockOf(probe))) degraded = true
-        })
-      }
-      if (!disabled && !fmtInput) say(block && (selfCap() || pending()) ? 'Editing…' : 'Local only')
-    })
-    document.addEventListener('selectionchange', () => {
-      const sel = document.getSelection()
-      const cand = sel && sel.anchorNode && page.contains(sel.anchorNode)
-        ? rawBlockOf(sel.anchorNode)
-        : null
-      // unitOk is O(page); with the caret still in the same block — valid
-      // (lastBlock) or never-valid (lastRaw; its flush fired on entry and
-      // flush re-validates) — both effects below are no-ops, so same-block
-      // events skip the scan entirely.
-      if (cand === lastBlock) { lastRaw = cand; return }
-      if (cand && cand === lastRaw) return
-      lastRaw = cand
-      const block = cand && unitOk(cand) ? cand : null
-      if (lastBlock && block !== lastBlock && dirty.has(lastBlock)) flush(lastBlock)
-      if (block) lastBlock = block
-    })
-    const sweep = () => { for (const b of [...dirty]) flush(b) }
-    page.addEventListener('blur', sweep, true)
-    // Tab close and artifact switch dispatch neither blur nor a caret
-    // move — the teardown sweep is the last chance to commit.
-    addEventListener('pagehide', sweep)
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') sweep()
-    })
-    // Programmatic commits (a formula bar, a slide control) dispatch
-    // 'kit-commit' on the edited element after writing its text.
-    // Capture-phase — a non-bubbling dispatch must still reach this hook.
-    page.addEventListener('kit-commit', e => {
-      const block = blockOf(e.target)
-      if (block) { dirty.add(block); flush(block) }
-      else {
-        if (selfCap() || pending()) degraded = true
-        if (!disabled) say('Local only')
-      }
-    }, true)
-    const flush = el => {
-      const key = el.dataset.id
-      if (disabled || inflight.has(key) || !dirty.has(el)) return
-      const api = selfCap()
-      if (api === null) { if (!pending()) say('Local only'); return }
-      if (!el.isConnected || key === undefined) {
-        dirty.delete(el)
-        // A corpse whose id has no connected holder is lost text.
-        if (key === undefined ||
-            !page.querySelector('[data-id="' + CSS.escape(key) + '"]')) degraded = true
-        return
-      }
-      if (!unitOk(el) || !rosterIntact()) {
-        // A real edit is being dropped — reaching here requires a live
-        // capability, so the session's Saved claim is now false.
-        degraded = true
-        dirty.delete(el)
-        if (!disabled) say('Local only')
-        return
-      }
-      dirty.delete(el)
-      // A kind may maintain the cell's PERSISTENT truth apart from its
-      // display (the sheet's raw formulas live in data-fx-src) — commit
-      // that truth, never the computed presentation.
-      const text = el.dataset.fxSrc !== undefined ? el.dataset.fxSrc : el.textContent
-      if (baseline.get(key) === text) {
-        if (!disabled && !dirty.size && !inflight.size) {
-          say(degraded ? 'Some edits local only' : 'Saved')
-        }
-        return
-      }
-      inflight.add(key)
-      say('Editing…')
-      // The id's current holder: native editing can replace or detach
-      // the element between send and settle.
-      const holderOf = () => [...dirty].find(d => d.isConnected && d.dataset.id === key) ||
-        page.querySelector('[data-id="' + CSS.escape(key) + '"]')
-      const onAccept = () => {
-        inflight.delete(key)
-        // A collaborator's write can land during the flight: if the
-        // holder's text moved and no local keystroke claims it, the
-        // baseline must drop (fail-safe) rather than pin the pre-await
-        // snapshot over the foreign write.
-        {
-          const h = holderOf()
-          const hcur = h && h.dataset && h.dataset.fxSrc !== undefined ? h.dataset.fxSrc : h ? h.textContent : null
-          if (h && !dirty.has(h) && hcur !== text) baseline.delete(key)
-          else baseline.set(key, text)
-        }
-        proven = true
-        // An accept only comes from a live doc, so it overrides a latch
-        // set by a concurrent refusal that settled while liveness was
-        // unproven.
-        disabled = false
-        // A keystroke during the flight re-dirtied this id's block —
-        // commit whichever element now holds the id. A degraded re-flush
-        // already said Local only; let that stand.
-        const holder = holderOf()
-        if (holder && dirty.has(holder)) {
-          flush(holder)
-          if (!inflight.has(key) && !dirty.has(holder)) return
-        }
-        // Disconnected corpses left by native splits and replacements
-        // would hold 'Editing…' forever; text with no surviving holder
-        // is a real degrade.
-        for (const d of [...dirty]) {
-          if (d.isConnected) continue
-          dirty.delete(d)
-          const id = d.dataset.id
-          if (id === undefined ||
-              !page.querySelector('[data-id="' + CSS.escape(id) + '"]')) degraded = true
-        }
-        say(dirty.size || inflight.size ? 'Editing…'
-          : degraded ? 'Some edits local only' : 'Saved')
-      }
-      const onReject = () => {
-        inflight.delete(key)
-        const holder = holderOf() || el
-        if (!proven) {
-          disabled = true
-          // Stays dirty so a concurrent accept's latch override can
-          // retry it — flush is a no-op while disabled holds.
-          dirty.add(holder)
-          say('Local only')
-        } else {
-          // Stays dirty; the next interaction retries the commit.
-          dirty.add(holder)
-          say('Not saved')
-        }
-      }
-      // A host-bridged edit can throw synchronously or return a
-      // non-thenable; both are refusals — only a settled accept may
-      // prove liveness, or the latch leaks and saving silently stops.
+    const settled = out => {
+      const doc = parse(out)
+      const inner = doc.querySelector('article.page')
+      if (!inner) return false
+      const html = inner.innerHTML
+      if (sanitize(inner).innerHTML !== html) return false
+      const frame = shell(doc)
+      return frame !== null && frame === shell(parse(source))
+    }
+    const buildDocument = inner => {
+      if (source === null) return null
+      const span = articleSpan(source)
+      if (!span) return null
+      const out = source.slice(0, span.openEnd) + inner + source.slice(span.closeStart)
+      return validSource(out) && settled(out) ? out : null
+    }
+
+    // A short fingerprint of a served source, to tell one version from another.
+    const mark = s => {
+      let h = 2166136261
+      for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619)
+      return (h >>> 0).toString(36) + ':' + s.length
+    }
+    // Unsaved edits outlive this page: written while dirty (throttled, and as
+    // the page goes away), dropped once saved, discarded, or undone.
+    const dropKept = () => { try { sessionStorage.removeItem(KEEP_KEY) } catch {} }
+    const keep = () => {
+      if (keepTimer !== null) { clearTimeout(keepTimer); keepTimer = null }
+      if (mode !== 'writer' || !dirty || kept !== null) return
       try {
-        const res = api.edit([{ target: el.dataset.id, op: 'set-text', text }])
-        if (res && typeof res.then === 'function') {
-          Promise.resolve(res).then(onAccept, onReject)
-        } else {
-          onReject()
+        const html = serialize()
+        if (html === base) { dropKept(); return }
+        const copy = { at: Date.now(), kind: KIND, from: srcMark, html }
+        // Room permitting, the copy carries the article it departs from: a
+        // page showing the copy has no other way to read that article as a
+        // save would write it.
+        try { sessionStorage.setItem(KEEP_KEY, JSON.stringify({ ...copy, base })) } catch { sessionStorage.setItem(KEEP_KEY, JSON.stringify(copy)) }
+      } catch {}
+    }
+    addEventListener('pagehide', keep)
+    const readKept = () => {
+      try {
+        const s = JSON.parse(sessionStorage.getItem(KEEP_KEY) || 'null')
+        if (s && typeof s === 'object' && typeof s.html === 'string' && s.at <= Date.now() && Date.now() - s.at < KEEP_TTL_MS) {
+          // Another kit page on this host looks after its own copy.
+          if (s.kind !== KIND) return null
+          // Whatever wrote the kept copy, it comes back as parsed, sanitized
+          // markup; an edit since undone, or one this page already serves
+          // (a save that landed after all), is no edit.
+          const was = typeof s.base === 'string' ? s.base : base
+          const moot = h => h === was || h === base
+          const html = moot(s.html) ? '' : sanitize(parse('<body>' + s.html).body).innerHTML
+          if (html && !moot(html)) {
+            keptFrom = typeof s.from === 'string' ? s.from : null
+            keptBase = typeof s.base === 'string' ? s.base : null
+            return html
+          }
         }
-      } catch {
-        onReject()
+      } catch {}
+      dropKept()
+      return null
+    }
+
+    // Caret and scroll survive the reload that follows a save.
+    const blocks = () => [...page.querySelectorAll('h1,h2,h3,h4,p,li,blockquote,td,th,pre,figcaption,section')]
+    const stash = () => {
+      try {
+        const sel = document.getSelection()
+        let block = -1
+        let offset = 0
+        if (sel && sel.anchorNode && page.contains(sel.anchorNode)) {
+          const el = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement
+          const holder = el && el.closest('h1,h2,h3,h4,p,li,blockquote,td,th,pre,figcaption,section')
+          block = holder ? blocks().indexOf(holder) : -1
+          if (holder) {
+            const r = document.createRange()
+            r.selectNodeContents(holder)
+            r.setEnd(sel.anchorNode, sel.anchorOffset)
+            offset = r.toString().length
+          }
+        }
+        const scroller = document.scrollingElement || document.documentElement
+        // Kind scripts add their own view state (the deck's current
+        // slide) to the same stash and read it back on kit-restore.
+        const extra = {}
+        page.dispatchEvent(new CustomEvent('kit-stash', { detail: extra }))
+        sessionStorage.setItem(STASH_KEY, JSON.stringify({ at: Date.now(), block, offset, scroll: scroller.scrollTop, extra }))
+      } catch {}
+    }
+    const clearStash = () => { try { sessionStorage.removeItem(STASH_KEY) } catch {} }
+    const restore = () => {
+      let s = null
+      try { s = JSON.parse(sessionStorage.getItem(STASH_KEY) || 'null') } catch {}
+      clearStash()
+      if (!s || typeof s !== 'object' || Date.now() - s.at > STASH_TTL_MS) return
+      page.dispatchEvent(new CustomEvent('kit-restore', { detail: s.extra && typeof s.extra === 'object' ? s.extra : {} }))
+      const scroller = document.scrollingElement || document.documentElement
+      if (typeof s.scroll === 'number') scroller.scrollTop = s.scroll
+      const holder = blocks()[s.block]
+      if (!holder) return
+      const walker = document.createTreeWalker(holder, NodeFilter.SHOW_TEXT)
+      let left = typeof s.offset === 'number' ? s.offset : 0
+      for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+        if (left <= n.data.length) {
+          const sel = document.getSelection()
+          if (sel) sel.collapse(n, left)
+          return
+        }
+        left -= n.data.length
       }
     }
-    // Ask for the namespace at load so the first edit rarely waits on it.
-    selfCap()
+
+    const codeOf = e => (e && typeof e === 'object' && 'code' in e ? String(e.code) : 'upstream_error')
+    const READER_CODES = /^(not_writer|not_granted|not_declared|capability_disabled|capability_removed)$/
+    // A host that never answers is a failure to show, not a wait to sit in.
+    const within = (p, ms) => {
+      let timer = null
+      const late = new Promise((resolve, reject) => { timer = setTimeout(() => reject(new Error('timeout')), ms) })
+      return Promise.race([p, late]).finally(() => clearTimeout(timer))
+    }
+    const run = async (restoring = false) => {
+      saving = true
+      errKey = null
+      render()
+      const startRev = rev
+      let content = null
+      let html = null
+      try { content = serialize(); html = buildDocument(content) } catch {}
+      // Recovered edits that cannot go out as they are open up for editing.
+      if (html === null) {
+        saving = false
+        errKey = restoring ? 'keptRefused' : 'refused'
+        if (restoring) { kept = null; dirty = true }
+        render()
+        return
+      }
+      stash()
+      try {
+        await within(art.publish(html), PUBLISH_MS)
+        lastPublishAt = Date.now()
+        saving = false
+        kept = null
+        recovered = false
+        dropKept()
+        base = content
+        srcMark = mark(html)
+        if ((dirty = rev !== startRev)) keep()
+        // The host reloads this view onto the new version next.
+        settling = true
+        setTimeout(() => { settling = false; render() }, SETTLE_MS)
+        render()
+      } catch (e) {
+        saving = false
+        const code = codeOf(e)
+        // On conflict the host reloads onto the newer version; both stashes
+        // stand, so the caret lands where it was and the edits are offered back.
+        if (code === 'conflict') { stale = true; keep(); render(); return }
+        clearStash()
+        if (READER_CODES.test(code)) {
+          // Not this viewer's to save: back to the served version.
+          mode = 'reader'
+          if (restoring) { dropKept(); kept = null; recovered = false; render(); location.reload(); return }
+          render()
+          return
+        }
+        if (code === 'rate_limited') lastPublishAt = Date.now()
+        errKey = code === 'rate_limited' ? 'limited' : code === 'too_large' ? 'tooLarge' : 'failed'
+        if (restoring && errKey === 'tooLarge') { kept = null; dirty = true }
+        render()
+      }
+    }
+    const attempt = (restoring = false) => {
+      const wait = lastPublishAt + MIN_GAP_MS - Date.now()
+      if (wait > 0) {
+        if (waitTimer === null) waitTimer = setTimeout(() => { waitTimer = null; if (restoring) restoreKept(); else save() }, wait)
+        render()
+        return
+      }
+      // Kind chrome outside the page (a formula bar, a comment draft)
+      // settles or objects before anything is read.
+      if (!page.dispatchEvent(new CustomEvent('kit-presave', { cancelable: true }))) { render(); return }
+      run(restoring)
+    }
+    const save = () => {
+      if (mode === 'writer' && dirty && kept === null && !saving && !settling && !stale) attempt()
+    }
+    const restoreKept = () => {
+      if (kept !== null && mode === 'writer' && !saving && !settling && !stale && waitTimer === null) attempt(true)
+    }
+    if (saveBtn) saveBtn.addEventListener('click', save)
+    if (restoreBtn) restoreBtn.addEventListener('click', restoreKept)
+    if (discardBtn) discardBtn.addEventListener('click', () => {
+      if (saving || settling || waitTimer !== null || !recovered) return
+      dropKept()
+      // Nothing on show outlives this reload, not even a copy a failed
+      // restore opened up for editing.
+      dirty = false
+      settling = true
+      setTimeout(() => { settling = false; render() }, SETTLE_MS)
+      render()
+      // The served version comes back with the page's own scripts wired to it.
+      location.reload()
+    })
+    document.addEventListener('keydown', e => {
+      if (mode === 'writer' && (e.metaKey || e.ctrlKey) && !e.altKey && !e.shiftKey && (e.key === 's' || e.key === 'S')) {
+        e.preventDefault()
+        if (kept === null) save(); else restoreKept()
+      }
+    })
+
+    // Capability resolution. A host may attach window.claude a beat after
+    // inline scripts run, so absence is concluded only after a few seconds
+    // of looking.
+    const runtime = () => {
+      const c = window.claude
+      return c && typeof c === 'object' && !c.nodeType ? c : null
+    }
+    const acquire = name => {
+      const c = runtime()
+      if (!c) return Promise.resolve(null)
+      if (typeof c.use === 'function') {
+        const slow = new Promise(resolve => setTimeout(() => resolve(null), ASK_MS))
+        try { return Promise.race([Promise.resolve(c.use(name)).catch(() => null), slow]) } catch { return Promise.resolve(null) }
+      }
+      return Promise.resolve(c[name] || (name === 'artifact' ? c.self : null) || null)
+    }
+    const whenRuntime = () => new Promise(resolve => {
+      if (runtime()) { resolve(); return }
+      let tries = 0
+      const tick = () => {
+        if (runtime() || ++tries > 30) resolve()
+        else setTimeout(tick, 100)
+      }
+      setTimeout(tick, 100)
+    })
+    const boot = async () => {
+      // Later kind scripts listen for kit-restore and kit-serialize; wait
+      // until they ran.
+      let read = false
+      const early = () => { if (read) return; read = true; if (kept === null) base = serialize(); restore() }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', early, { once: true })
+      else setTimeout(early, 0)
+      // One deadline for the whole read, body included.
+      const fetched = within(typeof fetch === 'function' ? fetch('./', { credentials: 'same-origin', cache: 'no-store' }).then(r => (r.ok ? r.text() : null)) : Promise.reject(), 4 * ASK_MS)
+        .then(t => (t === null ? null : stripServed(t)))
+        .catch(() => null)
+      await whenRuntime()
+      const [cap, user, text] = await Promise.all([acquire('artifact'), acquire('user'), fetched])
+      art = cap && typeof cap.publish === 'function' ? cap : null
+      source = text !== null && validSource(text) ? text : null
+      let writer = art !== null && source !== null
+      let denied = false
+      if (writer && user && typeof user.canEdit === 'function') {
+        // Only an explicit no is a denial; any other answer merely fails to confirm.
+        try { const a = await within(user.canEdit(), ASK_MS); denied = a === false; if (a !== true) writer = false } catch { writer = false }
+      }
+      mode = writer ? 'writer' : 'reader'
+      // A reader has nothing to decide: back to the served version. A page
+      // that merely failed to confirm access keeps the copy for the next load.
+      if (denied && kept !== null) { dropKept(); kept = null; recovered = false; render(); location.reload(); return }
+      if (source !== null) srcMark = mark(source)
+      over = kept !== null && keptFrom !== null && srcMark !== null && keptFrom !== srcMark
+      // Over the same version, the copy's record of the article stands in
+      // for the reading this page could not take before showing the copy.
+      if (kept !== null && !over && keptBase !== null) base = keptBase
+      early()
+      render()
+      keep()
+    }
+    // Recovered edits take the served article's place at first paint, so
+    // they are seen exactly as they would be saved.
+    base = serialize()
+    kept = readKept()
+    recovered = kept !== null
+    if (recovered) page.replaceChildren(...sanitize(parse('<body>' + kept).body).childNodes)
+    render()
+    boot()
   })();
   // KIT:persist:end
 </script>

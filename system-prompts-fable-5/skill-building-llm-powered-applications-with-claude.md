@@ -5,7 +5,7 @@ description: >-
   covering language detection, API surface selection (Claude API vs Managed
   Agents), model defaults, thinking/effort configuration, and language-specific
   documentation reading
-ccVersion: 2.1.224
+ccVersion: 2.1.234
 -->
 
 # Building LLM-Powered Applications with Claude
@@ -440,7 +440,7 @@ Server-side tools run on Anthropic's infrastructure — no client-side execution
 
 ## Reading Guide
 
-After detecting the language, read based on what the user needs.
+After detecting the language, read based on what the user needs. Every `{lang}/…`, `shared/…`, and `curl/…` path cited in this document is relative to this skill's base directory and none of those files' content is included above — Read each one before relying on what it covers.
 
 ### Quick Task Reference
 

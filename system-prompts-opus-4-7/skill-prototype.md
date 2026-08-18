@@ -7,7 +7,7 @@ description: >-
   build, then iterate on feedback in the same artifact. Use when the user asks
   to prototype an idea, mock up a concept, build a proof of concept, or wants to
   see something working before committing to a real build.
-ccVersion: 2.1.232
+ccVersion: 2.1.234
 -->
 ---
 name: prototype
@@ -94,8 +94,12 @@ Load the \`artifact-design\` skill, then write one self-contained HTML
 page in your scratchpad directory: inline styles and script, no build
 step, no external services, realistic sample data where real data would
 go — except any region the section below, when present, wires to the
-real thing. Make the core interaction actually work — that is the
-proof — and mock whatever sits behind it. Build the smallest page that
+real thing. The one outside request a page may make is a Google Fonts
+stylesheet \`<link>\` (\`fonts.googleapis.com\`, whose font files come from
+\`fonts.gstatic.com\`) when the type is part of what you are showing; keep
+a fallback stack on every face, and inline everything else. Make the core
+interaction actually work — that is the proof — and mock whatever sits
+behind it. Build the smallest page that
 proves the idea: every extra screen, setting, or flourish slows the loop and is
 one more thing to break in the demo. Every prototype answers one design
 question: name it in one sentence, written at the top of the page, so

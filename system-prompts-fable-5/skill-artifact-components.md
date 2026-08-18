@@ -2,7 +2,7 @@
 name: "Skill: artifact-components"
 description: >-
   Bundled artifact-components skill — Embed reusable artifact components in any HTML artifact — first entry: the workshop decision component (clickable option rows backed by a machine-readable record the session reads back). Use when a non-workshop artifact should carry decisions the reader answers from the published page, or to look up a component's exact scripts, styles, markup contract, and compo
-ccVersion: 2.1.233
+ccVersion: 2.1.234
 -->
 ---
 name: artifact-components
@@ -55,7 +55,7 @@ Files in this skill's \`decision/\` directory:
   publish allowlist admits inline scripts by sha256 of the script element's
   text content; the shipped blocks hash to
   \`cc92acd07b10a4a892834a8661cb4a69a299224a830e01b1e68f2b29c1c0c15b\` (theme) and
-  \`3f6c0508e5b75c41cfdb1377295d8df8a12c07dca767fac54707aac3c5dd030e\` (decisions).
+  \`08eafa73e8186c16026df60706aee612fc18689696a638759098aaa70834379d\` (decisions).
   Never edit, reindent, or reformat them — any byte difference refuses as
   \`script-not-blessed\`. The publish verifier's blessed set is the source of
   truth for these hashes; the literals here are documentation, held to the

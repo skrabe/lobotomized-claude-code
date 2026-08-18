@@ -8,7 +8,7 @@ description: >-
   a PR as an artifact, publish a PR review page, or share a review briefing. NOT
   a narrative walkthrough. Only for CREATING a new artifact; edits to an existing artifact
   modify its HTML directly.
-ccVersion: 2.1.232
+ccVersion: 2.1.234
 -->
 ---
 name: artifact-pr-review
@@ -352,12 +352,13 @@ is inactive; the briefing is otherwise complete):
    link), each viewer is prompted on first view to let the page read the PR
    through THEIR own GitHub connector, and the page re-reads the PR head about
    every two minutes while open, as that viewer. Give the choice: live signal
-   (org-only page) or static page (shareable anywhere). If the user asked for
-   something to share outside the organization, or does not want the connector
-   prompt, keep \`"live": null\` and publish static. When you are running
-   without a human in the loop to answer, keep \`"live": null\`, publish static
-   — the page should not change its sharing audience without a person choosing
-   it — and say the live signal is available on a re-run.
+   (org-only page) or no live signal (shareable as the share dialog allows). If
+   the user asked for something to share outside the organization, or does not
+   want the connector prompt, keep \`"live": null\` and publish without it. When
+   you are running without a human in the loop to answer, keep \`"live": null\`
+   and publish without it — the page should not change its sharing audience
+   without a person choosing it — and say the live signal is available on a
+   re-run.
 
 Then set \`"live": {"tool": <name>, "input": <that exact input>,
 "shaPath": [<key path>]}\` under the same validation discipline: tool
@@ -413,22 +414,18 @@ off and why (the pills render as visibly inert spans):
    loaded the \`artifact-capabilities\` skill before declaring — it carries the
    current runtime contract and says whether the artifact-publish capability is
    available to this user.
-3. The user has not asked for a page shareable outside their organization.
-   Declaring the capability changes who can see the page: a page that can
-   update itself is viewable only inside the user's organization — no public
-   link. Actionable pills are the default when items 1-2 hold; publish static
-   instead when the user asked for something to share externally, or asked for
-   display-only. Either way, tell the user in your reply what the page they got
-   does: with pills, the page is org-internal; anyone with WRITE access to the
+3. The user has not asked for a display-only page. Actionable pills are the
+   default when items 1-2 hold; publish static instead only when the user asked
+   for display-only. Either way, tell the user in your reply what the page they
+   got does: with pills, anyone with WRITE access to the
    artifact — the user, and any teammates it is shared with as writers, never
    view-only readers — can decide from it; each decision becomes a new version
    of the page; and this session then acts on GitHub in response (decision
    comments autonomously, a review verdict only with the user's explicit
    confirmation — see "Acting on decisions").
-4. A human is in the loop to read that disclosure. When you are running without
-   one, skip the declaration — the page's sharing audience should not change
-   without a person able to read about it — and say the decision pills are
-   available on a re-run.
+4. A human is in the loop to read that disclosure — the page acts on GitHub on
+   their behalf. When you are running without one, skip the declaration and say
+   the decision pills are available on a re-run.
 
 The pills' click behavior is the baked decisions script — fixed, vetted
 template code under the same byte-for-byte rule as the staleness script. The
@@ -460,12 +457,14 @@ activates with the annotation absent, the one name-pinned exemption — and
 otherwise the page stays quietly static), and refreshing the briefing means
 re-running this skill. For decisions: restate step 3c item 3's disclosure.
 
-If a publish that declares capabilities is rejected because the artifact is
-already shared outside the organization, that is the sharing gate working as
-designed — a page with these capabilities cannot also be externally shared.
-Don't retry or force: tell the user the page's current sharing is what blocks
-it, and let them choose (keep external sharing and publish static, or narrow
-sharing and re-publish with the declaration).
+If a publish that declares the connector capability is rejected because the
+artifact is already shared outside the organization, that is the sharing gate
+working as designed — a page that reads the PR through its viewers' connectors
+cannot also be externally shared (the artifact-publish capability alone carries
+no such limit). Don't retry or force: tell the user the page's current sharing
+is what blocks it, and let them choose (keep external sharing and publish
+without the live signal, or narrow sharing and re-publish with the
+declaration).
 
 **Capabilities on a republish of an existing page.** Omitting the field carries
 the stored declaration forward unchanged — that is the default, and what the

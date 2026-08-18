@@ -8,7 +8,7 @@ description: >-
   build, copy, UI-vs-document), then run the editorial process only when the
   read says so — so output is intentional, polished, and never reads as a
   template.
-ccVersion: 2.1.232
+ccVersion: 2.1.234
 -->
 ---
 name: artifact-design
@@ -32,7 +32,7 @@ The fundamentals apply to everything. The editorial process runs only when the r
 
 **Ground it in the subject.** If the subject isn't clear, pin it: one concrete subject, its audience, the page's single job. The subject's own world — its materials, instruments, vernacular — is where distinctive choices come from. Build with real content throughout, never lorem.
 
-**Pair typefaces.** Typography carries the page even when the page isn't about typography. The Artifact CSP blocks font CDNs — don't link a webfont URL and risk a silent fallback; inline the face as an `@font-face` data URI. Keep running text near 65 characters wide, set a type scale and stay on it, give headings `text-wrap: balance` and uppercase labels a touch of letter-spacing.
+**Pair typefaces.** Typography carries the page even when the page isn't about typography. Google Fonts is the one font host the Artifact CSP admits — link it directly (`<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=…&display=swap">`); any other face must be inlined as an `@font-face` data URI or it falls back silently. Declare a real fallback stack either way. Keep running text near 65 characters wide, set a type scale and stay on it, give headings `text-wrap: balance` and uppercase labels a touch of letter-spacing.
 
 **Choose neutrals, don't default to them.** A pure mid-grey reads as unconsidered; a grey biased slightly toward the accent reads as chosen. Pure white and near-black are fine grounds when they suit the subject — the point is the neutral was picked, not inherited.
 

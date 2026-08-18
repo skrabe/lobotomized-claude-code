@@ -1,10 +1,9 @@
 <!--
 name: 'Skill: Artifact PR review HTML template'
 description: >-
-  HTML body-fragment template the Artifact PR-review skill gives the model, with
-  escaping rules for untrusted PR strings, design tokens, slot markers and the
-  baked decisions script
-ccVersion: 2.1.233
+  Full HTML body-fragment template with slot comments and design tokens that the
+  artifact PR-review skill hands the model to fill in
+ccVersion: 2.1.234
 -->
 <!-- Artifact-tool body fragment — no <!DOCTYPE>/<html>/<head>/<body> wrapper. See SKILL.md for slot guidance.
      SECURITY: every string that originates from the PR (title, description, diff lines,
@@ -900,6 +899,21 @@ ccVersion: 2.1.233
     }
     return true;
   }
+  function hasScriptOpen(s) {
+    /* '<' then 'script' in any ASCII case, no terminator required — the
+       reach of the CLI's case-insensitive script-open test, folded per
+       char like isScriptCloseAt. */
+    for (var i = s.indexOf('<'); i !== -1; i = s.indexOf('<', i + 1)) {
+      var k = 0;
+      for (; k < 6; k++) {
+        var c = s.charCodeAt(i + 1 + k);
+        if (c >= 65 && c <= 90) c = c | 32;
+        if (c !== 'script'.charCodeAt(k)) break;
+      }
+      if (k === 6) return true;
+    }
+    return false;
+  }
   function findScriptClose(s, from) {
     /* Tokenizer-faithful close (review r3618929901, KEEP-IN-SYNC with
        goCp's isFrameAssetInjection): script data ends at the close-tag
@@ -916,6 +930,14 @@ ccVersion: 2.1.233
       if (isScriptCloseAt(s, i)) {
         var c = s.charCodeAt(i + 8);
         if (c === 62 || c === 47 || wsCode(c)) {
+          /* A comment-open plus a script-open in the data can leave the
+             tokenizer in its (double-)escaped states, where this close
+             does NOT end the script. Refuse the pair rather than model
+             them: the injectors refuse it too, so no emitted block has
+             it. The comment-open is spelled split below so this script's
+             own source never enters the escaped state here. */
+          var d = s.slice(from, i);
+          if (d.indexOf('<' + '!--') !== -1 && hasScriptOpen(d)) return -1;
           var g = s.indexOf('>', i + 8);
           if (g === -1) return -1;
           /* This prefix IS the tokenizer's script-data exit, so it is
@@ -935,19 +957,65 @@ ccVersion: 2.1.233
       i += 2;
     }
   }
-  /* charCode whitespace test — exactly the HTML ASCII whitespace set
-     (space, tab, LF, FF, carriage return), no backslash escapes in this template.
-     KEEP-IN-SYNC: goCp's isFrameAssetInjection uses the same set in
-     all three whitespace positions, so the two grammars are equivalent
-     and the agreement test asserts verdict equality on every fixture.
-     Regex whitespace would overclaim (VT, NBSP, U+2028…), and an
-     unknown element like a script tag followed by NBSP renders its
-     content — accepting it could excise author-visible bytes. */
+  /* Exactly the HTML ASCII whitespace set (space, TAB, LF, FF, carriage
+     return), used in-tag AND between tags; String trim or regex whitespace
+     would also accept chars the tokenizer renders as text (NBSP, U+2028,
+     U+FEFF…) and so could excise author-visible bytes. charCodes keep this
+     template backslash-free. KEEP-IN-SYNC: goCp isFrameAssetInjection. */
   function wsCode(c) {
     return c === 32 || c === 9 || c === 10 || c === 12 || c === 13;
   }
+  function wsTrim(s) {
+    var a = 0;
+    var b = s.length;
+    while (a < b && wsCode(s.charCodeAt(a))) a++;
+    while (b > a && wsCode(s.charCodeAt(b - 1))) b--;
+    return s.slice(a, b);
+  }
+  function scriptOpenEnd(s, from) {
+    /* Where the open tag whose attributes begin at s[from] ends, walked
+       the way the tokenizer walks attributes (KEEP-IN-SYNC with goCp's
+       openTagEnd): greater-than ends the tag everywhere EXCEPT
+       inside a quoted attribute value, and a quote opens a value only
+       straight after an attribute's equals sign (whitespace allowed);
+       anywhere else it is an ordinary name or value byte. Returns the
+       offset AFTER the tag, or -1 when the text ends inside it. Ending
+       at the first greater-than would end a planted tag inside its
+       quoted value, where the browser keeps consuming, and validate a
+       span the browser never closed. States: 0 before name, 1 name,
+       2 after name, 3 before value, 4 unquoted value, 5 after quoted. */
+    var st = 0;
+    var i = from;
+    while (i < s.length) {
+      var c = s.charCodeAt(i);
+      if (st === 3) {
+        if (c === 34 || c === 39) {
+          var q = s.indexOf(c === 34 ? '"' : "'", i + 1);
+          if (q === -1) return -1;
+          i = q + 1;
+          st = 5;
+          continue;
+        }
+        if (wsCode(c)) {
+          i++;
+          continue;
+        }
+        if (c === 62) return i + 1;
+        st = 4;
+        i++;
+        continue;
+      }
+      if (c === 62) return i + 1;
+      if (wsCode(c)) st = st === 1 || st === 2 ? 2 : 0;
+      else if (c === 47 && st !== 4) st = 0;
+      else if (c === 61 && (st === 1 || st === 2)) st = 3;
+      else st = st === 4 ? 4 : 1;
+      i++;
+    }
+    return -1;
+  }
   function isFrameAssetInjection(inner) {
-    var s = inner.trim();
+    var s = wsTrim(inner);
     if (s.indexOf('<base') !== 0) return false;
     var gt = s.indexOf('>');
     if (gt === -1) return false;
@@ -976,18 +1044,18 @@ ccVersion: 2.1.233
     while (r < tag.length && wsCode(tag.charCodeAt(r))) r++;
     var rest = tag.slice(r);
     if (rest !== '' && rest !== '/') return false;
-    s = s.slice(gt + 1).trim();
+    s = wsTrim(s.slice(gt + 1));
     while (s.length) {
       if (s.indexOf('<script') !== 0) return false;
       /* Word boundary after 'script' — '<scriptfoo>' must fail like
          goCp's <script-then-boundary grammar. */
       var bnd = s.charCodeAt(7);
       if (bnd !== 62 && bnd !== 47 && !wsCode(bnd)) return false;
-      var open = s.indexOf('>');
+      var open = scriptOpenEnd(s, 7);
       if (open === -1) return false;
-      var after = findScriptClose(s, open + 1);
+      var after = findScriptClose(s, open);
       if (after === -1) return false;
-      s = s.slice(after).trim();
+      s = wsTrim(s.slice(after));
     }
     return true;
   }

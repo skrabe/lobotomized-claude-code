@@ -3,7 +3,7 @@ name: 'Skill: Artifact slides HTML template'
 description: >-
   Bundled live slide-deck Artifact editor template used by the slides skill,
   including presentation mode, notes, comments, and overflow handling.
-ccVersion: 2.1.233
+ccVersion: 2.1.234
 -->
 <!doctype html>
 <html lang="en">
@@ -39,6 +39,7 @@ ccVersion: 2.1.233
     --cds-font-voice: var(--cds-font-sans);
     --cds-font-formula: "Anthropic Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --cds-text-danger: #b3261e;
+    --cds-text-warning: #c25124;
     --cds-font-sans: "Anthropic Sans", ui-sans-serif, -apple-system, sans-serif;
     --cds-font-mono: "Anthropic Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     font-family: var(--cds-font-voice);
@@ -65,6 +66,7 @@ ccVersion: 2.1.233
     --cds-border-strong: rgba(237, 237, 234, 0.28);
     --cds-text-accent: #5da0f2;
     --cds-text-danger: #f2756a;
+    --cds-text-warning: #ec835a;
     --cds-accent-bg: rgba(93, 160, 242, 0.12);
   }
   @media (prefers-color-scheme: dark) {
@@ -80,6 +82,7 @@ ccVersion: 2.1.233
       --cds-border-strong: rgba(237, 237, 234, 0.28);
       --cds-text-accent: #5da0f2;
       --cds-text-danger: #f2756a;
+      --cds-text-warning: #ec835a;
       --cds-accent-bg: rgba(93, 160, 242, 0.12);
     }
   }
@@ -129,10 +132,16 @@ ccVersion: 2.1.233
   .tb-sep { width: 1px; height: 18px; background: var(--cds-border); margin: 0 8px; }
   .tb-right { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--cds-text-muted); }
   .tb-status { white-space: nowrap; color: var(--cds-text-secondary); opacity: 1; }
+  .tb-status[data-tone="warning"] { color: var(--cds-text-warning); font-weight: 600; }
+  .tb-status[data-tone="error"] { color: var(--cds-text-danger); font-weight: 600; }
+  .tb-status[data-tone="busy"], .tb-status[data-tone="muted"] { color: var(--cds-text-muted); }
+  .toolbar .tb-save { opacity: 1; font-size: 12px; padding: 5px 10px; color: var(--cds-text-primary); border-color: var(--cds-border-strong); }
+  .toolbar .tb-save:disabled { opacity: 0.45; color: var(--cds-text-secondary); border-color: var(--cds-border); }
+  .tb-save.is-dirty::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--cds-text-warning); }
+  .toolbar [hidden] { display: none; }
   .canvas { padding: 20px 24px 120px; }
-  /* A flash on text that changed under the reader (another viewer's
-     edit arriving). */
-  .cmark { background: var(--cds-accent-bg); border-bottom: 1px solid var(--cds-text-accent); }
+  /* Page content stacks below the chrome whatever it declares. */
+  .page { isolation: isolate; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   :focus-visible { outline: 2px solid var(--cds-text-accent); outline-offset: 1px; }
   /* KIT:chrome:end */
@@ -192,8 +201,9 @@ ccVersion: 2.1.233
   }
   .toolbar button[data-cpanel-toggle] { opacity: 1; font-size: 12px; }
   /* The anchor mark is a change-bar in the margin, not an underline a
-     reader mistakes for a rule; the wash is reserved for hover and
-     panel focus. */
+     reader mistakes for a rule; the wash (.cmark) is reserved for hover
+     and panel focus. */
+  .cmark { background: var(--cds-accent-bg); border-bottom: 1px solid var(--cds-text-accent); }
   .canchor { position: relative; }
   .canchor::before {
     content: ""; position: absolute; left: -14px; top: 2px; bottom: 2px;
@@ -201,6 +211,13 @@ ccVersion: 2.1.233
   }
   .canchor:hover { background: var(--cds-accent-bg); }
   .canchor:hover::before { opacity: 1; }
+  /* A reader cannot save, so a comment drafted in their tab would never
+     reach anyone: the writing controls step aside and the panel reads. */
+  [data-kit-mode="reader"] .cbub,
+  [data-kit-mode="reader"] .ccomposer,
+  [data-kit-mode="reader"] .rop-comment,
+  [data-kit-mode="reader"] .cpanel .cact button:not([data-act="goto"]),
+  [data-kit-mode="reader"] .cpanel .crow-reply { display: none; }
   @media (prefers-reduced-motion: no-preference) {
     .cpanel, .ccomposer, .cbub { animation: kit-enter 140ms ease-out; }
     @keyframes kit-enter { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: none; } }
@@ -243,10 +260,6 @@ ccVersion: 2.1.233
     border-radius: var(--cds-radius);
   }
   .rcell.on .rops, .rcell .rops:focus-within { display: flex; }
-  .clone-note {
-    font: 10px var(--cds-font-sans); letter-spacing: 0.05em; text-transform: uppercase;
-    color: var(--cds-text-danger); padding: 2px 0 0 2px;
-  }
   .rops button {
     appearance: none; border: 1px solid transparent; background: none;
     color: var(--cds-text-secondary); font-size: 13px; border-radius: var(--cds-radius);
@@ -254,6 +267,7 @@ ccVersion: 2.1.233
   }
   .rops button:hover { background: var(--cds-accent-bg); color: var(--cds-text-primary); }
   .rops button:disabled { opacity: 0.3; cursor: default; background: none; }
+  body:has(.page[inert]) .rops, body:has(.page[inert]) .radd-group, body:has(.page[inert]) .slide-undo button { opacity: 0.4; pointer-events: none; }
   .radd:hover { background: var(--cds-accent-bg); color: var(--cds-text-accent); }
   .page.deck { flex: 1; min-width: 0; outline: none; }
 
@@ -331,7 +345,7 @@ ccVersion: 2.1.233
   /* The collaboration layer is hidden, never removed — the kit's module
      state must survive a Present/Esc cycle. */
   body.present .cbub, body.present .ccomposer, body.present .cpanel, body.present .ovf-badge,
-  body.present .slide-undo, body.present .clone-note { display: none; }
+  body.present .slide-undo { display: none; }
   body.present { background: #0b0b0b; }
   body.present .canvas { padding: 0; }
   body.present .slide.current .frame {
@@ -435,9 +449,8 @@ ccVersion: 2.1.233
     position: absolute; right: 8px; bottom: 6px;
     font: 10px var(--cds-font-sans); color: var(--cds-text-danger); letter-spacing: 0.04em;
   }
-  /* The label is CSS content: the badge must contribute no textContent,
-     or inserting it inside an annotated slide reads as a foreign write
-     to KIT:persist's baseline compare. */
+  /* The label is CSS content, so the badge contributes no textContent
+     to the slide it sits in and never reaches a save. */
   .ovf-badge::before { content: "overflows"; }
   .counter {
     display: none;
@@ -466,10 +479,11 @@ ccVersion: 2.1.233
       --cds-text-accent: #184f95;
       --cds-accent-bg: rgba(24, 79, 149, 0.08);
       --cds-text-danger: #b3261e;
+      --cds-text-warning: #c25124;
     }
     .toolbar, .rail, .counter, body.present .counter,
     .cbub, .ccomposer, .cpanel, .slide-undo, .ovf-badge,
-    .clone-note, .next-peek, .present-hud, .present-hint, .end-cue { display: none; }
+    .next-peek, .present-hud, .present-hint, .end-cue { display: none; }
     .canchor::before { display: none; }
     .canvas, body.present .canvas { padding: 0; }
     .studio { display: block; max-width: none; }
@@ -507,6 +521,9 @@ ccVersion: 2.1.233
   <button data-present title="Present (Esc to exit)" aria-label="Present"><svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" stroke="none" aria-hidden="true"><path d="M4.5 2.8v10.4L13 8z"/></svg> Present</button>
   <button data-cpanel-toggle title="All comments" aria-label="All comments" aria-expanded="false"><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 3.5h11v7h-6l-3 3v-3h-2z"/></svg> <span data-ccount>0</span></button>
   <span class="tb-right">
+    <button class="tb-save" data-save hidden disabled title="Save (Ctrl+S / Cmd+S)" aria-label="Save">Save</button>
+    <button class="tb-save" data-restore hidden title="Save the recovered edits as a new version" aria-label="Save recovered edits">Save</button>
+    <button class="tb-save" data-discard hidden title="Discard the recovered edits and reload the saved version" aria-label="Discard recovered edits">Discard</button>
     <span class="tb-status" data-status role="status">Saved</span>
   </span>
 </div>
@@ -598,13 +615,32 @@ ccVersion: 2.1.233
     // conversation to the wrong slide.
     let slideSeq = 0
     const ensureSlideId = s => {
-      // A server-addressed slide keeps one identity for every viewer and
-      // load; an unaddressed one gets a session id that can only miss,
-      // never mis-target — the anchor's path leg covers reloads.
-      if (!s.dataset.slideId) s.dataset.slideId = s.dataset.id ? 'sd-' + s.dataset.id : 'sl' + (++slideSeq) + '-' + Math.random().toString(36).slice(2, 6)
+      // The id is saved with the page, so it stays stable across saves
+      // and reloads; a fresh one can only miss, never mis-target.
+      if (!s.dataset.slideId) s.dataset.slideId = 'sl' + (++slideSeq) + '-' + Math.random().toString(36).slice(2, 6)
       return s.dataset.slideId
     }
-    for (const s of page.querySelectorAll('.slide')) ensureSlideId(s)
+    // A repeated id (a slide pasted in whole) is re-minted on the
+    // newcomer, wherever it lands, so one conversation never answers to
+    // two slides and never wanders to the copy.
+    const owners = new Map()
+    const dedupeIds = () => {
+      const slides = [...page.querySelectorAll('.slide')]
+      const keeper = new Map()
+      for (const s of slides) {
+        const id = s.dataset.slideId
+        if (id && (owners.get(id) === s || !keeper.has(id))) keeper.set(id, s)
+      }
+      owners.clear()
+      for (const s of slides) {
+        if (keeper.get(s.dataset.slideId) !== s) delete s.dataset.slideId
+        owners.set(ensureSlideId(s), s)
+      }
+    }
+    dedupeIds()
+    // And again when slides arrive in bulk, wherever they land: a
+    // recovered copy, a paste.
+    new MutationObserver(dedupeIds).observe(page, { childList: true, subtree: true })
     const slideFp = s => {
       const h = s.querySelector('.frame h1, .frame h2') || s.querySelector('.frame')
       return h ? h.textContent.trim().slice(0, 80) : ''
@@ -654,12 +690,6 @@ ccVersion: 2.1.233
       // Everything but the select — its native picker is its mousedown default action.
       if (!ev.target.closest('select')) ev.preventDefault()
     })
-    // Run an editing command. The live-edit op vocabulary cannot express
-    // structure — a formatBlock or list toggle could destroy server-annotated
-    // elements no commit can ever restore — so structural commands refuse
-    // outright on annotated docs. Everything works on classic pages.
-    // \`structural\` must name every block-replacing command a family toolbar ships.
-    const structural = ['formatBlock', 'insertUnorderedList', 'insertOrderedList']
     // Firefox removed script-triggered undo/redo (execCommand returns
     // false there) — disable the buttons up front with the chord as the
     // pointer, instead of a click that reports success and does nothing.
@@ -671,26 +701,10 @@ ccVersion: 2.1.233
         }
       }
     }
-    // Annotation is decided at publish, so the controls that can never
-    // work on a live doc are disabled up front instead of dying silently.
-    if (page.querySelector('[data-id]')) {
-      for (const b of toolbar.querySelectorAll('button[data-cmd]')) {
-        if (structural.includes(b.dataset.cmd)) {
-          b.disabled = true
-          b.title = 'Not available on live docs yet'
-        }
-      }
-      const bs = toolbar.querySelector('select[data-block]')
-      if (bs) {
-        bs.disabled = true
-        bs.title = 'Not available on live docs yet'
-      }
-    }
     const runCmd = (cmd, arg) => {
       const sel = document.getSelection()
       if (!sel || !sel.rangeCount) return false
       if (!page.contains(sel.getRangeAt(0).commonAncestorContainer)) return false
-      if (structural.includes(cmd) && page.querySelector('[data-id]')) return false
       return document.execCommand(cmd, false, arg)
     }
     // Kinds that ship the comment kit float drafts over the page (a
@@ -735,9 +749,7 @@ ccVersion: 2.1.233
       refresh()
     })
     const blockSel = toolbar.querySelector('select[data-block]')
-    // Disabled at init on live docs and never re-enabled — the tracker
-    // would maintain state its only consumer can never read.
-    if (blockSel && !blockSel.disabled) {
+    if (blockSel) {
       // The select steals focus — track the page's last selection live, so
       // the picked style lands on the block the user was in.
       let lastRange = null, lastEl = null, lastTag = 'p'
@@ -753,7 +765,7 @@ ccVersion: 2.1.233
         lastRange = r.cloneRange()
         const n = r.commonAncestorContainer
         const el = n.nodeType === 1 ? n : n.parentElement
-        lastEl = el && el.closest('[data-id], h1, h2, h3, p, blockquote, li') || el
+        lastEl = el && el.closest('h1, h2, h3, p, blockquote, li') || el
         const b = el && el.closest('h1, h2, h3')
         lastTag = b ? b.tagName.toLowerCase() : 'p'
       })
@@ -851,8 +863,7 @@ ccVersion: 2.1.233
   // bubble (and Ctrl/Cmd+Alt+M opens the composer — the editable surface
   // swallows bare shortcuts, so keyboard commenting needs a chord); the
   // composer files into the document's OWN comment store (the hidden
-  // .cstore block) over the same set-text path as every edit, so every
-  // viewer sees every comment with no external capability involved.
+  // .cstore block), saved with the page like every other edit.
   // Point anchor at the selection start.
   (() => {
     const page = document.querySelector('.page')
@@ -869,10 +880,19 @@ ccVersion: 2.1.233
     // the rebuild destroyed, and a parked draft never steals focus.
     const draftStash = new Map()
     const clear = el => { if (el && el.parentNode) el.parentNode.removeChild(el) }
+    // "A reply draft is live", for a reply iframe — the literal the
+    // toolbar's guard (KIT:editor) carries too; a test pins them equal.
+    const replyDraft = f => {
+      const d0 = f.contentDocument
+      const ins0 = d0 ? d0.querySelectorAll('input') : []
+      // A typed byline is a draft too — compared against its own
+      // prefill, so the convenience text alone never blocks a close.
+      return ins0.length && (ins0[0].value.trim() !== '' ||
+        (ins0[1] && ins0[1].value.trim() !== (ins0[1].dataset.prefill || '').trim()))
+    }
     // Comments live IN the document: one hidden annotated block (.cstore)
-    // holds the serialized list, and appends ride the same set-text
-    // vocabulary as every other edit — durable on live docs, view-local
-    // on classic ones, no external capability involved. Every stored
+    // holds the serialized list, and appends are edits saved with the
+    // page like any other. Every stored
     // string is other people's input: rendered with textContent, never
     // markup. IDENTITY SEAM (documented, not active): the entry schema
     // reserves an author id field for the user capability's opaque
@@ -880,7 +900,7 @@ ccVersion: 2.1.233
     // profiles()); writing such a token into doc content is a mint site
     // in that program's enumeration, so activation is coordinated there
     // — shipped code stores only commenter-typed bylines or nothing.
-    const storeEl = () => page.querySelector('.cstore')
+    const storeEl = () => [...page.children].findLast(el => el.classList.contains('cstore')) || [...page.querySelectorAll('.cstore')].pop() || null
     const isLiveEntry = e => e && typeof e === 'object' && !e.resolved
     const cLive = document.createElement('span')
     cLive.className = 'visually-hidden'
@@ -918,12 +938,8 @@ ccVersion: 2.1.233
     const appendComment = entry => {
       const el = storeEl()
       if (!el) return false
-      // Read at the moment of the write: the freshest local truth is
-      // the DOM the observer keeps current, so a remote append observed
-      // since load survives the rewrite. The whole list still recommits
-      // as one set-text, so two appends inside one sync window can
-      // last-write-win (a documented limit until comments get
-      // per-entry blocks).
+      // Read at the moment of the write, so the rewrite carries whatever
+      // the store holds now rather than a copy cached at load.
       const arr = readStore()
       if (arr === null) return false
       arr.push(entry)
@@ -1045,10 +1061,8 @@ ccVersion: 2.1.233
       }
       let el = range.startContainer
       if (el.nodeType !== 1) el = el.parentElement
-      // Anchors must outlive the edit vocabulary: set-text flattens
-      // inline marks, so a hop through one dies on the block's first
-      // commit. Climb to the nearest block-level element (mirroring
-      // KIT:persist's BLOCK_TAGS classification) before recording hops.
+      // Anchor on the nearest block: an inline mark can be split, merged,
+      // or retyped away, so a hop through one would not survive.
       while (el && el !== page && !ANCHOR_BLOCK_TAGS.test(el.tagName)) el = el.parentElement
       // A select-all puts the boundary on the page itself — descend to
       // the first block the range touches, or the path records empty.
@@ -1176,6 +1190,15 @@ ccVersion: 2.1.233
         }
       }
     }
+    // Decoration stays out of a save: the clone sheds its marks.
+    page.addEventListener('kit-serialize', e => {
+      for (const el of e.detail.root.querySelectorAll('.canchor, .cmark')) {
+        el.classList.remove('canchor', 'cmark')
+        el.removeAttribute('aria-details')
+        el.removeAttribute('aria-description')
+        delete el.dataset.canchorId
+      }
+    })
     let showResolved = false
     const renderPanel = () => {
       if (!panel) return
@@ -1357,8 +1380,7 @@ ccVersion: 2.1.233
           send.addEventListener('click', () => {
             const t = inp.value.trim()
             if (!t) return
-            // The same read-append-recommit path appends ride — and the
-            // same one-window last-write-wins caveat applies.
+            // The same read-append-recommit path appends ride.
             const el2 = storeEl()
             const arr2 = readStore()
             if (!el2 || !arr2) return
@@ -1455,8 +1477,7 @@ ccVersion: 2.1.233
         }
       }
     }
-    // Resolve/reopen rewrites the one entry and recommits the store —
-    // the same wholesale set-text path appends ride.
+    // Resolve/reopen rewrites the one entry and recommits the store.
     const setResolved = (id, val, expectText) => {
       if (!id) return
       const el = storeEl()
@@ -1496,14 +1517,7 @@ ccVersion: 2.1.233
         if (panel) {
           // Mirrors the composer's has-draft guard: closing must not eat
           // a typed reply — the draft gets the keyboard instead.
-          const fr2 = [...panel.querySelectorAll('.crow-reply iframe')].find(f => {
-            const d0 = f.contentDocument
-            const ins0 = d0 ? d0.querySelectorAll('input') : []
-            // A typed byline is a draft too — compared against its own
-            // prefill, so the convenience text alone never blocks a close.
-            return ins0.length && (ins0[0].value.trim() !== '' ||
-              (ins0[1] && ins0[1].value.trim() !== (ins0[1].dataset.prefill || '').trim()))
-          })
+          const fr2 = [...panel.querySelectorAll('.crow-reply iframe')].find(replyDraft)
           if (fr2) {
             // Land the keyboard on the field that blocks the close — a
             // byline-only draft otherwise points at an empty text field.
@@ -1547,31 +1561,39 @@ ccVersion: 2.1.233
         }
       })
     }
-    // A collaborator's comment arrives as a server-applied write to the
-    // store block, not a local event — observe the block so the count
-    // and an open panel track remote appends too.
-    {
+    // Observe the store block so the count and an open panel follow any
+    // rewrite of it, not only this region's own appends.
+    const follow = new MutationObserver(() => {
+      refreshCount(); renderMarks()
+      // Drafts and focus survive the rebuild (renderPanel captures
+      // and restores them), so the panel can always follow the store.
+      renderPanel()
+      if (pcount && !document.body.classList.contains('present')) {
+        pcount.classList.remove('pulse')
+        void pcount.offsetWidth
+        pcount.classList.add('pulse')
+      }
+    })
+    let followed = null
+    // A replaced article (recovered edits) brings its own store block.
+    const bind = () => {
       const st = storeEl()
-      if (st) new MutationObserver(() => {
-        refreshCount(); renderMarks()
-        // Drafts and focus survive the rebuild (renderPanel captures
-        // and restores them), so the panel can always follow the store.
-        renderPanel()
-        if (pcount && !document.body.classList.contains('present')) {
-          pcount.classList.remove('pulse')
-          void pcount.offsetWidth
-          pcount.classList.add('pulse')
-        }
-      }).observe(st, { childList: true, characterData: true, subtree: true })
+      if (st === followed) return
+      followed = st
+      follow.disconnect()
+      if (st) follow.observe(st, { childList: true, characterData: true, subtree: true })
+      refreshCount()
+      renderMarks()
     }
-    refreshCount()
-    renderMarks()
+    new MutationObserver(bind).observe(page, { childList: true })
+    bind()
     // The textarea lives in the composer's own iframe: on Blink and
     // Gecko its document carries its own undo stack, so page and draft
     // history never interleave there (WebKit's undo manager is
     // per-page — a recorded limitation). The .has-draft class on the
     // host div is the cross-region signal for a non-empty draft.
     const openComposer = (range, quoted, anchorOverride) => {
+      if (document.documentElement.dataset.kitMode === 'reader') return
       // A mid-draft re-trigger focuses the draft instead of destroying it.
       // One predicate for "is there a draft": the .has-draft class the
       // signal maintains — the re-trigger guard and the mid-draft guards
@@ -1725,375 +1747,531 @@ ccVersion: 2.1.233
       composer.append(row)
       ta.focus()
     }
+    // A save ends in a reload no open draft would survive: Save waits for
+    // the draft and hands it the keyboard, as closing the panel does.
+    page.addEventListener('kit-presave', e => {
+      const fr0 = composer && composer.classList.contains('has-draft')
+        ? composer.querySelector('iframe')
+        : [...document.querySelectorAll('.cpanel .crow-reply iframe')].find(replyDraft)
+      const d0 = fr0 && fr0.contentDocument
+      const live = d0 ? [...d0.querySelectorAll('textarea, input')] : []
+      if (!live.length) return
+      e.preventDefault()
+      const tgt = live[0].value.trim() ? live[0] : live[1] || live[0]
+      tgt.focus()
+      announceComment(fr0.closest('.crow-reply') ? 'A reply draft is open — send or clear it first' : 'A comment draft is open — add or cancel it first')
+    })
+    // A page that turns out to be read-only drops a draft begun while it
+    // loaded; nothing written there could reach anyone.
+    new MutationObserver(() => {
+      if (document.documentElement.dataset.kitMode !== 'reader' || !composer) return
+      clear(composer); composer = null; clear(bubble); bubble = null
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-kit-mode'] })
+    // The comment chrome holds whenever the page does: a reply sent then
+    // would not reach the version that ends up saved.
+    const hold = () => {
+      for (const el of document.querySelectorAll('.cpanel, .ccomposer, .cbub')) if (!page.contains(el)) el.toggleAttribute('inert', page.hasAttribute('inert'))
+    }
+    new MutationObserver(hold).observe(page, { attributes: true, attributeFilter: ['inert'] })
+    new MutationObserver(hold).observe(document.body, { childList: true })
   })();
   // KIT:comment:end
 
-  // KIT:persist:begin — live persistence, live docs only: artifact.edit
-  // (legacy self.edit) is the live-doc write surface, so anywhere it is
-  // absent or refused (no runtime, classic artifact, read-only viewer)
-  // edits stay local to this view. It comes from claude.use('artifact')
-  // when the runtime offers that, else lazily off window.claude; presence
-  // alone does not prove a live doc (a declared capability mounts a
-  // rejecting edit on a non-live doc), so the save status reports
-  // persistence only after a first server-accepted commit.
+  // KIT:persist:begin — Save republishes the served source with the live
+  // page content spliced in, through the artifact publish capability;
+  // without the capability or write access, edits stay in this tab.
+  // Unsaved edits are kept in session storage; a page that loads with some
+  // shows them, read-only, until the writer saves or discards them.
   (() => {
     const page = document.querySelector('.page')
     const status = document.querySelector('[data-status]')
+    const saveBtn = document.querySelector('[data-save]')
+    const restoreBtn = document.querySelector('[data-restore]')
+    const discardBtn = document.querySelector('[data-discard]')
     if (!page) return
-    let used = null
-    let asked = false
-    let answered = false
-    const selfCap = () => {
-      const c = window.claude
-      if (c && typeof c.use === 'function') {
-        if (!asked) {
-          asked = true
-          c.use('artifact').then(got => {
-            used = got
-            answered = true
-            if (got) sweep()
-            else if (dirty.size && !disabled) say('Local only')
-          })
-        }
-        return used && typeof used.edit === 'function' ? used : null
-      }
-      const api = c && (c.artifact || c.self)
-      return api && typeof api.edit === 'function' ? api : null
+    const KIND = page.className
+    const COPY = {
+      saved: 'Saved',
+      dirty: 'Unsaved changes',
+      saving: 'Saving…',
+      failed: 'Couldn’t save. Try again.',
+      limited: 'Save limit reached. Try again later.',
+      tooLarge: 'Too large to save. Remove some content.',
+      refused: 'Couldn’t save. Part of this content can’t be published.',
+      conflict: 'A newer version exists. Reload to edit it.',
+      viewOnly: 'View only. Edits stay in this tab.',
+      kept: 'Showing recovered edits. Not saved yet.',
+      keptOver: 'Showing recovered edits over a newer version. Saving replaces it.',
+      keptHeld: 'Showing recovered edits. Can’t save right now. Reload to try again.',
+      keptRefused: 'Can’t save these edits as they are. Edit or discard them.',
     }
-    // Asked but not yet answered: edits are tracked as if the doc were
-    // live (the fail-safe direction for the local-only latches) and the
-    // status names them local only once use() has actually said no.
-    const pending = () => asked && !answered
-    // A collaborator's commit lands as a server-applied write to a
-    // block's DOM — with no local event. A baseline pinned at load would
-    // then call a local revert-to-baseline a no-op and skip its commit
-    // under "Saved" — the one silent drop path. Observing the blocks and
-    // dropping the baseline for foreign writes makes the next flush
-    // commit instead of skip: the fail-safe direction.
-    // (Registered after baseline/dirty/inflight exist — see init below.)
+    const SETTLE_MS = 3000
+    const MIN_GAP_MS = 10000
+    const PUBLISH_MS = 45000
+    const ASK_MS = 5000
+    const STASH_TTL_MS = 120000
+    const STASH_KEY = 'kit:restore:' + location.host
+    const KEEP_MS = 1000
+    const KEEP_TTL_MS = 86400000
+    const KEEP_KEY = 'kit:unsaved:' + location.host
+    // Split literals: the source must never contain the sentinels it strips.
+    const RUNTIME_OPEN = '<!-- frame-' + 'runtime -->'
+    const RUNTIME_CLOSE = '<!-- /frame-' + 'runtime -->'
+    const COMMENTS_OPEN = '<' + 'script type="application/json" id="__frame_comments__">'
+    const COMMENTS_CLOSE = '</' + 'script>'
+    let mode = 'boot'
+    let dirty = false
+    let rev = 0
+    let saving = false
+    let waitTimer = null
+    let lastPublishAt = 0
+    let settling = false
+    let stale = false
+    let errKey = null
+    let source = null
+    let art = null
+    let shown = ''
+    let kept = null
+    let keptFrom = null
+    let keptBase = null
+    let keepTimer = null
+    let base = null
+    let srcMark = null
+    let recovered = false
+    let over = false
 
-    // Commit unit: the nearest server-annotated BLOCK (data-id). Blocks
-    // edited since their last commit are flushed on blur and when the
-    // caret leaves them. Plain text is what the op vocabulary carries —
-    // a committed block's published bytes keep only its text.
-    const dirty = new Set()
-    const inflight = new Set()
-    // Flatten-safe marks: a commit unit may contain these and nothing
-    // else — set-text drops them from the published bytes (the op
-    // vocabulary is plain text), which is the accepted degradation.
-    const marks = new Set(['B', 'I', 'EM', 'STRONG', 'U', 'S', 'STRIKE', 'FONT',
-      'A', 'SPAN', 'CODE', 'SUB', 'SUP', 'MARK', 'SMALL', 'ABBR', 'TIME',
-      'KBD', 'CITE', 'DFN', 'VAR', 'SAMP', 'DEL', 'INS', 'BDI', 'BDO', 'DATA',
-      'WBR'])
-    // Block-level tags — the commit-unit and roster vocabulary.
-    // Anything unenumerated (inline marks, media, foreign namespaces)
-    // defaults to INLINE, so an exotic deletion can never brick commits.
-    const BLOCK_TAGS = /^(P|H1|H2|H3|H4|H5|H6|LI|UL|OL|BLOCKQUOTE|ASIDE|SECTION|ARTICLE|DIV|TABLE|TR|TD|TH|DT|DD|FIGCAPTION|CAPTION|PRE|FIGURE|DL|MAIN|HEADER|FOOTER|NAV|SUMMARY|DETAILS|ADDRESS|HGROUP|FIELDSET|FORM|HR)$/
-    // Block-level commit units the server knows about: committing after
-    // one vanishes would publish a local merge the op vocabulary cannot
-    // express. Inline ids are excluded — inline removal is already the
-    // accepted set-text degradation, not structural divergence.
-    // Baseline holds the server-known text per id: a flush whose text
-    // matches is a no-op — sending it could revert a collaborator's
-    // newer commit. The roster derives from the same walk, so the two
-    // classifications can never drift apart.
-    const baseline = new Map()
-    for (const el of page.querySelectorAll('[data-id]')) {
-      // Leaf commit units only: a container's aggregate text goes stale
-      // the moment a child commits, and a stale container baseline
-      // false-dirties on the next history sweep.
-      if (BLOCK_TAGS.test(el.tagName) && !el.querySelector('[data-id]')) baseline.set(el.dataset.id, el.dataset.fxSrc !== undefined ? el.dataset.fxSrc : el.textContent)
+    const say = (key, tone) => {
+      if (!status || shown === key) return
+      shown = key
+      status.textContent = COPY[key]
+      if (tone) status.dataset.tone = tone
+      else delete status.dataset.tone
     }
-    const roster = [...baseline.keys()]
-    const rosterIntact = () =>
-      roster.every(id => page.querySelector('[data-id="' + CSS.escape(id) + '"]'))
-    // Foreign-write coherence (see the note above the commit-unit rules):
-    // a mutated block with no local dirty or inflight claim was written
-    // by someone else — its baseline no longer describes server state.
-    new MutationObserver(muts => {
-      for (const m of muts) {
-        const n = m.target.nodeType === 1 ? m.target : m.target.parentElement
-        const holder = n && n.closest ? n.closest('[data-id]') : null
-        const id = holder && holder.dataset.id
-        // Formatting-only mutations leave textContent equal to the
-        // baseline — only a real text divergence is a foreign write.
-        // Engine-managed cells (data-fx-src) compare their SOURCE: the
-        // display swap is presentation, not an edit.
-        const cur = holder && holder.dataset && holder.dataset.fxSrc !== undefined ? holder.dataset.fxSrc : holder ? holder.textContent : ''
-        if (id && !dirty.has(holder) && !inflight.has(id) && baseline.has(id) &&
-            cur !== baseline.get(id)) {
-          baseline.delete(id)
-          // The live layer shows itself: a colleague's change flashes
-          // where it landed (never while presenting).
-          if (!document.body.classList.contains('present')) {
-            holder.classList.add('cmark')
-            setTimeout(() => holder.classList.remove('cmark'), 1600)
+    const render = () => {
+      // Page-wide hook: per-kind chrome keys reader styling off the mode.
+      document.documentElement.dataset.kitMode = mode
+      // Recovered edits hold the page until they are saved or discarded.
+      const offer = kept !== null && mode === 'writer' && !stale
+      // Read-only through the flight and the host reload that follows, so
+      // nothing typed can miss the version being saved.
+      page.toggleAttribute('inert', saving || settling || kept !== null)
+      if (saveBtn) {
+        saveBtn.hidden = mode !== 'writer' || offer
+        saveBtn.disabled = !dirty || saving || settling || stale || waitTimer !== null
+        saveBtn.classList.toggle('is-dirty', dirty)
+      }
+      if (restoreBtn) restoreBtn.hidden = !offer
+      // The copy can go from first paint until a save carries it, even from
+      // a page that could not confirm write access or could not save it as
+      // it was.
+      if (discardBtn) discardBtn.hidden = !recovered || stale
+      for (const b of [restoreBtn, discardBtn]) if (b) b.disabled = saving || settling || waitTimer !== null
+      if (mode === 'reader') say(kept === null ? 'viewOnly' : 'keptHeld', 'muted')
+      else if (stale) say('conflict', 'error')
+      else if (saving || waitTimer !== null) say('saving', 'busy')
+      else if (errKey) say(errKey, 'error')
+      else if (kept !== null) say(over ? 'keptOver' : 'kept', 'warning')
+      else if (dirty) say('dirty', 'warning')
+      else say('saved')
+    }
+    const markDirty = () => {
+      rev++
+      dirty = true
+      if (keepTimer === null) keepTimer = setTimeout(keep, KEEP_MS)
+      render()
+    }
+    page.addEventListener('input', markDirty)
+    // Programmatic edits (a formula bar, a comment, a slide control)
+    // announce themselves; capture phase so non-bubbling dispatches count.
+    page.addEventListener('kit-commit', markDirty, true)
+
+    // Source handling: strip exactly what the serve path adds, so a save
+    // stores the same shape a tool publish does and never compounds.
+    const stripServed = text => {
+      let src = text
+      const a = src.indexOf(RUNTIME_OPEN)
+      const b = a === -1 ? -1 : src.indexOf(RUNTIME_CLOSE, a)
+      if (a !== -1 && b !== -1 && a < 8192) {
+        src = src.slice(0, a) + src.slice(b + RUNTIME_CLOSE.length)
+      }
+      let end = src.length
+      while (end > 0 && ' \\t\\r\\n'.includes(src[end - 1])) end--
+      const trimmed = src.slice(0, end)
+      if (trimmed.endsWith(COMMENTS_CLOSE)) {
+        const body = trimmed.slice(0, -COMMENTS_CLOSE.length)
+        const at = body.lastIndexOf(COMMENTS_OPEN)
+        if (at !== -1 && isEnvelope(body.slice(at + COMMENTS_OPEN.length))) {
+          src = body.slice(0, body[at - 1] === '\\n' ? at - 1 : at)
+        }
+      }
+      return src
+    }
+    // The serve path's own test for its block, so both sides agree on
+    // what is one: a '<'-free JSON object with a mac and a payload.
+    const isEnvelope = s => {
+      if (s.includes('<')) return false
+      let env
+      try { env = JSON.parse(s) } catch { return false }
+      return !!env && typeof env === 'object' && !Array.isArray(env) &&
+        typeof env.mac === 'string' && env.mac !== '' && Object.hasOwn(env, 'payload')
+    }
+    // The page article's span, located by position alone: the first page
+    // open tag, and the last close before this script, so nothing the
+    // content happens to contain can move either end.
+    const articleSpan = src => {
+      const open = /<article\\s[^>]*\\bclass="(?:[^"]*\\s)?page(?:\\s[^"]*)?"[^>]*>/.exec(src)
+      const tail = src.lastIndexOf('KIT:persist:' + 'begin')
+      if (!open || tail === -1 || src.indexOf('KIT:persist:' + 'end', tail) === -1) return null
+      const openEnd = open.index + open[0].length
+      const closeStart = src.lastIndexOf('</' + 'article>', tail)
+      return closeStart >= openEnd ? { openEnd, closeStart } : null
+    }
+    const validSource = src =>
+      /^\\s*<!doctype html>/i.test(src) && !src.includes(RUNTIME_OPEN) && articleSpan(src) !== null
+    const parse = html => new DOMParser().parseFromString(html, 'text/html')
+
+    // Scriptable surface picked up by a paste must not ride into a version
+    // that other viewers' grants will run.
+    const DROP = /^(SCRIPT|STYLE|IFRAME|FRAME|FRAMESET|OBJECT|EMBED|APPLET|LINK|META|BASE|TITLE|TEMPLATE|NOSCRIPT|FORM|INPUT|BUTTON|SELECT|TEXTAREA|OPTION|DIALOG|PORTAL|FOREIGNOBJECT|MATH|XMP|LISTING|PLAINTEXT|NOEMBED|NOFRAMES)$/i
+    const URL_ATTRS = /^(href|src|xlink:href|action|formaction|poster|background|cite|data|srcset|ping)$/i
+    const SAFE_URL = /^(?:https?:|mailto:|#|\\/|\\.\\.?\\/|[^:/?#]*(?:[/?#]|$))/i
+    const DATA_IMG = /^data:image\\/(?:png|jpeg|gif|webp|avif);/i
+    const TOP_LAYER = /^(popover|popovertarget|interestfor|commandfor|command)$/
+    const sanitize = root => {
+      // Comments that could end early, or that would read as the runtime's
+      // marker once saved, do not come back.
+      const notes = Document.prototype.createTreeWalker.call(root.ownerDocument || root, root, NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_PROCESSING_INSTRUCTION)
+      const found = []
+      while (notes.nextNode()) found.push(notes.currentNode)
+      for (const note of found) if (note.nodeType !== Node.COMMENT_NODE || /--|^-|-$|^>|frame-runtime/i.test(note.data)) note.remove()
+      // Saved content never poses as the page, the comment store (the
+      // article's own trailing block), or the kit's ids.
+      const store = [...root.children].findLast(el => el.classList.contains('cstore')) || [...root.querySelectorAll('.cstore')].pop() || null
+      for (const el of [...root.querySelectorAll('*')]) {
+        if (!root.contains(el)) continue
+        // Named descendants can shadow a form's own localName/attributes.
+        if (typeof el.localName !== 'string' || !(el.attributes instanceof NamedNodeMap) || DROP.test(el.localName) ||
+            /^(animate|set$|discard$)/i.test(el.localName)) {
+          Element.prototype.remove.call(el)
+          continue
+        }
+        for (const at of [...el.attributes]) {
+          const n = at.name.toLowerCase()
+          const v = at.value
+          if (n.startsWith('on') || n === 'srcdoc' || n === 'data-frame-runtime' || n === 'autofocus' || n === 'name' ||
+              TOP_LAYER.test(n) || (n === 'id' && (v === 'claude' || v.startsWith('__frame') || v.startsWith('cpanel-')))) {
+            el.removeAttributeNode(at)
+          } else if (URL_ATTRS.test(n)) {
+            const val = v.replace(/[\\u0000-\\u0020\\u007f]+/g, '')
+            // List-valued attributes are only as safe as each entry.
+            const urls = n === 'srcset' ? v.split(',').map(s => s.trim().split(/\\s+/)[0] || '')
+              : n === 'ping' ? v.trim().split(/\\s+/) : [val]
+            const ok = urls.every(u => SAFE_URL.test(u.replace(/[\\u0000-\\u0020\\u007f]+/g, ''))) ||
+              (n === 'src' && el.localName === 'img' && DATA_IMG.test(val))
+            if (!ok) el.removeAttributeNode(at)
+          } else if (n === 'style' && (!v.trim() || /\\/\\*|\\\\|expression\\s*\\(|url\\s*\\(|image-set\\s*\\(/i.test(v))) {
+            el.removeAttributeNode(at)
           }
         }
+        el.classList.remove('page')
+        if (el !== store) el.classList.remove('cstore')
+        if (el.getAttribute('class') === '') el.removeAttribute('class')
       }
-    }).observe(page, { childList: true, characterData: true, subtree: true })
-    let proven = false
-    let disabled = false
-    let fmtNoticeShown = false
-    // Sticky once an edit lands in an untrackable block — the top-line
-    // Saved claim would be false for the rest of the session.
-    let degraded = false
-    const say = s => { if (status) status.textContent = s }
-    const rawBlockOf = node => {
-      let el = node
-      if (el && el.nodeType !== 1) el = el.parentElement
-      // The commit unit is the nearest annotated BLOCK: climb past
-      // annotated inline elements — their ids are not commit targets.
-      let cand = el && el.closest('[data-id]')
-      while (cand && !BLOCK_TAGS.test(cand.tagName)) {
-        cand = cand.parentElement && cand.parentElement.closest('[data-id]')
-      }
-      return cand || null
+      return root
     }
-    const blockOf = node => {
-      const cand = rawBlockOf(node)
-      return cand && unitOk(cand) ? cand : null
+    const serialize = () => {
+      const clone = page.cloneNode(true)
+      // Load-time decoration (grid chrome, comment marks, a presenting
+      // deck) comes off the CLONE, so the saved article is the authored model.
+      page.dispatchEvent(new CustomEvent('kit-serialize', { detail: { root: clone } }))
+      return sanitize(clone).innerHTML
     }
-    // Anything beyond marks inside a unit — child blocks, images,
-    // controls — would be destroyed by its set-text: degrade to Local
-    // only instead. Same for a split block whose id is no longer
-    // unique: committing either half would clobber the other. Checked
-    // again at flush time — a block can go bad after it was dirtied.
-    const unitOk = el => {
-      for (const d of el.querySelectorAll('*')) {
-        if (!marks.has(d.tagName)) return false
-      }
-      return page.querySelectorAll('[data-id="' + CSS.escape(el.dataset.id) + '"]').length === 1
+    // A save must be a fixed point of the browser's own parse: outside the
+    // page it is the served source node for node, and inside the page
+    // nothing is left for sanitize to strip.
+    const shell = doc => {
+      const pages = doc.querySelectorAll('article.page')
+      if (pages.length !== 1) return null
+      pages[0].replaceChildren()
+      return [...doc.childNodes].map(n => n.nodeType + (n.outerHTML ?? n.data ?? n.name ?? '')).join('\\n')
     }
-    let lastBlock = null
-    let lastRaw = null
-    // A mutation can span TWO commit units (cross-block delete, type-over,
-    // drag) while the post-mutation selection names only one — resolve
-    // BOTH boundary blocks of each pre-mutation target range, and degrade
-    // per unresolvable boundary rather than letting the other side's
-    // success mask it. Formatting inputTypes stay excluded: their
-    // textContent is unchanged, and an eager dirty there could commit a
-    // stale snapshot over newer collaborator text.
-    page.addEventListener('beforeinput', e => {
-      const t = e.inputType || ''
-      if (t.startsWith('format') || t === 'insertOrderedList' || t === 'insertUnorderedList') return
-      // The collapsed caret's own block is claimed here, PRE-mutation:
-      // the foreign-write observer's microtask can run between this
-      // event's listeners, and an unclaimed first keystroke in a clean
-      // block would read as a foreign write and drop its baseline.
-      {
-        const sel0 = document.getSelection()
-        const cand0 = sel0 && sel0.anchorNode && page.contains(sel0.anchorNode) ? rawBlockOf(sel0.anchorNode) : null
-        if (cand0 && !dirty.has(cand0) && unitOk(cand0)) dirty.add(cand0)
-      }
-      const ranges = typeof e.getTargetRanges === 'function' ? e.getTargetRanges() : []
-      for (const r of ranges) {
-        if (r.collapsed && t !== 'insertFromDrop') continue
-        for (const node of [r.startContainer, r.endContainer]) {
-          // An already-dirty candidate skips the O(page) validation:
-          // the add would be a no-op, and flush re-validates at commit.
-          const cand = rawBlockOf(node)
-          if (cand && dirty.has(cand)) continue
-          const block = cand && unitOk(cand) ? cand : null
-          if (block) dirty.add(block)
-          else if (page.querySelector('[data-id]') && (selfCap() || pending())) degraded = true
-        }
-      }
-    })
-    page.addEventListener('input', e => {
-      const sel = document.getSelection()
-      const block = sel && sel.anchorNode ? blockOf(sel.anchorNode) : null
-      // A formatting-only input leaves textContent unchanged — marking
-      // the block dirty would commit a stale snapshot over newer
-      // collaborator text.
-      const fmtInput = typeof e.inputType === 'string' &&
-        (e.inputType.startsWith('format') ||
-         e.inputType === 'insertOrderedList' || e.inputType === 'insertUnorderedList')
-      // Formatting renders locally but never reaches other viewers on a
-      // live doc — say so once, at the moment it first happens.
-      if (fmtInput && selfCap() && !fmtNoticeShown &&
-          !disabled && !degraded && !dirty.size && !inflight.size) {
-        fmtNoticeShown = true
-        say('Saved — formatting shows only in your view')
-        setTimeout(() => {
-          if (!dirty.size && !inflight.size) say(disabled || degraded ? 'Some edits local only' : 'Saved')
-        }, 4000)
-      }
-      if (block && !fmtInput) {
-        dirty.add(block)
-        if (lastBlock && lastBlock !== block) flush(lastBlock)
-        lastBlock = block
-      }
-      // History inputs dispatch with empty target ranges, and a composite
-      // (a reverted drag) can revert TWO blocks while the selection names
-      // one — sweep every block whose text differs from its baseline.
-      if (e.inputType === 'historyUndo' || e.inputType === 'historyRedo') {
-        for (const el of page.querySelectorAll('[data-id]')) {
-          if (!BLOCK_TAGS.test(el.tagName) || el.querySelector('[data-id]')) continue
-          const id = el.dataset.id
-          // A missing baseline means a foreign write was observed — the
-          // block must commit on the next flush regardless, so a
-          // composite revert can never hide behind the dropped entry.
-          const cur2 = el.dataset.fxSrc !== undefined ? el.dataset.fxSrc : el.textContent
-          if (!baseline.has(id) || cur2 !== baseline.get(id)) dirty.add(el)
-        }
-      }
-      // A block that can never flush (no data-id, or no live-doc api)
-      // must resolve the status, not leave 'Editing…' frozen on screen.
-      // The latch fires only when CONTENT landed — a formatting-only
-      // input never makes the Saved claim false — and re-resolves after
-      // the task so same-task DOM settling is seen.
-      if (!block && (selfCap() || pending()) && !fmtInput) {
-        const n = sel && sel.anchorNode
-        queueMicrotask(() => {
-          const live = document.getSelection()
-          const probe = n && n.isConnected ? n : live && live.anchorNode
-          if (!(probe && blockOf(probe))) degraded = true
-        })
-      }
-      if (!disabled && !fmtInput) say(block && (selfCap() || pending()) ? 'Editing…' : 'Local only')
-    })
-    document.addEventListener('selectionchange', () => {
-      const sel = document.getSelection()
-      const cand = sel && sel.anchorNode && page.contains(sel.anchorNode)
-        ? rawBlockOf(sel.anchorNode)
-        : null
-      // unitOk is O(page); with the caret still in the same block — valid
-      // (lastBlock) or never-valid (lastRaw; its flush fired on entry and
-      // flush re-validates) — both effects below are no-ops, so same-block
-      // events skip the scan entirely.
-      if (cand === lastBlock) { lastRaw = cand; return }
-      if (cand && cand === lastRaw) return
-      lastRaw = cand
-      const block = cand && unitOk(cand) ? cand : null
-      if (lastBlock && block !== lastBlock && dirty.has(lastBlock)) flush(lastBlock)
-      if (block) lastBlock = block
-    })
-    const sweep = () => { for (const b of [...dirty]) flush(b) }
-    page.addEventListener('blur', sweep, true)
-    // Tab close and artifact switch dispatch neither blur nor a caret
-    // move — the teardown sweep is the last chance to commit.
-    addEventListener('pagehide', sweep)
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') sweep()
-    })
-    // Programmatic commits (a formula bar, a slide control) dispatch
-    // 'kit-commit' on the edited element after writing its text.
-    // Capture-phase — a non-bubbling dispatch must still reach this hook.
-    page.addEventListener('kit-commit', e => {
-      const block = blockOf(e.target)
-      if (block) { dirty.add(block); flush(block) }
-      else {
-        if (selfCap() || pending()) degraded = true
-        if (!disabled) say('Local only')
-      }
-    }, true)
-    const flush = el => {
-      const key = el.dataset.id
-      if (disabled || inflight.has(key) || !dirty.has(el)) return
-      const api = selfCap()
-      if (api === null) { if (!pending()) say('Local only'); return }
-      if (!el.isConnected || key === undefined) {
-        dirty.delete(el)
-        // A corpse whose id has no connected holder is lost text.
-        if (key === undefined ||
-            !page.querySelector('[data-id="' + CSS.escape(key) + '"]')) degraded = true
-        return
-      }
-      if (!unitOk(el) || !rosterIntact()) {
-        // A real edit is being dropped — reaching here requires a live
-        // capability, so the session's Saved claim is now false.
-        degraded = true
-        dirty.delete(el)
-        if (!disabled) say('Local only')
-        return
-      }
-      dirty.delete(el)
-      // A kind may maintain the cell's PERSISTENT truth apart from its
-      // display (the sheet's raw formulas live in data-fx-src) — commit
-      // that truth, never the computed presentation.
-      const text = el.dataset.fxSrc !== undefined ? el.dataset.fxSrc : el.textContent
-      if (baseline.get(key) === text) {
-        if (!disabled && !dirty.size && !inflight.size) {
-          say(degraded ? 'Some edits local only' : 'Saved')
-        }
-        return
-      }
-      inflight.add(key)
-      say('Editing…')
-      // The id's current holder: native editing can replace or detach
-      // the element between send and settle.
-      const holderOf = () => [...dirty].find(d => d.isConnected && d.dataset.id === key) ||
-        page.querySelector('[data-id="' + CSS.escape(key) + '"]')
-      const onAccept = () => {
-        inflight.delete(key)
-        // A collaborator's write can land during the flight: if the
-        // holder's text moved and no local keystroke claims it, the
-        // baseline must drop (fail-safe) rather than pin the pre-await
-        // snapshot over the foreign write.
-        {
-          const h = holderOf()
-          const hcur = h && h.dataset && h.dataset.fxSrc !== undefined ? h.dataset.fxSrc : h ? h.textContent : null
-          if (h && !dirty.has(h) && hcur !== text) baseline.delete(key)
-          else baseline.set(key, text)
-        }
-        proven = true
-        // An accept only comes from a live doc, so it overrides a latch
-        // set by a concurrent refusal that settled while liveness was
-        // unproven.
-        disabled = false
-        // A keystroke during the flight re-dirtied this id's block —
-        // commit whichever element now holds the id. A degraded re-flush
-        // already said Local only; let that stand.
-        const holder = holderOf()
-        if (holder && dirty.has(holder)) {
-          flush(holder)
-          if (!inflight.has(key) && !dirty.has(holder)) return
-        }
-        // Disconnected corpses left by native splits and replacements
-        // would hold 'Editing…' forever; text with no surviving holder
-        // is a real degrade.
-        for (const d of [...dirty]) {
-          if (d.isConnected) continue
-          dirty.delete(d)
-          const id = d.dataset.id
-          if (id === undefined ||
-              !page.querySelector('[data-id="' + CSS.escape(id) + '"]')) degraded = true
-        }
-        say(dirty.size || inflight.size ? 'Editing…'
-          : degraded ? 'Some edits local only' : 'Saved')
-      }
-      const onReject = () => {
-        inflight.delete(key)
-        const holder = holderOf() || el
-        if (!proven) {
-          disabled = true
-          // Stays dirty so a concurrent accept's latch override can
-          // retry it — flush is a no-op while disabled holds.
-          dirty.add(holder)
-          say('Local only')
-        } else {
-          // Stays dirty; the next interaction retries the commit.
-          dirty.add(holder)
-          say('Not saved')
-        }
-      }
-      // A host-bridged edit can throw synchronously or return a
-      // non-thenable; both are refusals — only a settled accept may
-      // prove liveness, or the latch leaks and saving silently stops.
+    const settled = out => {
+      const doc = parse(out)
+      const inner = doc.querySelector('article.page')
+      if (!inner) return false
+      const html = inner.innerHTML
+      if (sanitize(inner).innerHTML !== html) return false
+      const frame = shell(doc)
+      return frame !== null && frame === shell(parse(source))
+    }
+    const buildDocument = inner => {
+      if (source === null) return null
+      const span = articleSpan(source)
+      if (!span) return null
+      const out = source.slice(0, span.openEnd) + inner + source.slice(span.closeStart)
+      return validSource(out) && settled(out) ? out : null
+    }
+
+    // A short fingerprint of a served source, to tell one version from another.
+    const mark = s => {
+      let h = 2166136261
+      for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619)
+      return (h >>> 0).toString(36) + ':' + s.length
+    }
+    // Unsaved edits outlive this page: written while dirty (throttled, and as
+    // the page goes away), dropped once saved, discarded, or undone.
+    const dropKept = () => { try { sessionStorage.removeItem(KEEP_KEY) } catch {} }
+    const keep = () => {
+      if (keepTimer !== null) { clearTimeout(keepTimer); keepTimer = null }
+      if (mode !== 'writer' || !dirty || kept !== null) return
       try {
-        const res = api.edit([{ target: el.dataset.id, op: 'set-text', text }])
-        if (res && typeof res.then === 'function') {
-          Promise.resolve(res).then(onAccept, onReject)
-        } else {
-          onReject()
+        const html = serialize()
+        if (html === base) { dropKept(); return }
+        const copy = { at: Date.now(), kind: KIND, from: srcMark, html }
+        // Room permitting, the copy carries the article it departs from: a
+        // page showing the copy has no other way to read that article as a
+        // save would write it.
+        try { sessionStorage.setItem(KEEP_KEY, JSON.stringify({ ...copy, base })) } catch { sessionStorage.setItem(KEEP_KEY, JSON.stringify(copy)) }
+      } catch {}
+    }
+    addEventListener('pagehide', keep)
+    const readKept = () => {
+      try {
+        const s = JSON.parse(sessionStorage.getItem(KEEP_KEY) || 'null')
+        if (s && typeof s === 'object' && typeof s.html === 'string' && s.at <= Date.now() && Date.now() - s.at < KEEP_TTL_MS) {
+          // Another kit page on this host looks after its own copy.
+          if (s.kind !== KIND) return null
+          // Whatever wrote the kept copy, it comes back as parsed, sanitized
+          // markup; an edit since undone, or one this page already serves
+          // (a save that landed after all), is no edit.
+          const was = typeof s.base === 'string' ? s.base : base
+          const moot = h => h === was || h === base
+          const html = moot(s.html) ? '' : sanitize(parse('<body>' + s.html).body).innerHTML
+          if (html && !moot(html)) {
+            keptFrom = typeof s.from === 'string' ? s.from : null
+            keptBase = typeof s.base === 'string' ? s.base : null
+            return html
+          }
         }
-      } catch {
-        onReject()
+      } catch {}
+      dropKept()
+      return null
+    }
+
+    // Caret and scroll survive the reload that follows a save.
+    const blocks = () => [...page.querySelectorAll('h1,h2,h3,h4,p,li,blockquote,td,th,pre,figcaption,section')]
+    const stash = () => {
+      try {
+        const sel = document.getSelection()
+        let block = -1
+        let offset = 0
+        if (sel && sel.anchorNode && page.contains(sel.anchorNode)) {
+          const el = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement
+          const holder = el && el.closest('h1,h2,h3,h4,p,li,blockquote,td,th,pre,figcaption,section')
+          block = holder ? blocks().indexOf(holder) : -1
+          if (holder) {
+            const r = document.createRange()
+            r.selectNodeContents(holder)
+            r.setEnd(sel.anchorNode, sel.anchorOffset)
+            offset = r.toString().length
+          }
+        }
+        const scroller = document.scrollingElement || document.documentElement
+        // Kind scripts add their own view state (the deck's current
+        // slide) to the same stash and read it back on kit-restore.
+        const extra = {}
+        page.dispatchEvent(new CustomEvent('kit-stash', { detail: extra }))
+        sessionStorage.setItem(STASH_KEY, JSON.stringify({ at: Date.now(), block, offset, scroll: scroller.scrollTop, extra }))
+      } catch {}
+    }
+    const clearStash = () => { try { sessionStorage.removeItem(STASH_KEY) } catch {} }
+    const restore = () => {
+      let s = null
+      try { s = JSON.parse(sessionStorage.getItem(STASH_KEY) || 'null') } catch {}
+      clearStash()
+      if (!s || typeof s !== 'object' || Date.now() - s.at > STASH_TTL_MS) return
+      page.dispatchEvent(new CustomEvent('kit-restore', { detail: s.extra && typeof s.extra === 'object' ? s.extra : {} }))
+      const scroller = document.scrollingElement || document.documentElement
+      if (typeof s.scroll === 'number') scroller.scrollTop = s.scroll
+      const holder = blocks()[s.block]
+      if (!holder) return
+      const walker = document.createTreeWalker(holder, NodeFilter.SHOW_TEXT)
+      let left = typeof s.offset === 'number' ? s.offset : 0
+      for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+        if (left <= n.data.length) {
+          const sel = document.getSelection()
+          if (sel) sel.collapse(n, left)
+          return
+        }
+        left -= n.data.length
       }
     }
-    // Ask for the namespace at load so the first edit rarely waits on it.
-    selfCap()
+
+    const codeOf = e => (e && typeof e === 'object' && 'code' in e ? String(e.code) : 'upstream_error')
+    const READER_CODES = /^(not_writer|not_granted|not_declared|capability_disabled|capability_removed)$/
+    // A host that never answers is a failure to show, not a wait to sit in.
+    const within = (p, ms) => {
+      let timer = null
+      const late = new Promise((resolve, reject) => { timer = setTimeout(() => reject(new Error('timeout')), ms) })
+      return Promise.race([p, late]).finally(() => clearTimeout(timer))
+    }
+    const run = async (restoring = false) => {
+      saving = true
+      errKey = null
+      render()
+      const startRev = rev
+      let content = null
+      let html = null
+      try { content = serialize(); html = buildDocument(content) } catch {}
+      // Recovered edits that cannot go out as they are open up for editing.
+      if (html === null) {
+        saving = false
+        errKey = restoring ? 'keptRefused' : 'refused'
+        if (restoring) { kept = null; dirty = true }
+        render()
+        return
+      }
+      stash()
+      try {
+        await within(art.publish(html), PUBLISH_MS)
+        lastPublishAt = Date.now()
+        saving = false
+        kept = null
+        recovered = false
+        dropKept()
+        base = content
+        srcMark = mark(html)
+        if ((dirty = rev !== startRev)) keep()
+        // The host reloads this view onto the new version next.
+        settling = true
+        setTimeout(() => { settling = false; render() }, SETTLE_MS)
+        render()
+      } catch (e) {
+        saving = false
+        const code = codeOf(e)
+        // On conflict the host reloads onto the newer version; both stashes
+        // stand, so the caret lands where it was and the edits are offered back.
+        if (code === 'conflict') { stale = true; keep(); render(); return }
+        clearStash()
+        if (READER_CODES.test(code)) {
+          // Not this viewer's to save: back to the served version.
+          mode = 'reader'
+          if (restoring) { dropKept(); kept = null; recovered = false; render(); location.reload(); return }
+          render()
+          return
+        }
+        if (code === 'rate_limited') lastPublishAt = Date.now()
+        errKey = code === 'rate_limited' ? 'limited' : code === 'too_large' ? 'tooLarge' : 'failed'
+        if (restoring && errKey === 'tooLarge') { kept = null; dirty = true }
+        render()
+      }
+    }
+    const attempt = (restoring = false) => {
+      const wait = lastPublishAt + MIN_GAP_MS - Date.now()
+      if (wait > 0) {
+        if (waitTimer === null) waitTimer = setTimeout(() => { waitTimer = null; if (restoring) restoreKept(); else save() }, wait)
+        render()
+        return
+      }
+      // Kind chrome outside the page (a formula bar, a comment draft)
+      // settles or objects before anything is read.
+      if (!page.dispatchEvent(new CustomEvent('kit-presave', { cancelable: true }))) { render(); return }
+      run(restoring)
+    }
+    const save = () => {
+      if (mode === 'writer' && dirty && kept === null && !saving && !settling && !stale) attempt()
+    }
+    const restoreKept = () => {
+      if (kept !== null && mode === 'writer' && !saving && !settling && !stale && waitTimer === null) attempt(true)
+    }
+    if (saveBtn) saveBtn.addEventListener('click', save)
+    if (restoreBtn) restoreBtn.addEventListener('click', restoreKept)
+    if (discardBtn) discardBtn.addEventListener('click', () => {
+      if (saving || settling || waitTimer !== null || !recovered) return
+      dropKept()
+      // Nothing on show outlives this reload, not even a copy a failed
+      // restore opened up for editing.
+      dirty = false
+      settling = true
+      setTimeout(() => { settling = false; render() }, SETTLE_MS)
+      render()
+      // The served version comes back with the page's own scripts wired to it.
+      location.reload()
+    })
+    document.addEventListener('keydown', e => {
+      if (mode === 'writer' && (e.metaKey || e.ctrlKey) && !e.altKey && !e.shiftKey && (e.key === 's' || e.key === 'S')) {
+        e.preventDefault()
+        if (kept === null) save(); else restoreKept()
+      }
+    })
+
+    // Capability resolution. A host may attach window.claude a beat after
+    // inline scripts run, so absence is concluded only after a few seconds
+    // of looking.
+    const runtime = () => {
+      const c = window.claude
+      return c && typeof c === 'object' && !c.nodeType ? c : null
+    }
+    const acquire = name => {
+      const c = runtime()
+      if (!c) return Promise.resolve(null)
+      if (typeof c.use === 'function') {
+        const slow = new Promise(resolve => setTimeout(() => resolve(null), ASK_MS))
+        try { return Promise.race([Promise.resolve(c.use(name)).catch(() => null), slow]) } catch { return Promise.resolve(null) }
+      }
+      return Promise.resolve(c[name] || (name === 'artifact' ? c.self : null) || null)
+    }
+    const whenRuntime = () => new Promise(resolve => {
+      if (runtime()) { resolve(); return }
+      let tries = 0
+      const tick = () => {
+        if (runtime() || ++tries > 30) resolve()
+        else setTimeout(tick, 100)
+      }
+      setTimeout(tick, 100)
+    })
+    const boot = async () => {
+      // Later kind scripts listen for kit-restore and kit-serialize; wait
+      // until they ran.
+      let read = false
+      const early = () => { if (read) return; read = true; if (kept === null) base = serialize(); restore() }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', early, { once: true })
+      else setTimeout(early, 0)
+      // One deadline for the whole read, body included.
+      const fetched = within(typeof fetch === 'function' ? fetch('./', { credentials: 'same-origin', cache: 'no-store' }).then(r => (r.ok ? r.text() : null)) : Promise.reject(), 4 * ASK_MS)
+        .then(t => (t === null ? null : stripServed(t)))
+        .catch(() => null)
+      await whenRuntime()
+      const [cap, user, text] = await Promise.all([acquire('artifact'), acquire('user'), fetched])
+      art = cap && typeof cap.publish === 'function' ? cap : null
+      source = text !== null && validSource(text) ? text : null
+      let writer = art !== null && source !== null
+      let denied = false
+      if (writer && user && typeof user.canEdit === 'function') {
+        // Only an explicit no is a denial; any other answer merely fails to confirm.
+        try { const a = await within(user.canEdit(), ASK_MS); denied = a === false; if (a !== true) writer = false } catch { writer = false }
+      }
+      mode = writer ? 'writer' : 'reader'
+      // A reader has nothing to decide: back to the served version. A page
+      // that merely failed to confirm access keeps the copy for the next load.
+      if (denied && kept !== null) { dropKept(); kept = null; recovered = false; render(); location.reload(); return }
+      if (source !== null) srcMark = mark(source)
+      over = kept !== null && keptFrom !== null && srcMark !== null && keptFrom !== srcMark
+      // Over the same version, the copy's record of the article stands in
+      // for the reading this page could not take before showing the copy.
+      if (kept !== null && !over && keptBase !== null) base = keptBase
+      early()
+      render()
+      keep()
+    }
+    // Recovered edits take the served article's place at first paint, so
+    // they are seen exactly as they would be saved.
+    base = serialize()
+    kept = readKept()
+    recovered = kept !== null
+    if (recovered) page.replaceChildren(...sanitize(parse('<body>' + kept).body).childNodes)
+    render()
+    boot()
   })();
   // KIT:persist:end
 
@@ -2105,6 +2283,12 @@ ccVersion: 2.1.233
     const counter = document.querySelector('.counter')
     if (!page || !rail) return
     const slides = () => [...page.querySelectorAll('.slide')]
+    // Structural edits (add, duplicate, move, delete, undo) are unsaved
+    // changes like any keystroke: one signal tells the persistence kit.
+    const edited = () => page.dispatchEvent(new CustomEvent('kit-commit'))
+    // The page's read-only spells (a save in flight) hold the rail's
+    // structural edits too.
+    const frozen = () => page.hasAttribute('inert')
 
     const select = slide => {
       if (slide && !page.contains(slide)) { rebuild(); slide = null }
@@ -2151,8 +2335,8 @@ ccVersion: 2.1.233
     // The rail shows each slide as a real scaled render: cloned frames
     // re-rendered through the same container-query typography. The
     // variant classes ride on the thumb so section-scoped type rules
-    // still match; cloned addressing ids are stripped — the clones live
-    // outside the commit surface.
+    // still match; element ids are stripped so the clones never shadow
+    // the page's own anchors.
     // One undo slot: the removed slide is HELD, not destroyed, and one
     // click puts it back where it was.
     const offerUndo = (node, anchor) => {
@@ -2167,10 +2351,12 @@ ccVersion: 2.1.233
       undo.type = 'button'
       undo.textContent = 'Undo'
       undo.addEventListener('click', () => {
+        if (frozen()) return
         if (anchor && anchor.isConnected) anchor.after(node)
         else page.prepend(node)
         bar.remove()
         rebuild(); select(node)
+        edited()
         // The click detached the focused button: land on the restored
         // slide's thumb instead of <body>.
         const t = rail.querySelectorAll('.rthumb')[slides().indexOf(node)]
@@ -2214,8 +2400,6 @@ ccVersion: 2.1.233
       const c = f ? f.cloneNode(true) : document.createElement('div')
       c.removeAttribute('contenteditable')
       for (const el of c.querySelectorAll('[contenteditable]')) el.removeAttribute('contenteditable')
-      c.removeAttribute('data-id')
-      for (const el of c.querySelectorAll('[data-id]')) el.removeAttribute('data-id')
       for (const el of c.querySelectorAll('[id]')) el.removeAttribute('id')
       c.className = 'frame'
       // The clone is presentation: aria-hidden here, not at the call
@@ -2273,19 +2457,11 @@ ccVersion: 2.1.233
         b.textContent = name
         b.title = 'Insert a "' + name + '" slide after the current one'
         b.addEventListener('click', () => {
+          if (frozen()) return
           const tpl = document.createElement('section')
           tpl.className = ('slide ' + cls).trim()
           tpl.innerHTML = '<div class="frame"><div class="frame-body">' + inner + '</div></div>' +
             '<aside class="notes"></aside>'
-          // View-local on live docs, same standard as every structural op
-          // — say so on the slide itself.
-          if (live) {
-            const tag = document.createElement('div')
-            tag.className = 'clone-note'
-            tag.setAttribute('contenteditable', 'false')
-            tag.textContent = 'new — not saved to the live doc'
-            tpl.appendChild(tag)
-          }
           ensureSlideId(tpl)
           const cur = current()
           if (cur) cur.after(tpl)
@@ -2294,6 +2470,7 @@ ccVersion: 2.1.233
           rebuild()
           select(tpl)
           restoreRailFocus(fk)
+          edited()
         })
         add.appendChild(b)
       }
@@ -2314,31 +2491,22 @@ ccVersion: 2.1.233
           if (e.key === 'ArrowDown' && fns[2] && !fns[2].disabled) fns[2].click()
         }
       })
-      const live = !!page.querySelector('[data-id]')
-      const mk = (label, title, fn, disabled) => {
+      const mk = (label, title, fn) => {
         const b = document.createElement('button')
         b.type = 'button'
         if (label.startsWith('<svg')) b.innerHTML = label
         else b.textContent = label
         b.title = title
         b.setAttribute('aria-label', title)
-        if (disabled) {
-          b.disabled = true
-          b.title = title + ' — not available on live docs yet'
-          b.setAttribute('aria-label', b.title)
-        }
-        else b.addEventListener('click', fn)
+        b.addEventListener('click', () => { if (!frozen()) fn() })
         ops.appendChild(b)
+        return b
       }
       mk("<svg viewBox=\\"0 0 16 16\\" width=\\"13\\" height=\\"13\\" fill=\\"none\\" stroke=\\"currentColor\\" stroke-width=\\"1.5\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" aria-hidden=\\"true\\"><rect x=\\"5\\" y=\\"5\\" width=\\"8\\" height=\\"8\\" rx=\\"1\\"/><path d=\\"M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-5A1.5 1.5 0 0 0 3 3.5v5A1.5 1.5 0 0 0 4.5 10H5\\"/></svg>", 'Duplicate this slide', () => {
         const cur = current()
         if (!cur) return
         const copy = cur.cloneNode(true)
         copy.classList.remove('current')
-        // Clones live outside the commit surface on live docs — say so
-        // ON the clone, loudly, not in a distant status line.
-        copy.removeAttribute('data-id')
-        for (const el of copy.querySelectorAll('[data-id]')) el.removeAttribute('data-id')
         // The clone must not share the original's comment-anchor identity
         // — nor wear its rendered comment marks: a phantom .canchor would
         // open the ORIGINAL's conversation from the copy.
@@ -2349,30 +2517,23 @@ ccVersion: 2.1.233
           delete el.dataset.canchorId
         }
         ensureSlideId(copy)
-        for (const t of copy.querySelectorAll('.clone-note')) t.remove()
-        if (live) {
-          const tag = document.createElement('div')
-          tag.className = 'clone-note'
-          tag.setAttribute('contenteditable', 'false')
-          tag.textContent = 'copy — not saved to the live doc'
-          copy.appendChild(tag)
-        }
         cur.after(copy)
         rebuild(); select(copy)
         restoreOpsFocus(0)
+        edited()
       })
       const moveUp = () => {
         const cur = current()
         const prev = cur && cur.previousElementSibling
-        if (prev && prev.classList.contains('slide')) { cur.after(prev); rebuild(); select(cur); restoreOpsFocus(1) }
+        if (prev && prev.classList.contains('slide')) { cur.after(prev); rebuild(); select(cur); restoreOpsFocus(1); edited() }
       }
       const moveDown = () => {
         const cur = current()
         const next = cur && cur.nextElementSibling
-        if (next && next.classList.contains('slide')) { cur.before(next); rebuild(); select(cur); restoreOpsFocus(2) }
+        if (next && next.classList.contains('slide')) { cur.before(next); rebuild(); select(cur); restoreOpsFocus(2); edited() }
       }
-      mk("<svg viewBox=\\"0 0 16 16\\" width=\\"13\\" height=\\"13\\" fill=\\"none\\" stroke=\\"currentColor\\" stroke-width=\\"1.5\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" aria-hidden=\\"true\\"><path d=\\"M8 13V3M4 7l4-4 4 4\\"/></svg>", 'Move this slide up', moveUp, live)
-      mk("<svg viewBox=\\"0 0 16 16\\" width=\\"13\\" height=\\"13\\" fill=\\"none\\" stroke=\\"currentColor\\" stroke-width=\\"1.5\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" aria-hidden=\\"true\\"><path d=\\"M8 3v10M4 9l4 4 4-4\\"/></svg>", 'Move this slide down', moveDown, live)
+      mk("<svg viewBox=\\"0 0 16 16\\" width=\\"13\\" height=\\"13\\" fill=\\"none\\" stroke=\\"currentColor\\" stroke-width=\\"1.5\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" aria-hidden=\\"true\\"><path d=\\"M8 13V3M4 7l4-4 4 4\\"/></svg>", 'Move this slide up', moveUp)
+      mk("<svg viewBox=\\"0 0 16 16\\" width=\\"13\\" height=\\"13\\" fill=\\"none\\" stroke=\\"currentColor\\" stroke-width=\\"1.5\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" aria-hidden=\\"true\\"><path d=\\"M8 3v10M4 9l4 4 4-4\\"/></svg>", 'Move this slide down', moveDown)
       mk("<svg viewBox=\\"0 0 16 16\\" width=\\"13\\" height=\\"13\\" fill=\\"none\\" stroke=\\"currentColor\\" stroke-width=\\"1.5\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" aria-hidden=\\"true\\"><path d=\\"M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.7 8a1 1 0 0 0 1 .9h3.6a1 1 0 0 0 1-.9l.7-8\\"/></svg>", 'Delete this slide', () => {
         const list = slides()
         const cur = current()
@@ -2386,8 +2547,9 @@ ccVersion: 2.1.233
         offerUndo(cur, anchor)
         restoreOpsFocus(3)
         liveSay('Slide deleted — Undo available')
-      }, live)
-      mk("<svg viewBox=\\"0 0 16 16\\" width=\\"13\\" height=\\"13\\" fill=\\"none\\" stroke=\\"currentColor\\" stroke-width=\\"1.5\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" aria-hidden=\\"true\\"><path d=\\"M2.5 3.5h11v7h-6l-3 3v-3h-2z\\"/></svg>", 'Comment on this slide', () => {
+        edited()
+      })
+      const ropComment = mk("<svg viewBox=\\"0 0 16 16\\" width=\\"13\\" height=\\"13\\" fill=\\"none\\" stroke=\\"currentColor\\" stroke-width=\\"1.5\\" stroke-linecap=\\"round\\" stroke-linejoin=\\"round\\" aria-hidden=\\"true\\"><path d=\\"M2.5 3.5h11v7h-6l-3 3v-3h-2z\\"/></svg>", 'Comment on this slide', () => {
         const cur = current()
         const target = cur && (cur.querySelector('.frame h1, .frame h2') || cur.querySelector('.frame'))
         if (!target) return
@@ -2396,10 +2558,11 @@ ccVersion: 2.1.233
         document.dispatchEvent(new CustomEvent('kit-comment-on',
           { detail: { range: r, quote: target.textContent.trim(), anchor: slideAnchor(cur) } }))
       })
+      ropComment.classList.add('rop-comment')
     }
 
     // One observer keeps the rail honest against every mutation source —
-    // typing, execCommand, undo, and programmatic or remote writes.
+    // typing, execCommand, undo, and programmatic writes.
     let pending = null
     const touched = new Set()
     new MutationObserver(muts => {
@@ -2448,8 +2611,8 @@ ccVersion: 2.1.233
     let wasEditable = null
     const enter = () => {
       wasEditable = page.getAttribute('contenteditable')
-      // Blur first: the flush must not wait on an engine's implicit
-      // blur-on-revoke behavior.
+      // Blur first, explicitly: an engine's implicit blur-on-revoke is not
+      // something to rely on.
       if (document.activeElement && document.activeElement.blur) document.activeElement.blur()
       const sel = document.getSelection()
       if (sel) sel.removeAllRanges()
@@ -2708,6 +2871,21 @@ ccVersion: 2.1.233
     }
     setTimeout(checkOverflow, 300)
     page.addEventListener('input', () => { clearTimeout(checkOverflow._t); checkOverflow._t = setTimeout(checkOverflow, 600) })
+
+    // View state rides the persistence kit's stash across the reload a
+    // save triggers; the saved article itself carries none of it.
+    page.addEventListener('kit-stash', e => { e.detail.slide = slides().indexOf(current()) })
+    page.addEventListener('kit-restore', e => {
+      const s = typeof e.detail.slide === 'number' ? slides()[e.detail.slide] : null
+      if (s) select(s)
+    })
+    page.addEventListener('kit-serialize', e => {
+      const root = e.detail.root
+      const all = [...root.querySelectorAll('.slide')]
+      all.forEach((s, i) => s.classList.toggle('current', i === 0))
+      for (const b of root.querySelectorAll('.ovf-badge')) b.remove()
+      for (const n of root.querySelectorAll('.notes[data-next]')) delete n.dataset.next
+    })
 
     rebuild()
     select(current())

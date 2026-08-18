@@ -1,11 +1,11 @@
 <!--
-name: 'Tool Result: Cloud Send Needs Approval'
+name: Cross-machine send needs approval — isolatePeerMachines
 description: >-
-  SendMessage failure result when isolatePeerMachines is on and the user did not
-  approve the cross-machine send to a cloud session.
-ccVersion: 2.1.226
+  Result returned to Claude when a cross-session send was denied at the
+  permission phase under isolatePeerMachines, stating nothing was sent; now
+  shared by SendMessage and SendFile.
+ccVersion: 2.1.234
 variables:
   - TOOL_RESULT_SEND_MESSAGE_CLOUD_APPROVAL_REQUIRED_VAR_0
-  - TOOL_RESULT_SEND_MESSAGE_CLOUD_APPROVAL_REQUIRED_VAR_1
 -->
-isolatePeerMachines is enabled: sending to ${TOOL_RESULT_SEND_MESSAGE_CLOUD_APPROVAL_REQUIRED_VAR_0} '${TOOL_RESULT_SEND_MESSAGE_CLOUD_APPROVAL_REQUIRED_VAR_1.displayName}' needs your approval — nothing was sent.
+isolatePeerMachines is enabled: sending to ${TOOL_RESULT_SEND_MESSAGE_CLOUD_APPROVAL_REQUIRED_VAR_0} needs your approval — nothing was sent.

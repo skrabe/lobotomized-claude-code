@@ -1,6 +1,11 @@
 <!--
 name: One-way remote-control note
-description: SendMessage fragment returned to the model about one-way remote control.
-ccVersion: 2.1.232
+description: >-
+  Clause appended to the SendMessage success result stating the send was
+  one-way, so the receiver cannot address a reply to this session.
+ccVersion: 2.1.234
+variables:
+  - TOOL_RESULT_SEND_MESSAGE_ONEWAY_NOTE_VAR_0
+  - TOOL_RESULT_SEND_MESSAGE_ONEWAY_NOTE_VAR_1
 -->
-; one-way: Remote Control is not connected, so the receiver cannot address a reply to this session
+; one-way: ${TOOL_RESULT_SEND_MESSAGE_ONEWAY_NOTE_VAR_0(TOOL_RESULT_SEND_MESSAGE_ONEWAY_NOTE_VAR_1)}, so the receiver cannot address a reply to this session

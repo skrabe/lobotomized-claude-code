@@ -1,8 +1,13 @@
 <!--
-name: Eval criterion grader — intro
+name: 'Agent Prompt: Eval criterion grader'
 description: >-
-  Opening line of the LLM-grader prompt that judges a coding-agent's output
-  against a criterion during `plugin eval`.
-ccVersion: 2.1.206
+  Judge prompt asking the model to grade a coding agent's output against a
+  stated criterion
+ccVersion: 2.1.234
+variables:
+  - AGENT_PROMPT_EVAL_CRITERION_GRADER_VAR_0
 -->
 You are grading the output of a coding agent against a criterion.
+
+Criterion:
+${AGENT_PROMPT_EVAL_CRITERION_GRADER_VAR_0.criteria}
