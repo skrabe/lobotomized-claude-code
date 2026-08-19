@@ -5,9 +5,11 @@ description: >-
   waiting-state reply, and later result reporting; concatenated into the
   Task/agent tool description string returned by its async
   description()/prompt() builder.
-ccVersion: 2.1.211
+ccVersion: 2.1.235
 variables:
-  - AGENT_TOOL_NAME
-  - FRESH_AGENT_EXAMPLE
+  - SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_0
+  - SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_1
+  - SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_2
+  - SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_3
 -->
 

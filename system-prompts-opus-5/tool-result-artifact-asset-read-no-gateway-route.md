@@ -1,8 +1,9 @@
 <!--
-name: 'Tool Result: Artifact content unreachable from this process'
+name: 'Tool Result: Artifact asset content unreachable from this process'
 description: >-
-  Detail for the asset-read 'relay_unavailable' failure: this process has no
-  gateway route to artifact content.
-ccVersion: 2.1.234
+  Detail for the asset-read 'relay_unavailable' failure: asset reads run only
+  from a local session or an Anthropic-hosted cloud session with its gateway
+  relay enabled, so retrying will not help.
+ccVersion: 2.1.235
 -->
-this process has no gateway route to artifact content; retrying from here will not help
+asset reads run only from a local session or an Anthropic-hosted cloud session with its gateway relay enabled; retrying from here will not help

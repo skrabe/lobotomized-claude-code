@@ -1,9 +1,9 @@
 <!--
 name: 'Tool Result: Artifact asset store unreachable from this process'
 description: >-
-  Detail for the asset-store 'relay_unavailable' failure: a remote process
-  without a gateway route cannot reach the asset store and retrying will not
-  help.
-ccVersion: 2.1.234
+  Detail for the asset-store 'relay_unavailable' failure: uploads, listing and
+  deletes run only from a local session or an Anthropic-hosted cloud session
+  with its gateway relay enabled, so retrying will not help.
+ccVersion: 2.1.235
 -->
-this process has no gateway route to the asset store; retrying from here will not help
+asset uploads, listing, and deletes run only from a local session or an Anthropic-hosted cloud session with its gateway relay enabled; retrying from here will not help

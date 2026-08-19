@@ -5,17 +5,19 @@ description: >-
   waiting-state reply, and later result reporting; concatenated into the
   Task/agent tool description string returned by its async
   description()/prompt() builder.
-ccVersion: 2.1.211
+ccVersion: 2.1.235
 variables:
-  - AGENT_TOOL_NAME
-  - FRESH_AGENT_EXAMPLE
+  - SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_0
+  - SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_1
+  - SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_2
+  - SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_3
 -->
 Example usage:
 
-<example>
+${!SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_0?"":SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_1?`<example>
 user: "What's left on this branch before we can ship?"
 assistant: <thinking>A survey question — delegate it and ask for a short report so the raw command output stays out of my context.</thinking>
-${AGENT_TOOL_NAME}({
+${SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_2}({
   description: "Branch ship-readiness audit",
   prompt: "Audit what's left before this branch can ship: uncommitted changes, commits ahead of main, test coverage, CI-relevant files changed. Report a punch list — done vs. missing. Under 200 words."
 })
@@ -25,4 +27,16 @@ The prompt is self-contained: goal, what to check, response cap. The turn ends h
 </commentary>
 </example>
 
-${FRESH_AGENT_EXAMPLE}
+`:`<example>
+user: "What's left on this branch before we can ship?"
+assistant: <thinking>A survey question — delegate it and ask for a short report so the raw command output stays out of my context.</thinking>
+${SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_2}({
+  description: "Branch ship-readiness audit",
+  prompt: "Audit what's left before this branch can ship: uncommitted changes, commits ahead of main, test coverage, CI-relevant files changed. Report a punch list — done vs. missing. Under 200 words."
+})
+<commentary>
+The prompt is self-contained: goal, what to check, response cap. Relay the report's findings to the user.
+</commentary>
+</example>
+
+`}${SYSTEM_PROMPT_BACKGROUND_SUBAGENT_DELEGATION_EXAMPLES_VAR_3}

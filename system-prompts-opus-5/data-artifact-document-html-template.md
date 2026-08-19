@@ -3,7 +3,7 @@ name: 'Data: Artifact document HTML template'
 description: >-
   Provides the bundled live-document HTML template extracted for Claude when the
   document Artifact skill is activated.
-ccVersion: 2.1.234
+ccVersion: 2.1.235
 -->
 <!doctype html>
 <html lang="en">
@@ -255,6 +255,95 @@ ccVersion: 2.1.234
 </div>
 
 <script>
+  // DOC:anchors:begin — every block a reader can point at keeps a short id,
+  // so a viewer comment stays on its block through edits, saves and reloads.
+  (() => {
+    const page = document.querySelector('.page')
+    if (!page) return
+    const BLOCK = /^(P|H1|H2|H3|H4|H5|H6|LI|UL|OL|BLOCKQUOTE|ASIDE|SECTION|DIV|TABLE|TR|TD|TH|DL|DT|DD|FIGURE|FIGCAPTION|CAPTION|PRE|HEADER|FOOTER|NAV|SUMMARY|DETAILS|ADDRESS|HGROUP|HR)$/
+    const fnv = s => {
+      let h = 2166136261
+      for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619)
+      return (h >>> 0).toString(36)
+    }
+    // A pasted form's named fields can shadow its own members: read through the prototypes.
+    const { getAttribute, setAttribute, removeAttribute } = Element.prototype
+    const tagOf = Object.getOwnPropertyDescriptor(Element.prototype, 'tagName').get
+    const textOf = Object.getOwnPropertyDescriptor(Node.prototype, 'textContent').get
+    const idOf = el => getAttribute.call(el, 'id') ?? ''
+    const stateOf = Object.getOwnPropertyDescriptor(Document.prototype, 'readyState').get
+    // A block that arrives without an id gets the same one in every viewer
+    // of this version, so a thread resolves before any save has written it.
+    const derive = (el, taken, suffix) => {
+      const stem = 'b-' + fnv(tagOf.call(el) + '\\n' + textOf.call(el))
+      if (!taken.has(stem)) return stem
+      let n = suffix.get(stem) || 2
+      while (taken.has(stem + '-' + n)) n++
+      suffix.set(stem, n + 1)
+      return stem + '-' + n
+    }
+    // A block made while editing lives only in this tab until a save.
+    const fresh = taken => {
+      let id = ''
+      while (id.length < 4 || taken.has(id)) id = 'b-' + Math.random().toString(36).slice(2, 9)
+      return id
+    }
+    // A repeated id (split, paste, any copy) leaves the newcomer, so a thread
+    // never answers to two elements; a pasted id comments can't address is shed.
+    const ID = /^[A-Za-z_-][A-Za-z0-9_-]{0,31}$/
+    // Ids the author served are link targets: theirs to keep, even on a rebuilt node.
+    const served = new Set()
+    const owners = new Map()
+    const all = (root, s) => (root === page ? Element : Document).prototype.querySelectorAll.call(root, s)
+    const assign = loading => {
+      const held = [...all(page, '[id]')]
+      const keeper = new Map()
+      for (const el of held) {
+        const id = idOf(el)
+        if (owners.get(id) === el || !keeper.has(id)) keeper.set(id, el)
+      }
+      for (const el of held) {
+        const id = idOf(el)
+        if (loading && id) served.add(id)
+        const known = served.has(id) || owners.get(id) === el || ID.test(id)
+        if (keeper.get(id) !== el || !known) removeAttribute.call(el, 'id')
+      }
+      owners.clear()
+      const taken = new Set()
+      for (const el of all(document, '[id]')) taken.add(idOf(el))
+      const suffix = new Map()
+      for (const el of all(page, '*')) {
+        let id = idOf(el)
+        if (!id && BLOCK.test(tagOf.call(el))) {
+          id = loading ? derive(el, taken, suffix) : fresh(taken)
+          setAttribute.call(el, 'id', id)
+          taken.add(id)
+        }
+        if (id) owners.set(id, el)
+      }
+    }
+    assign(true)
+    // An added element or a rewritten id can bring a duplicate or a gap; what
+    // the page's own scripts place while it is still loading is served content.
+    const upkeep = new MutationObserver(records => {
+      if (records.some(r => r.type === 'attributes' || [...r.addedNodes].some(n => n instanceof Element))) {
+        assign(stateOf.call(document) === 'loading')
+        upkeep.takeRecords()
+      }
+    })
+    upkeep.observe(page, { childList: true, subtree: true, attributes: true, attributeFilter: ['id'] })
+    // Whatever the live upkeep missed, a save never carries one id on two elements.
+    page.addEventListener('kit-serialize', e => {
+      const seen = new Set()
+      for (const el of Element.prototype.querySelectorAll.call(e.detail.root, '[id]')) {
+        const id = idOf(el)
+        if (seen.has(id)) removeAttribute.call(el, 'id')
+        else seen.add(id)
+      }
+    })
+  })();
+  // DOC:anchors:end
+
   // KIT:editor:begin — toolbar wiring: the page is the editing surface,
   // the toolbar drives the live selection; word count and a save status
   // ride the right side. Toolbar markup is per kind; this wiring is

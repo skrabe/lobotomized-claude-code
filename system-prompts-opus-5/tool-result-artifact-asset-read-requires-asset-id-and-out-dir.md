@@ -1,6 +1,8 @@
 <!--
 name: Asset read requires asset_id and out_dir
-description: Deny message when read_asset lacks a valid asset_id or a local out_dir.
-ccVersion: 2.1.234
+description: >-
+  Deny message when read_asset lacks a valid 32-hex asset_id or its out_dir does
+  not resolve to a local path.
+ccVersion: 2.1.235
 -->
-asset_id (32 hex characters) and a local out_dir are required to read an asset
+read_asset needs a valid asset_id (32 hex characters), and out_dir, when given, must be a resolvable local path

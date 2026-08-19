@@ -4,11 +4,15 @@ You're a coding agent invoked in this repo. Read this first. It explains what we
 
 ## What this is
 
-`lobotomized-claude-code` is a set of system-prompt overrides for [Claude Code](https://claude.com/claude-code), tuned for **Claude Opus 4.7**. Each `.md` in [`system-prompts/`](./system-prompts) replaces one of CC's built-in prompt fragments. A separate tool ([`tweakcc-fixed`](https://github.com/skrabe/tweakcc-fixed), see below) reads these files and patches the user's installed CC binary in place.
+`lobotomized-claude-code` is a set of system-prompt overrides for [Claude Code](https://claude.com/claude-code). Each `.md` replaces one of CC's built-in prompt fragments. A separate tool ([`tweakcc-fixed`](https://github.com/skrabe/tweakcc-fixed), see below) reads these files and patches the user's installed CC binary in place.
+
+Four per-model sets are maintained: `system-prompts-opus-5` (the **active** one — `~/.tweakcc/system-prompts` symlinks to it), `system-prompts-opus-4-8`, `system-prompts-fable-5`, and `system-prompts-opus-4-7` (real overrides only, no pristine stubs). `system-reminders/` is a single shared folder across all four. **Never name a set literally in a procedure** — resolve the active one with `readlink ~/.tweakcc/system-prompts`, because it moves when a new model ships.
 
 ## What we're trying to achieve
 
-**The goal of this repo is to remove useless shit and dumb guardrails so we have a clean agentic coding harness.** CC ships every model the same prompt-by-volume that worked for older Claudes. Opus 4.7 follows instructions more literally, overtriggers on CAPS, doesn't need anti-laziness scaffolding, and gets actively worse from safety theater that wasn't load-bearing in the first place. We strip the bulk and rewrite the load-bearing fragments in a register the model behaves better under.
+**The goal of this repo is to remove useless shit and dumb guardrails so we have a clean agentic coding harness.** CC ships every model the same prompt-by-volume that worked for older Claudes. Current models follow instructions more literally, overtrigger on CAPS, don't need anti-laziness scaffolding, and get actively worse from safety theater that wasn't load-bearing in the first place. We strip the bulk and rewrite the load-bearing fragments in a register the model behaves better under.
+
+**Which model a cut is justified against is per-set, and the card is the authority.** Ground every content edit in that set's system card before touching a file: `~/dev/anthropic-reference/Opus-5-Card-Digest.md` for the active `opus-5` set, `Claude-Opus-4.8-System-Card.pdf` for `opus-4-8`, `Fable-5-Card-Digest.md` for `fable-5`, `Claude-Opus-4.7-System-Card.pdf` for `opus-4-7`. The digests carry the keep/cut/reword calls with page cites. Where the fable digest and the opus-5 digest disagree, the opus-5 one wins for the active set — it explicitly reverses fable's anti-moralizing cut, because wet-blanket is flat 1.92 = 1.92 for Opus 5 and there is no improvement to bank.
 
 The README's "~60% leaner on every coding turn" claim is the bar. If your edits don't trend toward that ratio, you're not lobotomizing — you're just cosmeticking.
 
@@ -174,7 +178,7 @@ There used to be a `BenIsLegit/tweakcc-fixed` intermediary that this repo's earl
 
 ## When CC releases a new version (the recurring task)
 
-1. Pull upstream prompt JSONs into `tweakcc-fixed/data/prompts/`. They live as `prompts-X.Y.Z.json` and are the source of truth for the pristine prompt text + identifier maps. **Get them from Piebald, not by extracting locally.** When `git merge upstream/main` doesn't bring the new version yet, check open PRs at `Piebald-AI/tweakcc` — they're typically named `prompts/X.Y.Z` (`gh pr list --repo Piebald-AI/tweakcc --search "prompts/X.Y.Z"` finds it). `gh pr checkout <num> --repo Piebald-AI/tweakcc --detach`, copy the JSON, switch back to main, commit. The naive `tools/promptExtractor.js` finds a strict subset of what Piebald publishes; only fall back to it if upstream genuinely has no PR open. (See `tweakcc-fixed/AGENTS.md` for the full procedure.)
+1. Generate `tweakcc-fixed/data/prompts/prompts-X.Y.Z.json` with **our own** `tools/promptExtractor.js`, seeded from our previous version's JSON. That file is the source of truth for pristine prompt text + identifier maps, and our extractor is canonical — it detects several times what Piebald publishes (4,452 vs 677 on 2.1.235). Never `git merge upstream/main`. Piebald's per-version branch (`git show upstream/prompts/X.Y.Z:data/prompts/prompts-X.Y.Z.json`) is a **comparison signal only**, plus a source of fuller per-prompt `identifierMap`s when the `identifiers` array matches exactly — pass it as `TWEAKCC_UPSTREAM_JSON=` so shared prompts keep upstream's slot labels. The runnable procedure is the `showtime-skrabe` skill in `tweakcc-fixed/.claude/skills/`; `tweakcc-fixed/CLAUDE.md` carries the background.
 2. Run `tweakcc-fixed --apply`. It auto-rebases overrides whose pristine content is unchanged across versions; reports conflicts (with `.diff.html`) for ones where pristine diverged.
 3. For conflicts: open the diff HTML, decide whether to keep your override (and update its `ccVersion:` frontmatter) or accept upstream.
 4. Run the verification scan below. **This catches a class of bugs that don't show up in conflict reports.**
