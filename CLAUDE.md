@@ -30,7 +30,7 @@ The earlier "trim, don't wipe" framing came from one specific incident — `syst
 - **Trimmed override**: some claims are unique-and-load-bearing, others are duplicated/default — keep the uniques, cut the duplicates.
 - **Full-wiped override** (empty body): every claim is duplicated/default/useless — we override with empty content to suppress the pristine entirely. Used when pristine **actively gets in the way of an always-on turn** (anti-laziness theater Anthropic ships, sibling-duplicated scaffolding). Empty body = file present, frontmatter with `ccVersion:`, zero body content.
 
-**"The user doesn't use this feature" is a wipe reason ONLY for an unconditional prompt.** A conditionally-loaded prompt — a bundled skill file, a `data-*` reference, a tool result — costs nothing until the moment something reads it, and at that moment it is the only copy of what it says. There is no token to save by wiping it, and a wipe converts "niche" into "unavailable". **Trim it: keep the facts that cannot be inferred (headers, limits, reserved names, exact error strings, event shapes), cut the tutorial prose and the SDK examples.** User directive, 2026-08-15, overturning the earlier blanket precedent that named `data-managed-agents-*` here — that family is conditionally loaded, so the family-wide wipe was wrong on its own terms. `data-managed-agents-multiagent-sessions` is now a 15.1 KB trim of a 25.9 KB pristine (measured against CC 2.1.237). `data-managed-agents-scheduled-deployments` is **not** a trim and never was — its 8,363-character body is byte-identical to 2.1.235 pristine, i.e. an untouched stub that happens to be 8.6 KB. Read a file before citing it as precedent for having been trimmed. The rest of the family stays wiped until someone reads one and finds it needed.
+**"The user doesn't use this feature" is a wipe reason ONLY for an unconditional prompt.** A conditionally-loaded prompt — a bundled skill file, a `data-*` reference, a tool result — costs nothing until the moment something reads it, and at that moment it is the only copy of what it says. There is no token to save by wiping it, and a wipe converts "niche" into "unavailable". **Trim it: keep the facts that cannot be inferred (headers, limits, reserved names, exact error strings, event shapes), cut the tutorial prose and the SDK examples.** User directive, 2026-08-15, overturning the earlier blanket precedent that named `data-managed-agents-*` here — that family is conditionally loaded, so the family-wide wipe was wrong on its own terms. `data-managed-agents-multiagent-sessions` is now a 15.1 KB trim of a 25.9 KB pristine (measured against CC 2.1.237). `data-managed-agents-scheduled-deployments` is **not** a trim and never was — its 8,363-character body is byte-identical to 2.1.235 pristine, i.e. an untouched stub that happens to be 8.6 KB. Read a file before citing it as precedent for having been trimmed. **Resolved 2026-08-20 — the family is NOT wiped.** The parked wording above ('stays wiped until someone reads one') contradicted the directive it was appended to, and a queue that waits for someone to volunteer is a queue that never moves; the older sentence kept winning because it read as settled policy. Skrabe's ruling: *"my statement on niche stuff stays. they should exist, and be trimmed only if needed."* So every `data-managed-agents-*` and `agent-prompt-managed-agents-*` file EXISTS with content — all nine remaining ones were restored to pristine on CC 2.1.237 — and a trim is applied per file only where that file's own content warrants one, never as a family policy. **Existence is the default; the trim is the exception that has to be earned by reading the file.** This generalises: for any conditionally-loaded prompt, absence is a decision that needs a reason, and 'nobody has looked yet' is not one.
 
 ### Sibling-check protocol (mandatory)
 
@@ -41,6 +41,28 @@ For each candidate edit:
 4. Whatever remains is what stays. Could be the full prompt minus a few sentences. Could be one sentence. Could be empty.
 
 The user's framing: *"if the file contents aren't phrased similarly (same message conveyed) elsewhere, then trim it/cull it not wipe it"* — applies to *unique* content. *"something will get wiped if useless. and there will be many"* — applies to fully-duplicated/default/useless content. Both are true; the per-claim check is what decides which path each prompt takes.
+
+**Step 2 is a claim about the corpus AFTER your edit lands, not before it — and when a whole
+family is edited in one pass, that makes every cross-citation stale by construction.** Sibling X
+covering a claim is only a reason to drop it if X still says it once your batch is on disk. On the
+CC 2.1.237 managed-agents pass (10 files at once), the coverage claims were written against the
+pre-trim corpus, so a claim dropped "because core-concepts has it" vanished entirely when
+core-concepts dropped it too in the same batch. Two adversarial verification rounds could not
+settle it: each refuted 9-10 of 10 files, mostly on the stale CITATION rather than on absent text,
+and they disagreed with each other about which files were sound. Repairing prose never repairs the
+bookkeeping, so the loop does not converge.
+
+Settle it by computing instead: `node tools/checkFactCoverage.mjs data/prompts/prompts-X.Y.Z.json
+--set=<set> --ids=<changed ids>` in the patcher repo, on all four sets. It enumerates the names a
+model must reproduce EXACTLY — endpoint paths, SDK method chains, CLI commands, object keys — and
+asserts each still reaches the model somewhere in the set. On 2.1.237 it found 26 such facts across
+7 of the 10 files reachable nowhere, and correctly did NOT flag four that the agent rounds claimed
+were missing. Restore its list verbatim, re-run to zero, then stop. Use the adversarial pass for
+PROSE a name-based gate cannot see, not to decide when you are done.
+
+Losing an exact name is worse than carrying a duplicated sentence: a duplicated sentence costs
+tokens, a missing `mcp_servers` limit or `client.beta.memory_stores.memories.update` makes the
+model emit a call that fails at runtime.
 
 ### What "useless shit" looks like (cut on sight)
 
