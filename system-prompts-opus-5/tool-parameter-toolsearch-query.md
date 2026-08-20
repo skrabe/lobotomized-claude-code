@@ -5,4 +5,4 @@ description: >-
   deferred tools.
 ccVersion: 2.1.191
 -->
-Query to find deferred tools. Use "select:<tool_name>" for direct selection, or keywords to search.
+Query to find deferred tools.

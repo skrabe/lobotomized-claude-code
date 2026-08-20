@@ -5,4 +5,4 @@ description: >-
   read/write/delete operations.
 ccVersion: 2.1.191
 -->
-project_read/project_write/project_delete: doc path. project_write: an existing path is replaced in place; a new bare filename (no "/") is namespaced to "claude/<name>".
+project_read/project_write/project_delete: doc path. project_write: a new bare filename (no "/") is namespaced to "claude/<name>".

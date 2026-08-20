@@ -5,4 +5,4 @@ description: >-
   read; model-facing.
 ccVersion: 2.1.191
 -->
-The resource URI to read
+

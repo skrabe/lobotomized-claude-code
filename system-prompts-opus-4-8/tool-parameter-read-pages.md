@@ -7,4 +7,4 @@ ccVersion: 2.1.191
 variables:
   - TOOL_PARAMETER_READ_PAGES_VAR_0
 -->
-Page range for PDF files (e.g., "1-5", "3", "10-20"). Only applicable to PDF files. Maximum ${TOOL_PARAMETER_READ_PAGES_VAR_0} pages per request.
+Page range for PDF files (e.g., "1-5", "3", "10-20"). Maximum ${TOOL_PARAMETER_READ_PAGES_VAR_0} pages per request.

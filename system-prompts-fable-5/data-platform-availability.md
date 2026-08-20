@@ -1,7 +1,7 @@
 <!--
 name: 'Data: Platform Availability'
 description: Provider-platform feature-availability table the model consults.
-ccVersion: 2.1.219
+ccVersion: 2.1.237
 -->
 # Platform Availability
 
@@ -40,7 +40,7 @@ Columns: **1P** = first-party Claude API, **P-AWS** = Claude Platform on AWS (An
 | &nbsp;&nbsp;Programmatic tool calling | ✅ | ✅ | ❌ | ❌ | β | |
 | &nbsp;&nbsp;MCP connector | β | β | ❌ | ❌ | β | |
 | &nbsp;&nbsp;Managed Agents | β | β | ❌ | ❌ | ❌ | Foundry ❌ inferred (not in Foundry docs either way) |
-| &nbsp;&nbsp;Self-hosted sandboxes | β | β | ❌ | ❌ | ❌ | P-AWS: \`GET /v1/environments/{id}/work\` list endpoint not supported; other work endpoints OK |
+| &nbsp;&nbsp;Self-hosted sandboxes | β | β | ❌ | ❌ | ❌ | P-AWS: worker authenticates with IAM/SigV4 or an AWS-Console API key + \`AnthropicSelfHostedEnvironmentAccess\` (Console environment keys don't work there); sessions on self-hosted environments cannot attach memory stores; \`GET /v1/environments/{id}/work\` list endpoint not supported, other work endpoints OK |
 | **API endpoints** | | | | | | |
 | &nbsp;&nbsp;Message Batches | ✅ | ✅ | ❌ | ❌ | ❌ | |
 | &nbsp;&nbsp;Files API | β | β | ❌ | ❌ | β | |

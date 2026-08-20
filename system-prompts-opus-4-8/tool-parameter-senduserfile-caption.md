@@ -5,4 +5,3 @@ description: >-
   model-facing as part of the tool's input_schema.
 ccVersion: 2.1.191
 -->
-Optional short caption for the file(s).

@@ -5,7 +5,5 @@ description: >-
   parameter, covering declaration, clearing, carry-forward and loading the
   capabilities skill first.
 ccVersion: 2.1.210
-variables:
-  - TOOL_PARAMETER_ARTIFACT_CAPABILITIES_VAR_0
 -->
-Runtime capabilities this page declares, as {name: config}. The control plane is the authority on valid names and config shapes. An empty object clears any previously stored declaration; omit the field on a redeploy to carry the stored declaration forward unchanged. Before declaring any capability, load the \`${TOOL_PARAMETER_ARTIFACT_CAPABILITIES_VAR_0}\` skill for the current contract and per-capability guidance.
+Runtime capabilities this page declares, as {name: config}. The control plane is the authority on valid names and config shapes.

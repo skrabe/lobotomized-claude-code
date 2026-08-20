@@ -5,4 +5,4 @@ description: >-
   tool; model-facing as part of the tool's serialized input schema.
 ccVersion: 2.1.191
 -->
-The absolute path to the Jupyter notebook file to edit (must be absolute, not relative)
+The absolute path to the Jupyter notebook file to edit

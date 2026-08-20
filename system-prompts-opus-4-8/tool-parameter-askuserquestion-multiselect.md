@@ -5,4 +5,4 @@ description: >-
   serialized into the model's tool list.
 ccVersion: 2.1.191
 -->
-Set to true to allow the user to select multiple options instead of just one. Use when choices are not mutually exclusive.
+Set to true to allow the user to select multiple options instead of just one.

@@ -5,4 +5,3 @@ description: >-
   serialized into the model's tool list, so model-facing.
 ccVersion: 2.1.191
 -->
-The task ID to get output from

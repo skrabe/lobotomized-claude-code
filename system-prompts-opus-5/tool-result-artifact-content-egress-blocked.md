@@ -1,12 +1,10 @@
 <!--
-name: 'Tool Result: Artifact content egress blocked'
+name: 'Tool Result: Artifact Content Egress Blocked'
 description: >-
-  Reports that the environment's network allowlist blocked the artifact frame
-  host so the artifact's content could not be fetched, and names the domain to
-  allow
-ccVersion: 2.1.234
+  Allowlist remediation appended to an artifact-content fetch error when the
+  environment blocked the frame host.
+ccVersion: 2.1.237
 variables:
   - TOOL_RESULT_ARTIFACT_CONTENT_EGRESS_BLOCKED_VAR_0
-  - TOOL_RESULT_ARTIFACT_CONTENT_EGRESS_BLOCKED_VAR_1
 -->
-this environment's network allowlist blocks ${TOOL_RESULT_ARTIFACT_CONTENT_EGRESS_BLOCKED_VAR_0}, so the artifact's content cannot be fetched (your access to the artifact itself is fine — the permission check passed). To allow artifact reads here, add ${TOOL_RESULT_ARTIFACT_CONTENT_EGRESS_BLOCKED_VAR_1} to the environment's allowed domains: environment settings → Code → Network access → Custom → Allowed domains. An admin can add the same entry to a shared environment from admin settings → Cloud environments; sessions that run in that environment get the access.
+To allow direct artifact reads here, add ${TOOL_RESULT_ARTIFACT_CONTENT_EGRESS_BLOCKED_VAR_0.env==="staging"?"*.frame.staging.claudeusercontent.com":"*.frame.claudeusercontent.com"} to the environment's allowed domains: environment settings → Code → Network access → Custom → Allowed domains. An admin can add the same entry to a shared environment from admin settings → Cloud environments; sessions that run in that environment get the access.

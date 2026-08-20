@@ -5,4 +5,4 @@ description: >-
   ScheduleWakeup tool schema.
 ccVersion: 2.1.202
 -->
-Seconds from now to wake up. Clamped to [60, 3600] by the runtime. Required unless `stop` is true.
+Seconds from now to wake up. Required unless `stop` is true.

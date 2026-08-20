@@ -5,4 +5,3 @@ description: >-
   field; serialized into the model's tool list.
 ccVersion: 2.1.191
 -->
-create_project: name for the new design-system project

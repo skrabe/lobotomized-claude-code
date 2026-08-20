@@ -5,4 +5,4 @@ description: >-
   tool input schema (what happened to the finding after applying fixes)
 ccVersion: 2.1.196
 -->
-Set ONLY when re-reporting after applying fixes: what happened to this finding
+

@@ -3,7 +3,7 @@ name: 'Data: Live documentation sources'
 description: >-
   WebFetch URLs for fetching current Claude API and Agent SDK documentation from
   official sources
-ccVersion: 2.1.224
+ccVersion: 2.1.237
 -->
 # Live Documentation Sources
 
@@ -93,7 +93,7 @@ Use these when a managed-agents binding, behavior, or wire-level detail isn't co
 | Define Outcomes       | \`https://platform.claude.com/docs/en/managed-agents/define-outcomes.md\`          | "Extract outcome definitions, evaluation hooks, and success criteria configuration"             |
 | Sessions              | \`https://platform.claude.com/docs/en/managed-agents/sessions.md\`                 | "Extract session lifecycle, status transitions, idle/terminated semantics, and resume rules"    |
 | Environments          | \`https://platform.claude.com/docs/en/managed-agents/environments.md\`             | "Extract environment config (cloud/networking), management endpoints, and reuse model"          |
-| Self-Hosted Sandboxes | \`https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes.md\`    | "Extract config:{type:self_hosted}, ANTHROPIC_ENVIRONMENT_KEY, EnvironmentWorker.run/run_one, beta_agent_toolset, ant beta:worker poll/run, webhook-driven wake" |
+| Self-Hosted Sandboxes | \`https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes.md\`    | "Extract config:{type:self_hosted}, ANTHROPIC_ENVIRONMENT_KEY, EnvironmentWorker.run/handle_item, environments.work.poller(drain), beta_agent_toolset, ant beta:worker poll/run, webhook-driven wake, memory stores (ANTHROPIC_WORK_SECRET, memory_sync_interval/memory_sync_deletes)" |
 | Self-Hosted Sandboxes — Security | \`https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-security.md\` | "Extract what the customer owns (hardening, egress, key custody, trust boundaries) vs what Anthropic cannot do" |
 | Events and Streaming  | \`https://platform.claude.com/docs/en/managed-agents/events-and-streaming.md\`     | "Extract event stream types, stream-first ordering, reconnect/dedupe, and steering patterns"    |
 | Tools                 | \`https://platform.claude.com/docs/en/managed-agents/tools.md\`                    | "Extract built-in toolset, custom tool definitions, and tool result wire format"                |
@@ -139,6 +139,14 @@ WebFetch these when a binding (class, method, namespace, field) isn't covered in
 
 Each SDK repo also ships runnable programs under \`examples/\` — including the refusal-fallback / \`fallbacks\` examples (client-side middleware registration, fallback state, server-side \`fallbacks\` param). Fetch those for exact per-language syntax instead of translating another language's example.
 
+### SDK major-version upgrade guides
+
+Authoritative change lists for upgrading the SDK package itself across a major version. The bundled \`{lang}/claude-api/sdk-upgrade.md\` is the executable form; when the two disagree, the repository guide wins.
+
+| SDK                | URL                                                                         | Extraction Prompt                                                                                                   |
+| ------------------ | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Python (0.x → 1.x) | \`https://github.com/anthropics/anthropic-sdk-python/blob/main/MIGRATION.md\` | "Extract every breaking change with its before/after code, the new minimum Python version, and the upgrade command" |
+
 ---
 
 ## Fallback Strategy
@@ -148,4 +156,3 @@ If WebFetch fails (network issues, URL changed):
 1. Use cached content from the language-specific files (note the cache date)
 2. Inform user the data may be outdated
 3. Suggest they check platform.claude.com or the GitHub repos directly
-

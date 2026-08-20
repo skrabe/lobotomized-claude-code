@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Result: Artifact Live Subscription Skipped (Remote Session)'
-description: >-
-  Status appended to the publish tool result: live subscription skipped because
-  remote sessions do not hold the watch.
-ccVersion: 2.1.218
+name: 'Tool Result: Artifact Live Subscription Remote Session'
+description: 'Reason clause: remote sessions do not hold the artifact watch.'
+ccVersion: 2.1.237
 -->
-Live subscription: skipped — remote sessions do not hold the watch.
+remote sessions do not hold the watch

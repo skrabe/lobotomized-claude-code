@@ -5,4 +5,4 @@ description: >-
   parameter, serialized into the tool definition sent to the model.
 ccVersion: 2.1.191
 -->
-Explanation of what this option means or what will happen if chosen. Useful for providing context about trade-offs or implications.
+Explanation of what this option means or what will happen if chosen.

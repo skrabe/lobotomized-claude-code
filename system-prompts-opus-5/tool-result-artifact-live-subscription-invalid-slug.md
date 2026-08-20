@@ -1,8 +1,6 @@
 <!--
-name: 'Tool result: Artifact live-subscription skipped (invalid slug)'
-description: >-
-  Artifact-watch skip message when the url is not a nameable artifact, returned
-  in the Artifact tool result.
-ccVersion: 2.1.218
+name: 'Tool Result: Artifact Live Subscription Invalid Slug'
+description: 'Reason clause: the target is not an artifact this session can name.'
+ccVersion: 2.1.237
 -->
-Live subscription: skipped — that is not an artifact this session can name.
+that is not an artifact this session can name

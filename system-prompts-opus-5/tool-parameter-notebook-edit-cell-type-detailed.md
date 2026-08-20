@@ -5,4 +5,4 @@ description: >-
   (detailed form); serialized into the model's tool list, so model-facing.
 ccVersion: 2.1.191
 -->
-The type of the cell (code or markdown). If not specified, it defaults to the current cell type. If using edit_mode=insert, this is required.
+If not specified, it defaults to the current cell type. If using edit_mode=insert, this is required.

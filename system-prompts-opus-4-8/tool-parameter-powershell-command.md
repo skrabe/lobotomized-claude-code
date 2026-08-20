@@ -5,4 +5,3 @@ description: >-
   to execute; model-facing.
 ccVersion: 2.1.191
 -->
-The PowerShell command to execute

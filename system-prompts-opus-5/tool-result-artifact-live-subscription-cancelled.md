@@ -1,8 +1,8 @@
 <!--
-name: 'Tool result: Artifact live-subscription skipped (cancelled)'
+name: 'Tool Result: Artifact Live Subscription Cancelled'
 description: >-
-  Artifact-watch skip message when the request was aborted before the socket
-  opened, returned in the Artifact tool result.
-ccVersion: 2.1.218
+  Reason clause: the live-subscription request was cancelled before the
+  connection opened.
+ccVersion: 2.1.237
 -->
-Live subscription: skipped — the request was cancelled before the connection opened.
+the request was cancelled before the connection opened

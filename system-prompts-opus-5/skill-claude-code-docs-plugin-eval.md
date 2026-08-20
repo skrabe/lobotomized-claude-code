@@ -4,7 +4,7 @@ description: >-
   Full offline reference file shipped as references/plugin-eval.md in the
   claude-code docs skill, covering claude plugin eval, plugin eval init, case
   format, graders, flags, results JSON, sandbox internals, CI and /skill-doctor
-ccVersion: 2.1.235
+ccVersion: 2.1.237
 -->
 # Plugin eval (`claude plugin eval`) and `/skill-doctor`
 
@@ -137,7 +137,7 @@ min: 1
 
 ### `case.yaml` fields
 
-`schema_version` is required in `case.yaml` (`"1.1"` is current; prose-only cases get it automatically). Only the major version is checked: a case declaring major 2 fails with `schema_version "…" requires a newer Claude Code (this binary supports up to 1.x)`. Unknown top-level, `context`, and `execution` keys are ignored (forward compatibility); unknown keys **inside a grader** are an error. Either `execution.prompt` (or a `prompt.md` body) or `context.history_file` is required.
+`schema_version` is required in `case.yaml` (`"1.1"` is current; prose-only cases get it automatically). Only the major version is checked: a case declaring major 2 fails with `schema_version "…" requires a newer Claude Code (this binary supports up to 1.x)`. Unknown top-level, `context`, and `execution` keys are ignored (forward compatibility); unknown keys **inside a grader** are an error. `execution.prompt` (or a `prompt.md` body) is always required — with `context.history_file` it is the resumed session's next user turn.
 
 | Field | Type / default | Meaning |
 |---|---|---|

@@ -3,6 +3,6 @@ name: 'Tool result: Artifact live-subscription skipped (connection failed)'
 description: >-
   Artifact-watch skip message when the websocket could not be opened from this
   environment, returned in the Artifact tool result.
-ccVersion: 2.1.218
+ccVersion: 2.1.237
 -->
-Live subscription: skipped — the live connection could not be opened from this environment.
+the live connection could not be opened from this environment

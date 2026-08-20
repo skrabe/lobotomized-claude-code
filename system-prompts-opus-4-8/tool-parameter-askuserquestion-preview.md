@@ -5,4 +5,4 @@ description: >-
   field; model-facing as part of the tool's input_schema.
 ccVersion: 2.1.191
 -->
-Optional preview content rendered when this option is focused. Use for mockups, code snippets, or visual comparisons that help users compare options. See the tool description for the expected content format.
+Optional preview content rendered when this option is focused.

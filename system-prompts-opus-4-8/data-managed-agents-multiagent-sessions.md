@@ -4,7 +4,7 @@ description: >-
   Reference documentation for Managed Agents multiagent sessions, including
   coordinator rosters, threads, session stream events, subagent tool
   permissions, and pitfalls
-ccVersion: 2.1.232
+ccVersion: 2.1.237
 -->
 # Managed Agents — Multiagent Sessions
 
@@ -49,6 +49,8 @@ orchestrator = client.beta.agents.create(
 A roster entry is only a reference: a worker runs on its own `model`, `system`, and `tools`, and its tokens are billed at its own model's rates. If the session was created with `agent_with_overrides`, those overrides apply to the **coordinator and its `self` copies** — roster agents referenced by ID always use their own as-created configuration.
 
 The coordinator's thread receives delegation tools for working the roster: `list_agents` (see the roster) and `send_to_agent` (task or message a member). It chooses whom to spawn from each entry's `name` and `description` (the `self` entry is listed under the coordinator's own name), so write both for the coordinator to read. Names must be unique across the roster; don't name an agent `self`. Subagents see none of the coordinator's conversation, so each task must carry the paths, constraints, and report format it needs. Spawning returns immediately; the subagent's report arrives in a later coordinator turn.
+
+**Web tool domain lists layer, never widen.** A roster agent's `web_search` / `web_fetch` calls are bound by its own `allowed_domains` / `blocked_domains`, by those of every agent that called it, and by the coordinator's current lists (allow-lists intersect, block-lists union). Keep each roster agent's allow-list inside the coordinator's — disjoint lists leave the tool present but every call fails `url_not_allowed`.
 
 **Limits:** 1–20 roster entries (at most one `self`; each rostered agent can be spawned many times), **one level of delegation** — enforced, not silently flattened: rostering an agent that itself carries a `multiagent.agents` roster fails the create or update with a validation error — and at most **25 concurrent threads** per session; archive finished threads if a long session needs more.
 
@@ -122,7 +124,7 @@ When a subagent needs the client (an `always_ask` confirmation, or a custom tool
 ## Interrupting and archiving threads
 
 - **`user.interrupt` without `session_thread_id` interrupts every non-archived thread in the session, including the primary** — it is not a primary-only stop. Pass `session_thread_id` to target one thread.
-- **Against a child thread blocked on `requires_action`**, the interrupt closes each pending tool call with an *error* tool result (`"Tool execution was interrupted before completion. Please retry."`) and re-emits `session.thread_status_idle` with `stop_reason: end_turn` directly — the model is not sampled. Against a thread already `idle`, the interrupt is a no-op.
+- **Against a child thread blocked on `requires_action`**, the interrupt closes each pending tool call with an *error* tool result (`"Tool execution was interrupted before completion. Please retry."`) and re-emits `session.thread_status_idle` with `stop_reason: end_turn` directly — the model is not sampled. Against a thread already `idle`, the interrupt is a no-op — with one exception: a session on a self-hosted environment whose worker failed the claimed work item (e.g. a memory-store mount error) sits `idle`, and a `user.interrupt` re-queues that work so the next worker claim retries (`shared/managed-agents-self-hosted-sandboxes.md` § Memory stores → Troubleshooting).
 - **Archive requires the thread to be idle, and `requires_action` counts as idle** — a thread parked on a pending tool call can be archived directly. Only a *running* thread must be interrupted first.
 
 ## Pitfalls

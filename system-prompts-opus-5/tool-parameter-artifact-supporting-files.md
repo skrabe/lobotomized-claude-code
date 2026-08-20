@@ -5,4 +5,4 @@ description: >-
   supporting files published alongside the page.
 ccVersion: 2.1.218
 -->
-Supporting files to publish alongside the page. Map form {"published/path": "source/path" | {from, contentType}} publishes each source at the key (what the HTML references); list form publishes each file at its own spelling. Sources must lie under the working directory.
+

@@ -5,4 +5,3 @@ description: >-
   model-facing as part of the tool's serialized input schema.
 ccVersion: 2.1.191
 -->
-The directory resource URI to list

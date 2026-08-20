@@ -5,4 +5,4 @@ description: >-
   worktree/branch; model-facing.
 ccVersion: 2.1.191
 -->
-"keep" leaves the worktree and branch on disk; "remove" deletes both.
+

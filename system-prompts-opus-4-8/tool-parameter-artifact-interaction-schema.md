@@ -8,4 +8,4 @@ ccVersion: 2.1.219
 variables:
   - TOOL_PARAMETER_ARTIFACT_INTERACTION_SCHEMA_VAR_0
 -->
-Which registered interaction schema to validate the page's data island against. Required for read_page_data (e.g. "${TOOL_PARAMETER_ARTIFACT_INTERACTION_SCHEMA_VAR_0[0]}"); meaningless for every other action.
+Required for read_page_data (e.g. "${TOOL_PARAMETER_ARTIFACT_INTERACTION_SCHEMA_VAR_0[0]}"); meaningless for every other action.

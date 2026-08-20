@@ -5,4 +5,4 @@ description: >-
   injected into the tool's JSON input schema the model reads.
 ccVersion: 2.1.218
 -->
-The report to deliver to your report target. Be concise and specific.
+Be concise and specific.

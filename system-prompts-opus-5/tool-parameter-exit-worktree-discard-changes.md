@@ -6,4 +6,4 @@ description: >-
   the model.
 ccVersion: 2.1.191
 -->
-Required true when action is "remove" and the worktree has uncommitted files or unmerged commits. The tool will refuse and list them otherwise.
+

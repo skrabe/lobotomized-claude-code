@@ -5,7 +5,7 @@ description: >-
   covering language detection, API surface selection (Claude API vs Managed
   Agents), model defaults, thinking/effort configuration, and language-specific
   documentation reading
-ccVersion: 2.1.234
+ccVersion: 2.1.237
 -->
 
 # Building LLM-Powered Applications with Claude
@@ -53,6 +53,7 @@ If the User Request at the bottom is a bare subcommand string (no prose), search
 |---|---|
 | `migrate` | Migrate existing Claude API code to a newer model. Read `shared/model-migration.md` and follow it in order: Step 0 (confirm scope — ask which files/directories before any edit), Step 1 (classify each file), then the per-target breaking-changes section. Execute it, don't summarize. If the user didn't name a target model, ask which model to migrate to in the same turn as the scope question. After the per-target changes are applied, audit the in-scope prompt text, tool descriptions, and request code against `shared/prompt-audit.md` — prompting written for the source model is part of every migration, and it does not announce itself. |
 | `prompt-audit` | Audit existing prompts, skills, and tool descriptions for dated patterns ("cruft") written for older models. Read `shared/prompt-audit.md` and follow it in order: Step 0 (establish scope and target model from the request and the repository — state the assumptions in the report, do not stop to ask), inventory, provenance, then the pattern scan. Produce both deliverables in full — the audit report (findings with `file:line`, pattern, why it's obsolete for the target model, confidence) and a proposed diff — without pausing for confirmation; apply edits only if the request explicitly asked for them. Execute it, don't summarize. |
+| `upgrade` | Upgrade the project's Anthropic SDK dependency across a major version — currently the Python SDK, `anthropic` 0.x → 1.x. Trailing words may name the language and/or a scope (`upgrade python`, `upgrade python sdk src/`). Read `python/claude-api/sdk-upgrade.md` and follow it in order: Step 0 (confirm scope, then establish the current and target versions — a published 1.x must exist before you write a pin), the Step 1 inventory, each numbered section, then verification and the report. Execute it, don't summarize. If the detected or named language has no `sdk-upgrade.md` in this skill, say that no major-version upgrade guide is bundled for that SDK yet and point the user at that SDK's CHANGELOG (repositories in `shared/live-sources.md`); do not improvise one from the Python guide. This is not model migration — to move code to a newer Claude model, use `migrate`. |
 
 ---
 
@@ -448,6 +449,7 @@ After detecting the language, read based on what the user needs. Every `{lang}/�
 **Chat UI or real-time response display:** `{lang}/claude-api/README.md` + `{lang}/claude-api/streaming.md`
 **Long-running conversations (may exceed context window):** `{lang}/claude-api/README.md` — Compaction section
 **Migrating to a newer model or replacing a retired one:** `shared/model-migration.md`
+**Upgrading the Anthropic SDK package itself across a major version (`anthropic` 0.x → 1.x: `httpx2`, awaited async `.with_raw_response`, removed deprecated parameters / aliases / Text Completions, Python ≥ 3.10) — or writing new code against a project already on 1.x:** `{lang}/claude-api/sdk-upgrade.md` (currently Python only; other SDKs have no bundled major-version guide yet — use that SDK's CHANGELOG via `shared/live-sources.md`)
 **Prompt caching / "why is my cache hit rate low":** `shared/prompt-caching.md` + `{lang}/claude-api/README.md` (Prompt Caching section)
 **Function calling / tool use / agents:** `{lang}/claude-api/README.md` + `shared/tool-use-concepts.md` + `{lang}/claude-api/tool-use.md`
 **Agent design (tool surface, context management, caching strategy):** `shared/agent-design.md`
@@ -510,6 +512,7 @@ Use WebFetch for the latest documentation when the user asks for "latest"/"curre
 - **Memory tool type is `memory_20250818`.** Declare `{"type": "memory_20250818", "name": "memory"}`. Go uses the beta-namespace type on `client.Beta.Messages.New`; Python/TS/Ruby/PHP/C# use non-beta `client.messages.create`; Java has both. Python/TS provide `BetaAbstractMemoryTool` / `betaMemoryTool` helpers for the backend.
 - **Don't define custom types for SDK data structures:** use `Anthropic.MessageParam` for messages, `Anthropic.Tool` for definitions, `Anthropic.ToolUseBlock` / `Anthropic.ToolResultBlockParam` for tool results, `Anthropic.Message` for responses — defining your own duplicates the SDK and loses type safety.
 - **Server-tool errors don't raise.** Web search/fetch errors return HTTP 200 with a result block whose `content` is a single error object (e.g. `{error_code: "max_uses_exceeded"}`), not a raised exception. For web search a success `content` is a *list*, an error `content` is an *object* — branch before indexing.
+- **Managed Agents web tools ignore the environment's `networking`.** `web_search` / `web_fetch` run on Anthropic's servers in cloud *and* self-hosted environments, and Console org-level web settings apply to the Messages API only. Restrict them per tool with `allowed_domains` **or** `blocked_domains` (never both; 1–64 plain hostnames per list, subdomains covered; IPs, bare TLDs, single-label and `localhost`-style names rejected on both tools; a path suffix is allowed only on `web_search`) on the toolset `configs` entry — `shared/managed-agents-tools.md` § Web search & web fetch settings.
 - **Code execution output block type:** `code_execution_20260521` returns `bash_code_execution_tool_result` (with `.content.stdout`), not the legacy bare `code_execution_tool_result`. Match on the correct type.
 - **Tool search: never defer everything.** The search tool itself must not have `defer_loading: true`, and at least one tool must be non-deferred, or the API returns 400 `All tools have defer_loading set`.
 - **`strict: true` goes on the tool, not `tool_choice`.** It's a sibling of `name`/`description`/`input_schema` on the tool definition; on `tool_choice` it does nothing.

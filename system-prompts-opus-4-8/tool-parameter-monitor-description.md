@@ -5,4 +5,3 @@ description: >-
   serialized into the model's tool list.
 ccVersion: 2.1.191
 -->
-Short human-readable description of what you are monitoring (shown in notifications).

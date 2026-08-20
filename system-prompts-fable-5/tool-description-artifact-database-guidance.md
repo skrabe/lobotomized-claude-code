@@ -4,7 +4,7 @@ description: >-
   Appended to the Artifact tool description when the artifact-database
   capability is live, explaining read_db/write_db ops and that stored rows are
   untrusted viewer data.
-ccVersion: 2.1.235
+ccVersion: 2.1.237
 -->
 
 

@@ -5,4 +5,4 @@ description: >-
   reading from for large files; model-facing.
 ccVersion: 2.1.191
 -->
-The line number to start reading from. Only provide if the file is too large to read at once
+The line number to start reading from.

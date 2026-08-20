@@ -3,7 +3,7 @@ name: 'Data: Managed Agents scheduled deployments'
 description: >-
   Managed Agents reference doc for scheduled deployments — cron-scheduled
   autonomous agent sessions
-ccVersion: 2.1.224
+ccVersion: 2.1.237
 -->
 # Managed Agents — Scheduled Deployments
 
@@ -15,7 +15,7 @@ Requires the `managed-agents-2026-04-01` beta header (the SDK sets it automatica
 
 A deployment bundles everything a session needs (agent, environment, optional files / GitHub / memory stores / vaults) plus a `schedule` and the `initial_events` that kick off each run:
 
-- `agent` and `environment_id` are required — same shapes as `sessions.create` (see `shared/managed-agents-core.md`).
+- `agent` and `environment_id` are required — same shapes as `sessions.create` (see `shared/managed-agents-core.md`). A deployment targeting a **self-hosted** environment can attach `memory_store` resources (SDK worker required — `shared/managed-agents-self-hosted-sandboxes.md` § Memory stores); `file` and `github_repository` resources need a cloud environment. The Console deployment form doesn't offer memory stores for self-hosted environments — attach them via the API/SDK.
 - `initial_events` must contain at least one starting event — a `user.message` **or** a `user.define_outcome`. (A deployment's `initial_events` also accepts `system.message`, which a session's does not.)
 - `schedule` takes a cron `expression` and an IANA `timezone`. Minute-level granularity is the maximum.
 
@@ -161,4 +161,3 @@ Raw HTTP: `POST /v1/deployments/{deployment_id}/pause` (likewise `/unpause`, `/a
 ## Manual runs
 
 `POST /v1/deployments/{deployment_id}/run` (SDK: `client.beta.deployments.run(id)`) creates a session immediately and writes a run with `trigger_context.type: "manual"`. Use it to **test a deployment before committing to the schedule** — and remember it works even while the deployment is paused.
-

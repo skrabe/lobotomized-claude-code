@@ -5,4 +5,4 @@ description: >-
   insert positioning; model-facing.
 ccVersion: 2.1.191
 -->
-The ID of the cell to edit. When inserting a new cell, the new cell will be inserted after the cell with this ID, or at the beginning if not specified.
+When inserting a new cell, the new cell will be inserted after the cell with this ID, or at the beginning if not specified.

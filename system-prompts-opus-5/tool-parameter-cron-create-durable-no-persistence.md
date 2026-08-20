@@ -5,4 +5,4 @@ description: >-
   the tool input schema when durable persistence is unavailable.
 ccVersion: 2.1.199
 -->
-Has no effect — durable persistence is not available. All jobs are session-only (in-memory, gone when this Claude session ends).
+Has no effect — durable persistence is not available.

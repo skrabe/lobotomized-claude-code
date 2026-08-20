@@ -5,4 +5,4 @@ description: >-
   task to stop; model-facing.
 ccVersion: 2.1.199
 -->
-The ID of the background task to stop. Agent-team teammates and named background agents are also accepted by agent ID or name.
+

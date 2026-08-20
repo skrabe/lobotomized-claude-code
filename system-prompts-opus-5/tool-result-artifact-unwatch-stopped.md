@@ -1,10 +1,11 @@
 <!--
-name: 'Tool Result: Artifact unwatch stopped'
+name: 'Tool Result: Artifact Unwatch Stopped'
 description: >-
-  Artifact tool result reporting that the session stopped watching an artifact
-  and should not re-watch it unbidden
-ccVersion: 2.1.234
+  Tool result confirming a watch was stopped; republishes of the artifact will
+  no longer be reported this session.
+ccVersion: 2.1.237
 variables:
   - TOOL_RESULT_ARTIFACT_UNWATCH_STOPPED_VAR_0
+  - TOOL_RESULT_ARTIFACT_UNWATCH_STOPPED_VAR_1
 -->
-Stopped watching ${TOOL_RESULT_ARTIFACT_UNWATCH_STOPPED_VAR_0.unwatch.url}; republishes of it will no longer be reported in this session. Do not watch it again unless the user asks.
+Stopped watching ${TOOL_RESULT_ARTIFACT_UNWATCH_STOPPED_VAR_0(TOOL_RESULT_ARTIFACT_UNWATCH_STOPPED_VAR_1.unwatch.url)}; republishes of it will no longer be reported in this session. Do not watch it again unless the user asks.

@@ -5,4 +5,3 @@ description: >-
   cell; model-facing.
 ccVersion: 2.1.191
 -->
-The new source for the cell

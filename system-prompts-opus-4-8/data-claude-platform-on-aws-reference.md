@@ -4,7 +4,7 @@ description: >-
   Reference documentation for using the Claude Developer Platform through AWS
   infrastructure, including AnthropicAWS clients, required region and workspace
   configuration, SigV4 authentication, and short-term API keys
-ccVersion: 2.1.183
+ccVersion: 2.1.237
 -->
 
 # Claude Platform on AWS
@@ -58,5 +58,7 @@ Endpoint pattern: \`https://aws-external-anthropic.{region}.api.aws/v1/...\`. Re
 The client resolves AWS credentials via the standard precedence chain: explicit constructor args → environment (\`AWS_ACCESS_KEY_ID\`/\`AWS_SECRET_ACCESS_KEY\`/\`AWS_SESSION_TOKEN\`) → shared profile → assumed role / instance metadata.
 
 **Short-term API keys** are also supported for cases where SigV4 isn't practical (e.g., browser, simple scripts). Mint one with the per-language token-generator package; pass it as \`api_key\` on the client. Lifetime is the **lesser of** the requested duration, the underlying credential's expiry, and **12 hours**. For package names and IAM details, WebFetch the Claude Platform on AWS page in \`shared/live-sources.md\`.
+
+Treat it as first-party: every section of this skill applies unchanged. Do **not** apply Bedrock's feature-availability mask. Three Managed Agents differences only: (1) a session can run autonomously (no user events) for at most **6 hours** before it needs reauthentication — send any user-role event to continue; (2) sessions on **self-hosted** environments **cannot attach memory stores** (rejected at session create) — cloud environments attach them as usual; (3) self-hosted workers authenticate with IAM/SigV4 or an AWS-Console API key plus the \`AnthropicSelfHostedEnvironmentAccess\` managed policy — Console-generated environment keys don't work against the AWS endpoint.
 
 A missing region or \`workspace_id\` throws at client-construction time (no request is sent). A **403** means the request reached the server — check for a **wrong** \`workspace_id\` or a missing IAM action on the principal. See the IAM actions reference in \`shared/live-sources.md\`.
