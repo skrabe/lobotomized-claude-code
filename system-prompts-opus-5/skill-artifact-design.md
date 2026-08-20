@@ -22,7 +22,7 @@ Pitch every artifact's visual identity at the treatment the task actually calls 
 
 Calibrate the treatment, not whether to design. A doc deserves the same craft as a landing page; what changes is the treatment it's delivered in. Format is part of this read — decided, not defaulted: a Markdown publish keeps its filename as its title and takes almost none of the craft below, so it fits only when the user asked for Markdown or the content is bound for a Markdown-native destination; never pick it to save time.
 
-A utilitarian treatment — a plan, a memo, a demo — gets real typographic hierarchy, considered spacing, and a proper palette, but doesn't get over-designed: most pages don't need a flashy, gigantic hero. An editorial treatment — a landing page, a game, an app or tool they'll keep or share — earns the process below.
+A utilitarian treatment — a plan, a memo, a demo — gets real typographic hierarchy, considered spacing, and a proper palette, but doesn't get over-designed: most pages don't need a flashy, gigantic hero, and flourishes stay tasteful and limited. When unsure: a well-composed page is never the wrong answer; an over-designed visual identity sometimes is. An editorial treatment — a landing page, a game, an app or tool they'll keep or share — earns the process below.
 
 The fundamentals apply to everything. The editorial process runs only when the read above says so.
 
@@ -50,7 +50,7 @@ The fundamentals apply to everything. The editorial process runs only when the r
 
 **Structure is information.** Numbering, eyebrows, dividers, and labels should encode something true about the content, not decorate it. Numbered markers (01 / 02 / 03) are right only when the content actually is a sequence — a real process or typed timeline where order carries information the reader needs. Question whether a structural device earns its place before adding it.
 
-**When it's a UI, not a document.** A dashboard or tool is scanned and operated, not read top-to-bottom, so the craft shifts from typography to information design. Surface the summary before the detail; encode state in form as well as number — a pill, chip, or severity stripe — so what needs attention reads at a glance. Semantic color (good / warning / critical) is separate from the accent hue and doesn't count as your accent. Give sparklines and charts the same care as type. What's interactive should look interactive.
+**When it's a UI, not a document.** A dashboard or tool is scanned and operated, not read top-to-bottom, so the craft shifts from typography to information design. Surface the summary before the detail; encode state in form as well as number — a pill, chip, or severity stripe — so what needs attention reads at a glance. Semantic color (good / warning / critical) is separate from the accent hue and doesn't count as your accent. Give sparklines and charts the same care as type: an area fill, a faint grid, an emphasized endpoint. What's interactive should look interactive.
 
 <!-- dataviz-callout -->
 
@@ -71,6 +71,6 @@ Review the plan against the subject before building: if any part reads like the 
 
 - **The hero is a thesis** — open with the most characteristic thing in the subject's world (headline, image, live demo, interactive moment).
 - **Typography carries the personality.** Pair display and body faces deliberately — not the families you'd reach for on any other project — with a clear type scale and intentional weights, widths, spacing. Make the type treatment itself memorable.
-- **Motion is deliberate.** Decide where — and whether — animation serves the subject. One orchestrated moment lands harder than scattered effects; extra animation reads as machine-generated.
+- **Motion is deliberate.** Decide where — and whether — animation serves the subject: a page-load sequence, a scroll-triggered reveal, hover micro-interactions, ambient atmosphere. One orchestrated moment lands harder than scattered effects; extra animation reads as machine-generated.
 - **Match complexity to the vision.** Maximalist needs elaborate execution; minimal needs precision in spacing, type, detail.
 - **Spend your boldness in one place;** keep everything around it quiet. If the accent fights the ground, shift it toward analogous or drop saturation rather than replacing it.
