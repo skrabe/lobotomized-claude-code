@@ -3,7 +3,7 @@ name: 'Data: Artifact spreadsheet HTML template'
 description: >-
   Provides the bundled live-spreadsheet HTML template extracted for Claude when
   the sheet Artifact skill is activated.
-ccVersion: 2.1.234
+ccVersion: 2.1.238
 -->
 <!doctype html>
 <html lang="en">
@@ -19,10 +19,16 @@ ccVersion: 2.1.234
        render self-contained with no network access. */
     --cds-surface-0: #ffffff;            /* the paper — whole viewport */
     --cds-surface-1: #ffffff;            /* same paper: no card separation */
-    --cds-surface-2: #ffffff;            /* chrome sits on the paper too */
+    --cds-surface-2: #f7f6f2;            /* the toolbar band, one step off the paper */
+    --cds-control-hover: rgba(26, 26, 25, 0.06);
+    --cds-control-active: rgba(26, 26, 25, 0.1);
+    --cds-clay: #bb5a38;                 /* CDS clay, deepened so a white label reads AA */
+    --cds-clay-emphasized: #ad4f2e;
+    --cds-text-on-clay: #ffffff;
     --cds-text-primary: #1a1a19;
     --cds-text-secondary: #55544f;
-    --cds-text-muted: #767470;           /* AA on white for small text */
+    --cds-text-muted: #6c6a66;           /* AA at 12px on the band and the paper */
+    --cds-text-body: var(--cds-text-primary);
     --cds-border: rgba(26, 26, 25, 0.12);
     --cds-border-strong: rgba(26, 26, 25, 0.28);
     --cds-text-accent: #1565c9;
@@ -39,8 +45,8 @@ ccVersion: 2.1.234
     --cds-font-voice: var(--cds-font-sans);
     --cds-font-formula: "Anthropic Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --cds-text-danger: #b3261e;
-    --cds-text-warning: #c25124;
-    --cds-font-sans: "Anthropic Sans", ui-sans-serif, -apple-system, sans-serif;
+    --cds-text-warning: #b84b20;
+    --cds-font-sans: "Anthropic Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --cds-font-mono: "Anthropic Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     font-family: var(--cds-font-voice);
     /* Counter the artifact skeleton's :root{color-scheme:light} so UA
@@ -58,7 +64,9 @@ ccVersion: 2.1.234
     color-scheme: dark;
     --cds-surface-0: #151514;
     --cds-surface-1: #151514;
-    --cds-surface-2: #151514;
+    --cds-surface-2: #1c1c1b;
+    --cds-control-hover: rgba(237, 237, 234, 0.08);
+    --cds-control-active: rgba(237, 237, 234, 0.14);
     --cds-text-primary: #ededea;
     --cds-text-secondary: #b5b3aa;
     --cds-text-muted: #8f8d86;
@@ -74,7 +82,9 @@ ccVersion: 2.1.234
       color-scheme: dark;
       --cds-surface-0: #151514;
       --cds-surface-1: #151514;
-      --cds-surface-2: #151514;
+      --cds-surface-2: #1c1c1b;
+      --cds-control-hover: rgba(237, 237, 234, 0.08);
+      --cds-control-active: rgba(237, 237, 234, 0.14);
       --cds-text-primary: #ededea;
       --cds-text-secondary: #b5b3aa;
       --cds-text-muted: #8f8d86;
@@ -95,55 +105,77 @@ ccVersion: 2.1.234
   }
   /* KIT:tokens:end */
 
-  /* KIT:chrome:begin — the editor chrome: toolbar band, buttons, canvas,
-     status. One implementation for the family. The chrome recedes until
-     pointed at — the text is the interface; only the save status keeps
-     full presence, since trust in it is the product. */
+  /* KIT:chrome:begin — the editor chrome: toolbar band, buttons, menus,
+     canvas, status. One implementation for the family. A defined band
+     with full-presence controls; the save button is the CDS primary
+     action, since trust in it is the product. */
   .toolbar {
     position: sticky; top: 0; z-index: 22;
-    display: flex; align-items: center; gap: 2px;
-    padding: 10px 16px;
+    display: flex; align-items: center; gap: 4px;
+    padding: 8px 12px; line-height: 1.25;
     background: var(--cds-surface-2);
+    border-bottom: 1px solid var(--cds-border);
     font-family: var(--cds-font-sans);
   }
-  .toolbar button, .toolbar select, .tb-sep {
-    opacity: 0.65; transition: opacity 0.15s ease;
-  }
-  @media (prefers-contrast: more) {
-    .toolbar button, .toolbar select, .tb-sep { opacity: 1; transition: none; }
-  }
-  /* Discoverability: the toolbar greets at full presence, receding once
-     the writer starts (or after a few seconds). */
-  .toolbar.fresh button, .toolbar.fresh select, .toolbar.fresh .tb-sep { opacity: 1; }
-  .toolbar:hover button, .toolbar:focus-within button,
-  .toolbar:hover select, .toolbar:focus-within select,
-  .toolbar:hover .tb-sep, .toolbar:focus-within .tb-sep { opacity: 1; }
-  .toolbar button, .toolbar select {
+  .toolbar button {
     appearance: none; border: 1px solid transparent; background: none;
-    color: var(--cds-text-secondary); font-family: var(--cds-font-sans);
-    font-size: 13px; line-height: 1; padding: 6px 8px; border-radius: var(--cds-radius);
-    display: inline-flex; align-items: center; gap: 4px;
-    cursor: pointer; min-width: 30px;
+    color: var(--cds-text-primary); font-family: var(--cds-font-sans);
+    font-size: 13px; font-weight: 400; line-height: 1;
+    height: 32px; min-width: 32px; padding: 0 8px; border-radius: var(--cds-radius);
+    display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+    cursor: pointer;
   }
-  .toolbar select { padding-right: 4px; }
-  .toolbar button:hover, .toolbar select:hover { color: var(--cds-text-primary); background: var(--cds-accent-bg); }
-  .toolbar button:disabled, .toolbar select:disabled { opacity: 0.25; cursor: default; background: none; }
+  .toolbar button:hover { background: var(--cds-control-hover); }
+  .toolbar button:active { background: var(--cds-control-active); }
+  .toolbar button:disabled { color: var(--cds-text-muted); cursor: default; background: none; }
   .toolbar button.on { color: var(--cds-text-accent); background: var(--cds-accent-bg); }
-  .tb-sep { width: 1px; height: 18px; background: var(--cds-border); margin: 0 8px; }
-  .tb-right { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--cds-text-muted); }
-  .tb-status { white-space: nowrap; color: var(--cds-text-secondary); opacity: 1; }
-  .tb-status[data-tone="warning"] { color: var(--cds-text-warning); font-weight: 600; }
-  .tb-status[data-tone="error"] { color: var(--cds-text-danger); font-weight: 600; }
+  .toolbar button svg { flex: none; }
+  .tb-sep { width: 1px; height: 20px; background: var(--cds-border); margin: 0 4px; }
+  /* A styled dropdown: the toggle reads as a control, the list renders
+     each choice in its own voice, so the picker shows the style itself. */
+  .tb-menu { position: relative; display: inline-flex; }
+  .tb-menu > button { padding: 0 8px 0 12px; min-width: 108px; justify-content: space-between; }
+  .tb-menu > button[aria-expanded="true"] { background: var(--cds-control-active); }
+  .tb-menu-list {
+    position: absolute; top: calc(100% + 4px); left: 0; z-index: 30;
+    min-width: 200px; padding: 4px; margin: 0;
+    background: var(--cds-surface-1); color: var(--cds-text-primary);
+    border: 1px solid var(--cds-border); border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+  .tb-menu-list[hidden] { display: none; }
+  .toolbar .tb-menu-list button {
+    display: flex; width: 100%; height: auto; min-height: 32px;
+    padding: 8px 12px; border-radius: var(--cds-radius); justify-content: flex-start;
+    font-weight: 400; line-height: 1.25; text-align: left;
+  }
+  .toolbar .tb-menu-list button[aria-selected="true"] { background: var(--cds-accent-bg); }
+  .tb-right { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--cds-text-muted); }
+  .tb-status { white-space: nowrap; color: var(--cds-text-secondary); }
+  .tb-status[data-tone="warning"] { color: var(--cds-text-warning); }
+  .tb-status[data-tone="error"] { color: var(--cds-text-danger); }
+  .tb-right [data-words] { margin-left: 16px; }
   .tb-status[data-tone="busy"], .tb-status[data-tone="muted"] { color: var(--cds-text-muted); }
-  .toolbar .tb-save { opacity: 1; font-size: 12px; padding: 5px 10px; color: var(--cds-text-primary); border-color: var(--cds-border-strong); }
-  .toolbar .tb-save:disabled { opacity: 0.45; color: var(--cds-text-secondary); border-color: var(--cds-border); }
-  .tb-save.is-dirty::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--cds-text-warning); }
+  /* Save is the CDS primary button: clay, white label, 8px radius. */
+  .toolbar .tb-save {
+    height: 32px; padding: 0 12px; border-radius: calc(2 * var(--cds-radius));
+    background: var(--cds-clay); color: var(--cds-text-on-clay); border-color: transparent;
+    font-size: 13px; font-weight: 700;
+  }
+  .toolbar .tb-save:hover:not(:disabled), .toolbar .tb-save:active:not(:disabled) { background: var(--cds-clay-emphasized); }
+  .toolbar .tb-save:disabled { opacity: 1; background: var(--cds-control-hover); color: var(--cds-text-muted); }
+  /* Discard is the secondary: outlined, same shape. */
+  .toolbar .tb-save[data-discard]:not(:disabled) { background: none; color: var(--cds-text-primary); border-color: var(--cds-border-strong); }
+  .toolbar .tb-save[data-discard]:hover:not(:disabled) { background: var(--cds-control-hover); }
   .toolbar [hidden] { display: none; }
   .canvas { padding: 20px 24px 120px; }
   /* Page content stacks below the chrome whatever it declares. */
   .page { isolation: isolate; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   :focus-visible { outline: 2px solid var(--cds-text-accent); outline-offset: 1px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .toolbar button { transition: background-color 0.12s ease; }
+  }
   /* KIT:chrome:end */
   /* KIT:comment-chrome:begin — styles for the select-to-comment kit:
      bubble, composer, side panel, anchor marks. Carried only by the
@@ -413,10 +445,8 @@ ccVersion: 2.1.234
     const page = document.querySelector('.page')
     const toolbar = document.querySelector('.toolbar')
     if (!page || !toolbar) return
-    toolbar.addEventListener('mousedown', ev => {
-      // Everything but the select — its native picker is its mousedown default action.
-      if (!ev.target.closest('select')) ev.preventDefault()
-    })
+    // The toolbar never takes focus: the page selection it acts on stays put.
+    toolbar.addEventListener('mousedown', ev => ev.preventDefault())
     // Firefox removed script-triggered undo/redo (execCommand returns
     // false there) — disable the buttons up front with the chord as the
     // pointer, instead of a click that reports success and does nothing.
@@ -475,44 +505,74 @@ ccVersion: 2.1.234
       if (runCmd(cmd2, arg2)) page.focus()
       refresh()
     })
-    const blockSel = toolbar.querySelector('select[data-block]')
-    if (blockSel) {
-      // The select steals focus — track the page's last selection live, so
-      // the picked style lands on the block the user was in.
-      let lastRange = null, lastEl = null, lastTag = 'p'
-      document.addEventListener('selectionchange', () => {
-        // Draft keystrokes pin the page selection — the tracker would
-        // recompute values it already holds.
-        const tae = document.activeElement
-        if (tae && tae.closest && tae.closest('.ccomposer')) return
-        const sel = document.getSelection()
-        if (!sel || !sel.rangeCount) return
-        const r = sel.getRangeAt(0)
-        if (!page.contains(r.commonAncestorContainer)) return
-        lastRange = r.cloneRange()
-        const n = r.commonAncestorContainer
-        const el = n.nodeType === 1 ? n : n.parentElement
-        lastEl = el && el.closest('h1, h2, h3, p, blockquote, li') || el
-        const b = el && el.closest('h1, h2, h3')
-        lastTag = b ? b.tagName.toLowerCase() : 'p'
+    // The paragraph-style menu (kinds that carry one): a toggle, a list of
+    // options rendered in their own style, and a label that tracks the
+    // block under the caret. Mousedown is prevented toolbar-wide, so the
+    // page selection survives every click in here.
+    const blockMenu = toolbar.querySelector('[data-block-menu]')
+    const blockToggle = blockMenu && blockMenu.querySelector('[data-block-toggle]')
+    const blockList = blockMenu && blockMenu.querySelector('.tb-menu-list')
+    const blockLabel = blockMenu && blockMenu.querySelector('[data-block-label]')
+    const setBlockMenu = open => {
+      if (!blockList || !blockToggle) return
+      blockList.hidden = !open
+      blockToggle.setAttribute('aria-expanded', open ? 'true' : 'false')
+    }
+    const showBlock = tag => {
+      if (!blockList) return
+      for (const o of blockList.querySelectorAll('[data-block-value]')) {
+        const on = o.dataset.blockValue === tag
+        o.setAttribute('aria-selected', on ? 'true' : 'false')
+        if (on && blockLabel) blockLabel.textContent = o.textContent
+        // Mirror the current style into the toggle's accessible name; the
+        // static aria-label would otherwise mask the live label from AT.
+        if (on && blockToggle) blockToggle.setAttribute('aria-label', 'Paragraph style: ' + o.textContent)
+      }
+    }
+    if (blockMenu) {
+      blockToggle.addEventListener('click', () => setBlockMenu(blockList.hidden))
+      blockList.addEventListener('click', ev => {
+        const opt = ev.target.closest('[data-block-value]')
+        if (!opt) return
+        // A keyboard pick focuses the option; closing the menu hides it, so
+        // focus must return to the toggle. A mouse pick leaves focus in the
+        // page (toolbar mousedown is prevented) — don't pull it out.
+        const restoreFocus = blockMenu.contains(document.activeElement)
+        setBlockMenu(false)
+        // Re-picking the current style is a no-op, like the native select this
+        // replaced — formatBlock would rebuild the block and drop its id,
+        // detaching any comment pinned to it.
+        if (opt.getAttribute('aria-selected') === 'true') { if (restoreFocus && blockToggle) blockToggle.focus(); return }
+        // A live comment draft outranks restyling the page.
+        const ae = document.activeElement
+        if (ae && ae.tagName === 'IFRAME' && ae.closest && ae.closest('.cpanel')) return
+        if (document.querySelector('.ccomposer.has-draft') || anyReplyDrafting()) return
+        if (runCmd('formatBlock', opt.dataset.blockValue)) page.focus()
+        else if (restoreFocus && blockToggle) blockToggle.focus()
+        refresh()
       })
-      blockSel.addEventListener('change', () => {
-        // The select exempts itself from mousedown-prevent, so a mid-draft
-        // pick steals focus: a live draft outranks restyling the page.
-        const aeSel = document.activeElement
-        if (aeSel && aeSel.tagName === 'IFRAME' && aeSel.closest && aeSel.closest('.cpanel')) { blockSel.value = lastTag; return }
-        if (document.querySelector('.ccomposer.has-draft') || anyReplyDrafting()) { blockSel.value = lastTag; return }
-        const sel = document.getSelection()
-        const preInPage = sel && sel.rangeCount &&
-          page.contains(sel.getRangeAt(0).commonAncestorContainer)
-        const restorable = lastRange && lastEl && lastEl !== page && lastEl.isConnected
-        // A focus-seeded caret is not user intent: decide trust before focusing.
-        if (!preInPage && !restorable) { blockSel.value = lastTag; return }
-        page.focus()
-        if (restorable) {
-          sel.removeAllRanges(); sel.addRange(lastRange.cloneRange())
-        }
-        if (!runCmd('formatBlock', blockSel.value)) blockSel.value = lastTag
+      document.addEventListener('mousedown', ev => {
+        if (!blockList.hidden && !blockMenu.contains(ev.target)) setBlockMenu(false)
+      }, true)
+      document.addEventListener('keydown', ev => {
+        if (blockList.hidden) return
+        if (ev.key === 'Escape') { setBlockMenu(false); page.focus(); return }
+        // Arrow keys walk the options, but only while the menu itself holds
+        // focus; with the caret back in the page, leave editing keys —
+        // Shift/Cmd arrow selection and navigation included — untouched.
+        if (ev.key !== 'ArrowDown' && ev.key !== 'ArrowUp') return
+        if (ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey) return
+        if (!blockMenu.contains(document.activeElement)) return
+        ev.preventDefault()
+        const opts = [...blockList.querySelectorAll('[data-block-value]')]
+        const at = opts.indexOf(document.activeElement)
+        const from = at >= 0 ? at : opts.findIndex(o => o.getAttribute('aria-selected') === 'true')
+        const next = opts[(from + (ev.key === 'ArrowDown' ? 1 : opts.length - 1)) % opts.length]
+        if (next) next.focus()
+      })
+      // Tabbing out of the list closes it, like a native picker.
+      blockMenu.addEventListener('focusout', ev => {
+        if (!blockMenu.contains(ev.relatedTarget)) setBlockMenu(false)
       })
     }
     const words = toolbar.querySelector('[data-words]')
@@ -554,12 +614,12 @@ ccVersion: 2.1.234
         }
       }
       const sel = document.getSelection()
-      if (blockSel && sel && sel.anchorNode && page.contains(sel.anchorNode)) {
+      if (blockMenu && sel && sel.anchorNode && page.contains(sel.anchorNode)) {
         const el = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement
         const block = el && el.closest('h1, h2, h3, p, blockquote, li')
         if (block) {
           const tag = block.tagName.toLowerCase()
-          blockSel.value = ['h1', 'h2', 'h3'].includes(tag) ? tag : 'p'
+          showBlock(['h1', 'h2', 'h3'].includes(tag) ? tag : 'p')
         }
       }
     }
@@ -571,16 +631,6 @@ ccVersion: 2.1.234
       refresh()
     })
     page.addEventListener('input', () => { refresh(); refreshWords() })
-    // First-run presence: full toolbar until the writer starts.
-    {
-      const tb = document.querySelector('.toolbar')
-      if (tb) {
-        tb.classList.add('fresh')
-        const settle = () => tb.classList.remove('fresh')
-        setTimeout(settle, 6000)
-        page.addEventListener('input', settle, { once: true })
-      }
-    }
     refresh()
     refreshWords()
   })();

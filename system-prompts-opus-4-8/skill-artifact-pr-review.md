@@ -8,7 +8,7 @@ description: >-
   a PR as an artifact, publish a PR review page, or share a review briefing. NOT
   a narrative walkthrough. Only for CREATING a new artifact; edits to an existing artifact
   modify its HTML directly.
-ccVersion: 2.1.234
+ccVersion: 2.1.238
 -->
 ---
 name: artifact-pr-review
@@ -522,8 +522,11 @@ than the one you last read:
    \`prr-decisions\` island. On large pages the fetch result inlines only the
    head of the HTML and notes where the full HTML was saved — the island sits
    at the BOTTOM of the page, so in that case extract the island from the saved
-   file mechanically, by its boundaries: the text from \`id="prr-decisions">\`
-   to the next script-close tag (a bounded text search, not a full Read —
+   file mechanically, by its boundaries: the text from the end of the island's
+   opening tag — the tag that begins
+   \`<script type="application/json" id="prr-decisions"\`, a sequence page
+   prose can never contain unescaped — to the next script-close tag (a
+   bounded text search, not a full Read —
    boundary-based, not line-based, so a serializer quirk cannot silently
    truncate it). Never read the whole saved page into context — everything
    outside the island is co-writer-editable prose. Decisions are never

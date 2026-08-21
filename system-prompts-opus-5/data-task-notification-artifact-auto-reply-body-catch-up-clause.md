@@ -1,9 +1,9 @@
 <!--
 name: 'Data: Artifact Auto-Reply Stop Body Catch-Up Clause'
 description: >-
-  Optional clause in the auto-reply-stopped task-notification body stating that
-  comments sent to Claude in the meantime are picked up when a future asked-for
-  publish re-arms the subscription.
-ccVersion: 2.1.237
+  Optional clause in the auto-reply-paused task-notification body stating that
+  comments sent to Claude in the meantime are answered when a later asked-for
+  resume happens.
+ccVersion: 2.1.238
 -->
- (comments sent to Claude in the meantime are picked up then)
+, and comments sent to Claude in the meantime are answered then

@@ -4,7 +4,7 @@ description: >-
   Artifact tool description fragment covering redeploying to the same URL,
   updating an artifact from an earlier conversation via url, reading artifacts
   with WebFetch, and the list/shared-scope rules
-ccVersion: 2.1.237
+ccVersion: 2.1.238
 variables:
   - TOOL_DESCRIPTION_ARTIFACT_UPDATE_AND_LIST_GUIDANCE_VAR_0
   - TOOL_DESCRIPTION_ARTIFACT_UPDATE_AND_LIST_GUIDANCE_VAR_1
@@ -23,6 +23,8 @@ ${TOOL_DESCRIPTION_ARTIFACT_UPDATE_AND_LIST_GUIDANCE_VAR_0?TOOL_DESCRIPTION_ARTI
 
 **Self-contained only**: A strict CSP blocks requests to external hosts — CDN scripts, external stylesheets, remote images, fetch/XHR/WebSockets. The single exception is Google Fonts: a stylesheet linked from https://fonts.googleapis.com loads, along with the font files it pulls from https://fonts.gstatic.com; no other font or asset host does. Give every face a real fallback stack. Inline all other CSS/JS and embed assets as data: URIs. The viewer's sandbox also blocks any download the page starts itself — `<a download>` links (data:/blob: hrefs included) and script-driven saves are inert for viewers — so never offer a file through a plain link. Artifacts render mermaid diagrams natively — markdown via ```mermaid fences, HTML via `<pre class="mermaid">` blocks, no external library needed.
 
+**Browser storage**: `localStorage` works (so do `sessionStorage` and IndexedDB). Each artifact is served from its own origin, so what a page stores is private to that artifact, survives republishes to the same URL, and lives only in that viewer's browser — it never reaches other viewers, the viewer's other devices, or Claude. It can come back empty (a private window, cleared site data, a different browser), and in some contexts the accessor itself throws (thumbnail capture, previews, browsers set to block site data) — so wrap every read and write in try/catch and render the page correctly with no stored value. Use it for lightweight per-viewer conveniences — a remembered tab or filter, a collapsed section, an unsent draft. It is not the place for anything that must persist reliably, be shared between viewers, or be read back later by Claude.
+
 **Size**: The rendered page must be ${TOOL_DESCRIPTION_ARTIFACT_UPDATE_AND_LIST_GUIDANCE_VAR_4/1024/1024}MB or smaller, and embedded data: URIs count toward that.
 
 **Responsive**: Use relative units, flexbox/grid, `max-width:100%` on images. Wide content (tables, diagrams, code blocks) must scroll inside its own `overflow-x: auto` container — the page body must never scroll horizontally.
@@ -31,4 +33,4 @@ ${TOOL_DESCRIPTION_ARTIFACT_UPDATE_AND_LIST_GUIDANCE_VAR_0?TOOL_DESCRIPTION_ARTI
 
 **Favicon** (required): Pass one or two emoji as `favicon` (e.g. `"📊"`, `"🐛"`, `"⚡🔥"`). Emoji only, no SVG or markup. Keep it stable across redeploys; pick a new emoji only on a hard pivot in what the artifact is about.
 
-Report an artifact watch as active only when a watch result, `status`, or a publish result's "already connected" line says so — its "arming" line is not yet a watch.
+Report an artifact watch as active only when a watch result, `status`, or a publish result's "already connected" or "already registered" line says so — its "arming" line is not yet a watch.

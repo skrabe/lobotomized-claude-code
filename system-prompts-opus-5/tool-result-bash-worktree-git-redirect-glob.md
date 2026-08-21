@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Worktree git redirect via glob pattern'
+name: 'Tool Result: Bash Worktree Git Redirect Via Glob'
 description: >-
-  Deny-reason fragment when a worktree-isolated agent's git command routes
-  through a runtime-expanded glob so its target repo can't be verified.
-ccVersion: 2.1.218
+  Refusal clause used when a worktree-isolated command redirects git through a
+  glob that expands at runtime.
+ccVersion: 2.1.238
 -->
-redirects git through a glob pattern that expands at runtime; spell out the literal path
+redirects git through a glob pattern that expands at runtime

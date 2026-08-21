@@ -5,6 +5,6 @@ description: >-
   inline syntax-highlight runtime was injected; thrown as ArtifactInputError and
   returned to the model as a tool error. Sibling of
   tool-result-artifact-too-large-mermaid-note.
-ccVersion: 2.1.214
+ccVersion: 2.1.238
 -->
- — includes the inline syntax-highlight runtime (~1MB), appended because the page contains fenced code
+ — includes the inline syntax-highlight runtime (~1MB), added because the page contains fenced code

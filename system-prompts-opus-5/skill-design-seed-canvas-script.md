@@ -3,7 +3,7 @@ name: 'Skill: Design seed-canvas.mjs script'
 description: >-
   Bundled /design skill helper for safely seeding, extracting, and checking
   multi-artboard canvas Artifact pages.
-ccVersion: 2.1.232
+ccVersion: 2.1.238
 -->
 // Design-canvas seeding helper. Copies the skill's editor payload, names it,
 // and seeds the design files into the state block the page embeds — so the
@@ -25,11 +25,15 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { basename, extname, join, resolve } from 'node:path'
 
 const PLACEHOLDER = 'APPIFACT-TITLE-PLACEHOLDER'
+// The server stores a published page with \` data-id="<16 chars>"\` added to every open tag
+// (last, on a script open): the one extra attribute a read-back page may carry on the state
+// block's opener (KEEP-IN-SYNC with the CLI's own recognizer for this attribute)
+const DATA_ID = '(?: data-id="(?!-)(?:(?!--)[A-Za-z0-9_-]){16}")?'
 // The state block is the FIRST application/json script in the body; its
 // content sits on its own line between the tags, and the page's serializer
 // escapes every "<" inside it, so the first literal newline + script closer
 // after the opener is the block's own.
-const DOC_RE = /(<script type="application\\/json" id="appifact-doc">\\n)([\\s\\S]*?)(\\n<\\/script>)/
+const DOC_RE = new RegExp('(<script type="application/json" id="appifact-doc"' + DATA_ID + '>\\\\n)([\\\\s\\\\S]*?)(\\\\n</script>)')
 // The page carries a human-readable README as an HTML comment plus a meta in
 // its head; both round-trip through saves (the page re-renders itself from
 // these inert nodes), so what is seeded here is what every later version says.
@@ -200,6 +204,33 @@ function canvasProblems(text, boards){
   return [...out, ...pageProblems(m.pages), ...artboardEntryProblems(artboards, pageIds), ...noteProblems(m.annotations, pageIds), ...launchProblems(m.launch, boards, pageIds)]
 }
 function entryArtboard(names){ const s = [...names].sort(); return s.includes('Main.dc.html') ? 'Main.dc.html' : (s.find(n => n.endsWith('.dc.html')) ?? null) }
+// Advisory only (warn, never fail): frames that overlap on the same page, and a "}} ? a : b" inside a style attribute that reads as a ternary but renders as text. Input may come from an untrusted page: names are quoted and clipped, scans are linear and bounded.
+const STYLE_ATTR_RE = /style=(["'])/g
+const TERNARY_IN_VALUE_RE = /\\}\\}\\s*\\?[^:\\n]{0,400}:/
+function hasTernaryAfterHole(source){
+  if(typeof source !== 'string' || tooBig(source)) return false
+  STYLE_ATTR_RE.lastIndex = 0
+  for(let m; (m = STYLE_ATTR_RE.exec(source));){
+    const start = m.index + m[0].length, end = source.indexOf(m[1], start)
+    if(TERNARY_IN_VALUE_RE.test(source.slice(start, end === -1 ? start + 1200 : Math.min(end, start + 1200)))) return true
+  }
+  return false
+}
+function ternaryWarning(name, source){ return hasTernaryAfterHole(source) ? JSON.stringify(name.slice(0, 60)) + ' has "}} ?" after a hole in a style attribute — operators outside {{ }} are plain text (style="color: {{x}} ? a : b" is dropped as invalid CSS); compute the value in renderVals() and bind it' : null }
+// boards: the .dc.html names actually present; entries naming anything else are dropped (as the editor does) before the bounded pairwise scan.
+function overlapWarnings(artboards, pages, boards){
+  const pageIds = pageIdsOf(pages), first = [...pageIds][0] ?? null
+  const pageOf = a => (typeof a.page === 'string' && pageIds.has(a.page)) ? a.page : first
+  const present = new Set(boards), seenFile = new Set()
+  const boxes = (Array.isArray(artboards) ? artboards : []).filter(a => a && typeof a.file === 'string' && present.has(a.file) && !seenFile.has(a.file) && seenFile.add(a.file) && ['x', 'y', 'w', 'h'].every(k => isNum(a[k]))).slice(0, MAX_FILES)
+  const out = []
+  for(let i = 0; i < boxes.length; i++) for(let j = i + 1; j < boxes.length; j++){
+    const a = boxes[i], b = boxes[j]
+    if(pageOf(a) !== pageOf(b)) continue
+    if(a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h) out.push('artboards ' + JSON.stringify(a.file.slice(0, 60)) + ' and ' + JSON.stringify(b.file.slice(0, 60)) + ' overlap on the canvas — leave at least 80 px between frames (the name strip and tweak chips sit above each one)')
+  }
+  return out
+}
 function tooBig(value){ return Buffer.byteLength(value, 'utf8') > MAX_ENTRY_BYTES }
 const GENERIC_TITLES = new Set(['design', 'canvas', 'design canvas', 'new design', 'untitled', 'appifact', 'new appifact', 'artifact'])
 const GENERIC_FILES = new Set(['your-file-name.html', 'canvas.html', 'design.html', 'design-canvas.html', 'new-design.html', 'untitled.html', 'appifact.html', 'artifact.html', 'output.html', 'out.html', 'index.html', 'page.html', 'main.html', 'payload.template.html'])
@@ -231,7 +262,7 @@ function isImageName(name){ return saneName(name) && IMAGE_EXT.has(extname(name)
 function isArtboardName(name){ return saneName(name) && ARTBOARD_RE.test(name) }
 function readState(page, where){
   const m = page.match(DOC_RE)
-  if(!m) fail('no appifact-doc state block in ' + where + ' — is this a design canvas page? (a cut-off fetch also lands here: pass the full saved page by path)')
+  if(!m) fail('no appifact-doc state block in ' + where + ' — is this a design canvas page? (a cut-off fetch also lands here: pass the full saved page by path; so does a page whose state block opener was altered)')
   try{ return {match: m, state: JSON.parse(m[2])} }
   catch(e){ fail('the state block in ' + where + ' does not parse (' + JSON.stringify(String(e.message).slice(0, 160)) + ') — the page read is incomplete; pass the full saved page by path and run again') }
 }
@@ -282,6 +313,7 @@ if(checkPath !== undefined){
   const page = read(checkPath, 'the --check page')
   if(page.includes('<title>' + PLACEHOLDER + '</title>')) fail(checkPath + ' still carries the title placeholder — it was never seeded; run the seeding form of this helper')
   const {state} = readState(page, checkPath)
+  if(state && state.title === PLACEHOLDER) fail(checkPath + ' still carries the title placeholder — it was never seeded; run the seeding form of this helper')
   const files = state && state.content && state.content.files
   if(!files || typeof files !== 'object') fail(checkPath + ' carries no content.files')
   // Names come from the page, i.e. from whoever last saved it: list them
@@ -294,6 +326,8 @@ if(checkPath !== undefined){
   if(names.length > MAX_FILES) warn(names.length + ' files entries — the editor loads only the first ' + MAX_FILES)
   for(const n of names) if(typeof files[n] === 'string' && tooBig(files[n])) warn('files entry ' + JSON.stringify(n.slice(0, 60)) + ' is over 2 MiB — the editor drops it at load and the next Save deletes it')
   if(typeof files[CANVAS_FILE] === 'string') for(const problem of canvasProblems(files[CANVAS_FILE], names.filter(n => n.endsWith('.dc.html') && typeof files[n] === 'string'))) warn('canvas.json: ' + problem)
+  for(const n of names) if(n.endsWith('.dc.html') && typeof files[n] === 'string'){ const t = ternaryWarning(n, files[n]); if(t) warn(t) }
+  if(typeof files[CANVAS_FILE] === 'string'){ let m = null; try{ m = JSON.parse(files[CANVAS_FILE]) } catch {} ; if(m && typeof m === 'object') for(const w of overlapWarnings(m.artboards, m.pages, names.filter(n => n.endsWith('.dc.html') && typeof files[n] === 'string'))) warn('canvas.json: ' + w) }
   const odd = names.filter(n => !(isArtboardName(n) || n === CANVAS_FILE || isImageName(n)))
   process.stdout.write('ok: ' + basename(checkPath) + ' — title ' + JSON.stringify(String(state.title || '').slice(0, 120)) + ', ' + names.length + ' files (' + names.map(n => JSON.stringify(n.slice(0, 60))).join(', ') + ')' + (odd.length ? ' — ' + odd.length + ' with names this helper never seeds; --extract will skip them' : '') + '\\n')
   process.exit(0)
@@ -341,6 +375,8 @@ for(const p of artboards){
   if(tooBig(files[name])) fail('--artboard ' + name + ' is over 2 MiB — the editor drops files entries that large at load (and the next Save deletes them); split or slim it')
   if(files[name].includes(PLACEHOLDER)) fail('--artboard ' + name + ' contains the text ' + PLACEHOLDER + ', which the template reserves — reword it')
   if(!files[name].includes('<script src="./support.js"></script>')) warn(name + ' has no <script src="./support.js"></script> head line; the editor needs it exactly')
+  const ternary = ternaryWarning(name, files[name])
+  if(ternary) warn(ternary)
 }
 // A first seed should name its entry artboard Main.dc.html; a RE-seed of a
 // canvas whose Main was deleted in the GUI keeps the editor's own fallback
@@ -381,6 +417,7 @@ if(canvasPath !== undefined){
   // its own consequence, so what is seeded is what the canvas shows and keeps.
   for(const problem of [...pageProblems(manifest.pages), ...artboardEntryProblems(manifest.artboards, pageIds), ...noteProblems(manifest.annotations, pageIds), ...launchProblems(launch, boards, pageIds)])
     fail('--canvas ' + canvasPath + ': ' + problem + '; fix canvas.json and run again')
+  for(const w of overlapWarnings(manifest.artboards, manifest.pages, boards)) warn('--canvas: ' + w)
   // Only the manifest's known keys are seeded, re-serialized.
   const clean = {artboards: manifest.artboards}
   if(manifest.annotations !== undefined) clean.annotations = manifest.annotations

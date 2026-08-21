@@ -4,7 +4,7 @@ description: >-
   The merge-state.mjs write-back helper bundled as a whiteboard-skill file,
   extracted to the skill base directory that Claude is pointed at when the
   whiteboard skill loads.
-ccVersion: 2.1.228
+ccVersion: 2.1.238
 -->
 // Whiteboard write-back helper. Reads the board state the page embeds, appends
 // Claude's elements, places each new element clear of everything already on
@@ -47,7 +47,13 @@ const retire = new Set((arg('retire') || '').split(',').map(s => s.trim()).filte
 // (standalone sibling of sanitizeArtifactTitle in src/tools/ArtifactTool/constants.ts) ---
 const DEFAULT_TITLE = 'Whiteboard'
 const escHtml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-const unescHtml = s => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+// reads back what escHtml writes and what the server's re-serialization writes (&#34; &#39; &#13;)
+const unescHtml = s => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;|&#34;/g, '"')
+  .replace(/&#39;/g, "'").replace(/&#13;/g, '\\r').replace(/&amp;/g, '&')
+// The server stores a published page with \` data-id="<16 chars>"\` added to every open tag (last,
+// on the tags read here): the one extra attribute a read-back page may carry (KEEP-IN-SYNC:
+// dataIdAttrLen in the CLI)
+const DATA_ID = '(?: data-id="(?!-)(?:(?!--)[A-Za-z0-9_-]){16}")?'
 const DENIED = /(?![\\u200c\\u200d])[\\p{C}\\u202a-\\u202e\\u2066-\\u2069\\u2028\\u2029]/gu
 const EDGE_BLANK = /^[\\s\\u200c\\u200d]+|[\\s\\u200c\\u200d]+$/gu
 // blank to the eye: whitespace, joiners, combining marks without a base, and the fillers and
@@ -69,10 +75,16 @@ let stateText = raw.trim()
 const bareState = stateText[0] === '{'
 let stateAt = -1
 if(!bareState){
-  const m = raw.match(/(?:^\\s*|<body>\\s*|-->\\s*|<\\/title>\\s*)<script type="application\\/json" id="wb-state">(\\{[\\s\\S]*?\\})<\\/script>/)
-  // an anchored opener with no closer is a sent board whose read was cut off, not an unsent one
-  if(!m) fail(/(?:^\\s*|<body>\\s*|-->\\s*|<\\/title>\\s*)<script type="application\\/json" id="wb-state">\\{/.test(raw)
+  const anchor = '(?:^\\\\s*|<body' + DATA_ID + '>\\\\s*|-->\\\\s*|<\\\\/title>\\\\s*)<script type="application\\\\/json" id="wb-state"'
+  const m = raw.match(new RegExp(anchor + DATA_ID + '>(\\\\{[\\\\s\\\\S]*?\\\\})<\\\\/script>'))
+  // a page that ends before any script closes, or an anchored opener with no closer (or cut
+  // inside its own tag), is a sent board whose read was cut off; an opener carrying anything but
+  // the server's attribute is a board this helper cannot read — neither is an unsent board
+  const headOnly = !/<\\/(?:script|body|html)>/i.test(raw) && /^\\s*<(?:!doctype|html|head|meta|title)[\\s>]/i.test(raw)
+  if(!m) fail(headOnly || new RegExp(anchor + '(?:' + DATA_ID + '>(?:\\\\{|$)|[^>]*$)').test(raw)
     ? 'the wb-state block in ' + statePath + ' is cut off — the board read is incomplete; read the full saved HTML by path and run again'
+    : new RegExp(anchor + '[\\\\s/]').test(raw)
+    ? 'the wb-state block in ' + statePath + ' carries attributes this helper does not read — the board cannot be written back safely; stop and tell the user'
     : 'no wb-state block in ' + statePath + ' — a board that has never been sent has no state to write back to; ask the user to hit Send to Claude first')
   stateText = m[1]; stateAt = m.index + m[0].indexOf('<script')
 }
@@ -80,9 +92,10 @@ if(!bareState){
 // the wb-state block, so a <title> literal later in the page's script source is never a name
 let carried = ''
 if(!bareState){
-  const head = raw.slice(0, stateAt), openAt = head.indexOf('<title>')
-  const closeAt = openAt === -1 ? -1 : head.indexOf('</title>', openAt + 7)
-  if(closeAt !== -1) carried = titleFrom(unescHtml(head.slice(openAt + 7, closeAt)))
+  const head = raw.slice(0, stateAt), t = new RegExp('<title' + DATA_ID + '>').exec(head)
+  const textAt = t ? t.index + t[0].length : -1
+  const closeAt = t ? head.indexOf('</title>', textAt) : -1
+  if(closeAt !== -1) carried = titleFrom(unescHtml(head.slice(textAt, closeAt)))
 }
 let state
 try{ state = JSON.parse(stateText) }

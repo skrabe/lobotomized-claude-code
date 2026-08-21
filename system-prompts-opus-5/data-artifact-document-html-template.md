@@ -3,7 +3,7 @@ name: 'Data: Artifact document HTML template'
 description: >-
   Provides the bundled live-document HTML template extracted for Claude when the
   document Artifact skill is activated.
-ccVersion: 2.1.235
+ccVersion: 2.1.238
 -->
 <!doctype html>
 <html lang="en">
@@ -19,10 +19,16 @@ ccVersion: 2.1.235
        render self-contained with no network access. */
     --cds-surface-0: #ffffff;            /* the paper — whole viewport */
     --cds-surface-1: #ffffff;            /* same paper: no card separation */
-    --cds-surface-2: #ffffff;            /* chrome sits on the paper too */
+    --cds-surface-2: #f7f6f2;            /* the toolbar band, one step off the paper */
+    --cds-control-hover: rgba(26, 26, 25, 0.06);
+    --cds-control-active: rgba(26, 26, 25, 0.1);
+    --cds-clay: #bb5a38;                 /* CDS clay, deepened so a white label reads AA */
+    --cds-clay-emphasized: #ad4f2e;
+    --cds-text-on-clay: #ffffff;
     --cds-text-primary: #1a1a19;
     --cds-text-secondary: #55544f;
-    --cds-text-muted: #767470;           /* AA on white for small text */
+    --cds-text-muted: #6c6a66;           /* AA at 12px on the band and the paper */
+    --cds-text-body: var(--cds-text-primary);
     --cds-border: rgba(26, 26, 25, 0.12);
     --cds-border-strong: rgba(26, 26, 25, 0.28);
     --cds-text-accent: #1565c9;
@@ -39,8 +45,8 @@ ccVersion: 2.1.235
     --cds-font-voice: var(--cds-font-sans);
     --cds-font-formula: "Anthropic Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --cds-text-danger: #b3261e;
-    --cds-text-warning: #c25124;
-    --cds-font-sans: "Anthropic Sans", ui-sans-serif, -apple-system, sans-serif;
+    --cds-text-warning: #b84b20;
+    --cds-font-sans: "Anthropic Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --cds-font-mono: "Anthropic Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     font-family: var(--cds-font-voice);
     /* Counter the artifact skeleton's :root{color-scheme:light} so UA
@@ -58,7 +64,9 @@ ccVersion: 2.1.235
     color-scheme: dark;
     --cds-surface-0: #151514;
     --cds-surface-1: #151514;
-    --cds-surface-2: #151514;
+    --cds-surface-2: #1c1c1b;
+    --cds-control-hover: rgba(237, 237, 234, 0.08);
+    --cds-control-active: rgba(237, 237, 234, 0.14);
     --cds-text-primary: #ededea;
     --cds-text-secondary: #b5b3aa;
     --cds-text-muted: #8f8d86;
@@ -74,7 +82,9 @@ ccVersion: 2.1.235
       color-scheme: dark;
       --cds-surface-0: #151514;
       --cds-surface-1: #151514;
-      --cds-surface-2: #151514;
+      --cds-surface-2: #1c1c1b;
+      --cds-control-hover: rgba(237, 237, 234, 0.08);
+      --cds-control-active: rgba(237, 237, 234, 0.14);
       --cds-text-primary: #ededea;
       --cds-text-secondary: #b5b3aa;
       --cds-text-muted: #8f8d86;
@@ -95,93 +105,164 @@ ccVersion: 2.1.235
   }
   /* KIT:tokens:end */
 
-  /* KIT:chrome:begin — the editor chrome: toolbar band, buttons, canvas,
-     status. One implementation for the family. The chrome recedes until
-     pointed at — the text is the interface; only the save status keeps
-     full presence, since trust in it is the product. */
+  /* KIT:chrome:begin — the editor chrome: toolbar band, buttons, menus,
+     canvas, status. One implementation for the family. A defined band
+     with full-presence controls; the save button is the CDS primary
+     action, since trust in it is the product. */
   .toolbar {
     position: sticky; top: 0; z-index: 22;
-    display: flex; align-items: center; gap: 2px;
-    padding: 10px 16px;
+    display: flex; align-items: center; gap: 4px;
+    padding: 8px 12px; line-height: 1.25;
     background: var(--cds-surface-2);
+    border-bottom: 1px solid var(--cds-border);
     font-family: var(--cds-font-sans);
   }
-  .toolbar button, .toolbar select, .tb-sep {
-    opacity: 0.65; transition: opacity 0.15s ease;
-  }
-  @media (prefers-contrast: more) {
-    .toolbar button, .toolbar select, .tb-sep { opacity: 1; transition: none; }
-  }
-  /* Discoverability: the toolbar greets at full presence, receding once
-     the writer starts (or after a few seconds). */
-  .toolbar.fresh button, .toolbar.fresh select, .toolbar.fresh .tb-sep { opacity: 1; }
-  .toolbar:hover button, .toolbar:focus-within button,
-  .toolbar:hover select, .toolbar:focus-within select,
-  .toolbar:hover .tb-sep, .toolbar:focus-within .tb-sep { opacity: 1; }
-  .toolbar button, .toolbar select {
+  .toolbar button {
     appearance: none; border: 1px solid transparent; background: none;
-    color: var(--cds-text-secondary); font-family: var(--cds-font-sans);
-    font-size: 13px; line-height: 1; padding: 6px 8px; border-radius: var(--cds-radius);
-    display: inline-flex; align-items: center; gap: 4px;
-    cursor: pointer; min-width: 30px;
+    color: var(--cds-text-primary); font-family: var(--cds-font-sans);
+    font-size: 13px; font-weight: 400; line-height: 1;
+    height: 32px; min-width: 32px; padding: 0 8px; border-radius: var(--cds-radius);
+    display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+    cursor: pointer;
   }
-  .toolbar select { padding-right: 4px; }
-  .toolbar button:hover, .toolbar select:hover { color: var(--cds-text-primary); background: var(--cds-accent-bg); }
-  .toolbar button:disabled, .toolbar select:disabled { opacity: 0.25; cursor: default; background: none; }
+  .toolbar button:hover { background: var(--cds-control-hover); }
+  .toolbar button:active { background: var(--cds-control-active); }
+  .toolbar button:disabled { color: var(--cds-text-muted); cursor: default; background: none; }
   .toolbar button.on { color: var(--cds-text-accent); background: var(--cds-accent-bg); }
-  .tb-sep { width: 1px; height: 18px; background: var(--cds-border); margin: 0 8px; }
-  .tb-right { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--cds-text-muted); }
-  .tb-status { white-space: nowrap; color: var(--cds-text-secondary); opacity: 1; }
-  .tb-status[data-tone="warning"] { color: var(--cds-text-warning); font-weight: 600; }
-  .tb-status[data-tone="error"] { color: var(--cds-text-danger); font-weight: 600; }
+  .toolbar button svg { flex: none; }
+  .tb-sep { width: 1px; height: 20px; background: var(--cds-border); margin: 0 4px; }
+  /* A styled dropdown: the toggle reads as a control, the list renders
+     each choice in its own voice, so the picker shows the style itself. */
+  .tb-menu { position: relative; display: inline-flex; }
+  .tb-menu > button { padding: 0 8px 0 12px; min-width: 108px; justify-content: space-between; }
+  .tb-menu > button[aria-expanded="true"] { background: var(--cds-control-active); }
+  .tb-menu-list {
+    position: absolute; top: calc(100% + 4px); left: 0; z-index: 30;
+    min-width: 200px; padding: 4px; margin: 0;
+    background: var(--cds-surface-1); color: var(--cds-text-primary);
+    border: 1px solid var(--cds-border); border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+  .tb-menu-list[hidden] { display: none; }
+  .toolbar .tb-menu-list button {
+    display: flex; width: 100%; height: auto; min-height: 32px;
+    padding: 8px 12px; border-radius: var(--cds-radius); justify-content: flex-start;
+    font-weight: 400; line-height: 1.25; text-align: left;
+  }
+  .toolbar .tb-menu-list button[aria-selected="true"] { background: var(--cds-accent-bg); }
+  .tb-right { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--cds-text-muted); }
+  .tb-status { white-space: nowrap; color: var(--cds-text-secondary); }
+  .tb-status[data-tone="warning"] { color: var(--cds-text-warning); }
+  .tb-status[data-tone="error"] { color: var(--cds-text-danger); }
+  .tb-right [data-words] { margin-left: 16px; }
   .tb-status[data-tone="busy"], .tb-status[data-tone="muted"] { color: var(--cds-text-muted); }
-  .toolbar .tb-save { opacity: 1; font-size: 12px; padding: 5px 10px; color: var(--cds-text-primary); border-color: var(--cds-border-strong); }
-  .toolbar .tb-save:disabled { opacity: 0.45; color: var(--cds-text-secondary); border-color: var(--cds-border); }
-  .tb-save.is-dirty::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--cds-text-warning); }
+  /* Save is the CDS primary button: clay, white label, 8px radius. */
+  .toolbar .tb-save {
+    height: 32px; padding: 0 12px; border-radius: calc(2 * var(--cds-radius));
+    background: var(--cds-clay); color: var(--cds-text-on-clay); border-color: transparent;
+    font-size: 13px; font-weight: 700;
+  }
+  .toolbar .tb-save:hover:not(:disabled), .toolbar .tb-save:active:not(:disabled) { background: var(--cds-clay-emphasized); }
+  .toolbar .tb-save:disabled { opacity: 1; background: var(--cds-control-hover); color: var(--cds-text-muted); }
+  /* Discard is the secondary: outlined, same shape. */
+  .toolbar .tb-save[data-discard]:not(:disabled) { background: none; color: var(--cds-text-primary); border-color: var(--cds-border-strong); }
+  .toolbar .tb-save[data-discard]:hover:not(:disabled) { background: var(--cds-control-hover); }
   .toolbar [hidden] { display: none; }
   .canvas { padding: 20px 24px 120px; }
   /* Page content stacks below the chrome whatever it declares. */
   .page { isolation: isolate; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   :focus-visible { outline: 2px solid var(--cds-text-accent); outline-offset: 1px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .toolbar button { transition: background-color 0.12s ease; }
+  }
   /* KIT:chrome:end */
 
   /* ── The page (doc-specific) ───────────────────────────────────── */
+  /* One system, stated once:
+       scale   17 × 1.25ⁿ → 14 / 17 / 21 / 27 / 34  (lede 19 = 17 × 1.125, the one half-step)
+       line    28px (17/28 = 1.65); every block sits on 14px half-lines
+       space   14 / 28 / 42 / 56 / 70 / 112  (½ 1 1½ 2 2½ 4 lines)
+       indent  28px — lists, callout, one inner margin for everything set off
+       weight  400 / 700 only — the two every fallback face carries honestly
+       measure 34em (578px at 17px → ≈68 chars in SF/Segoe, ≈61 in DejaVu) */
   .page {
-    max-width: 620px; margin: 0 auto;
-    padding: 56px 0 120px;
-    /* Baseline rhythm: 17/30 — block margins snap to half- and
-       whole-line multiples of the 30px line. */
-    font-size: 17px; line-height: 30px;
+    max-width: 34em; margin: 0 auto;
+    padding: 50px 0 112px;                 /* with the canvas's 20px: 2½ lines above the title, 4 lines past the end */
+    font-size: 17px; line-height: 28px;
+    font-weight: 400;
+    color: var(--cds-text-body, var(--cds-text-primary));
+    font-synthesis: none;                  /* a roman-only brand font falls through, never fakes */
+    font-kerning: normal;
+    hyphens: manual;                       /* an editor: words must not re-break under the caret as they are typed */
+    overflow-wrap: break-word;
   }
   .page:focus { outline: none; }
-  .page h1 { font-size: 27px; line-height: 30px; margin: 0 0 15px; font-weight: 600; letter-spacing: -0.015em; }
-  .page h2 { font-size: 21px; line-height: 30px; margin: 45px 0 15px; font-weight: 700; }
-  .page h3 { font-size: 15px; line-height: 30px; margin: 30px 0 0; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--cds-text-secondary); }
-  .page p, .page ul, .page ol { margin: 0 0 15px; }
+  .page h1, .page h2, .page h3 { color: var(--cds-text-primary); hyphens: manual; }
+  /* balance/pretty re-break earlier lines as the text grows — under the caret
+     that violates the hyphens: manual invariant above, so restrict them to the
+     read-only view (the data-kit-mode hook render() sets on the root); the
+     writer surface keeps greedy wrap and readers still get balanced lines. */
+  :root[data-kit-mode="reader"] .page { text-wrap: pretty; }
+  :root[data-kit-mode="reader"] .page h1, :root[data-kit-mode="reader"] .page h2, :root[data-kit-mode="reader"] .page h3 { text-wrap: balance; }
+  .page h1 { font-size: 34px; line-height: 42px; margin: 0 0 14px; font-weight: 700; letter-spacing: -0.015em; }
+  /* The lede: the paragraph after the title is the standfirst — one half-step up,
+     one ink step down, a full two lines before the document proper begins. */
+  .page h1 + p { font-size: 19px; line-height: 28px; color: var(--cds-text-secondary); margin: 0 0 56px; }
+  .page h2 { font-size: 21px; line-height: 28px; margin: 42px 0 14px; font-weight: 700; }
+  .page h3 { font-size: 14px; line-height: 20px; padding-top: 8px; margin: 28px 0 0; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+  .page p, .page ul, .page ol { margin: 0 0 14px; }
+  .page ul, .page ol { padding-inline-start: 28px; }
   .page li { margin-bottom: 0; }
-  .page blockquote { margin: 30px 0 15px; padding: 0 0 0 18px; border-left: 2px solid var(--cds-text-primary); }
-  .page a { color: var(--cds-text-accent); }
-  .docmeta {
-    font-family: inherit; font-size: 13px; color: var(--cds-text-muted);
-    margin: 0 0 30px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap;
+  .page li + li { margin-top: 14px; }      /* items wrap; a half-line says where one ends */
+  .page li > p { margin: 0; }
+  /* The callout answers what precedes it: close above, a full line below,
+     a clay rule as its second signal so it is not body copy with a hairline. */
+  .page blockquote { margin: 14px 0 28px; padding: 0 0 0 25px; border-left: 3px solid var(--cds-clay); }
+  .page blockquote > :last-child { margin-bottom: 0; }
+  .page strong { font-weight: 700; }
+  .page em { font-style: italic; }
+  .page a { color: var(--cds-text-accent); text-decoration-thickness: 1px; text-underline-offset: 0.14em; }
+  /* Inline code: the mono token, sized so its x-height meets the sans, and a
+     line-height that keeps its inline box inside the 28px line so the grid holds. */
+  .page code { font-family: var(--cds-font-mono); font-size: 0.85em; line-height: 1; hyphens: none; overflow-wrap: anywhere; }
+  .page kbd { font: inherit; font-size: 0.85em; padding: 0 0.3em; border: 1px solid var(--cds-border); border-radius: var(--cds-radius); }
+  @media (max-width: 480px) {
+    .page { font-size: 16px; line-height: 26px; padding-top: 32px; }
+    .page h1 { font-size: 30px; line-height: 39px; }
+    .page h1 + p { font-size: 18px; line-height: 26px; margin-bottom: 52px; }
+    .page h2 { font-size: 20px; line-height: 26px; margin: 39px 0 13px; }
+    .page p, .page ul, .page ol { margin-bottom: 13px; }
+    .page li + li { margin-top: 13px; }
+    .page ul, .page ol { padding-inline-start: 26px; }
   }
-  /* Each segment wraps as a unit — no orphaned separators or dangling
-     years at a line break. */
-  .docmeta .seg { white-space: nowrap; }
-  .status { display: inline-block; font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cds-text-secondary); white-space: nowrap; }
+  /* Dark: light-on-dark halates at 17px/400, so the running text drops one
+     step of ink while headings keep the full primary; the rule keeps its clay. */
+  :root[data-theme="dark"] { --cds-text-body: #dcdbd6; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --cds-text-body: #dcdbd6; } }
+  /* The style picker shows each style in its own voice — the page scale × 0.8,
+     the title capped at 22px so the row stays 32px. */
+  .toolbar .tb-menu-list button[data-block-value="p"] { font-size: 14px; }
+  .toolbar .tb-menu-list button[data-block-value="h1"] { font-size: 22px; font-weight: 700; letter-spacing: -0.015em; }
+  .toolbar .tb-menu-list button[data-block-value="h2"] { font-size: 17px; font-weight: 700; }
+  .toolbar .tb-menu-list button[data-block-value="h3"] { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 
   @media print {
     :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
       color-scheme: light;
       --cds-surface-0: #ffffff; --cds-surface-1: #ffffff; --cds-surface-2: #ffffff;
       --cds-text-primary: #0b0b0b; --cds-text-secondary: #52514e; --cds-text-muted: #898781;
+      --cds-text-body: #0b0b0b;
       --cds-border: rgba(11, 11, 11, 0.1); --cds-border-strong: rgba(11, 11, 11, 0.2);
       --cds-text-accent: #184f95; --cds-accent-bg: transparent; --cds-text-danger: #b3261e; --cds-text-warning: #c25124;
     }
     .toolbar { display: none; }
     .canvas { padding: 0; }
-    .page { max-width: 72ch; margin: 0 auto; padding: 0; }
+    .page { max-width: 34em; margin: 0 auto; padding: 0; }   /* the same measure on paper as on screen */
+    .page p, .page li { widows: 2; orphans: 2; }
+    .page h1, .page h2, .page h3 { break-after: avoid; }
+    .page blockquote, .page li { break-inside: avoid; }
+    .page a { color: inherit; text-decoration: underline; }
   }
 </style>
 
@@ -189,12 +270,15 @@ ccVersion: 2.1.235
      markup is per kind; the shared kit styles (KIT:chrome) and wires
      (KIT:editor) whatever controls a kind carries. -->
 <div class="toolbar" role="toolbar" aria-label="Formatting">
-  <select data-block title="Paragraph style" aria-label="Paragraph style">
-    <option value="p">Body</option>
-    <option value="h1">Title</option>
-    <option value="h2">Heading</option>
-    <option value="h3">Subheading</option>
-  </select>
+  <div class="tb-menu" data-block-menu>
+    <button type="button" data-block-toggle title="Paragraph style" aria-label="Paragraph style" aria-haspopup="listbox" aria-expanded="false"><span data-block-label>Body</span><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5 8 10.5l4-4"/></svg></button>
+    <div class="tb-menu-list" role="listbox" aria-label="Paragraph style" hidden>
+      <button type="button" role="option" data-block-value="p" aria-label="Body" aria-selected="true">Body</button>
+      <button type="button" role="option" data-block-value="h1" aria-label="Title" aria-selected="false">Title</button>
+      <button type="button" role="option" data-block-value="h2" aria-label="Heading" aria-selected="false">Heading</button>
+      <button type="button" role="option" data-block-value="h3" aria-label="Subheading" aria-selected="false">Subheading</button>
+    </div>
+  </div>
   <span class="tb-sep"></span>
   <button data-cmd="bold" title="Bold" aria-label="Bold"><b>B</b></button>
   <button data-cmd="italic" title="Italic" aria-label="Italic"><i>I</i></button>
@@ -220,14 +304,6 @@ ccVersion: 2.1.235
 <div class="canvas">
   <article class="page doc" contenteditable="true" spellcheck="true">
 
-    <p class="docmeta" contenteditable="false">
-      <span class="status"><!-- SLOT: STATUS — where the document is right now: Draft, In review, Decided, or Final -->Draft</span>
-      <!-- SLOT: DOC_META — each fact is its own span.seg so a line break
-           falls BETWEEN facts, never inside one: owner, then source or
-           date — short segments, no trailing separators -->
-      <span class="seg">Owner</span>
-      <span class="seg">Month Year</span>
-    </p>
 
     <h1><!-- SLOT: TITLE_H1 — same name as the tab title -->Document title</h1>
 
@@ -352,10 +428,8 @@ ccVersion: 2.1.235
     const page = document.querySelector('.page')
     const toolbar = document.querySelector('.toolbar')
     if (!page || !toolbar) return
-    toolbar.addEventListener('mousedown', ev => {
-      // Everything but the select — its native picker is its mousedown default action.
-      if (!ev.target.closest('select')) ev.preventDefault()
-    })
+    // The toolbar never takes focus: the page selection it acts on stays put.
+    toolbar.addEventListener('mousedown', ev => ev.preventDefault())
     // Firefox removed script-triggered undo/redo (execCommand returns
     // false there) — disable the buttons up front with the chord as the
     // pointer, instead of a click that reports success and does nothing.
@@ -414,44 +488,74 @@ ccVersion: 2.1.235
       if (runCmd(cmd2, arg2)) page.focus()
       refresh()
     })
-    const blockSel = toolbar.querySelector('select[data-block]')
-    if (blockSel) {
-      // The select steals focus — track the page's last selection live, so
-      // the picked style lands on the block the user was in.
-      let lastRange = null, lastEl = null, lastTag = 'p'
-      document.addEventListener('selectionchange', () => {
-        // Draft keystrokes pin the page selection — the tracker would
-        // recompute values it already holds.
-        const tae = document.activeElement
-        if (tae && tae.closest && tae.closest('.ccomposer')) return
-        const sel = document.getSelection()
-        if (!sel || !sel.rangeCount) return
-        const r = sel.getRangeAt(0)
-        if (!page.contains(r.commonAncestorContainer)) return
-        lastRange = r.cloneRange()
-        const n = r.commonAncestorContainer
-        const el = n.nodeType === 1 ? n : n.parentElement
-        lastEl = el && el.closest('h1, h2, h3, p, blockquote, li') || el
-        const b = el && el.closest('h1, h2, h3')
-        lastTag = b ? b.tagName.toLowerCase() : 'p'
+    // The paragraph-style menu (kinds that carry one): a toggle, a list of
+    // options rendered in their own style, and a label that tracks the
+    // block under the caret. Mousedown is prevented toolbar-wide, so the
+    // page selection survives every click in here.
+    const blockMenu = toolbar.querySelector('[data-block-menu]')
+    const blockToggle = blockMenu && blockMenu.querySelector('[data-block-toggle]')
+    const blockList = blockMenu && blockMenu.querySelector('.tb-menu-list')
+    const blockLabel = blockMenu && blockMenu.querySelector('[data-block-label]')
+    const setBlockMenu = open => {
+      if (!blockList || !blockToggle) return
+      blockList.hidden = !open
+      blockToggle.setAttribute('aria-expanded', open ? 'true' : 'false')
+    }
+    const showBlock = tag => {
+      if (!blockList) return
+      for (const o of blockList.querySelectorAll('[data-block-value]')) {
+        const on = o.dataset.blockValue === tag
+        o.setAttribute('aria-selected', on ? 'true' : 'false')
+        if (on && blockLabel) blockLabel.textContent = o.textContent
+        // Mirror the current style into the toggle's accessible name; the
+        // static aria-label would otherwise mask the live label from AT.
+        if (on && blockToggle) blockToggle.setAttribute('aria-label', 'Paragraph style: ' + o.textContent)
+      }
+    }
+    if (blockMenu) {
+      blockToggle.addEventListener('click', () => setBlockMenu(blockList.hidden))
+      blockList.addEventListener('click', ev => {
+        const opt = ev.target.closest('[data-block-value]')
+        if (!opt) return
+        // A keyboard pick focuses the option; closing the menu hides it, so
+        // focus must return to the toggle. A mouse pick leaves focus in the
+        // page (toolbar mousedown is prevented) — don't pull it out.
+        const restoreFocus = blockMenu.contains(document.activeElement)
+        setBlockMenu(false)
+        // Re-picking the current style is a no-op, like the native select this
+        // replaced — formatBlock would rebuild the block and drop its id,
+        // detaching any comment pinned to it.
+        if (opt.getAttribute('aria-selected') === 'true') { if (restoreFocus && blockToggle) blockToggle.focus(); return }
+        // A live comment draft outranks restyling the page.
+        const ae = document.activeElement
+        if (ae && ae.tagName === 'IFRAME' && ae.closest && ae.closest('.cpanel')) return
+        if (document.querySelector('.ccomposer.has-draft') || anyReplyDrafting()) return
+        if (runCmd('formatBlock', opt.dataset.blockValue)) page.focus()
+        else if (restoreFocus && blockToggle) blockToggle.focus()
+        refresh()
       })
-      blockSel.addEventListener('change', () => {
-        // The select exempts itself from mousedown-prevent, so a mid-draft
-        // pick steals focus: a live draft outranks restyling the page.
-        const aeSel = document.activeElement
-        if (aeSel && aeSel.tagName === 'IFRAME' && aeSel.closest && aeSel.closest('.cpanel')) { blockSel.value = lastTag; return }
-        if (document.querySelector('.ccomposer.has-draft') || anyReplyDrafting()) { blockSel.value = lastTag; return }
-        const sel = document.getSelection()
-        const preInPage = sel && sel.rangeCount &&
-          page.contains(sel.getRangeAt(0).commonAncestorContainer)
-        const restorable = lastRange && lastEl && lastEl !== page && lastEl.isConnected
-        // A focus-seeded caret is not user intent: decide trust before focusing.
-        if (!preInPage && !restorable) { blockSel.value = lastTag; return }
-        page.focus()
-        if (restorable) {
-          sel.removeAllRanges(); sel.addRange(lastRange.cloneRange())
-        }
-        if (!runCmd('formatBlock', blockSel.value)) blockSel.value = lastTag
+      document.addEventListener('mousedown', ev => {
+        if (!blockList.hidden && !blockMenu.contains(ev.target)) setBlockMenu(false)
+      }, true)
+      document.addEventListener('keydown', ev => {
+        if (blockList.hidden) return
+        if (ev.key === 'Escape') { setBlockMenu(false); page.focus(); return }
+        // Arrow keys walk the options, but only while the menu itself holds
+        // focus; with the caret back in the page, leave editing keys —
+        // Shift/Cmd arrow selection and navigation included — untouched.
+        if (ev.key !== 'ArrowDown' && ev.key !== 'ArrowUp') return
+        if (ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey) return
+        if (!blockMenu.contains(document.activeElement)) return
+        ev.preventDefault()
+        const opts = [...blockList.querySelectorAll('[data-block-value]')]
+        const at = opts.indexOf(document.activeElement)
+        const from = at >= 0 ? at : opts.findIndex(o => o.getAttribute('aria-selected') === 'true')
+        const next = opts[(from + (ev.key === 'ArrowDown' ? 1 : opts.length - 1)) % opts.length]
+        if (next) next.focus()
+      })
+      // Tabbing out of the list closes it, like a native picker.
+      blockMenu.addEventListener('focusout', ev => {
+        if (!blockMenu.contains(ev.relatedTarget)) setBlockMenu(false)
       })
     }
     const words = toolbar.querySelector('[data-words]')
@@ -493,12 +597,12 @@ ccVersion: 2.1.235
         }
       }
       const sel = document.getSelection()
-      if (blockSel && sel && sel.anchorNode && page.contains(sel.anchorNode)) {
+      if (blockMenu && sel && sel.anchorNode && page.contains(sel.anchorNode)) {
         const el = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement
         const block = el && el.closest('h1, h2, h3, p, blockquote, li')
         if (block) {
           const tag = block.tagName.toLowerCase()
-          blockSel.value = ['h1', 'h2', 'h3'].includes(tag) ? tag : 'p'
+          showBlock(['h1', 'h2', 'h3'].includes(tag) ? tag : 'p')
         }
       }
     }
@@ -510,16 +614,6 @@ ccVersion: 2.1.235
       refresh()
     })
     page.addEventListener('input', () => { refresh(); refreshWords() })
-    // First-run presence: full toolbar until the writer starts.
-    {
-      const tb = document.querySelector('.toolbar')
-      if (tb) {
-        tb.classList.add('fresh')
-        const settle = () => tb.classList.remove('fresh')
-        setTimeout(settle, 6000)
-        page.addEventListener('input', settle, { once: true })
-      }
-    }
     refresh()
     refreshWords()
   })();

@@ -4,7 +4,7 @@ description: >-
   Exact body match in pieb-bodymap; appended via --append-system-prompt to the
   `claude self-hosted-runner doctor` child session to drive the runner
   diagnostic decision tree.
-ccVersion: 2.1.227
+ccVersion: 2.1.238
 variables:
   - ANTHROPIC_API_BASE_URL
   - ANTHROPIC_API_HOST
@@ -56,6 +56,7 @@ Each row: **signature** (what the operator or logs show) → **check** → **roo
 | Process exits 0; last log line \`account workload drained\` | — | Expected — runner was account-locked, that account's last session finished | Orchestrator should restart it |
 | Process exits 0; last log line \`[runner:exit] idle <N>min with no work — exiting for autoscaler scale-down\` | \`--exit-if-unused-min\` value | Intended idle exit | Raise/remove \`--exit-if-unused-min\` |
 | Process exits 0; last log line \`[runner:exit] retire time passed and no active sessions\` (preceded by \`[runner:retire] …\` lines) | \`--retire-at\` / \`SELF_HOSTED_RUNNER_RETIRE_AT\` value vs the host's kill time | Intended retire exit — active sessions were released (parked, resumable) before the host's hard kill | Expected; if sessions are still dying at the host kill, move \`--retire-at\` earlier |
+| Process exits 0; last log line \`[runner:exit] shutdown requested and every attached session has been released\` (preceded by \`Received shutdown signal, deferring drain …\` / \`[runner:shutdown] …\` lines) | \`--defer-shutdown-max-min\` (and \`--release-idle-session-min\`) vs the supervisor's stop timeout | Intended deferred-shutdown exit — on the first SIGTERM the runner kept serving attached sessions, released them (parked, resumable) as they went idle or at the ceiling, then exited | Expected; if instead the log just stops mid-deferral (no exit line) the supervisor SIGKILLed it — raise the stop timeout to at least M minutes + 75s (the post-ceiling grace; --drain-wait-sec + 15s if longer) + the shutdown budget — the runner prints this sum at startup when the flag is set (the guide's Shutdown timing) |
 | \`kubectl describe pod\` → \`OOMKilled\` / exit 137 | Pod memory limit vs \`--capacity\` × child footprint | Runner + N child sessions exceeded the limit | Raise memory limit or lower \`--capacity\` |
 | Pod evicted / restarted by liveness probe | \`kubectl get events\`; is \`/healthz\` reachable from the probe? | Liveness probe targets wrong port/path | Point probe at \`GET :{health-port}/healthz\` |
 | Sessions killed mid-run during a deploy | \`terminationGracePeriodSeconds\` vs observed drain time | SIGTERM→SIGKILL before drain finished | Raise \`terminationGracePeriodSeconds\` |
