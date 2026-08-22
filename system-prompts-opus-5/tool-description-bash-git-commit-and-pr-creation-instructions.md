@@ -3,16 +3,16 @@ name: 'Tool Description: Bash (Git commit and PR creation instructions)'
 description: Instructions for creating git commits and GitHub pull requests
 ccVersion: 2.1.231
 variables:
-  - AGENT_TOOL_NAME
   - BASH_TOOL_NAME
   - COMMIT_CO_AUTHORED_BY_CLAUDE_CODE
-  - PR_ATTRIBUTION_TEXT
-  - PR_COMMON_OPERATIONS_NOTE
+  - TASK_CREATE_OR_TODOWRITE_TOOL_NAME
+  - AGENT_TOOL_NAME
   - PR_INSTRUCTIONS_PREFIX
+  - PR_WRITING_GUIDANCE_BLOCK
   - PR_SUMMARY_TEMPLATE_FN
   - PR_TEST_PLAN_TEMPLATE_FN
-  - PR_WRITING_GUIDANCE_BLOCK
-  - TASK_CREATE_OR_TODOWRITE_TOOL_NAME
+  - PR_ATTRIBUTION_TEXT
+  - PR_COMMON_OPERATIONS_NOTE
 -->
 ${`# Committing changes with git
 
