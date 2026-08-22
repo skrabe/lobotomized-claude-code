@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Artifact Publish Cowork Consent Unavailable'
+name: Artifact publish from Cowork — no consent surface
 description: >-
-  Denies artifact publishing when no Cowork approval card can be answered and
-  returns the denial to the model.
-ccVersion: 2.1.228
+  Deny message when the first publish to an Artifact from a Cowork session needs
+  the approval card that this session cannot show.
+ccVersion: 2.1.239
 -->
-Publishing from this Cowork session needs the approval card, and no one can answer it in this session. Do not retry the publish in this session.
+The first publish to an Artifact from this Cowork session needs the approval card, and no one can answer it in this session. Do not retry the publish in this session.

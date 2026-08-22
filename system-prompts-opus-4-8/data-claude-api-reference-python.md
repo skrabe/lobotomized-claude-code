@@ -3,7 +3,7 @@ name: 'Data: Claude API reference — Python'
 description: >-
   Python SDK reference including installation, client initialization, basic
   requests, thinking, and multi-turn conversation
-ccVersion: 2.1.219
+ccVersion: 2.1.239
 -->
 # Claude API — Python
 
@@ -48,16 +48,16 @@ client.with_options(timeout=5.0, max_retries=5).messages.create(
 
 ### Timeouts
 
-Default request timeout is 10 minutes. Pass a float (seconds) or an \`httpx.Timeout\` for granular control. On timeout the SDK raises \`anthropic.APITimeoutError\` (and retries per \`max_retries\`).
+Default request timeout is 10 minutes. Pass a float (seconds) or an \`anthropic.Timeout\` for granular control. On timeout the SDK raises \`anthropic.APITimeoutError\` (and retries per \`max_retries\`).
 
 \`\`\`python
-import httpx
-
 client = anthropic.Anthropic(timeout=20.0)
 client = anthropic.Anthropic(
-    timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
+    timeout=anthropic.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 \`\`\`
+
+\`anthropic\` 1.x is built on [\`httpx2\`](https://pypi.org/project/httpx2/), not \`httpx\`. \`anthropic.Timeout\` is \`httpx2.Timeout\`; if you import the HTTP library yourself, write \`import httpx2 as httpx\` — an object from the \`httpx\` package (\`httpx.Timeout\`, \`httpx.Client\`, transports, limits) is rejected or fails at request time. Existing \`httpx\`-era code is covered by the [v1 migration guide](https://github.com/anthropics/anthropic-sdk-python/blob/main/MIGRATION.md) and \`/claude-api upgrade python\`.
 
 ### Retries
 
@@ -65,7 +65,7 @@ The SDK auto-retries connection errors, 408, 409, 429, and ≥500 with exponenti
 
 ### Async performance (aiohttp backend)
 
-For high-concurrency async workloads, install \`anthropic[aiohttp]\` and pass \`DefaultAioHttpClient\` instead of the default httpx backend:
+For high-concurrency async workloads, install \`anthropic[aiohttp]\` and pass \`DefaultAioHttpClient\` instead of the default httpx2 backend:
 
 \`\`\`python
 from anthropic import AsyncAnthropic, DefaultAioHttpClient
@@ -76,7 +76,7 @@ async with AsyncAnthropic(http_client=DefaultAioHttpClient()) as client:
 
 ### Custom HTTP client (proxy, base URL)
 
-Use \`DefaultHttpxClient\` / \`DefaultAsyncHttpxClient\` — not raw \`httpx.Client\` — so the SDK's default timeouts and connection limits are preserved:
+Use \`DefaultHttpxClient\` / \`DefaultAsyncHttpxClient\` — not a raw \`httpx2.Client\` (and never a client from the \`httpx\` package) — so the SDK's default timeouts and connection limits are preserved:
 
 \`\`\`python
 from anthropic import Anthropic, DefaultHttpxClient

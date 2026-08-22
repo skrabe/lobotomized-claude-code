@@ -1,10 +1,12 @@
 <!--
-name: Resume-watch auto-classifier input
+name: Artifact resume-watch classifier input
 description: >-
-  One-line summary handed to the auto-permission classifier when a watch is
-  re-requested after being stopped this session.
-ccVersion: 2.1.234
+  Auto-permission classifier input line for resuming a watch that was stopped
+  earlier in the session, with the event list and rail label interpolated.
+ccVersion: 2.1.239
 variables:
   - DATA_ARTIFACT_RESUME_WATCH_AUTO_CLASSIFIER_INPUT_VAR_0
+  - DATA_ARTIFACT_RESUME_WATCH_AUTO_CLASSIFIER_INPUT_VAR_1
+  - DATA_ARTIFACT_RESUME_WATCH_AUTO_CLASSIFIER_INPUT_VAR_2
 -->
-resume watching an artifact whose watch was stopped earlier in this session (republish notifications, plus to-Claude comment wakes in remote sessions) → ${DATA_ARTIFACT_RESUME_WATCH_AUTO_CLASSIFIER_INPUT_VAR_0} (background connection to claude.ai for the session)
+resume watching an artifact whose watch was stopped earlier in this session (${DATA_ARTIFACT_RESUME_WATCH_AUTO_CLASSIFIER_INPUT_VAR_0}) → ${DATA_ARTIFACT_RESUME_WATCH_AUTO_CLASSIFIER_INPUT_VAR_1}${DATA_ARTIFACT_RESUME_WATCH_AUTO_CLASSIFIER_INPUT_VAR_2}

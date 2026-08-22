@@ -15,7 +15,7 @@ description: >-
   poster, flyer, brochure, banner, card, one-pager, or any visual layout they
   would rather tweak by hand than in code. Only for CREATING or re-seeding a
   canvas; an existing one is edited in its published Artifact.
-ccVersion: 2.1.238
+ccVersion: 2.1.239
 -->
 ---
 name: design
@@ -271,12 +271,14 @@ Seeding is not one-shot — updates re-run it:
   4's republish rule). Adding an image is the same move: downsample,
   \`--image\`, reference by filename, re-seed.
 - **A canvas that lives on the Artifact** (edited and saved in the
-  GUI, or from another session): WebFetch the artifact URL. Ignore the
-  inline head it shows (editor code); the result names a file holding
-  the full page. Run \`node "<base directory>/seed-canvas.mjs" --extract
-  "<that saved file>" --to <a FRESH, empty directory>\` — it writes the
+  GUI, or from another session): read the artifact with the Artifact
+  tool (\`action: "read"\`, \`url\`) — or WebFetch the URL where the
+  Artifact tool isn't available. Ignore the inline head it shows
+  (editor code); the result names a file holding the full page. Run
+  \`node "<base directory>/seed-canvas.mjs" --extract "<that saved file>"
+  --to <a FRESH, empty directory>\` — it writes the
   artboards, \`canvas.json\` and images (decoded) back out as working
-  files, skips anything else, and refuses to overwrite. If WebFetch
+  files, skips anything else, and refuses to overwrite. If the read
   names no saved file, the canvas cannot be read back this session:
   say so and offer to re-seed from working files you still have. If
   the extracted set has no \`Main.dc.html\` (deleted in the GUI),
@@ -292,16 +294,16 @@ Seeding is not one-shot — updates re-run it:
   to ask about.
 - **If a republish is rejected as stale or conflicting**, someone
   saved between your read and your publish. First response, always:
-  WebFetch again, \`--extract\` the fresh page into a new directory, redo
-  your edit there, re-seed, republish normally — that picks up their
-  save. Only if THAT is still refused for want of a document version
-  you can target (a canvas other writers saved reads back unversioned)
-  — and your re-seed came from that complete, fresh \`--extract\` — tell
-  the user in one line that the canvas carries other people's saves
-  and ask whether anyone is still editing; on their go-ahead, republish
-  once with \`force: true\`. If someone is mid-edit, wait and repeat the
-  fresh read first: forcing over an edit you have not read back
-  discards it.
+  read the artifact again, \`--extract\` the fresh page into a new
+  directory, redo your edit there, re-seed, republish normally — that
+  picks up their save. Only if THAT is still refused for want of a
+  document version you can target (a canvas other writers saved reads
+  back unversioned) — and your re-seed came from that complete, fresh
+  \`--extract\` — tell the user in one line that the canvas carries
+  other people's saves and ask whether anyone is still editing; on
+  their go-ahead, republish once with \`force: true\`. If someone is
+  mid-edit, wait and repeat the fresh read first: forcing over an edit
+  you have not read back discards it.
 
 ## Artboards and canvas.json
 

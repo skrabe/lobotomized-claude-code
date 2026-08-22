@@ -7,7 +7,7 @@ ccVersion: 2.1.101
 variables:
   - ASK_USER_QUESTION_TOOL_NAME
   - CRON_CREATE_TOOL_NAME
-  - TASK_TOOL_NAME
+  - SKILL_TOOL_NAME
   - BASH_TOOL_NAME
 -->
 
@@ -22,7 +22,7 @@ If either is true, call ${ASK_USER_QUESTION_TOOL_NAME} first:
 - \`header\`: "Schedule"
 - \`options\`: \`[{label: "Cloud schedule (recommended)", description: "Runs in Anthropic's cloud even after you close this session"}, {label: "This session only", description: "Runs in this terminal until you exit"}]\`
 
-If they pick Cloud schedule: don't call ${CRON_CREATE_TOOL_NAME}. Invoke the \`schedule\` skill directly via ${TASK_TOOL_NAME} with \`args\` set to their original input verbatim (e.g. \`${TASK_TOOL_NAME}({skill: "schedule", args: "every morning tell me a joke"})\`), then follow that skill to completion. Don't tell the user to run /schedule themselves. Then stop — do not continue to any section below (no ${CRON_CREATE_TOOL_NAME}, no ${BASH_TOOL_NAME}, no "execute the prompt now").
+If they pick Cloud schedule: don't call ${CRON_CREATE_TOOL_NAME}. Invoke the \`schedule\` skill directly via ${SKILL_TOOL_NAME} with \`args\` set to their original input verbatim (e.g. \`${SKILL_TOOL_NAME}({skill: "schedule", args: "every morning tell me a joke"})\`), then follow that skill to completion. Don't tell the user to run /schedule themselves. Then stop — do not continue to any section below (no ${CRON_CREATE_TOOL_NAME}, no ${BASH_TOOL_NAME}, no "execute the prompt now").
 
 If they pick This session only:
 - Parsed ≥60-minute interval (rule 1 or 2): continue below with that interval.

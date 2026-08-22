@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Artifact re-watch after deliberate stop approval prompt'
+name: Artifact watch re-latch permission ask
 description: >-
-  Approval prompt for re-watching an artifact whose watch was deliberately
-  stopped earlier in the session; returned to the model if declined.
-ccVersion: 2.1.237
+  Disclosure appended to the ask when re-watching an artifact whose watch was
+  deliberately stopped earlier in the session.
+ccVersion: 2.1.239
 -->
-Claude wants to watch an artifact whose watch was deliberately stopped earlier this session — approving resumes republish notifications (and, in remote sessions, to-Claude comment wakes) for the rest of the session; republish notifications carry no content
+approving resumes republish notifications (and, in remote sessions, to-Claude comment wakes) for the rest of the session; republish notifications carry no content

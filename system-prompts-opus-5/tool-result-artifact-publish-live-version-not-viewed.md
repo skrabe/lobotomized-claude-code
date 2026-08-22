@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Artifact Publish Live Version Not Viewed'
+name: 'Tool result: Artifact publish live version not viewed'
 description: >-
-  Returned to the model when Artifact refuses a publish because the session had
-  not viewed the current live version before overwriting it.
-ccVersion: 2.1.227
+  Publish refusal stating the model had not viewed the artifact's live version,
+  so nothing was published
+ccVersion: 2.1.239
 -->
-This session hadn't viewed the live version of this artifact, so the publish was refused.
+You hadn't viewed the live version of this artifact, so the publish was refused.

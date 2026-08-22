@@ -1,8 +1,10 @@
 <!--
-name: Artifact Publish Conflict (Merge Tail)
+name: Artifact publish conflict merge tail
 description: >-
-  Closing fragment of the Artifact publish-conflict tool error instructing the
-  model to merge its edits on top of the newer version and publish again.
-ccVersion: 2.1.218
+  Tail of the publish-conflict tool result instructing the model to re-read the
+  live version, merge its edits on top, and publish again.
+ccVersion: 2.1.239
+variables:
+  - TOOL_RESULT_ARTIFACT_PUBLISH_CONFLICT_MERGE_TAIL_VAR_0
 -->
-), merge your edits on top, then publish again.
+Re-read it (${TOOL_RESULT_ARTIFACT_PUBLISH_CONFLICT_MERGE_TAIL_VAR_0}), merge your edits on top, then publish again.

@@ -1,9 +1,9 @@
 <!--
 name: 'Slash Command: /list-agents description'
 description: >-
-  One-line description of the /list-agents (/peers) command, shown in the
-  command menu and injected into the claude-code-guide skill’s "Available
-  commands" build listing.
-ccVersion: 2.1.224
+  One-line description of the /list-agents (/peers) command, now naming
+  teammates as well, injected into the available-commands listing the model
+  reads
+ccVersion: 2.1.239
 -->
-List subagents and other Claude sessions you can message
+List subagents, teammates, and other Claude sessions you can message

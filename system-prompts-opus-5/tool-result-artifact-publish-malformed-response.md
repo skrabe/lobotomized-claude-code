@@ -1,10 +1,10 @@
 <!--
-name: 'Tool Result: Artifact Publish — Incomplete Or Malformed Response'
+name: Artifact publish returned a malformed response
 description: >-
-  Reason clause naming an incomplete or malformed response on the artifact
-  publish path.
-ccVersion: 2.1.238
-variables:
-  - TOOL_RESULT_ARTIFACT_PUBLISH_MALFORMED_RESPONSE_VAR_0
+  Publish failure reason returned to the model when the deploy server's response
+  is incomplete or malformed. CC 2.1.239 hoisted the leading ${VAR_0} out of the
+  template into a literal argument of the dto() builder, so the same prompt now
+  arrives as a call-site literal; id reused from 2.1.238.
+ccVersion: 2.1.239
 -->
-${TOOL_RESULT_ARTIFACT_PUBLISH_MALFORMED_RESPONSE_VAR_0} returned an incomplete or malformed response
+deploy returned an incomplete or malformed response

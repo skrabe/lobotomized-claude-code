@@ -1,10 +1,11 @@
 <!--
-name: 'Tool Result: Artifact Unsupported File Type'
+name: 'Artifact: unsupported file type'
 description: >-
-  Artifact validateInput / thrown-error prefix stating that only .html or .md
-  files can be published.
-ccVersion: 2.1.237
+  Publish tool-error returned to the model naming the rejected extension. CC
+  2.1.239 dropped the "(or .md for a Markdown document)" clause; id reused from
+  2.1.238.
+ccVersion: 2.1.239
 variables:
   - TOOL_RESULT_ARTIFACT_UNSUPPORTED_FILE_TYPE_VAR_0
 -->
-unsupported file type: ${TOOL_RESULT_ARTIFACT_UNSUPPORTED_FILE_TYPE_VAR_0||"(none)"} — Artifact publishes an .html page (or .md for a Markdown document).
+unsupported file type: ${TOOL_RESULT_ARTIFACT_UNSUPPORTED_FILE_TYPE_VAR_0||"(none)"} — Artifact publishes an .html page.

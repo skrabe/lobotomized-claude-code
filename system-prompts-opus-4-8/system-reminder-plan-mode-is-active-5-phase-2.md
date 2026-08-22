@@ -3,7 +3,7 @@ name: 'System Reminder: Plan mode is active (5-phase, custom instructions)'
 description: >-
   Short plan-mode reminder variant that defers the workflow body to the output
   style's custom instructions
-ccVersion: 2.1.219
+ccVersion: 2.1.239
 variables:
   - SYSTEM_REMINDER_PLAN_MODE_IS_ACTIVE_5_PHASE_2_VAR_0
   - SYSTEM_REMINDER_PLAN_MODE_IS_ACTIVE_5_PHASE_2_VAR_1
@@ -22,5 +22,5 @@ You should build your plan incrementally by writing to or editing this file. NOT
 
 ${SYSTEM_REMINDER_PLAN_MODE_IS_ACTIVE_5_PHASE_2_VAR_3.customInstructions}
 
-### Call ${SYSTEM_REMINDER_PLAN_MODE_IS_ACTIVE_5_PHASE_2_VAR_4.name}
+### Call ${SYSTEM_REMINDER_PLAN_MODE_IS_ACTIVE_5_PHASE_2_VAR_4}
 ${SYSTEM_REMINDER_PLAN_MODE_IS_ACTIVE_5_PHASE_2_VAR_5(SYSTEM_REMINDER_PLAN_MODE_IS_ACTIVE_5_PHASE_2_VAR_3.workshopActiveDocPath)}

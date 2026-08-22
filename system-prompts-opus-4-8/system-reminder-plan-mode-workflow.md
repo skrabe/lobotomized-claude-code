@@ -4,7 +4,7 @@ description: >-
   Full plan-mode workflow reminder covering plan file constraints, optional
   workshop and prototype offers, exploration, design, review, final planning,
   and approval
-ccVersion: 2.1.221
+ccVersion: 2.1.239
 variables:
   - PLAN_MODE_READONLY_INSTRUCTIONS
   - PLAN_FILE_INFO
@@ -16,8 +16,8 @@ variables:
   - PLAN_MODE_PHASE_3_REVIEW
   - PLAN_MODE_PHASE_4_FINAL_PLAN_FN
   - PLAN_MODE_CONTEXT
+  - EXIT_PLAN_MODE_TOOL_NAME
   - EXIT_PLAN_MODE_INSTRUCTIONS_FN
-  - EXIT_PLAN_MODE_TOOL
   - ASK_USER_QUESTION_TOOL_NAME
 -->
 
@@ -37,7 +37,7 @@ ${PLAN_MODE_PHASE_3_REVIEW}
 
 ${PLAN_MODE_PHASE_4_FINAL_PLAN_FN(PLAN_MODE_CONTEXT.workshopOfferDocPath!==void 0||PLAN_MODE_CONTEXT.workshopActiveDocPath!==void 0)}
 
-### Phase 5: Call ${EXIT_PLAN_MODE_INSTRUCTIONS_FN.name}
-${EXIT_PLAN_MODE_TOOL(PLAN_MODE_CONTEXT.workshopActiveDocPath)}
+### Phase 5: Call ${EXIT_PLAN_MODE_TOOL_NAME}
+${EXIT_PLAN_MODE_INSTRUCTIONS_FN(PLAN_MODE_CONTEXT.workshopActiveDocPath)}
 
 NOTE: At any point in time through this workflow you should feel free to ask the user questions or clarifications using the ${ASK_USER_QUESTION_TOOL_NAME} tool. Don't make large assumptions about user intent.

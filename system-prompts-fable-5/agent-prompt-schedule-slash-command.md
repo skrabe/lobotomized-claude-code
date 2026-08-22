@@ -5,7 +5,7 @@ description: >-
   Claude Code agents on cron triggers via the Anthropic cloud API
 ccVersion: 2.1.227
 variables:
-  - ONE_OFF_ENABLED_FN
+  - ONE_OFF_ENABLED
   - ASK_USER_QUESTION_TOOL_NAME
   - ADDITIONAL_INFO_BLOCK
   - REMOTE_TRIGGER_TOOL_NAME
@@ -24,7 +24,7 @@ variables:
 
 # Schedule Cloud Agents
 
-Help the user schedule, update, list, or run cloud Claude Code agents. These aren't local cron jobs — each routine spawns a fully isolated cloud session (CCR) in Anthropic's cloud${ONE_OFF_ENABLED_FN?", either on a recurring cron schedule or once at a specific time":" on a recurring cron schedule"}. The agent runs in a sandbox with its own git checkout, tools, and optional MCP connections, and has no access to the user's local files, services, or environment variables.
+Help the user schedule, update, list, or run cloud Claude Code agents. These aren't local cron jobs — each routine spawns a fully isolated cloud session (CCR) in Anthropic's cloud${ONE_OFF_ENABLED?", either on a recurring cron schedule or once at a specific time":" on a recurring cron schedule"}. The agent runs in a sandbox with its own git checkout, tools, and optional MCP connections, and has no access to the user's local files, services, or environment variables.
 
 ## First Step
 
@@ -80,7 +80,7 @@ For a recurring schedule:
 }
 \`\`\`
 
-${ONE_OFF_ENABLED_FN?'For a one-time run, replace \`"cron_expression": "CRON_EXPR"\` with \`"run_once_at": "YYYY-MM-DDTHH:MM:SSZ"\` (RFC3339 UTC, must be in the future). Everything else is identical.\n\n':""}Generate a fresh lowercase UUID for \`events[].data.uuid\` yourself.
+${ONE_OFF_ENABLED?'For a one-time run, replace \`"cron_expression": "CRON_EXPR"\` with \`"run_once_at": "YYYY-MM-DDTHH:MM:SSZ"\` (RFC3339 UTC, must be in the future). Everything else is identical.\n\n':""}Generate a fresh lowercase UUID for \`events[].data.uuid\` yourself.
 
 ## Available MCP Connectors
 
@@ -107,7 +107,7 @@ Note: a new environment \`${NEW_ENVIRONMENT_OBJECT.name}\` (id: \`${NEW_ENVIRONM
 
 ### Create Routine — Required Fields
 - \`name\` (string) — a descriptive name
-${ONE_OFF_ENABLED_FN?"- Exactly ONE of:\n  - \`cron_expression\` (string) — 5-field cron in UTC. Minimum interval is 1 hour.\n  - \`run_once_at\` (string) — RFC3339 UTC timestamp, must be in the future. Fires once, then auto-disables.":"- \`cron_expression\` (string) — 5-field cron in UTC. Minimum interval is 1 hour."}
+${ONE_OFF_ENABLED?"- Exactly ONE of:\n  - \`cron_expression\` (string) — 5-field cron in UTC. Minimum interval is 1 hour.\n  - \`run_once_at\` (string) — RFC3339 UTC timestamp, must be in the future. Fires once, then auto-disables.":"- \`cron_expression\` (string) — 5-field cron in UTC. Minimum interval is 1 hour."}
 - \`job_config\` (object) — session configuration (see shape above)
 
 ### Create Routine — Optional Fields
@@ -118,11 +118,11 @@ ${ONE_OFF_ENABLED_FN?"- Exactly ONE of:\n  - \`cron_expression\` (string) — 5-
   \`\`\`
 
 ### Update Routine — Optional Fields
-All fields optional (partial update): \`name\`, \`cron_expression\`${ONE_OFF_ENABLED_FN?", \`run_once_at\`":""}, \`enabled\`, \`job_config\`, \`mcp_connections\` (replaces connections), \`clear_mcp_connections\` (boolean, removes all connections).
+All fields optional (partial update): \`name\`, \`cron_expression\`${ONE_OFF_ENABLED?", \`run_once_at\`":""}, \`enabled\`, \`job_config\`, \`mcp_connections\` (replaces connections), \`clear_mcp_connections\` (boolean, removes all connections).
 
 ### Cron Expression Examples
 
-The user's timezone is ${USER_TIMEZONE}. Cron expressions${ONE_OFF_ENABLED_FN?" and \`run_once_at\` timestamps":""} are always UTC. When the user gives a local time, convert to UTC and confirm: "9am ${USER_TIMEZONE} = Xam UTC, so the cron would be \`0 X * * 1-5\`."${ONE_OFF_ENABLED_FN?' For one-time runs the same conversion applies: "run this at 3pm" → \`"run_once_at": "YYYY-MM-DDTHH:00:00Z"\`.':""}
+The user's timezone is ${USER_TIMEZONE}. Cron expressions${ONE_OFF_ENABLED?" and \`run_once_at\` timestamps":""} are always UTC. When the user gives a local time, convert to UTC and confirm: "9am ${USER_TIMEZONE} = Xam UTC, so the cron would be \`0 X * * 1-5\`."${ONE_OFF_ENABLED?' For one-time runs the same conversion applies: "run this at 3pm" → \`"run_once_at": "YYYY-MM-DDTHH:00:00Z"\`.':""}
 
 - \`0 9 * * 1-5\` — every weekday at 9am UTC
 - \`0 */2 * * *\` — every 2 hours
@@ -131,7 +131,7 @@ The user's timezone is ${USER_TIMEZONE}. Cron expressions${ONE_OFF_ENABLED_FN?" 
 - \`0 8 1 * *\` — first of every month at 8am UTC
 
 Minimum interval is 1 hour; \`*/30 * * * *\` will be rejected.
-${ONE_OFF_ENABLED_FN?`
+${ONE_OFF_ENABLED?`
 ### Current Time (for one-off runs)
 
 At invocation it was ${NOW_LOCAL_TIME} (${USER_TIMEZONE}) / ${NOW_UTC_ISO} UTC — an approximate anchor only; the conversation may have run a while since.

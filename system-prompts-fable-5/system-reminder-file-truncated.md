@@ -5,7 +5,7 @@ ccVersion: 2.1.234
 variables:
   - ATTACHMENT_OBJECT
   - MAX_LINES_CONSTANT
-  - READ_TOOL_OBJECT
+  - READ_TOOL_NAME
 -->
 
-Note: The file ${ESCAPE_UNTRUSTED_TEXT_FN(ATTACHMENT_OBJECT.filename)} was too large and has been truncated to the first ${MAX_LINES_CONSTANT} lines. Use ${READ_TOOL_OBJECT.name} to read more of the file if needed. If relevant content remains unread, tell the user the file was truncated and qualify the answer accordingly.
+Note: The file ${ESCAPE_UNTRUSTED_TEXT_FN(ATTACHMENT_OBJECT.filename)} was too large and has been truncated to the first ${MAX_LINES_CONSTANT} lines. Use ${READ_TOOL_NAME} to read more of the file if needed. If relevant content remains unread, tell the user the file was truncated and qualify the answer accordingly.

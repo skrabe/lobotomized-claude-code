@@ -5,7 +5,7 @@ description: >-
   Claude Code agents on cron triggers via the Anthropic cloud API
 ccVersion: 2.1.227
 variables:
-  - ONE_OFF_ENABLED_FN
+  - ONE_OFF_ENABLED
   - ASK_USER_QUESTION_TOOL_NAME
   - ADDITIONAL_INFO_BLOCK
   - REMOTE_TRIGGER_TOOL_NAME
@@ -23,7 +23,7 @@ variables:
 -->
 # Schedule Cloud Agents
 
-Help the user schedule, update, list, or run cloud Claude Code agents. These aren't local cron jobs — each routine spawns a fully isolated cloud session (CCR) in Anthropic's cloud${ONE_OFF_ENABLED_FN?", either on a recurring cron schedule or once at a specific time":" on a recurring cron schedule"}. The agent runs in a sandbox with its own git checkout, tools, and optional MCP connections, and has no access to the user's local files, services, or environment variables.
+Help the user schedule, update, list, or run cloud Claude Code agents. These aren't local cron jobs — each routine spawns a fully isolated cloud session (CCR) in Anthropic's cloud${ONE_OFF_ENABLED?", either on a recurring cron schedule or once at a specific time":" on a recurring cron schedule"}. The agent runs in a sandbox with its own git checkout, tools, and optional MCP connections, and has no access to the user's local files, services, or environment variables.
 
 ## First Step
 
@@ -81,7 +81,7 @@ For a recurring schedule:
 }
 \`\`\`
 
-${ONE_OFF_ENABLED_FN?'For a one-time run, replace `"cron_expression": "CRON_EXPR"` with `"run_once_at": "YYYY-MM-DDTHH:MM:SSZ"` (RFC3339 UTC, must be in the future). Everything else is identical.\n\n':""}Generate a fresh lowercase UUID for \`events[].data.uuid\` yourself.
+${ONE_OFF_ENABLED?'For a one-time run, replace `"cron_expression": "CRON_EXPR"` with `"run_once_at": "YYYY-MM-DDTHH:MM:SSZ"` (RFC3339 UTC, must be in the future). Everything else is identical.\n\n':""}Generate a fresh lowercase UUID for \`events[].data.uuid\` yourself.
 
 ## Available MCP Connectors
 
@@ -108,7 +108,7 @@ Note: a new environment \`${NEW_ENVIRONMENT_OBJECT.name}\` (id: \`${NEW_ENVIRONM
 
 ### Create Routine — Required Fields
 - \`name\` (string) — a descriptive name
-${ONE_OFF_ENABLED_FN?"- Exactly ONE of:\n  - `cron_expression` (string) — 5-field cron in UTC. Minimum interval is 1 hour.\n  - `run_once_at` (string) — RFC3339 UTC timestamp, must be in the future. Fires once, then auto-disables.":"- `cron_expression` (string) — 5-field cron in UTC. Minimum interval is 1 hour."}
+${ONE_OFF_ENABLED?"- Exactly ONE of:\n  - `cron_expression` (string) — 5-field cron in UTC. Minimum interval is 1 hour.\n  - `run_once_at` (string) — RFC3339 UTC timestamp, must be in the future. Fires once, then auto-disables.":"- `cron_expression` (string) — 5-field cron in UTC. Minimum interval is 1 hour."}
 - \`job_config\` (object) — session configuration (see shape above)
 
 ### Create Routine — Optional Fields
@@ -119,11 +119,11 @@ ${ONE_OFF_ENABLED_FN?"- Exactly ONE of:\n  - `cron_expression` (string) — 5-fi
   \`\`\`
 
 ### Update Routine — Optional Fields
-All fields optional (partial update): \`name\`, \`cron_expression\`${ONE_OFF_ENABLED_FN?", `run_once_at`":""}, \`enabled\`, \`job_config\`, \`mcp_connections\` (replaces connections), \`clear_mcp_connections\` (boolean, removes all connections).
+All fields optional (partial update): \`name\`, \`cron_expression\`${ONE_OFF_ENABLED?", `run_once_at`":""}, \`enabled\`, \`job_config\`, \`mcp_connections\` (replaces connections), \`clear_mcp_connections\` (boolean, removes all connections).
 
 ### Cron Expression Examples
 
-The user's timezone is ${USER_TIMEZONE}. Cron expressions${ONE_OFF_ENABLED_FN?" and `run_once_at` timestamps":""} are always UTC. When the user gives a local time, convert to UTC and confirm: "9am ${USER_TIMEZONE} = Xam UTC, so the cron would be \`0 X * * 1-5\`."${ONE_OFF_ENABLED_FN?' For one-time runs the same conversion applies: "run this at 3pm" → `"run_once_at": "YYYY-MM-DDTHH:00:00Z"`.':""}
+The user's timezone is ${USER_TIMEZONE}. Cron expressions${ONE_OFF_ENABLED?" and `run_once_at` timestamps":""} are always UTC. When the user gives a local time, convert to UTC and confirm: "9am ${USER_TIMEZONE} = Xam UTC, so the cron would be \`0 X * * 1-5\`."${ONE_OFF_ENABLED?' For one-time runs the same conversion applies: "run this at 3pm" → `"run_once_at": "YYYY-MM-DDTHH:00:00Z"`.':""}
 
 - \`0 9 * * 1-5\` — every weekday at 9am UTC
 - \`0 */2 * * *\` — every 2 hours
@@ -132,7 +132,7 @@ The user's timezone is ${USER_TIMEZONE}. Cron expressions${ONE_OFF_ENABLED_FN?" 
 - \`0 8 1 * *\` — first of every month at 8am UTC
 
 Minimum interval is 1 hour; \`*/30 * * * *\` will be rejected.
-${ONE_OFF_ENABLED_FN?`
+${ONE_OFF_ENABLED?`
 ### Current Time (for one-off runs)
 
 At invocation it was ${NOW_LOCAL_TIME} (${USER_TIMEZONE}) / ${NOW_UTC_ISO} UTC — an approximate anchor only; the conversation may have run a while since.
@@ -144,7 +144,7 @@ Before computing any \`run_once_at\`, re-check the current time with \`date -u +
 
 1. Understand the goal — what task, which repo(s)? Remind the user the agent runs in the cloud with no access to their local machine, files, or env vars.
 2. Craft the prompt — the agent starts with zero context, so make it self-contained: specific about what to do and what success looks like, which files/areas to focus on, and which actions to take (open PRs, commit, just analyze).
-3. Set the schedule — ask when and how often; convert their local time to UTC and confirm. ${ONE_OFF_ENABLED_FN?'For a one-time run use `run_once_at`; re-check the current time with `date -u` first, resolve the relative phrase against it, and confirm the absolute timestamp.':""}
+3. Set the schedule — ask when and how often; convert their local time to UTC and confirm. ${ONE_OFF_ENABLED?'For a one-time run use `run_once_at`; re-check the current time with `date -u` first, resolve the relative phrase against it, and confirm the absolute timestamp.':""}
 4. Choose the model — default to \`claude-sonnet-5\`; tell the user and ask if they want another.
 5. Validate connections — infer needed services, cross-reference the connectors list, and link missing ones to https://claude.ai/customize/connectors.${DEFAULT_GIT_REPO_URL?` The default git repo is \`${DEFAULT_GIT_REPO_URL}\`; ask if it's the right one.`:" Ask which git repos the agent needs cloned into its environment."}
 6. Review and confirm — show the full config before creating; let them adjust.
@@ -157,7 +157,7 @@ Before computing any \`run_once_at\`, re-check the current time with \`date -u +
 ## Notes
 
 - Always display cron in human-readable form.
-${ONE_OFF_ENABLED_FN?'- When listing, `ended_reason: "run_once_fired"` means a one-shot already ran ("Ran" in the web UI); the user can re-arm it with a new `run_once_at`.\n':""}- Default to \`enabled: true\` unless the user says otherwise.
+${ONE_OFF_ENABLED?'- When listing, `ended_reason: "run_once_fired"` means a one-shot already ran ("Ran" in the web UI); the user can re-arm it with a new `run_once_at`.\n':""}- Default to \`enabled: true\` unless the user says otherwise.
 - Accept GitHub URLs in any format and normalize to the full HTTPS URL (no .git suffix).
 ${IS_GITHUB_REMINDER_ENABLED?`- If the request needs GitHub repo access (cloning, opening PRs, reading code), remind the user that ${IS_TRUTHY_FN("tengu_cobalt_lantern",!1)&&CHECK_FEATURE_FLAG_FN("allow_quick_web_setup")?"they should run /web-setup to connect their GitHub account (or install the Claude GitHub App on the repo) — otherwise the cloud agent can't access it":"they need the Claude GitHub App installed on the repo — otherwise the cloud agent can't access it"}.`:""}
 ${USER_REQUEST?`

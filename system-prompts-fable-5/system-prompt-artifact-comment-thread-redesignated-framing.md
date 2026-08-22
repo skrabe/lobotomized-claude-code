@@ -6,4 +6,4 @@ description: >-
   rather than new ones.
 ccVersion: 2.1.224
 -->
-A human sent an EXISTING comment in the thread to you on an artifact you published (an already-posted comment, newly toggled to Claude or re-sent).
+A human sent an EXISTING comment in the thread to you on an artifact you published (an already-posted comment, newly toggled to Claude or re-sent) — the comments summoning you this turn are existing posts newly sent to you, not new comments; address each of them now.

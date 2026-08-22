@@ -7,7 +7,7 @@ description: >-
   until the workshop is finalized. Use when asked to workshop a design,
   brainstorm with decision points, or drive an iterative decide-and-revise loop
   through an artifact.
-ccVersion: 2.1.234
+ccVersion: 2.1.239
 -->
 ---
 name: workshop
@@ -145,12 +145,12 @@ the first publish, say then what the interactive page means for them (see
 between tool calls silent and never name page internals (banner, island,
 markup) to the user. After the second publish, it is the ordinary loop.
 
-Your local copy is the only authoring surface — never author by WebFetch
-round-tripping the served page, NEVER live-edit a workshop page (the
-publish path is the validation chokepoint live-edit would bypass; the tool
-refuses it), and treat a copy you cannot confirm you wrote this session as
-missing (show-and-confirm only, exactly like the missing-source rule in
-"Reading decisions back" below).
+Your local copy is the only authoring surface — never author by
+round-tripping the served page you read back, NEVER live-edit a workshop
+page (the publish path is the validation chokepoint live-edit would
+bypass; the tool refuses it), and treat a copy you cannot confirm you
+wrote this session as missing (show-and-confirm only, exactly like the
+missing-source rule in "Reading decisions back" below).
 
 The publish path runs a structural verifier on the FINAL payload of every
 `*.workshop.html` publish (and of any HTML publish carrying the island

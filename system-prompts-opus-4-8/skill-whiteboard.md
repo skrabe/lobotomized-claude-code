@@ -8,7 +8,7 @@ description: >-
   to sketch a design or diagram to talk through, or wants to draw something and
   have you plan from it. Only for CREATING a new whiteboard; an existing one is
   read and edited through its published artifact.
-ccVersion: 2.1.232
+ccVersion: 2.1.239
 -->
 ---
 name: whiteboard
@@ -70,15 +70,16 @@ getting ("putting your board together", "adding my questions to it").
 ## What comes back
 
 A send republishes the artifact and may surface a notice that it was
-republished by another session. Viewers can also hit **Submit**, which
+republished elsewhere. Viewers can also hit **Submit**, which
 saves the board for everyone without flagging you, so a notice that isn't
 your own publish means read the board now and let \`ping.n\` tell you which
 it was: a \`ping.n\` above the last one you handled is a send to answer on
 the board; an unchanged \`ping.n\` is a save — take it into your context,
 but don't draw back or post about it. The notice carries no content and
 can be missed, so the published page is the record: when the user says
-they sent it, says "check the whiteboard", or goes quiet, WebFetch the
-artifact URL and read it.
+they sent it, says "check the whiteboard", or goes quiet, read the
+artifact — with the Artifact tool (\`action: "read"\`, \`url\`), or by
+WebFetching the URL where the Artifact tool isn't available.
 
 The state is the JSON in the first element of the page body,
 \`<script type="application/json" id="wb-state">\` —
@@ -99,10 +100,10 @@ is a new send; otherwise the board holds nothing new to answer — a
 viewer's save or a board you already handled — so take it in without
 replying or redrawing.
 
-Take the \`wb-state\` block from the inline WebFetch result when its
-closing \`</script>\` is present; if it is cut off, read it from the saved
-file the result names, by path. Keep the state text byte-for-byte — your
-reply carries it forward.
+Take the \`wb-state\` block from the inline read result when it is there
+through its closing \`</script>\`; if it is cut off or missing from the
+inline head, read it from the saved file the result names, by path. Keep
+the state text byte-for-byte — your reply carries it forward.
 
 ## Read the board, then draw back
 
@@ -149,10 +150,11 @@ reaches every open view).
 
 Write it back:
 
-1. Right before writing, WebFetch the artifact again and work from that
-   freshest state — this read picks up any newer send. Save the page for
-   the helper: the file the WebFetch result names, or a file holding the
-   page (the whole page, so its title comes along).
+1. Right before writing, read the artifact again (the same read as
+   above) and work from that freshest state — this read picks up any
+   newer send. Save the page for the helper: the file the read result
+   names, or a file holding the page (the whole page, so its title comes
+   along).
 2. Write your additions to a JSON array file and run the helper from its
    base directory:
    \`node merge-state.mjs --state <the board file> --add <additions.json> --template template.html --out <your whiteboard.html> [--retire cl_a,cl_b]\`

@@ -1,0 +1,14 @@
+<!--
+name: Artifact read_file classifier input
+description: >-
+  Auto-permission classifier input line describing a read_file save of one
+  published artifact file to a local path.
+ccVersion: 2.1.239
+variables:
+  - DATA_ARTIFACT_READ_FILE_AUTO_CLASSIFIER_INPUT_VAR_0
+  - DATA_ARTIFACT_READ_FILE_AUTO_CLASSIFIER_INPUT_VAR_1
+  - DATA_ARTIFACT_READ_FILE_AUTO_CLASSIFIER_INPUT_VAR_2
+  - DATA_ARTIFACT_READ_FILE_AUTO_CLASSIFIER_INPUT_VAR_3
+  - DATA_ARTIFACT_READ_FILE_AUTO_CLASSIFIER_INPUT_VAR_4
+-->
+save one published file of an artifact to a local file${DATA_ARTIFACT_READ_FILE_AUTO_CLASSIFIER_INPUT_VAR_0}${"dest"in DATA_ARTIFACT_READ_FILE_AUTO_CLASSIFIER_INPUT_VAR_1&&!DATA_ARTIFACT_READ_FILE_AUTO_CLASSIFIER_INPUT_VAR_2(DATA_ARTIFACT_READ_FILE_AUTO_CLASSIFIER_INPUT_VAR_1.dest)?" [outside the session scratchpad carve-out: the user decides]":""}: ${DATA_ARTIFACT_READ_FILE_AUTO_CLASSIFIER_INPUT_VAR_3} → ${DATA_ARTIFACT_READ_FILE_AUTO_CLASSIFIER_INPUT_VAR_4}

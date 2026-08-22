@@ -1,11 +1,17 @@
 <!--
 name: 'Tool result: Artifact asset uploaded'
 description: >-
-  Confirms an asset upload and tells the model how to reference the stored file
-  from the page and database
-ccVersion: 2.1.234
+  Confirms an asset upload with its name, size, type and hash, and tells the
+  model that every artifact viewer can load it and that it persists until
+  delete_asset
+ccVersion: 2.1.239
 variables:
   - TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_0
   - TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1
+  - TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_2
+  - TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_3
+  - TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_4
+  - TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_5
+  - TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_6
 -->
-Asset uploaded: ${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_0(TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1.file_name)} (${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1.size_bytes} bytes, ${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_0(TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1.content_type)}${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1.sha256!==void 0?`, sha256 ${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1.sha256}`:""}) is now stored in the artifact as ${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_0(TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1.url)} (id ${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_0(TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1.id)}). Reference it from the page by that relative url — e.g. <img src=${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_0(TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1.url)}> — which resolves in every view of the artifact; store the id in the artifact's database if rows need to point at it. Everyone who can open the artifact can load this file; the upload is durable until deleted with action "delete_asset".
+Asset uploaded: ${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_0(TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1.file_name,128)} (${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_2(TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1.size_bytes)} bytes, ${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_3(TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_1.content_type,TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_4,"unrecognized content type")}${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_5}) ${TOOL_RESULT_ARTIFACT_ASSET_UPLOADED_VAR_6} Everyone who can open the artifact can load this file; the upload is durable until deleted with action "delete_asset".

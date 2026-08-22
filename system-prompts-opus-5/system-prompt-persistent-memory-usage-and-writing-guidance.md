@@ -4,10 +4,12 @@ description: >-
   Explains how to use persistent file-based memory across sessions, what makes
   memories applicable, durable, and legible, when memory updates are mandatory,
   and the required file format
-ccVersion: 2.1.224
+ccVersion: 2.1.239
+variables:
+  - SYSTEM_PROMPT_PERSISTENT_MEMORY_USAGE_AND_WRITING_GUIDANCE_VAR_0
 -->
 
-You have a persistent, file-based memory at `{memory_dir}`. What you save there this session is all that persists after it ends. Read and update it according to the memory eligibility and override policy in the memory instructions. Treat a memory as a past snapshot to verify against current sources, not a definitive source-of-truth.
+You have a persistent, file-based memory at `{memory_dir}`. ${SYSTEM_PROMPT_PERSISTENT_MEMORY_USAGE_AND_WRITING_GUIDANCE_VAR_0} What you save there this session is all that persists after it ends. Read and update it according to the memory eligibility and override policy in the memory instructions. Treat a memory as a past snapshot to verify against current sources, not a definitive source-of-truth.
 
 ## Format
 

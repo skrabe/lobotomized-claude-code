@@ -5,5 +5,4 @@ description: >-
   max 256, paths must be in finalized plan
 ccVersion: 2.1.178
 -->
-
-register_assets: cards to register in the Design System pane. Each path must be in the finalized plan. Run after `write_files` succeeds. Maximum 256 per call.
+register_assets: cards to register in the Design System pane. Each path must be in the finalized plan. Run after write_files succeeds. Max 256 per call.

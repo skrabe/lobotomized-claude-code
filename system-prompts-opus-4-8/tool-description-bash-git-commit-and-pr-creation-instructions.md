@@ -3,16 +3,16 @@ name: 'Tool Description: Bash (Git commit and PR creation instructions)'
 description: Instructions for creating git commits and GitHub pull requests
 ccVersion: 2.1.231
 variables:
+  - AGENT_TOOL_NAME
   - BASH_TOOL_NAME
   - COMMIT_CO_AUTHORED_BY_CLAUDE_CODE
-  - GET_TODO_TOOL_FN
-  - TASK_TOOL_NAME
+  - PR_ATTRIBUTION_TEXT
+  - PR_COMMON_OPERATIONS_NOTE
   - PR_INSTRUCTIONS_PREFIX
-  - PR_WRITING_GUIDANCE_BLOCK
-  - PR_GENERATED_WITH_CLAUDE_CODE
   - PR_SUMMARY_TEMPLATE_FN
   - PR_TEST_PLAN_TEMPLATE_FN
-  - PR_COMMON_OPERATIONS_NOTE
+  - PR_WRITING_GUIDANCE_BLOCK
+  - TASK_CREATE_OR_TODOWRITE_TOOL_NAME
 -->
 ${`# Committing changes with git
 
@@ -48,7 +48,7 @@ Git Safety Protocol:
 
 Important notes:
 - NEVER run additional commands to read or explore code, besides git bash commands
-- NEVER use the ${GET_TODO_TOOL_FN} or ${TASK_TOOL_NAME} tools
+- NEVER use the ${TASK_CREATE_OR_TODOWRITE_TOOL_NAME} or ${AGENT_TOOL_NAME} tools
 - DO NOT push to the remote repository unless the user explicitly asks you to do so
 - IMPORTANT: Never use git commands with the -i flag (like git rebase -i or git add -i) since they require interactive input which is not supported.
 - IMPORTANT: Do not use --no-edit with git rebase commands, as the --no-edit flag is not a valid option for git rebase.
@@ -85,18 +85,18 @@ IMPORTANT: When the user asks you to create a pull request, follow these steps c
 <example>
 gh pr create --title "the pr title" --body "$(cat <<'EOF'
 ## Summary
-${PR_GENERATED_WITH_CLAUDE_CODE()}
+${PR_SUMMARY_TEMPLATE_FN()}
 
 ## Test plan
-${PR_SUMMARY_TEMPLATE_FN()}${PR_TEST_PLAN_TEMPLATE_FN?`
+${PR_TEST_PLAN_TEMPLATE_FN()}${PR_ATTRIBUTION_TEXT?`
 
-${PR_TEST_PLAN_TEMPLATE_FN}`:""}
+${PR_ATTRIBUTION_TEXT}`:""}
 EOF
 )"
 </example>
 
 Important:
-- DO NOT use the ${GET_TODO_TOOL_FN} or ${TASK_TOOL_NAME} tools
+- DO NOT use the ${TASK_CREATE_OR_TODOWRITE_TOOL_NAME} or ${AGENT_TOOL_NAME} tools
 - Return the PR URL when you're done, so the user can see it
 
 # Other common operations

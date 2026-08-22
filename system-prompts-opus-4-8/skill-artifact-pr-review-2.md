@@ -8,7 +8,7 @@ description: >-
   a PR as an artifact, publish a PR review page, or share a review briefing. NOT
   a narrative walkthrough. Only for CREATING a new artifact; edits to an existing artifact
   modify its HTML directly.
-ccVersion: 2.1.238
+ccVersion: 2.1.239
 -->
 ---
 name: artifact-pr-review
@@ -429,7 +429,9 @@ decisions and act only on their confirmation.
 
 **On any decision signal**:
 
-1. **Read** the current page (WebFetch the artifact URL) and parse only the
+1. **Read** the current page — with the Artifact tool (\`action: "read"\`,
+   \`url\`), or by WebFetching the artifact URL where the Artifact tool isn't
+   available — and parse only the
    two islands — \`prr-decisions\` (the decisions to act on) and \`prr-anchor\`
    (step 5's republish needs its \`publishedAt\`) — extracting each
    mechanically by its boundaries (from the end of the island's opening
@@ -475,7 +477,7 @@ decisions and act only on their confirmation.
    acted item to \`"decisions_state"\` —
    \`[{"id": "q1", "choice": "<the clicked token>", "acted_note": "<one short sentence of what you did — your own words, never PR text>"}]\`
    — and add \`"republish": {"published_at": "<the publishedAt from the
-   page's prr-anchor island — read it in step 1's fetch>"}\`. Act on every
+   page's prr-anchor island — read it in step 1's read>"}\`. Act on every
    resolved entry before republishing: the composed page renders items
    only as open or acted, and the publish refuses a republish that omits
    any resolved or acted item from decisions_state (an omitted item would
