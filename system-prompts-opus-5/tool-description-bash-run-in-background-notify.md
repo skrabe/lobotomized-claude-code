@@ -5,4 +5,4 @@ description: >-
   long-running commands instead of sleeping.
 ccVersion: 2.1.178
 -->
-If your command is long running and you would like to be notified when it finishes — use `run_in_background`. No sleep needed.
+No sleep needed.

@@ -5,4 +5,4 @@ description: >-
   offset required field; model-facing as part of the tool description.
 ccVersion: 2.1.191
 -->
-The character offset (1-based, as shown in editors)
+

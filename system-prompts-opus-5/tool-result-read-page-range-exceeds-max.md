@@ -8,4 +8,4 @@ variables:
   - TOOL_RESULT_READ_PAGE_RANGE_EXCEEDS_MAX_VAR_0
   - TOOL_RESULT_READ_PAGE_RANGE_EXCEEDS_MAX_VAR_1
 -->
-Page range "${TOOL_RESULT_READ_PAGE_RANGE_EXCEEDS_MAX_VAR_0}" exceeds maximum of ${TOOL_RESULT_READ_PAGE_RANGE_EXCEEDS_MAX_VAR_1} pages per request. Please use a smaller range.
+Page range "${TOOL_RESULT_READ_PAGE_RANGE_EXCEEDS_MAX_VAR_0}" exceeds maximum of ${TOOL_RESULT_READ_PAGE_RANGE_EXCEEDS_MAX_VAR_1} pages per request.

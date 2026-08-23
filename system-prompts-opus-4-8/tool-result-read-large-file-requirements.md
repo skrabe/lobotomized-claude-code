@@ -6,4 +6,3 @@ description: >-
 ccVersion: 2.1.206
 -->
 Use offset and limit parameters to read specific portions of the file, search within it for specific content, and jq to make structured queries.
-REQUIREMENTS FOR SUMMARIZATION/ANALYSIS/REVIEW:

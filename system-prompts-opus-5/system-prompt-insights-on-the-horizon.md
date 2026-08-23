@@ -15,4 +15,4 @@ RESPOND WITH ONLY A VALID JSON OBJECT:
   ]
 }
 
-Include 3 opportunities. Think BIG - autonomous workflows, parallel agents, iterating against tests.
+Include 3 opportunities.

@@ -5,43 +5,6 @@ description: >-
   the dataviz skill for the model to run.
 ccVersion: 2.1.218
 -->
-/**
- * Validate a categorical chart palette against the computable data-viz checks.
- *
- * Design-system-agnostic: feed it ANY palette's hex values plus the mode and
- * surface, and it computes — never eyeballs — the five checks that can be
- * measured from color alone:
- *
- *   2. Lightness band   — OKLCH L within the mode's band
- *   3. Chroma floor     — OKLCH C >= floor (below it a hue reads as gray)
- *   4. CVD separation   — OKLab ΔE (×100) between slots under simulated protan/deutan
- *                         (tritan reported); adjacent pairs by default, pairs:"all"
- *                         for scatter/bubble/maps
- *   4b. Normal-vision floor — worst OKLab ΔE (×100) on the active pairlist
- *       (adjacent by default; all pairs with --pairs all) under unsimulated vision;
- *                         full-color readers must be able to tell neighbors apart too
- *   5. Contrast vs surface — WCAG ratio of each mark against the chart surface
- *
- * Checks 1 (fixed hue order) and 6 (values are from the documented palette) are
- * structural rules the skill enforces, not measurable from hexes alone.
- *
- * Usage (node):
- *   node validate_palette.js "#2a78d6,#eb6834,#1baf7a,#eda100,#e87ba4,#008300,#4a3aa7,#e34948" --mode light
- *   node validate_palette.js "#256abf,#199e70,..." --mode dark --surface "#1a1a19"
- *   node validate_palette.js "#86b6ef,#5598e7,#256abf,#104281" --ordinal
- *
- * Usage (browser — as a module script):
- *   <body data-palette="#2a78d6,#eb6834,..." data-mode="light">
- *   <script type="module" src="validate_palette.js"></script>
- *   → logs a console.table of the report and console.warn on any FAIL.
- *
- * Exit code 0 unless a check hard-FAILs; 1 on any FAIL. WARN bands do not fail:
- * adjacent CVD in the 6–8 floor band, and contrast in the sub-3:1 relief band,
- * are reported as WARNs and still exit 0 (each is legal only with mandatory
- * secondary encoding: direct labels, gaps, or texture). The normal-vision floor
- * is a hard gate: a worst unsimulated pair below 15 FAILs the run.
- */
-
 // ── thresholds ────────────────────────────────────────────────────────────────
 const BAND = { light: [0.43, 0.77], dark: [0.48, 0.67] }; // OKLCH L
 const CHROMA_FLOOR = 0.10; // OKLCH C
@@ -72,16 +35,6 @@ const MACHADO = {
 // ── color conversions ──────────────────────────────────────────────────────────
 const hex2srgb = (h) => { h = h.trim().replace(/^#/, ""); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16) / 255); };
 
-// ── input boundary ── EVERY user-supplied color string (palette entries AND
-// the surface, CLI and browser alike) passes these before any math:
-// unguarded, parseInt propagates NaN through every check and the run fails
-// OPEN. Normalization is spelled out rather than engine-native: JS trim()
-// and Python str.strip() differ at the edges (trim() strips U+FEFF;
-// str.strip() strips U+001C–U+001F and U+0085), so the shared set is their
-// intersection — ASCII whitespace plus the Unicode space/separator
-// characters both engines strip, which also covers the NBSP/em-space
-// padding picked up when copy-pasting hex lists from rendered pages. Keep
-// these three definitions in lockstep with the Python twin.
 const WS_RUN = "[ \\\\t\\\\n\\\\v\\\\f\\\\r\\\\u00a0\\\\u1680\\\\u2000-\\\\u200a\\\\u2028\\\\u2029\\\\u202f\\\\u205f\\\\u3000]+";
 const stripWs = (v) => v.replace(new RegExp(\`^\${WS_RUN}|\${WS_RUN}$\`, "g"), "");
 const splitColors = (raw) => (raw || "").split(",").map(stripWs).filter(Boolean);
@@ -162,12 +115,6 @@ export function validate(palette, { mode = "light", surface, pairs = "adjacent" 
   report.push(["CVD separation", cvdState,
     worst ? \`worst \${label} \${worst[3]}↔\${worst[2]} ΔE \${wd.toFixed(1)} (\${worst[1]}) · tritan \${tri.toFixed(1)}\` : "n/a"]);
 
-  // 4b. Normal-vision floor. The CVD gate protects dichromat readers; this one
-  //     protects everyone else — neighbors must stay easy to tell apart under
-  //     unsimulated vision too. A hard gate: secondary encoding does not
-  //     excuse it, and weak pairs are not masked to keep an existing palette
-  //     validating (this floor forced the first of the July 2026 re-orders
-  //     of the shipped set: same steps, re-ordered, clears 19.6/19.3).
   let nworst = null;
   for (const [i, j] of pairlist) {
     const d = deltaE(palette[i], palette[j]);

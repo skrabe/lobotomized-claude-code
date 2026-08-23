@@ -7,8 +7,6 @@ ccVersion: 2.1.165
 -->
 # MCP Discovery and Connection
 
-How to find and connect MCPs during plugin customization.
-
 ## Available Tools
 
 ### `search_mcp_registry`
@@ -79,17 +77,6 @@ Display Connect buttons to let users install/connect MCPs.
 ### Config File Format
 
 Both wrapped and unwrapped formats are supported:
-
-```json
-{
-  "mcpServers": {
-    "github": {
-      "type": "http",
-      "url": "https://api.githubcopilot.com/mcp/"
-    }
-  }
-}
-```
 
 Use the `url` field from `search_mcp_registry` results.
 

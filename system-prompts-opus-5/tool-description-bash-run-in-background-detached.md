@@ -5,4 +5,4 @@ description: >-
   re-invokes on exit.
 ccVersion: 2.1.178
 -->
-- `run_in_background` runs the command detached: it keeps running across turns and re-invokes you when it exits. No `&` needed.
+- `run_in_background` runs the command detached: it keeps running across turns and re-invokes you when it exits.

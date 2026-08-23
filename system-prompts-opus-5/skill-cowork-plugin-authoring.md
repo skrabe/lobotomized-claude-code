@@ -52,17 +52,6 @@ plugin-name/
 
 Located at \`.claude-plugin/plugin.json\`. Minimal required field is \`name\`.
 
-\`\`\`json
-{
-  "name": "plugin-name",
-  "version": "0.1.0",
-  "description": "Brief explanation of plugin purpose",
-  "author": {
-    "name": "Author Name"
-  }
-}
-\`\`\`
-
 **Name rules:** kebab-case, lowercase with hyphens, no spaces or special characters.
 **Version:** semver format (MAJOR.MINOR.PATCH). Start at \`0.1.0\`.
 
@@ -101,23 +90,6 @@ When a plugin is intended to be shared outside the author's company, it might re
 
 If any tool categories are used, write a \`CONNECTORS.md\` file at the plugin root to explain:
 
-\`\`\`markdown
-# Connectors
-
-## How tool references work
-
-Plugin files use \`~~category\` as a placeholder for whatever tool the user
-connects in that category. Plugins are tool-agnostic — they describe
-workflows in terms of categories rather than specific products.
-
-## Connectors for this plugin
-
-| Category        | Placeholder         | Options                         |
-| --------------- | ------------------- | ------------------------------- |
-| Chat            | \`~~chat\`            | Slack, Microsoft Teams, Discord |
-| Project tracker | \`~~project tracker\` | Linear, Asana, Jira             |
-\`\`\`
-
 ### \${CLAUDE_PLUGIN_ROOT} Variable
 
 Use \`\${CLAUDE_PLUGIN_ROOT}\` for all intra-plugin path references in hooks and MCP configs. Never hardcode absolute paths.
@@ -129,11 +101,6 @@ Build from scratch through a five-phase guided conversation.
 ### Phase 1: Discovery
 
 Understand what the user wants to build and why. Ask (only what is unclear — skip questions the user's initial request already answers):
-
-- What should this plugin do? What problem does it solve?
-- Who will use it and in what context?
-- Does it integrate with any external tools or services?
-- Is there a similar plugin or workflow to reference?
 
 Summarize understanding and confirm before proceeding.
 
@@ -148,45 +115,11 @@ Based on discovery, determine which component types are needed:
 
 Present a component plan table including types you decided not to create:
 
-\`\`\`
-| Component | Count | Purpose |
-|-----------|-------|---------|
-| Skills    | 3     | Domain knowledge for X, /do-thing, /check-thing |
-| Agents    | 0     | Not needed |
-| Hooks     | 1     | Validate writes |
-| MCP       | 1     | Connect to service Y |
-\`\`\`
-
 Get user confirmation before proceeding.
 
 ### Phase 3: Design & Clarifying Questions
 
 Specify each component in detail. Resolve all ambiguities before implementation. Present questions grouped by component type and wait for answers.
-
-**Skills:**
-
-- What user queries should trigger this skill?
-- What knowledge domains does it cover?
-- Should it include reference files for detailed content?
-- If it represents a user-initiated action: what arguments does it accept, and what tools does it need? (Read, Write, Bash, Grep, etc.)
-
-**Agents:**
-
-- Should it trigger proactively or only when requested?
-- What tools does it need?
-- What output format?
-
-**Hooks:**
-
-- Which events? (PreToolUse, PostToolUse, Stop, SessionStart, etc.)
-- What behavior — validate, block, modify, add context?
-- Prompt-based (LLM-driven) or command-based (deterministic script)?
-
-**MCP Servers:**
-
-- What server type? (stdio for local, SSE for hosted with OAuth, HTTP for REST APIs)
-- What authentication method?
-- What tools should be exposed?
 
 If the user says "whatever you think is best," provide specific recommendations and get explicit confirmation.
 
@@ -256,19 +189,6 @@ Check whether the user provided free-form context alongside their request (e.g.,
 
 Use company-internal knowledge MCPs to collect information relevant to the customization scope. See \`references/search-strategies.md\` for detailed query patterns.
 
-**What to gather** (scope to what's relevant):
-
-- Tool names and services the organization uses
-- Organizational processes and workflows
-- Team conventions (naming, statuses, estimation scales)
-- Configuration values (workspace IDs, project names, team identifiers)
-
-**Sources to search:**
-
-1. **Chat/Slack MCPs** — tool mentions, integrations, workflow discussions
-2. **Document MCPs** — onboarding docs, tool guides, setup instructions
-3. **Email MCPs** — license notifications, admin emails, setup invitations
-
 Record all findings for use in Phase 3.
 
 #### Phase 2: Create Todo List
@@ -304,12 +224,6 @@ If the user doesn't know or skips, leave the value unchanged (or the \`~~\`-pref
 #### Phase 4: Search for Useful MCPs
 
 After customization items are resolved, connect MCPs for any tools that were identified or changed. See \`references/mcp-servers.md\` for the full workflow, category-to-keywords mapping, and config file format.
-
-For each tool identified during customization:
-
-1. Search the registry: \`search_mcp_registry(keywords=[...])\` using category keywords from \`references/mcp-servers.md\`, or search for the specific tool name if already known
-2. If unconnected: \`suggest_connectors(directoryUuids=["chosen-uuid"])\` — user completes auth
-3. Update the plugin's MCP config file (check \`plugin.json\` for custom location, otherwise \`.mcp.json\` at root)
 
 Collect all MCP results and present them together in the summary output — don't present MCPs one at a time during this phase.
 
@@ -354,19 +268,6 @@ The \`.plugin\` file will appear in the chat as a rich preview where the user ca
 
 > **Naming**: Use the plugin name from \`plugin.json\` (for create) or the original plugin directory name (for customize) as the \`.plugin\` filename. Do not rename the plugin or its files during customization — only replace placeholder values and update content.
 
-## Best Practices
-
-- **Start small**: Begin with the minimum viable set of components. A plugin with one well-crafted skill is more useful than one with five half-baked components.
-- **Progressive disclosure for skills**: Core knowledge in SKILL.md, detailed reference material in \`references/\`, working examples in \`examples/\`.
-- **Clear trigger phrases**: Skill descriptions should include specific phrases users would say. Agent descriptions should include \`<example>\` blocks.
-- **Skills are for Claude**: Write skill body content as instructions for Claude to follow, not documentation for the user to read.
-- **Imperative writing style**: Use verb-first instructions in skills ("Parse the config file," not "You should parse the config file").
-- **Portability**: Always use \`\${CLAUDE_PLUGIN_ROOT}\` for intra-plugin paths, never hardcoded paths.
-- **Security**: Use environment variables for credentials, HTTPS for remote servers, least-privilege tool access.
-
 ## Additional Resources
 
-- **\`references/component-schemas.md\`** — Detailed format specifications for every component type (skills, agents, hooks, MCP, legacy commands, CONNECTORS.md)
 - **\`references/example-plugins.md\`** — Three complete example plugin structures at different complexity levels
-- **\`references/mcp-servers.md\`** — MCP discovery workflow, category-to-keywords mapping, config file locations, example \`.mcp.json\`
-- **\`references/search-strategies.md\`** — Knowledge MCP query patterns for finding tool names and org values

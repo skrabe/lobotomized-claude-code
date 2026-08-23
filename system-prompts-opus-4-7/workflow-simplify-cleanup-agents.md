@@ -12,8 +12,7 @@ variables:
 -->
 \`/simplify → 4 cleanup agents in parallel → apply the fixes\`
 
-You are improving the quality of the changed code, not hunting for bugs. Review
-it for reuse, simplification, efficiency, and altitude issues, then fix what you
+Review it for reuse, simplification, efficiency, and altitude issues, then fix what you
 find. Do not look for correctness bugs — that is what \`/code-review\` is for.
 
 ${PROMPT_VAR_0}

@@ -5,4 +5,4 @@ description: >-
   reply.
 ccVersion: 2.1.183
 -->
-[Your previous response had no visible output. Please continue and produce a user-visible response.]
+[Your previous response had no visible output. Continue and produce a user-visible response.]

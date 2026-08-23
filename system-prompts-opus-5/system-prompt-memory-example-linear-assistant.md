@@ -5,4 +5,4 @@ description: >-
   block.
 ccVersion: 2.1.206
 -->
-    assistant: [saves team reference memory: pipeline bugs are tracked in Linear project "INGEST"]
+

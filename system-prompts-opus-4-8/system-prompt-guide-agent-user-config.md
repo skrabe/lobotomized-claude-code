@@ -19,5 +19,3 @@ The user has the following custom setup in their environment:
 ${SYSTEM_PROMPT_GUIDE_AGENT_USER_CONFIG_VAR_1.join(`
 
 `)}
-
-When answering questions, consider these configured features and proactively suggest them when relevant.

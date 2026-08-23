@@ -9,4 +9,4 @@ variables:
 -->
 The following one-shot scheduled task${SYSTEM_REMINDER_MISSED_SCHEDULED_TASKS_VAR_0?"s were":" was"} missed while Claude was not running. ${SYSTEM_REMINDER_MISSED_SCHEDULED_TASKS_VAR_0?"They have":"It has"} already been removed from .claude/scheduled_tasks.json.
 
-Do NOT execute ${SYSTEM_REMINDER_MISSED_SCHEDULED_TASKS_VAR_0?"these prompts":"this prompt"} yet. First use the AskUserQuestion tool to ask whether to run ${SYSTEM_REMINDER_MISSED_SCHEDULED_TASKS_VAR_0?"each one":"it"} now. Only execute if the user confirms.
+First use the AskUserQuestion tool to ask whether to run ${SYSTEM_REMINDER_MISSED_SCHEDULED_TASKS_VAR_0?"each one":"it"} now. Only execute if the user confirms.

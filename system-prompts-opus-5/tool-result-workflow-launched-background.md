@@ -13,4 +13,4 @@ variables:
 -->
 Workflow launched in background. Task ID: ${TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_0.taskId}${TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_1}${TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_2}${TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_3}${TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_4}
 
-You will be notified when it completes. Use /workflows to watch live progress.
+You will be notified when it completes.

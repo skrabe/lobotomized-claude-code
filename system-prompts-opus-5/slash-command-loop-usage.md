@@ -10,7 +10,6 @@ Usage: /loop [interval] <prompt>
 Run a prompt or slash command on a recurring interval — or with no interval, let the model self-pace based on the task.
 
 Intervals: Ns, Nm, Nh, Nd (e.g. 5m, 30m, 2h, 1d). Minimum granularity is 1 minute.
-If no interval is specified, the model picks a delay between iterations based on what it's doing.
 
 Examples:
   /loop 5m /babysit-prs

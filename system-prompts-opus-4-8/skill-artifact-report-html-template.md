@@ -10,10 +10,6 @@ ccVersion: 2.1.206
 <title><!-- SLOT: TITLE -->Report</title>
 <style>
   :root {
-    /* Claude Design System (CDS) token literals, light mode — inlined because
-       artifacts render self-contained with no network access. Names match the
-       --cds-* vocabulary so a restyling pass can retune or remap them; they
-       are defaults, not enforcement. */
     --cds-surface-0: #f9f9f7;            /* page canvas */
     --cds-surface-1: #fcfcfb;            /* in-flow card */
     --cds-text-primary: #0b0b0b;
@@ -28,12 +24,6 @@ ccVersion: 2.1.206
     --cds-font-mono: "Anthropic Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     font-family: var(--cds-font-voice);
   }
-  /* Dark mode, CDS dark values (tokens.css [data-mode="dark"]). The frame
-     shell forwards the viewer theme into this document: its kernel stamps
-     html[data-theme="light"|"dark"] for an explicit theme, and removes the
-     stamp for "system" so prefers-color-scheme takes over — these two rules
-     cover both paths, and an explicit light stamp wins over a dark OS.
-     Print stays light below. */
   :root[data-theme="dark"] {
     --cds-surface-0: #0d0d0d;            /* gray-890 */
     --cds-surface-1: #1a1a19;            /* gray-830 */
@@ -108,8 +98,6 @@ ccVersion: 2.1.206
   .appendix h2 { font-size: 19px; color: var(--cds-text-secondary); }
 
   @media print {
-    /* Print is always light, regardless of the screen color scheme or the
-       shell's theme stamp (the selector list out-specifies both dark rules). */
     :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
       --cds-surface-0: #ffffff;
       --cds-surface-1: #fcfcfb;
@@ -132,15 +120,11 @@ ccVersion: 2.1.206
 
   <header class="masthead">
     <p class="eyebrow"><!-- SLOT: optional eyebrow — doc type / date, e.g. "Analysis · June 2026" -->Report</p>
-    <h1><!-- SLOT: TITLE — the document's headline claim or subject -->Document Title</h1>
-    <p class="subtitle"><!-- SLOT: SUBTITLE — one sentence stating the key finding or scope -->One-line summary of what this document establishes.</p>
+    <h1><!-- SLOT: TITLE -->Document Title</h1>
+    <p class="subtitle"><!-- SLOT: SUBTITLE -->One-line summary of what this document establishes.</p>
   </header>
 
-  <!-- SLOT: KEY_TAKEAWAYS (optional)
-       3-5 bullets, ONE LINE each: a single clause with its number or specific —
-       no sub-clauses, no second sentences. The bullet level below the SUBTITLE's
-       single sentence, not a restatement of it. For short documents (a handful
-       of sections, nothing to summarize), omit the whole <aside>. -->
+  <!-- SLOT: KEY_TAKEAWAYS (optional) -->
   <aside class="takeaways" aria-labelledby="takeaways-label">
     <p class="takeaways-label" id="takeaways-label">Key takeaways</p>
     <ul>
@@ -151,21 +135,12 @@ ccVersion: 2.1.206
   <nav class="toc">
     <div class="toc-label">Contents</div>
     <ol>
-      <!-- SLOT: TOC_ITEMS — one <li><a href="#id">Section title</a></li> per h2 below.
-           Fill this AFTER writing SECTIONS, by reading back the h2s you actually wrote.
-           The script at the bottom rebuilds this list from the rendered sections, so a
-           drifted entry self-heals on screen — but this static list is what no-JS
-           contexts see, so it must stand on its own. -->
+      <!-- SLOT: TOC_ITEMS -->
       <li><a href="#s1">Section one</a></li>
     </ol>
   </nav>
 
-  <!-- SLOT: SECTIONS
-       Emit one <section> per major topic. Each section has an id matching its TOC anchor,
-       an <h2>, and body prose. Use <h3> for subsections, <table> for structured data,
-       <pre> for code, <blockquote> for callouts, <figure>+<figcaption> for diagrams and
-       charts — drawn as inline SVG, never external images (see SKILL.md).
-       Write real prose — full sentences, ~65ch lines. Lead each section with its conclusion. -->
+  <!-- SLOT: SECTIONS -->
   <section id="s1">
     <h2>Section heading</h2>
     <p>Body paragraph.</p>
@@ -173,7 +148,7 @@ ccVersion: 2.1.206
 
   <!-- SLOT: APPENDIX (optional)
        Supporting material that would interrupt the main flow: raw data tables,
-       methodology notes, glossary. Omit the whole <section> if not needed. -->
+       methodology notes, glossary. -->
   <section class="appendix">
     <h2>Appendix</h2>
     <p>Supplementary detail.</p>
@@ -182,20 +157,11 @@ ccVersion: 2.1.206
 </article>
 
 <script>
-  // Rebuild the TOC from the sections actually present, so every entry is
-  // guaranteed to match a real heading and its anchor resolves. The static
-  // TOC_ITEMS list above remains as-authored wherever scripts don't run.
   (() => {
     const list = document.querySelector('nav.toc ol')
-    // :not(.appendix) keeps parity with the TOC_ITEMS contract (one entry
-    // per SECTIONS h2), so JS and no-JS renders show the same list.
     const heads = document.querySelectorAll('article.doc > section:not(.appendix) > h2')
     const sections = document.querySelectorAll('article.doc section:not(.appendix)')
     if (!list) return
-    // Rebuilding from a partial match (some sections wrapped or missing
-    // their h2) would drop entries the static list has — never degrade
-    // below the static fallback. data-toc makes the outcome readable from
-    // the DOM, so a stale-TOC report can be triaged from a screenshot.
     if (heads.length === 0 || heads.length < sections.length) {
       list.dataset.toc = heads.length === 0 ? 'static-no-heads' : 'static-partial-match'
       return
@@ -214,4 +180,3 @@ ccVersion: 2.1.206
     })
   })()
 </script>
-

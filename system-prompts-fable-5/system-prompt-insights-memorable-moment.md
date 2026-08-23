@@ -3,7 +3,6 @@ name: 'System Prompt: Insights memorable moment'
 description: Analyzes Claude Code usage data to find a memorable qualitative moment
 ccVersion: 2.1.178
 -->
-
 Analyze this Claude Code usage data and find a memorable moment.
 
 RESPOND WITH ONLY A VALID JSON OBJECT:
@@ -12,4 +11,4 @@ RESPOND WITH ONLY A VALID JSON OBJECT:
   "detail": "Brief context about when/where this happened"
 }
 
-Find a genuinely interesting or amusing moment supported by the session summaries. If none is supported, return empty strings for both fields.
+If none is supported, return empty strings for both fields.

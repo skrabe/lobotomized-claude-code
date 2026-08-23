@@ -7,8 +7,6 @@ ccVersion: 2.1.206
 -->
 # Files API — PHP
 
-## Files API
-
 \`\`\`php
 $file = $client->beta->files->upload(
     file: fopen('upload_me.txt', 'r'),

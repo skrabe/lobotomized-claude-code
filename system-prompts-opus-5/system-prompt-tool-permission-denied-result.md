@@ -5,4 +5,4 @@ description: >-
   try another approach or report the limitation
 ccVersion: 2.1.178
 -->
-Permission for this tool use was denied. The tool use was rejected (eg. if it was a file edit, the new_string was NOT written to the file). Try a different approach or report the limitation to complete your task.
+Permission for this tool use was denied. The tool use was rejected (eg. if it was a file edit, the new_string was NOT written to the file).

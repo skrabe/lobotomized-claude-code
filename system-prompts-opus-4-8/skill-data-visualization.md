@@ -25,24 +25,9 @@ description: >
 
 # Data Visualization
 
-A chart is **read by people and executed by you**. This skill turns "make it look
-good" into a procedure with checks, so the result is right by construction rather
-than by taste.
-
-**The method here is design-system-agnostic.** Nothing in the procedure, the form
-heuristic, the six checks, or the mark specs is specific to one product. A design
-system supplies a small set of *parameters* (its ramps, a categorical order, a
-diverging pair, a status palette, a texture, its surfaces, its filter components);
-the method consumes them unchanged. A **validated default palette** is the
-reference instance, fully specified in \`references/palette.md\`. To target your
-brand, read that file's structure and substitute its values — touch nothing else.
-
-> The single most important habit: **the color part is computable, so compute it.**
-> Never eyeball whether a palette is colorblind-safe — run \`scripts/validate_palette.js\`.
-
 ## The procedure — do these in order
 
-Color comes LAST. Most bad charts pick colors first.
+Color comes LAST.
 
 1. **Pick the form.** What is the data's job — magnitude, identity, polarity, a
    single headline, change-over-time? The job picks the chart type, and sometimes
@@ -117,9 +102,6 @@ instance — every value filled in — is \`references/palette.md\`.
 | **Texture fill** | one directional hand-drawn fill, used at 45° / 135° |
 | **Surfaces** | light & dark chart-surface colors (the validator needs these) |
 | **Filter controls** | date-range & dimension controls (behavioral spec in \`interaction.md\`) |
-
-To onboard a new system: fill those rows, feed its ramps to the validator, and let
-it snap each slot to the nearest passing step. Structure and rules stay as written.
 
 ## Reference files
 

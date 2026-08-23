@@ -31,21 +31,18 @@ The data is the only thing allowed to be loud.
   of the mark's hover/hit target, not just spacing — see \`interaction.md\` (small dots
   are easy to under-size for hover).
 
-Never draw a border around a mark to separate it. The gap and the ring are the
-mechanism; a stroke adds data-weight ink that isn't data.
+Never draw a border around a mark to separate it.
 
 ## Labels & legend
 
 A **legend is always present for two or more series** — the dependable identity
 channel; never make the reader rely on color-matching alone. Direct labels then ride
 the marks to *supplement* it. **A single series needs no legend box**: there is only
-one color, so the chart's title or subtitle already says what is plotted. A box with
-one swatch restates the title and costs space.
+one color, so the chart's title or subtitle already says what is plotted.
 
 - **Label selectively — never a number on every point.** A value beside every dot or
   segment is chaos and goes unread. Label the endpoint, the extreme, or the one series
   the story is about; let the axis, the legend, and the tooltip/table carry the rest.
-  Direct labels work *because* they are sparing — flood the chart and they stop working.
 - **Direct labels before gridlines; gridlines before a second axis.**
 - **A label that won't fit doesn't get clipped — measure first.** Only place a label
   *inside* a bar or stacked segment when the rendered text fits with comfortable

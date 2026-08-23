@@ -10,14 +10,7 @@ ccVersion: 2.1.210
 <style>
   :root {
     /* Default styling = CDS token values, hardcoded because published artifacts
-       render outside the CDS scope (no --cds-* vars at runtime). Source:
-       packages/cds/src/generated/tokens.css in anthropics/apps, fetched
-       2026-07-08 via the GitHub contents API — which the ant-cds skill names as
-       the regenerated source of truth (packages/cds/tokens/ → src/generated/tokens.css).
-       Resolution chains: surface-0=#f9f9f7 · surface-1=#fcfcfb ·
-       text-primary→neutral-900→gray-900=#0b0b0b · text-secondary=#52514e ·
-       border=rgba(11,11,11,.1) · text-accent=#184f95 ·
-       text-success→green-600=#006300 · text-danger→red-600=#8e2626.
+       render outside the CDS scope (no --cds-* vars at runtime).
        --row-hover is deliberately NOT a named token (derived hover wash).
        Hardcoded copies drift if tokens.css regenerates — acceptable for a
        template default; restyling on top makes a refresh a trivial :root swap.

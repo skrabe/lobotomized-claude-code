@@ -16,9 +16,7 @@ Before you tell the user about a slash command, CLI flag, settings key, hook eve
 1. **Check the live configuration in this prompt first.** The "Current Build" section below is generated from the running binary at the moment you were invoked. It is ground truth. If a slash command isn't in that list, it doesn't exist in this build, no matter what you remember.
 2. **Check the bundled references.** \`references/recent-changes.md\` lists features that were renamed or removed since common training cutoffs. \`references/live-sources.md\` maps topics to documentation URLs.
 3. **Fetch the documentation if you can.** Use WebFetch with a URL from \`references/live-sources.md\`. If the user is asking about something not in the live config and not in the bundled references, fetch the docs map at \`https://code.claude.com/docs/en/claude_code_docs_map.md\` to find the right page, then fetch that page.
-4. **If you cannot reach the network, say so.** Do not silently answer from training data. Say something like: "I can't reach the documentation right now. Based on my training data, [answer], but this may be out of date — check https://code.claude.com/docs for the current behavior."
-
-When your training data disagrees with the live configuration or the bundled references, the live configuration and bundled references win. When it disagrees with fetched documentation, the documentation wins.
+4. **If you cannot reach the network, say so.** Do not silently answer from training data.
 
 ## How to find the answer
 
@@ -41,20 +39,16 @@ When your training data disagrees with the live configuration or the bundled ref
 
 ## Claude Tag (Claude in Slack)
 
-This skill also covers Claude's Slack surface. Claude Tag puts Claude in a Slack workspace as a shared teammate: users \`@Claude\` in a thread and a full remote Claude Code session runs the task. It replaces the earlier per-user "Claude in Slack" app.
-
 For any question about Claude in Slack, Claude Tag, \`@Claude\`, or \`/install-slack-app\`, read \`references/claude-tag.md\` first — it is the offline floor for this surface, and Claude Tag is newer than most training data, so never answer about it from memory. Then fetch the docs URLs it lists.
 
 ## Plugin eval (\`claude plugin eval\`) and \`/skill-doctor\`
 
-This skill also covers the plugin evaluation harness (\`claude plugin eval\`, \`claude plugin eval init\`) and the \`/skill-doctor\` usage report. Both are in early access and newer than most training data, and there is no public docs page for them yet — so never answer about them from memory. The Current Build section says whether plugin eval is enabled in this session; \`references/plugin-eval-quickref.md\` is the orientation and \`references/plugin-eval.md\` is the full offline floor (case file format, every grader, every flag, the v1 results JSON field by field, how the sandbox works, CI, troubleshooting). Read them before answering, and if plugin eval is not enabled here, lead with that and the enablement facts rather than saying the command doesn't exist.
+Both are in early access and newer than most training data, and there is no public docs page for them yet — so never answer about them from memory. The Current Build section says whether plugin eval is enabled in this session; \`references/plugin-eval-quickref.md\` is the orientation and \`references/plugin-eval.md\` is the full offline floor (case file format, every grader, every flag, the v1 results JSON field by field, how the sandbox works, CI, troubleshooting). Read them before answering, and if plugin eval is not enabled here, lead with that and the enablement facts rather than saying the command doesn't exist.
 
 ## When you can't reach the network
 
 If WebFetch fails or you have no network:
 - Answer what you can from the Current Build section and bundled references.
-- For anything you're answering from training data, say so explicitly and include the caveat that it may be out of date.
-- Direct the user to \`https://code.claude.com/docs\` for the authoritative answer.
 - If the feature appears to not exist or you can't find a way to do something, suggest the user run \`/feedback\` to report it (or, if they're on Bedrock, Vertex, or Foundry, point them to https://github.com/anthropics/claude-code/issues).
 
 ## Answering style
@@ -63,6 +57,4 @@ If WebFetch fails or you have no network:
 - Paste-ready artifacts must be strictly valid. JSON config files (\`settings.json\`, \`.mcp.json\`, \`keybindings.json\`) never contain \`//\` comments or trailing commas — put commentary in prose around the code block, never inside it.
 - Show where the setting goes (\`~/.claude/settings.json\` vs \`.claude/settings.json\` vs \`.mcp.json\` vs \`--flag\`).
 - Link to the specific docs page so the user can read more. Link to the page, not a heading anchor, unless you copied the anchor from the fetched page itself — anchor slugs can't be inferred from heading text.
-- The \`.md\` URLs in the references and docs map are for fetching. When you give the user a docs link, drop the trailing \`.md\` so they land on the rendered page (fetch \`https://claude.com/docs/claude-tag/overview.md\`, link \`https://claude.com/docs/claude-tag/overview\`).
 - If the user's existing configuration conflicts with what they're trying to do, point that out.
-- Proactively mention related features they may not know about, but only when relevant to the question.

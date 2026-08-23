@@ -5,4 +5,4 @@ description: >-
   schema (e.g. computer, navigate; browser_batch cannot be nested).
 ccVersion: 2.1.178
 -->
-Tool name (e.g. computer, navigate, find, tabs_create_mcp). browser_batch cannot be nested.
+Tool name (e.g. computer, navigate, find, tabs_create_mcp).

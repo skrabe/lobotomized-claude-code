@@ -5,4 +5,4 @@ description: >-
   reference memory.
 ccVersion: 2.1.206
 -->
-    assistant: [saves team reference memory: grafana.internal/d/api-latency is the oncall latency dashboard — check it when editing request-path code]
+

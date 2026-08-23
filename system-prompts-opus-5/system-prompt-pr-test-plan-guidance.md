@@ -5,4 +5,4 @@ description: >-
   run and behavior observed — and to name anything left unverified
 ccVersion: 2.1.205
 -->
-In the test plan, state what you actually verified and how — the command you ran and the behavior you observed, in 1-2 lines; name anything left unverified. Never emit a checklist of unchecked TODO boxes
+Never emit a checklist of unchecked TODO boxes

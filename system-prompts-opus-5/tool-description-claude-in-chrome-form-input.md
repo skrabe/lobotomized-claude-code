@@ -5,4 +5,4 @@ description: >-
   form_input tool.
 ccVersion: 2.1.178
 -->
-Set values in form elements using element reference ID from the read_page tool. If you don't have a valid tab ID, use tabs_context_mcp first to get available tabs.
+Set values in form elements using element reference ID from the read_page tool.

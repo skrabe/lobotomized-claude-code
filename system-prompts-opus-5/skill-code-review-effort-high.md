@@ -20,8 +20,7 @@ variables:
 \`high effort → 3+5 angles × 6 candidates → 1-vote verify (recall-biased) → ≤10 findings\`
 
 You are reviewing for **recall** at high effort: catch every real bug a careful
-reviewer would catch in one sitting. At this level, catching real bugs matters
-more than avoiding false positives. Err on the side of surfacing.
+reviewer would catch in one sitting. Err on the side of surfacing.
 
 ${PHASE_0_GATHER_DIFF}
 ## Phase 1 — Find candidates (3 correctness angles + 3 cleanup angles + 1 altitude angle + 1 conventions angle, up to 6 each)

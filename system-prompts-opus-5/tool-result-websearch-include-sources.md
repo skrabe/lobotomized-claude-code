@@ -8,4 +8,3 @@ description: >-
 ccVersion: 2.1.191
 -->
 
-REMINDER: You MUST include the sources above in your response to the user using markdown hyperlinks.

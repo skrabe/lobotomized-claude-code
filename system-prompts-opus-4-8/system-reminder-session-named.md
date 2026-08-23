@@ -7,4 +7,4 @@ ccVersion: 2.1.191
 variables:
   - SYSTEM_REMINDER_SESSION_NAMED_VAR_0
 -->
-The user named this session "${SYSTEM_REMINDER_SESSION_NAMED_VAR_0}". This may indicate the session's focus or intent.
+The user named this session "${SYSTEM_REMINDER_SESSION_NAMED_VAR_0}".

@@ -5,4 +5,4 @@ description: >-
   initialized.
 ccVersion: 2.1.206
 -->
-LSP server manager not initialized. This may indicate a startup issue.
+LSP server manager not initialized.

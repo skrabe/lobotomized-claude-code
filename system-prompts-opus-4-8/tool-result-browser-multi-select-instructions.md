@@ -6,4 +6,4 @@ description: >-
   browser-selection option.
 ccVersion: 2.1.206
 -->
-If the user picks the final option, call switch_browser — this sends a confirmation prompt to every connected Chrome extension and waits for the user to click Connect in the one they want; it also lets them name that browser.
+If the user picks the final option, call switch_browser.

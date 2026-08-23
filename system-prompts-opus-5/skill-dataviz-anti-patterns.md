@@ -7,26 +7,17 @@ ccVersion: 2.1.210
 -->
 # Anti-patterns — what goes wrong
 
-Check every chart against this list. If your output matches an entry, it is wrong —
-fix it before shipping. These are real failure modes, each caught in shipping
-dashboards.
-
 ## Color & encoding
 
 **❌ Dual-axis charts (two y-scales on one plot).**
-Why it misleads: the alignment of the two scales is arbitrary, so the chart invents a
-correlation that isn't in the data. Real example: an "Adoption" chart plotting Users
-(0–30k) against Sessions (0–800k) — a reviewer flagged it as looking "hallucinated."
 ✅ Do instead: two charts, small multiples, or index both series to a common base
 (=100 at t0) on **one** axis.
 
 **❌ Recolor-on-filter.** Assigning colors by current rank, so filtering out a series
 repaints the survivors.
-Why: a reader who learned "Acme is blue" is now misled.
 ✅ Color follows the entity, not its row number. Survivors keep their hue.
 
 **❌ Cycling / generating hues past 8.** A 9th categorical color, generated or reused.
-Why: indistinguishable from an existing slot under CVD; breaks the order check.
 ✅ Fold the tail into "Other," facet into small multiples, or use composite encoding.
 
 **❌ Eyeballing colorblind-safety.** "These look different enough."
@@ -34,9 +25,6 @@ Why: indistinguishable from an existing slot under CVD; breaks the order check.
 
 **❌ A value-ramp on nominal categories.** Coloring each bar darker-where-bigger
 when the categories have no natural order (products, teams, endpoints).
-Why: it double-encodes bar length as hue, burns the only free channel on
-information the chart already shows, and fails the categorical checks by design
-(a ramp spans the lightness band and drops below the chroma floor).
 ✅ One series → one color (slot 1) for every bar. Ordered categories (funnel,
 tiers, age bands) → the ordinal ramp, validated with \`--ordinal\`.
 
@@ -45,8 +33,6 @@ tiers, age bands) → the ordinal ramp, validated with \`--ordinal\`.
 sequential exceptions, always with a scale legend.)
 
 **❌ A hue at the diverging midpoint, or two cool hues as the two poles.**
-Why: the midpoint must read as "nothing"; poles must read as opposite. blue↔aqua
-fails this (both cool); blue↔red or blue↔orange succeed (warm/cool).
 ✅ Two hues that read as opposite + a neutral gray midpoint.
 
 **❌ Status color used for a non-status series** (or a series color used for status).

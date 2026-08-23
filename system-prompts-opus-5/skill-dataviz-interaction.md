@@ -9,7 +9,6 @@ ccVersion: 2.1.199
 
 An HTML chart is interactive by default — the hover layer is part of the deliverable,
 not an upgrade. Omitting it is the exception (a bare stat tile), never the default.
-Design it with the same care as the static render.
 
 ## Tooltips & hover
 
@@ -60,8 +59,3 @@ chart chrome. Dataviz only adds composition rules:
   against the same slice, so the numbers always agree.
 - **Refetch keeps the frame.** While data reloads, charts hold their previous render
   at reduced opacity — no skeleton, no layout jump, no flash.
-
-A good date picker lists presets as rows (nobody fights a calendar grid for "last 30
-days"), marks selection with a 16px bold check, keeps hover a ghost wash so it never
-competes with selection, and tucks the custom range behind a hairline in the footer.
-(See \`palette.md\` for the reference spec.)

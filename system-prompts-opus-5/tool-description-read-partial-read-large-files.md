@@ -5,4 +5,4 @@ description: >-
   larger files.
 ccVersion: 2.1.178
 -->
-- When you already know which part of the file you need, only read that part. This can be important for larger files.
+- When you already know which part of the file you need, only read that part.

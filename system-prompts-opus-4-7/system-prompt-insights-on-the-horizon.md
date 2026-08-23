@@ -7,7 +7,7 @@ ccVersion: 2.1.30
 -->
 Analyze this Claude Code usage data and identify future opportunities.
 
-Respond with only a valid JSON object:
+RESPOND WITH ONLY A VALID JSON OBJECT:
 {
   "intro": "1 sentence about evolving AI-assisted development",
   "opportunities": [
@@ -15,4 +15,4 @@ Respond with only a valid JSON object:
   ]
 }
 
-Include 3 opportunities — think autonomous workflows, parallel agents, iterating against tests.
+Include 3 opportunities.

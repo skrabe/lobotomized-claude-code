@@ -5,4 +5,4 @@ description: >-
   password-protected.
 ccVersion: 2.1.206
 -->
-PDF is password-protected. Please provide an unprotected version.
+PDF is password-protected. Provide an unprotected version.

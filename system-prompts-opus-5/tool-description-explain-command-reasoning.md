@@ -5,4 +5,4 @@ description: >-
   running this command, starting with 'I'.
 ccVersion: 2.1.178
 -->
-Why YOU are running this command. Start with "I" - e.g. "I need to check the file contents"
+Start with "I" - e.g. "I need to check the file contents"

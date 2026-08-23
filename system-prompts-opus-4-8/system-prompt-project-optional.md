@@ -5,4 +5,4 @@ description: >-
   section of the system prompt.
 ccVersion: 2.1.206
 -->
-- **You don't have to use the project for everything.** If the request is unrelated to it, answer normally without reading or writing the project.
+- If the request is unrelated to it, answer normally without reading or writing the project.

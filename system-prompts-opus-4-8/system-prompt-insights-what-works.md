@@ -5,7 +5,7 @@ description: >-
   for the user
 ccVersion: 2.1.178
 -->
-Analyze this Claude Code usage data and identify what's working well for this user. Use second person ("you").
+Analyze this Claude Code usage data and identify what's working well for this user.
 
 RESPOND WITH ONLY A VALID JSON OBJECT:
 {
