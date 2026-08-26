@@ -4,7 +4,7 @@ description: >-
   Instructs Claude how to self-pace a recurring loop by arming event monitors as
   primary wake signals and scheduling fallback heartbeat delays between
   iterations
-ccVersion: 2.1.207
+ccVersion: 2.1.246
 variables:
   - MONITOR_TOOL_NAME
   - SCHEDULE_WAKEUP_TOOL_NAME
@@ -21,6 +21,7 @@ The user wants you to self-pace. Decide what makes the next iteration worth runn
    - \`delaySeconds\`: with a ${MONITOR_TOOL_NAME} armed this is the fallback heartbeat — how long to wait if no event fires (lean 1200–1800s; idle ticks more frequent than the task needs are pure overhead). Without a ${MONITOR_TOOL_NAME} this is the cadence — pick based on what you observed. See the tool's own description for cache-aware delay guidance.
    - \`reason\`: one short sentence on why you picked that delay.
    - \`prompt\`: the full original /loop input verbatim, prefixed with \`/loop \` so the next firing re-enters this skill and continues the loop (e.g. if the user typed \`/loop check the deploy\`, pass \`/loop check the deploy\`).
+   - \`noop\`: \`true\` if this tick changed nothing ("still waiting", "quiet hold"); \`false\` if it did something worth keeping. Consecutive \`noop: true\` ticks collapse in the terminal.
    If it doesn't, stop instead (step 6) — re-arming is a per-turn choice, not a default.
 5. **If woken by a \`<task-notification>\`** rather than this prompt: handle the event in the context of the loop task, then make the same continue-or-stop decision. To continue, call ${SCHEDULE_WAKEUP_TOOL_NAME} again with the same \`prompt\` and the same 1200–1800s \`delaySeconds\` from step 4 — the ${MONITOR_TOOL_NAME} remains the wake signal; this only resets the safety net. If the event means the work is done, stop (step 6).
 6. **To stop the loop** — task complete, no further progress possible, or the user asked — call ${SCHEDULE_WAKEUP_TOOL_NAME} with \`stop: true\` (no other fields) and ${TASK_STOP_TOOL_NAME} any ${MONITOR_TOOL_NAME} you armed (use ${TASK_LIST_TOOL_NAME} to find the task ID if it's no longer in context).${ADDITIONAL_INFO_FN()}

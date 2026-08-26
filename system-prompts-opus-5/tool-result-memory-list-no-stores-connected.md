@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Result: No memory stores connected'
-description: >-
-  memory_list tool_result content when the no-argument store listing comes back
-  empty.
-ccVersion: 2.1.224
+name: 'Tool Result: No Memory Stores Connected'
+description: Fallback memory_list tool_result when the session's store list is empty.
+ccVersion: 2.1.246
 -->
-No memory stores are connected to this session.
+No memory stores are available in this session.

@@ -1,8 +1,10 @@
 <!--
 name: 'Tool Description: Computer Triple Click'
 description: >-
-  Description of the computer tool's triple_click action: selects a line;
-  frontmost app must be in the session allowlist.
-ccVersion: 2.1.178
+  Description of the computer-use triple_click action: select a line at the
+  given coordinates.
+ccVersion: 2.1.246
+variables:
+  - TOOL_DESCRIPTION_COMPUTER_TRIPLE_CLICK_VAR_0
 -->
-Triple-click at the given coordinates. Selects a line in most text editors. The frontmost application must be in the session allowlist at the time of this call, or this tool returns an error and does nothing.
+Triple-click at the given coordinates. Selects a line in most text editors. ${TOOL_DESCRIPTION_COMPUTER_TRIPLE_CLICK_VAR_0}

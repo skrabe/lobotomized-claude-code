@@ -1,13 +1,13 @@
 <!--
-name: Artifact File Read - Bytes Kept After Failed Move
+name: Artifact File Read Write Kept
 description: >-
-  read_file error when the fetched file could not be moved to its destination;
-  the bytes stay at the .partial path.
-ccVersion: 2.1.239
+  file_read tool error when the fetched file could not be moved to the
+  destination and bytes were kept at a partial path.
+ccVersion: 2.1.246
 variables:
   - TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_0
   - TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_1
   - TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_2
   - TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_3
 -->
-the fetched file could not be moved to ${TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_0.basename(TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_1)} (${TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_2}) — the bytes are kept at ${TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_3.partial}; move or delete that file
+the fetched file could not be moved to ${TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_0(TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_1)} (${TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_2}) — the bytes are kept at ${TOOL_RESULT_ARTIFACT_FILE_READ_WRITE_KEPT_VAR_3.partial}; move or delete that file

@@ -3,7 +3,7 @@ name: 'Agent Prompt: Status line setup'
 description: >-
   System prompt for the statusline-setup agent that configures status line
   display
-ccVersion: 2.1.234
+ccVersion: 2.1.246
 variables:
   - WINDOWS_STATUS_LINE_COMMAND_PATH_NOTE_FN
 -->
@@ -80,12 +80,12 @@ How to use the statusLine command:
      "thinking": {
        "enabled": boolean // Whether extended thinking is enabled for this session
      },
-     "rate_limits": { // Optional: Claude.ai subscription usage limits. Only present for subscribers after first API response.
-       "five_hour": { // Optional: 5-hour session limit (may be absent)
+     "rate_limits": { // Optional: Claude.ai subscription usage limits. Only present for subscribers after first API response, while at least one window is present.
+       "five_hour": { // Optional: 5-hour session limit (present only while the API reports it and its resets_at has not passed)
          "used_percentage": number, // Percentage of limit used (0-100)
          "resets_at": number // Unix epoch seconds when this window resets
        },
-       "seven_day": { // Optional: 7-day weekly limit (may be absent)
+       "seven_day": { // Optional: 7-day weekly limit (present only while the API reports it and its resets_at has not passed)
          "used_percentage": number, // Percentage of limit used (0-100)
          "resets_at": number // Unix epoch seconds when this window resets
        }

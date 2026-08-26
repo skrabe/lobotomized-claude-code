@@ -1,11 +1,11 @@
 <!--
-name: 'Tool result: Artifact files map value invalid'
+name: 'Tool Result: Artifact Files Map Value Invalid'
 description: >-
-  Validation error when a files map value is neither a source path string nor a
-  {from, contentType?} object, returned to the model.
-ccVersion: 2.1.218
+  files-map validation error stating a value must be a source path string, `{
+  from, contentType? }`, or null to remove that file.
+ccVersion: 2.1.246
 variables:
   - TOOL_RESULT_ARTIFACT_FILES_MAP_VALUE_INVALID_VAR_0
   - TOOL_RESULT_ARTIFACT_FILES_MAP_VALUE_INVALID_VAR_1
 -->
-files: the value for ${TOOL_RESULT_ARTIFACT_FILES_MAP_VALUE_INVALID_VAR_0(TOOL_RESULT_ARTIFACT_FILES_MAP_VALUE_INVALID_VAR_1)} must be a source path string or { from, contentType? }
+In \`files\`, the value for ${TOOL_RESULT_ARTIFACT_FILES_MAP_VALUE_INVALID_VAR_0(TOOL_RESULT_ARTIFACT_FILES_MAP_VALUE_INVALID_VAR_1)} needs to be a source path string, \`{ from, contentType? }\`, or \`null\` (to remove that file).

@@ -6,4 +6,4 @@ description: >-
   on interrupted-turn and deferred-tool auto-resume.
 ccVersion: 2.1.224
 -->
-Continue from where you left off. This session was automatically restarted after its process exited unexpectedly; the user has not sent a new message since the restart. Work in flight when the process died did not complete.
+Continue from where you left off. This session moved to a new runner; files you created earlier may no longer exist, so verify the working directory state before relying on prior edits.

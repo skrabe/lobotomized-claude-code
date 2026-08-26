@@ -3,6 +3,6 @@ name: 'Tool Description: Computer Scroll'
 description: >-
   computer-use scroll tool: scroll at the given coordinates; requires the app to
   be in the session allowlist
-ccVersion: 2.1.178
+ccVersion: 2.1.246
 -->
-Scroll at the given coordinates. The frontmost application must be in the session allowlist at the time of this call, or this tool returns an error and does nothing.
+Scroll at the given coordinates. ${TOOL_DESCRIPTION_COMPUTER_SCROLL_VAR_0}

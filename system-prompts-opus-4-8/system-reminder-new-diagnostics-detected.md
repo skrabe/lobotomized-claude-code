@@ -1,11 +1,11 @@
 <!--
 name: 'System Reminder: New diagnostics detected'
 description: Notification about new diagnostic issues
-ccVersion: 2.1.122
+ccVersion: 2.1.246
 variables:
-  - DIAGNOSTICS_TRACKER_CLASS
+  - FORMAT_DIAGNOSTICS_SUMMARY_FN
   - DIAGNOSTICS_LIST
 -->
 <new-diagnostics>The following new diagnostic issues were detected:
 
-${DIAGNOSTICS_TRACKER_CLASS.formatDiagnosticsSummary(DIAGNOSTICS_LIST)}</new-diagnostics>
+${FORMAT_DIAGNOSTICS_SUMMARY_FN(DIAGNOSTICS_LIST)}</new-diagnostics>

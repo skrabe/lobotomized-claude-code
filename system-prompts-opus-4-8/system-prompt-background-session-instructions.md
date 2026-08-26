@@ -3,7 +3,7 @@ name: 'System Prompt: Background session instructions'
 description: >-
   Instructions for background job sessions to use the job-specific temporary
   directory and follow the appropriate worktree isolation guidance
-ccVersion: 2.1.221
+ccVersion: 2.1.246
 variables:
   - PATH_MODULE
   - CLAUDE_JOB_DIR

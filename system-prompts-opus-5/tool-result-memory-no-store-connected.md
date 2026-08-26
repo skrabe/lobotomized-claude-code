@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Result: No memory store connected'
-description: >-
-  Refusal returned by the memory tools when no memory store is bound to the
-  session (non-connecting case).
-ccVersion: 2.1.224
+name: 'Tool Result: No Memory Store Connected'
+description: Memory-tool refusal when this session has no memory store bound.
+ccVersion: 2.1.246
 -->
-No memory store is connected to this session.
+No memory store is available in this session.

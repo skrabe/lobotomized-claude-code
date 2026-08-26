@@ -3,15 +3,14 @@ name: 'Tool Description: ScheduleWakeup delay and reason guidance'
 description: >-
   Composite ScheduleWakeup tool-description extension covering noop reporting,
   cache-aware delaySeconds selection, and the reason field.
-ccVersion: 2.1.210
+ccVersion: 2.1.246
 variables:
   - SCHEDULE_WAKEUP_BASE_DESCRIPTION
-  - INCLUDE_NOOP_GUIDANCE
   - PROMPT_CACHE_TTL_CLASSIFICATION
 -->
-${SCHEDULE_WAKEUP_BASE_DESCRIPTION}${INCLUDE_NOOP_GUIDANCE?`
+${SCHEDULE_WAKEUP_BASE_DESCRIPTION}
 
-${'Consecutive `noop: true` ticks are collapsed in the user\'s terminal view and tracked as a streak, so long quiet holds stay legible to the user without scrolling.'}`:""}
+${'Consecutive `noop: true` ticks are collapsed in the user\'s terminal view and tracked as a streak, so long quiet holds stay legible to the user without scrolling.'}
 
 ${PROMPT_CACHE_TTL_CLASSIFICATION===!0?`## Picking delaySeconds
 

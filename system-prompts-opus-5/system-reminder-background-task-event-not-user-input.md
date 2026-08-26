@@ -3,7 +3,7 @@ name: 'System Reminder: Background-task event not user input'
 description: >-
   Prefix note stamped onto background-task events warning the model this is not
   user acknowledgement/consent
-ccVersion: 2.1.205
+ccVersion: 2.1.237
 -->
 ${"[SYSTEM NOTIFICATION - NOT USER INPUT]"}
 This is an automated background-task event, NOT a message from the user.

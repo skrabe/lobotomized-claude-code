@@ -4,7 +4,7 @@ description: >-
   Describes the Artifact tool for deploying self-contained HTML or Markdown
   pages, including file-first usage, update behavior, CSP constraints,
   responsive design, and favicon requirements
-ccVersion: 2.1.239
+ccVersion: 2.1.246
 variables:
   - ARTIFACT_DESIGN_SKILL_NAME
   - WORKSHOP_SKILL_NAME
