@@ -1,0 +1,13 @@
+<!--
+name: 'Data: Auto Mode Projects Owner Ask Reply Wrapper'
+description: >-
+  Formats a reconstructed coordinator ask/reply pair as assistant API text when
+  auto-mode project owner rows are folded into the transcript.
+ccVersion: 2.1.246
+variables:
+  - DATA_AUTO_MODE_PROJECTS_OWNER_ASK_REPLY_WRAPPER_VAR_0
+  - DATA_AUTO_MODE_PROJECTS_OWNER_ASK_REPLY_WRAPPER_VAR_1
+  - DATA_AUTO_MODE_PROJECTS_OWNER_ASK_REPLY_WRAPPER_VAR_2
+-->
+${DATA_AUTO_MODE_PROJECTS_OWNER_ASK_REPLY_WRAPPER_VAR_0(DATA_AUTO_MODE_PROJECTS_OWNER_ASK_REPLY_WRAPPER_VAR_1.ask,DATA_AUTO_MODE_PROJECTS_OWNER_ASK_REPLY_WRAPPER_VAR_1.reply)}
+${DATA_AUTO_MODE_PROJECTS_OWNER_ASK_REPLY_WRAPPER_VAR_2(DATA_AUTO_MODE_PROJECTS_OWNER_ASK_REPLY_WRAPPER_VAR_1.ask.text)}

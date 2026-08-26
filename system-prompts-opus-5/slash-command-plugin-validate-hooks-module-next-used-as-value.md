@@ -1,0 +1,12 @@
+<!--
+name: 'Plugin validate: next(e) used as a value'
+description: >-
+  Hooks-module scan refusal when next(e) at engine.create is used as a value
+  other than the allowed forms.
+ccVersion: 2.1.246
+variables:
+  - SLASH_COMMAND_PLUGIN_VALIDATE_HOOKS_MODULE_NEXT_USED_AS_VALUE_VAR_0
+  - SLASH_COMMAND_PLUGIN_VALIDATE_HOOKS_MODULE_NEXT_USED_AS_VALUE_VAR_1
+  - SLASH_COMMAND_PLUGIN_VALIDATE_HOOKS_MODULE_NEXT_USED_AS_VALUE_VAR_2
+-->
+the value of next(e) at engine.create is ${SLASH_COMMAND_PLUGIN_VALIDATE_HOOKS_MODULE_NEXT_USED_AS_VALUE_VAR_0(SLASH_COMMAND_PLUGIN_VALIDATE_HOOKS_MODULE_NEXT_USED_AS_VALUE_VAR_1,SLASH_COMMAND_PLUGIN_VALIDATE_HOOKS_MODULE_NEXT_USED_AS_VALUE_VAR_2)}

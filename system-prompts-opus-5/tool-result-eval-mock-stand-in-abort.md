@@ -1,0 +1,13 @@
+<!--
+name: 'Tool Result: Eval Mock Stand-In Abort'
+description: >-
+  Returns an eval mock MCP stand-in abort as an isError tool result naming
+  nonce, server, and tool.
+ccVersion: 2.1.246
+variables:
+  - TOOL_RESULT_EVAL_MOCK_STAND_IN_ABORT_VAR_0
+  - TOOL_RESULT_EVAL_MOCK_STAND_IN_ABORT_VAR_1
+  - TOOL_RESULT_EVAL_MOCK_STAND_IN_ABORT_VAR_2
+  - TOOL_RESULT_EVAL_MOCK_STAND_IN_ABORT_VAR_3
+-->
+${TOOL_RESULT_EVAL_MOCK_STAND_IN_ABORT_VAR_0} ${TOOL_RESULT_EVAL_MOCK_STAND_IN_ABORT_VAR_1.nonce}: ${TOOL_RESULT_EVAL_MOCK_STAND_IN_ABORT_VAR_1.server}/${TOOL_RESULT_EVAL_MOCK_STAND_IN_ABORT_VAR_2} — ${TOOL_RESULT_EVAL_MOCK_STAND_IN_ABORT_VAR_3.text}

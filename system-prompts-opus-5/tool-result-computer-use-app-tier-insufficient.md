@@ -1,0 +1,13 @@
+<!--
+name: Computer-use app tier insufficient
+description: >-
+  Tool-result telling the model an app-scoped action needs a higher grant tier
+  than the app currently has.
+ccVersion: 2.1.246
+variables:
+  - TOOL_RESULT_COMPUTER_USE_APP_TIER_INSUFFICIENT_VAR_0
+  - TOOL_RESULT_COMPUTER_USE_APP_TIER_INSUFFICIENT_VAR_1
+  - TOOL_RESULT_COMPUTER_USE_APP_TIER_INSUFFICIENT_VAR_2
+  - TOOL_RESULT_COMPUTER_USE_APP_TIER_INSUFFICIENT_VAR_3
+-->
+This action requires tier "${TOOL_RESULT_COMPUTER_USE_APP_TIER_INSUFFICIENT_VAR_0}" on ${TOOL_RESULT_COMPUTER_USE_APP_TIER_INSUFFICIENT_VAR_1(TOOL_RESULT_COMPUTER_USE_APP_TIER_INSUFFICIENT_VAR_2)}, which is granted at tier "${TOOL_RESULT_COMPUTER_USE_APP_TIER_INSUFFICIENT_VAR_3}". 

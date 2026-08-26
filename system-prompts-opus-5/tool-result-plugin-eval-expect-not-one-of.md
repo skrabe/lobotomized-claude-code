@@ -1,0 +1,11 @@
+<!--
+name: 'Tool Result: Plugin Eval Expect Value Not In List'
+description: 'Mock MCP abort when a tool argument is not one of the listed expect: values.'
+ccVersion: 2.1.246
+variables:
+  - TOOL_RESULT_PLUGIN_EVAL_EXPECT_NOT_ONE_OF_VAR_0
+  - TOOL_RESULT_PLUGIN_EVAL_EXPECT_NOT_ONE_OF_VAR_1
+  - TOOL_RESULT_PLUGIN_EVAL_EXPECT_NOT_ONE_OF_VAR_2
+  - TOOL_RESULT_PLUGIN_EVAL_EXPECT_NOT_ONE_OF_VAR_3
+-->
+${TOOL_RESULT_PLUGIN_EVAL_EXPECT_NOT_ONE_OF_VAR_0} = ${TOOL_RESULT_PLUGIN_EVAL_EXPECT_NOT_ONE_OF_VAR_1(TOOL_RESULT_PLUGIN_EVAL_EXPECT_NOT_ONE_OF_VAR_2)} is not one of [${TOOL_RESULT_PLUGIN_EVAL_EXPECT_NOT_ONE_OF_VAR_3.join(", ")}]

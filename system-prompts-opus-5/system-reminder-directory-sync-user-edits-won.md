@@ -1,0 +1,14 @@
+<!--
+name: 'System Reminder: Directory Sync User Edits Won'
+description: >-
+  Directory-sync reminder that the user's overlapping file edits won and Claude
+  should re-read those files.
+ccVersion: 2.1.246
+variables:
+  - SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_0
+  - SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_1
+  - SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_2
+  - SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_3
+  - SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_4
+-->
+The user edited ${SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_0.length} file(s) you had also changed; their version won where your edits overlapped, so some of your changes there are gone: ${SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_0.slice(0,SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_1).map((SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_2)=>`${SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_3(SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_2.path)}${SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_2.agentBlob===null?"":` (your version: blob ${SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_4(SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_2.agentBlob)})`}`).join(", ")}${SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_0.length>SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_1?` and ${SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_0.length-SYSTEM_REMINDER_DIRECTORY_SYNC_USER_EDITS_WON_VAR_1} more`:""}. Re-read those files before editing them again; \`git show BLOB\` (the id after each name) prints your previous version.

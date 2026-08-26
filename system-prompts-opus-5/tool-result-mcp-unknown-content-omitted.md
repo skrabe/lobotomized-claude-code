@@ -1,0 +1,13 @@
+<!--
+name: 'Tool Result: MCP Unknown Content Omitted'
+description: >-
+  Replaces an MCP tool-result block that is neither text nor image with an
+  omitted-content placeholder.
+ccVersion: 2.1.246
+variables:
+  - TOOL_RESULT_MCP_UNKNOWN_CONTENT_OMITTED_VAR_0
+  - TOOL_RESULT_MCP_UNKNOWN_CONTENT_OMITTED_VAR_1
+  - TOOL_RESULT_MCP_UNKNOWN_CONTENT_OMITTED_VAR_2
+  - TOOL_RESULT_MCP_UNKNOWN_CONTENT_OMITTED_VAR_3
+-->
+[${TOOL_RESULT_MCP_UNKNOWN_CONTENT_OMITTED_VAR_0(TOOL_RESULT_MCP_UNKNOWN_CONTENT_OMITTED_VAR_1(TOOL_RESULT_MCP_UNKNOWN_CONTENT_OMITTED_VAR_2)?.TOOL_RESULT_MCP_UNKNOWN_CONTENT_OMITTED_VAR_3??"unknown")} content omitted]
