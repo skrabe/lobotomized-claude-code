@@ -1,8 +1,8 @@
 <!--
-name: Artifact delete action description
+name: Artifact Delete Action Description
 description: >-
-  Per-call description for action "delete": permanently deletes an Artifact the
+  Per-call description for action delete: permanently deletes an artifact the
   user owns; every delete asks the user.
-ccVersion: 2.1.239
+ccVersion: 2.1.247
 -->
-Permanently delete a published Artifact the user owns (irreversible); every delete asks the user.
+Permanently delete a published artifact the user owns (irreversible); every delete asks the user.

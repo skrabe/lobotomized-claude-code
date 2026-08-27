@@ -1,10 +1,12 @@
 <!--
 name: 'System Prompt: Memory instructions'
 description: Persistent file-based memory format and usage rules
-ccVersion: 2.1.227
+ccVersion: 2.1.247
 variables:
   - MEMORY_LOCATION_CONTEXT
   - MEMORY_LINKING_INSTRUCTIONS
+  - HAS_NO_INDEX_OR_PRIVATE_DIR
+  - MEMORY_FILE_SIZE_CAP_NOTE
   - MEMORY_TYPE_DESCRIPTIONS
   - TEAM_MEMORY_SCOPE_NOTE
   - MEMORY_INDEX_POINTER_INSTRUCTIONS
@@ -29,7 +31,7 @@ metadata:
 <the fact; for feedback/project, follow with **Why:** and **How to apply:** lines. Link related memories with [[their-name]].>
 ```
 
-${MEMORY_LINKING_INSTRUCTIONS.join(`\n`)}
+${MEMORY_LINKING_INSTRUCTIONS.join(`\n`)}${HAS_NO_INDEX_OR_PRIVATE_DIR?` ${MEMORY_FILE_SIZE_CAP_NOTE}`:""}
 
 ${MEMORY_TYPE_DESCRIPTIONS}${TEAM_MEMORY_SCOPE_NOTE}${MEMORY_INDEX_POINTER_INSTRUCTIONS}
 
