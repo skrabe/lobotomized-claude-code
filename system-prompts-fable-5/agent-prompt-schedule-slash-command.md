@@ -3,7 +3,7 @@ name: 'Agent Prompt: /schedule slash command'
 description: >-
   Guides the user through scheduling, updating, listing, or running remote
   Claude Code agents on cron triggers via the Anthropic cloud API
-ccVersion: 2.1.246
+ccVersion: 2.1.251
 variables:
   - USER_REQUEST
   - ASK_USER_QUESTION_TOOL_NAME
@@ -20,7 +20,6 @@ variables:
   - NOW_UTC_ISO
   - IS_GITHUB_REMINDER_ENABLED
   - CHECK_FEATURE_FLAG_FN
-  - IS_ORG_POLICY_ALLOWED_FN
 -->
 
 # Schedule Cloud Agents
@@ -153,7 +152,7 @@ Before computing any \`run_once_at\`, re-check the current time with \`date -u +
 
 1. Understand the goal — what task, which repo(s)? Remind the user the agent runs in the cloud with no access to their local machine, files, or env vars.
 2. Craft the prompt — the agent starts with zero context, so make it self-contained: specific about what to do and what success looks like, which files/areas to focus on, and which actions to take (open PRs, commit, just analyze).
-${IS_GITHUB_REMINDER_ENABLED?`- If the request needs GitHub repo access (cloning, opening PRs, reading code), remind the user that ${CHECK_FEATURE_FLAG_FN("tengu_cobalt_lantern",!1)&&IS_ORG_POLICY_ALLOWED_FN("allow_quick_web_setup")?"they should run /web-setup to connect their GitHub account (or install the Claude GitHub App on the repo) — otherwise the cloud agent can't access it":"they need the Claude GitHub App installed on the repo — otherwise the cloud agent can't access it"}.`:""}
+${IS_GITHUB_REMINDER_ENABLED?`- If the request needs GitHub repo access (cloning, opening PRs, reading code), remind the user that ${CHECK_FEATURE_FLAG_FN()?"they should run /web-setup to connect their GitHub account (or install the Claude GitHub App on the repo) — otherwise the cloud agent can't access it":"they need the Claude GitHub App installed on the repo — otherwise the cloud agent can't access it"}.`:""}
 ${USER_REQUEST?`
 ## User Request
 

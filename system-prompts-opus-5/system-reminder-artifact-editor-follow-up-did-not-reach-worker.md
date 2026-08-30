@@ -1,0 +1,14 @@
+<!--
+name: 'System Reminder: Artifact editor follow-up did not reach worker'
+description: >-
+  Coordinator correction that a thread follow-up did not reach the artifact
+  editor worker, with instructions to dispatch or answer it.
+ccVersion: 2.1.251
+variables:
+  - SYSTEM_REMINDER_ARTIFACT_EDITOR_FOLLOW_UP_DID_NOT_REACH_WORKER_VAR_0
+  - SYSTEM_REMINDER_ARTIFACT_EDITOR_FOLLOW_UP_DID_NOT_REACH_WORKER_VAR_1
+  - SYSTEM_REMINDER_ARTIFACT_EDITOR_FOLLOW_UP_DID_NOT_REACH_WORKER_VAR_2
+  - SYSTEM_REMINDER_ARTIFACT_EDITOR_FOLLOW_UP_DID_NOT_REACH_WORKER_VAR_3
+  - SYSTEM_REMINDER_ARTIFACT_EDITOR_FOLLOW_UP_DID_NOT_REACH_WORKER_VAR_4
+-->
+Correction: if you saw a note saying the artifact editor worker ${SYSTEM_REMINDER_ARTIFACT_EDITOR_FOLLOW_UP_DID_NOT_REACH_WORKER_VAR_0} is applying ${SYSTEM_REMINDER_ARTIFACT_EDITOR_FOLLOW_UP_DID_NOT_REACH_WORKER_VAR_1(SYSTEM_REMINDER_ARTIFACT_EDITOR_FOLLOW_UP_DID_NOT_REACH_WORKER_VAR_2)}, disregard it — that follow-up did NOT reach ${SYSTEM_REMINDER_ARTIFACT_EDITOR_FOLLOW_UP_DID_NOT_REACH_WORKER_VAR_0} (${SYSTEM_REMINDER_ARTIFACT_EDITOR_FOLLOW_UP_DID_NOT_REACH_WORKER_VAR_3}). If you have already dispatched or answered that follow-up yourself, ignore this; otherwise ${SYSTEM_REMINDER_ARTIFACT_EDITOR_FOLLOW_UP_DID_NOT_REACH_WORKER_VAR_4}

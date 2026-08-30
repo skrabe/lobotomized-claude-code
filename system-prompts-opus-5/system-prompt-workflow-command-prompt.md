@@ -3,11 +3,12 @@ name: 'System Prompt: Workflow Command Prompt'
 description: >-
   prompt text returned for a workflow slash command, instructing the model to
   run the named workflow via the Workflow tool
-ccVersion: 2.1.178
+ccVersion: 2.1.251
 variables:
   - SYSTEM_PROMPT_WORKFLOW_COMMAND_PROMPT_VAR_0
   - SYSTEM_PROMPT_WORKFLOW_COMMAND_PROMPT_VAR_1
   - SYSTEM_PROMPT_WORKFLOW_COMMAND_PROMPT_VAR_2
+  - SYSTEM_PROMPT_WORKFLOW_COMMAND_PROMPT_VAR_3
 -->
 Run the "${SYSTEM_PROMPT_WORKFLOW_COMMAND_PROMPT_VAR_0.name}" workflow.
 
@@ -15,4 +16,4 @@ ${SYSTEM_PROMPT_WORKFLOW_COMMAND_PROMPT_VAR_0.description}${SYSTEM_PROMPT_WORKFL
 
 ${SYSTEM_PROMPT_WORKFLOW_COMMAND_PROMPT_VAR_0.whenToUse}`:""}${SYSTEM_PROMPT_WORKFLOW_COMMAND_PROMPT_VAR_1}
 
-Invoke: Workflow(${SYSTEM_PROMPT_WORKFLOW_COMMAND_PROMPT_VAR_2})
+Invoke: Workflow(${SYSTEM_PROMPT_WORKFLOW_COMMAND_PROMPT_VAR_2})${SYSTEM_PROMPT_WORKFLOW_COMMAND_PROMPT_VAR_3}

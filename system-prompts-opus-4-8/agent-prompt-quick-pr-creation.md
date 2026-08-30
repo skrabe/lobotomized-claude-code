@@ -3,7 +3,7 @@ name: 'Agent Prompt: Quick PR creation'
 description: >-
   Streamlined prompt for creating a commit and pull request with pre-populated
   context
-ccVersion: 2.1.231
+ccVersion: 2.1.251
 variables:
   - PREAMBLE_BLOCK
   - SAFE_USER_VALUE
@@ -21,7 +21,7 @@ variables:
   - PR_ATTRIBUTION_TEXT
   - PR_SLACK_SHARING_FOLLOWUP_NOTE
 -->
-${PREAMBLE_BLOCK}## Context
+## Context
 
 - \`SAFEUSER\`: ${SAFE_USER_VALUE}
 - \`whoami\`: ${WHOAMI_VALUE}

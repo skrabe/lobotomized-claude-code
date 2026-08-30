@@ -1,9 +1,8 @@
 <!--
-name: Artifact Auto-Edited Notice (Review Tail)
+name: Artifact Auto-Edited Review Tail
 description: >-
-  Trailing half of the same auto-edit noticeText, instructing the model to
-  review the change and edit or deactivate the thread if it missed the mark.
-ccVersion: 2.1.221
+  Task-notification tail asking the user to review an auto-edit and republish if
+  it missed the mark.
+ccVersion: 2.1.251
 -->
-
-Review the change — if it missed the mark, edit the artifact yourself or deactivate the thread.
+Review the change — if it missed the mark, edit the artifact yourself and republish.

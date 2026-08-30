@@ -3,7 +3,7 @@ name: 'Agent Prompt: Pull request creation'
 description: >-
   Prompt for creating a single GitHub pull request from existing commits with
   branch, template, attribution, shell-formatting, and git-safety guidance
-ccVersion: 2.1.231
+ccVersion: 2.1.251
 variables:
   - EMPTY_STRING
   - DEFAULT_BRANCH
@@ -17,7 +17,7 @@ variables:
   - PR_ATTRIBUTION_TEXT
   - PRE_COMMIT_CHECKS_GUIDANCE
 -->
-${EMPTY_STRING}## Context
+## Context
 
 - Current git status: !\`git status\`
 - Current branch: !\`git branch --show-current\`

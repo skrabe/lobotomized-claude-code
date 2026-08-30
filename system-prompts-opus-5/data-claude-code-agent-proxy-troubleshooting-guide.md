@@ -3,7 +3,7 @@ name: 'Data: Claude Code agent proxy troubleshooting guide'
 description: >-
   Troubleshooting guide for Claude Code's policy-enforcing HTTPS agent proxy,
   covering TLS trust setup, status checks, git, docker, and unsupported traffic
-ccVersion: 2.1.187
+ccVersion: 2.1.251
 variables:
   - AGENT_PROXY_URL
   - AGENT_PROXY_CA_BUNDLE_PATH
@@ -67,6 +67,14 @@ The destination host is not allowed by your organization's egress policy for
 this session. Do not retry or route around it — report the blocked host.
 Note: curl hides response bodies on failed CONNECTs; the status endpoint
 records the reason.
+
+### "connection reset" / "unexpected disconnect" / "RPC failed" mid-transfer
+
+Once a tunnel is up the proxy cannot send an error response, so a connection
+it aborts (tunnel to the egress proxy lost, or an upload the tunnel stopped
+accepting) reaches the tool as a bare reset. recentRelayFailures in the status
+output names the host and reason; check it before concluding the remote
+service refused the operation.
 
 ### Tool ignores the proxy entirely (timeouts with no proxy error)
 

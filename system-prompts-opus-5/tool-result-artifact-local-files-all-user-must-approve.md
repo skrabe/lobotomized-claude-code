@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: Artifact Local Files All User Must Approve'
+description: >-
+  Permission-ask suffix when every local file being copied shares one
+  outside-read or hard-link reason.
+ccVersion: 2.1.251
+variables:
+  - TOOL_RESULT_ARTIFACT_LOCAL_FILES_ALL_USER_MUST_APPROVE_VAR_0
+  - TOOL_RESULT_ARTIFACT_LOCAL_FILES_ALL_USER_MUST_APPROVE_VAR_1
+  - TOOL_RESULT_ARTIFACT_LOCAL_FILES_ALL_USER_MUST_APPROVE_VAR_2
+-->
+ ${TOOL_RESULT_ARTIFACT_LOCAL_FILES_ALL_USER_MUST_APPROVE_VAR_0.length===2?"Both":`All ${TOOL_RESULT_ARTIFACT_LOCAL_FILES_ALL_USER_MUST_APPROVE_VAR_0.length}`} local files being copied ${TOOL_RESULT_ARTIFACT_LOCAL_FILES_ALL_USER_MUST_APPROVE_VAR_1.many}${TOOL_RESULT_ARTIFACT_LOCAL_FILES_ALL_USER_MUST_APPROVE_VAR_2(TOOL_RESULT_ARTIFACT_LOCAL_FILES_ALL_USER_MUST_APPROVE_VAR_1.group)}, so only you can approve this.
