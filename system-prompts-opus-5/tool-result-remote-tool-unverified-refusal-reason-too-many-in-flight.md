@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Remote-tool unverified refusal reason - concurrency limit reached'
+name: 'Tool Result: Remote-Tool Unverified Refusal Reason - Too Many In Flight'
 description: >-
-  Reason clause for an unverified-sender remote-tool refusal: the target is
-  already at its in-flight call limit.
-ccVersion: 2.1.247
+  Reason clause wrapped by vr() into an unverified-sender remote-tool refusal
+  when the host is at in-flight/session capacity.
+ccVersion: 2.1.257
 -->
-that machine already has as many calls under way as it accepts
+that machine already has as many calls under way, or keeps state for as many cloud sessions, as it accepts

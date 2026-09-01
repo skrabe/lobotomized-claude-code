@@ -1,0 +1,11 @@
+<!--
+name: Design array item not object
+description: ClaudeDesign array-item validation error returned to the model.
+ccVersion: 2.1.206
+variables:
+  - TOOL_RESULT_DESIGN_ARRAY_ITEM_NOT_OBJECT_VAR_0
+  - TOOL_RESULT_DESIGN_ARRAY_ITEM_NOT_OBJECT_VAR_1
+  - TOOL_RESULT_DESIGN_ARRAY_ITEM_NOT_OBJECT_VAR_2
+  - TOOL_RESULT_DESIGN_ARRAY_ITEM_NOT_OBJECT_VAR_3
+-->
+${TOOL_RESULT_DESIGN_ARRAY_ITEM_NOT_OBJECT_VAR_0}.${TOOL_RESULT_DESIGN_ARRAY_ITEM_NOT_OBJECT_VAR_1}[${TOOL_RESULT_DESIGN_ARRAY_ITEM_NOT_OBJECT_VAR_2}]: must be an object with keys from {${[...TOOL_RESULT_DESIGN_ARRAY_ITEM_NOT_OBJECT_VAR_3.fields].join(", ")}}.

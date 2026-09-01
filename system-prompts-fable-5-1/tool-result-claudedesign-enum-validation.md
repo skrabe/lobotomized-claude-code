@@ -1,0 +1,15 @@
+<!--
+name: ClaudeDesign Enum Argument Validation Error
+description: >-
+  Input-validation error message from the ClaudeDesign tool's validateInput
+  telling the model an argument must be one of an enumerated set, returned as
+  the tool result.
+ccVersion: 2.1.207
+variables:
+  - TOOL_RESULT_CLAUDEDESIGN_ENUM_VALIDATION_VAR_0
+  - TOOL_RESULT_CLAUDEDESIGN_ENUM_VALIDATION_VAR_1
+  - TOOL_RESULT_CLAUDEDESIGN_ENUM_VALIDATION_VAR_2
+  - TOOL_RESULT_CLAUDEDESIGN_ENUM_VALIDATION_VAR_3
+  - TOOL_RESULT_CLAUDEDESIGN_ENUM_VALIDATION_VAR_4
+-->
+${TOOL_RESULT_CLAUDEDESIGN_ENUM_VALIDATION_VAR_0}.${TOOL_RESULT_CLAUDEDESIGN_ENUM_VALIDATION_VAR_1}: must be one of ${[...TOOL_RESULT_CLAUDEDESIGN_ENUM_VALIDATION_VAR_2].map((TOOL_RESULT_CLAUDEDESIGN_ENUM_VALIDATION_VAR_3)=>`"${TOOL_RESULT_CLAUDEDESIGN_ENUM_VALIDATION_VAR_3}"`).join(", ")}${TOOL_RESULT_CLAUDEDESIGN_ENUM_VALIDATION_VAR_4?" (case-insensitive)":""}.

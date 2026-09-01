@@ -1,0 +1,8 @@
+<!--
+name: 'System Prompt: Slash command unavailable in this session'
+description: Tells the model the named command is not available in the current session.
+ccVersion: 2.1.251
+variables:
+  - SYSTEM_PROMPT_SLASH_COMMAND_UNAVAILABLE_IN_SESSION_VAR_0
+-->
+/${SYSTEM_PROMPT_SLASH_COMMAND_UNAVAILABLE_IN_SESSION_VAR_0(SYSTEM_PROMPT_SLASH_COMMAND_UNAVAILABLE_IN_SESSION_VAR_1(SYSTEM_PROMPT_SLASH_COMMAND_UNAVAILABLE_IN_SESSION_VAR_2))} isn't available in this session.

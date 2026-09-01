@@ -1,0 +1,16 @@
+<!--
+name: 'Tool Result: Workflow Launched In Background'
+description: >-
+  Tool_result telling the model a workflow launched in the background with a
+  task ID and that it will be notified on completion.
+ccVersion: 2.1.178
+variables:
+  - TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_0
+  - TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_1
+  - TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_2
+  - TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_3
+  - TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_4
+-->
+Workflow launched in background. Task ID: ${TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_0.taskId}${TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_1}${TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_2}${TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_3}${TOOL_RESULT_WORKFLOW_LAUNCHED_BACKGROUND_VAR_4}
+
+You will be notified when it completes.

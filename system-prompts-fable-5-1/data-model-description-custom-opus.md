@@ -1,0 +1,13 @@
+<!--
+name: 'Data: Custom Opus model description for model'
+description: >-
+  descriptionForModel string for an env-configured custom Opus model (with
+  optional 1M-context variant), the model-facing description of that model
+  option
+ccVersion: 2.1.214
+variables:
+  - DATA_MODEL_DESCRIPTION_CUSTOM_OPUS_VAR_0
+  - DATA_MODEL_DESCRIPTION_CUSTOM_OPUS_VAR_1
+  - DATA_MODEL_DESCRIPTION_CUSTOM_OPUS_VAR_2
+-->
+${DATA_MODEL_DESCRIPTION_CUSTOM_OPUS_VAR_0.ANTHROPIC_DEFAULT_OPUS_MODEL_DESCRIPTION??`Custom Opus model${DATA_MODEL_DESCRIPTION_CUSTOM_OPUS_VAR_1?" with 1M context":""}`} (${DATA_MODEL_DESCRIPTION_CUSTOM_OPUS_VAR_2})

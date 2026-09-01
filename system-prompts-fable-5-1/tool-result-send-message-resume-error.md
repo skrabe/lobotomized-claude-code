@@ -1,0 +1,10 @@
+<!--
+name: Resume error
+description: SendMessage tool-error returned to the model.
+ccVersion: 2.1.206
+variables:
+  - TOOL_RESULT_SEND_MESSAGE_RESUME_ERROR_VAR_0
+  - TOOL_RESULT_SEND_MESSAGE_RESUME_ERROR_VAR_1
+  - TOOL_RESULT_SEND_MESSAGE_RESUME_ERROR_VAR_2
+-->
+Agent "${TOOL_RESULT_SEND_MESSAGE_RESUME_ERROR_VAR_0.agentName}" could not be resumed: ${TOOL_RESULT_SEND_MESSAGE_RESUME_ERROR_VAR_1(TOOL_RESULT_SEND_MESSAGE_RESUME_ERROR_VAR_2)}

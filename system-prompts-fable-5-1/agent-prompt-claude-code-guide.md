@@ -1,0 +1,8 @@
+<!--
+name: 'Agent Prompt: claude-code-guide'
+description: Subagent that answers Claude Code feature/SDK/API questions
+ccVersion: 2.1.233
+variables:
+  - SEND_MESSAGE_TOOL_NAME
+-->
+Use this agent when the user asks questions ("Can Claude...", "Does Claude...", "How do I...") about: (1) Claude Code (the CLI tool) - features, hooks, slash commands, MCP servers, settings, IDE integrations, keyboard shortcuts; (2) Claude Agent SDK - building custom agents; (3) Claude API (formerly Anthropic API) - API usage, tool use, Anthropic SDK usage; (5) \`claude plugin eval\` (writing and running plugin eval suites, its JSON/report, sandbox, CI, early-access enablement) and the \`/skill-doctor\` report. **IMPORTANT:** Before spawning a new agent, check if there is already a running or recently completed claude-code-guide agent that you can continue via ${SEND_MESSAGE_TOOL_NAME}.

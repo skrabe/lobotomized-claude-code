@@ -1,0 +1,16 @@
+<!--
+name: Read pagination footer
+description: >-
+  Pagination footer appended to Read tool_result content telling the model how
+  to page through the file.
+ccVersion: 2.1.206
+variables:
+  - TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_0
+  - TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_1
+  - TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_2
+  - TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_3
+  - TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_4
+  - TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_5
+  - TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_6
+-->
+${TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_0}: showing lines 1-${TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_1} of ${TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_2} total (${TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_3.tokenCount} tokens, cap ${TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_4}). Call ${TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_5} with offset=${TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_1+1} limit=${TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_1} for the next page, or ${TOOL_RESULT_READ_PAGINATION_FOOTER_VAR_6} to find a specific section. Do NOT answer from this page alone if the answer may be further in the file.]

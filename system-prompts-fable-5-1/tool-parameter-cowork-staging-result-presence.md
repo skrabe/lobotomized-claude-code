@@ -1,0 +1,8 @@
+<!--
+name: 'Tool parameter: Cowork staging result presence'
+description: >-
+  Model-facing describe() text for the optional staging result object in the
+  Cowork staged-call mcp tool output schema.
+ccVersion: 2.1.206
+-->
+Present exactly when the request used any staged-call field (input_files, output_files, expires_at, timeout_ms) — such calls run through the staging engine even with no files, so expires_at is always honored. The error_code set is a stable cross-repo contract — extend it, never rename or repurpose members. A failure makes no guarantee about partial effects: earlier outputs may already have landed; retry with the same request_id is safe for outputs without if_match (unconditional PUTs re-land the same bytes), while if_match outputs surface output_conflict against their own prior write — reconcile by etag. On staged failures the tool may never have run, so content/structuredContent may be absent.
