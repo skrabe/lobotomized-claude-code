@@ -4,7 +4,7 @@ description: >-
   Instructs Claude to correct only consequential errors plainly, avoid
   unnecessary self-criticism or re-auditing, and evaluate other agents’
   corrections before adopting them
-ccVersion: 2.1.218
+ccVersion: 2.1.257
 -->
 
 # Corrections

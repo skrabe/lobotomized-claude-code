@@ -14,10 +14,6 @@ variables:
   - ANGLE_EFFICIENCY
   - ANGLE_ALTITUDE
   - ANGLE_CONVENTIONS
-  - CLEANUP_CANDIDATES_NOTE
-  - PHASE_2_VERIFY_3_STATE
-  - PHASE_3_SWEEP
-  - OUTPUT_FORMAT_FN
 -->
 \`${EFFORT_LEVEL} effort → 5+5 angles × 8 candidates → 1-vote verify → sweep → ≤15 findings\`
 

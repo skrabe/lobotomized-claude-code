@@ -5,5 +5,4 @@ description: >-
   guidance to always supply one
 ccVersion: 2.1.178
 -->
-
-Regex pattern to filter console messages; only matching messages are returned (e.g. 'error|warning', or an app name to scope app-specific logs).
+Regex pattern to filter console messages; only matching messages are returned (e.g. 'error|warning', or an app name to scope app-specific logs). Provide one to avoid flooding output.

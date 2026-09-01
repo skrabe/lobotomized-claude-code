@@ -6,4 +6,4 @@ description: >-
   to read foreign-agent config itself.
 ccVersion: 2.1.214
 -->
-Don't read the foreign-agent config files or write Claude Code config yourself — the deterministic import (triggered by `--yes`) applies the same safe-name and path-traversal guards as the terminal picker.
+Do NOT read the foreign-agent config files or write Claude Code config yourself — the deterministic import (triggered by `--yes`) applies the same safe-name and path-traversal guards as the terminal picker.

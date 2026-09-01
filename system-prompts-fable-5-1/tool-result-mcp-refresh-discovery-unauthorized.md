@@ -6,4 +6,4 @@ description: >-
   /mcp; surfaced in the refresh-MCP-tools tool result.
 ccVersion: 2.1.211
 -->
-the server rejected tool discovery as unauthorized — the user needs to authorize this connector via /mcp
+the server rejected tool discovery as unauthorized — the user needs to authorize this connector (e.g. via /mcp) before its tools are available

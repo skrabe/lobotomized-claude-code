@@ -3,7 +3,7 @@ name: 'Agent Prompt: /schedule slash command'
 description: >-
   Guides the user through scheduling, updating, listing, or running remote
   Claude Code agents on cron triggers via the Anthropic cloud API
-ccVersion: 2.1.251
+ccVersion: 2.1.257
 variables:
   - USER_REQUEST
   - ASK_USER_QUESTION_TOOL_NAME
@@ -88,6 +88,8 @@ For a one-time run, replace \`"cron_expression": "CRON_EXPR"\` with \`"run_once_
 
 Generate a fresh lowercase UUID for \`events[].data.uuid\` yourself.
 
+Every \`events[].data.message\` is the API message shape \`{"role": "user", "content": "..."}\` — the \`role\` field is required.
+
 ## Available MCP Connectors
 
 The user's currently connected claude.ai MCP connectors:
@@ -145,6 +147,8 @@ Minimum interval is 1 hour; \`*/30 * * * *\` will be rejected.
 At invocation it was ${NOW_LOCAL_TIME} (${USER_TIMEZONE}) / ${NOW_UTC_ISO} UTC — an approximate anchor only; the conversation may have run a while since.
 
 Before computing any \`run_once_at\`, re-check the current time with \`date -u +%Y-%m-%dT%H:%M:%SZ\` via Bash rather than inferring the date from conversation context. Resolve relative requests ("tomorrow at 9am", "in 3 hours", "next Monday") against that fresh value, then echo the resolved local and UTC time back for confirmation before creating. If the resolved time is already past, ask the user to clarify instead of silently rolling forward.
+
+When listing, \`ended_reason: "run_once_fired"\` means a one-shot already ran ("Ran" in the web UI); the user can re-arm it with a new \`run_once_at\`.
 
 ## Workflow
 

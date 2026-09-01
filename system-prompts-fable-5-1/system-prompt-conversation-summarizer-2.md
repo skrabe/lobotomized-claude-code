@@ -4,4 +4,3 @@ description: System prompt for the utility model call that summarizes the conver
 ccVersion: 2.1.206
 -->
 
-Summarize the conversation.

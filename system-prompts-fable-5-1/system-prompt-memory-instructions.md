@@ -12,6 +12,9 @@ variables:
   - MEMORY_INDEX_POINTER_INSTRUCTIONS
   - MEMORY_SAVE_EXCLUSIONS
   - RECALLED_MEMORY_VERIFICATION_GUIDANCE
+  - MEMORY_CITATION_INSTRUCTIONS
+  - HAS_PROJECT_SKILL_UPKEEP_INSTRUCTIONS_FN
+  - PROJECT_SKILL_UPKEEP_INSTRUCTIONS
 -->
 # Memory
 
@@ -34,6 +37,4 @@ ${MEMORY_TYPE_DESCRIPTIONS}${TEAM_MEMORY_SCOPE_NOTE}${MEMORY_INDEX_POINTER_INSTR
 
 ${MEMORY_SAVE_EXCLUSIONS} ${RECALLED_MEMORY_VERIFICATION_GUIDANCE}
 
-When a fact changes, rewrite the stale part in place so the file states only the current fact; never bolt a "this is now X" correction onto the outdated version.
-
-For a forget request, remove the matching fact from every applicable memory store, remove or repair its index pointers and duplicate links, and verify that memory retrieval no longer returns it.
+When a fact changes, rewrite the stale part in place so the file states only the current fact; never bolt a "this is now X" correction onto the outdated version. A memory save is complete only after both the memory file write and the index update succeed; if either step fails, report the save as incomplete.

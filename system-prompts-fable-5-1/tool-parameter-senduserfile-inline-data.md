@@ -5,5 +5,4 @@ description: >-
   dynamic content only.
 ccVersion: 2.1.178
 -->
-
-Inline file data (encoding: "base64"). Use only for small dynamic content; use file_paths for anything already on disk.
+"base64"). For small dynamic content only — anything you have on 

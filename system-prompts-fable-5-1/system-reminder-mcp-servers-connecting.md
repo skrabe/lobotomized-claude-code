@@ -8,7 +8,8 @@ variables:
   - PENDING_MCP_SERVERS
   - TOOL_SEARCH_TOOL_NAME
 -->
-The following MCP servers are still connecting — their tools (named mcp__<server>__*) are not yet available but will appear shortly:
+
+The following MCP servers are still connecting — their tools (named mcp__<server>__*) are not yet available and may appear if connection succeeds:
 ${PENDING_MCP_SERVERS}
 
 If the user's request might be served by one of these (even if not named), call ${TOOL_SEARCH_TOOL_NAME} with a relevant keyword — it waits for connecting servers and searches their tools once available. Don't report a capability as unavailable without searching first.

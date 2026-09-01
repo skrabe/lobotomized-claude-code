@@ -6,20 +6,10 @@ variables:
   - CONDTIONAL_TEAMMATES_NOTE
   - CONDITIONAL_TASK_NOTES
 -->
-Create a structured task list for the current coding session so both you and the user can track progress on complex work.
 
-## When to Use
+Create an ID-addressable task graph for shared or multi-agent work with owners and dependencies.${CONDTIONAL_TEAMMATES_NOTE}
 
-- Multi-step tasks — 3+ distinct steps or actions${CONDTIONAL_TEAMMATES_NOTE}
-- Non-trivial work requiring planning or multiple operations
-- Plan mode — track the plan as tasks
-- When the user asks for a todo list or provides multiple tasks
-- After receiving new instructions — capture requirements as tasks
-- Mark a task in_progress before starting it; mark it completed right after finishing, adding any follow-ups you discover
-
-## When to Skip
-
-A single straightforward task, trivial work where tracking adds no value, fewer than 3 trivial steps, or purely conversational exchanges — just do it directly.
+Use TaskCreate, TaskGet, TaskList, and TaskUpdate for this shared task graph. Use TodoWrite for a single-agent user-visible checklist. Do not mirror the same work in both systems.
 
 ## Task Fields
 
@@ -29,8 +19,5 @@ A single straightforward task, trivial work where tracking adds no value, fewer 
 
 All tasks are created with status \`pending\`.
 
-## Tips
-
-- Use clear, specific subjects describing the outcome
-- After creating tasks, use TaskUpdate to set dependencies (blocks/blockedBy) if needed
-${CONDITIONAL_TASK_NOTES}- Check TaskList first to avoid duplicates
+After creating tasks, use TaskUpdate to set dependencies (blocks/blockedBy) if needed.
+${CONDITIONAL_TASK_NOTES}Check TaskList first to avoid duplicates.

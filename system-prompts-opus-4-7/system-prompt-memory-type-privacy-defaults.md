@@ -1,5 +1,0 @@
-<!--
-name: 'System Prompt: Memory type privacy defaults'
-description: Parameterized memory system-prompt line stating which memory types default to private vs. the shared/team destination.
-ccVersion: 2.1.224
--->

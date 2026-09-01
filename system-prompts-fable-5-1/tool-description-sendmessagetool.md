@@ -3,12 +3,14 @@ name: 'Tool Description: SendMessageTool'
 description: Agent teams version of SendMessageTool.
 ccVersion: 2.1.233
 variables:
+  - CROSS_SESSION_RECIPIENT_ROWS
+  - CROSS_SESSION_SECTION
   - SHOULD_INCLUDE_LEGACY_PROTOCOL_RESPONSES
 -->
 
 # SendMessage
 
-Send a message to another agent. Background subagents can use `to: "main"` to message the main conversation.
+Send a message to another agent. Set `to` to a teammate name to message that teammate. Background subagents use `"main"` to message the main conversation.
 
 \`\`\`json
 {"to": "researcher", "summary": "assign task 1", "message": "start on task #1"}

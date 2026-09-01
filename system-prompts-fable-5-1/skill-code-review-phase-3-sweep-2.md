@@ -12,4 +12,4 @@ variables:
 
 Take one more pass yourself (same context, no subagent) as a fresh reviewer
 who has the deduplicated list. Re-read the diff and enclosing functions
-looking only for defects not already listed: ${SKILL_CODE_REVIEW_PHASE_3_SWEEP_2_VAR_0}
+looking ONLY for defects not already listed: ${SKILL_CODE_REVIEW_PHASE_3_SWEEP_2_VAR_0}

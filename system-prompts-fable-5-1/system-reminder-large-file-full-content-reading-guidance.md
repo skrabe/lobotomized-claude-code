@@ -10,4 +10,4 @@ variables:
   - SUBAGENT_READING_INSTRUCTION_EXAMPLE
 -->
 - To read the full content for analysis or summary: ${FULL_CONTENT_READING_INSTRUCTION}
-- If ${AGENT_TOOL_NAME} is available, do this in a subagent so the full output stays out of your context. Pass the instruction above verbatim and state exactly what it must return (e.g. "${SUBAGENT_READING_INSTRUCTION_EXAMPLE}"); a vague "summarize this" loses detail.
+- If ${AGENT_TOOL_NAME} is available, do this in a subagent so the full output stays out of your context. Pass the instruction above verbatim and state exactly what it must return (e.g. "${SUBAGENT_READING_INSTRUCTION_EXAMPLE}"); a vague "summarize this" loses detail. Report what comes back as the subagent's report — quote or attribute it; don't restate it as content you read yourself.

@@ -6,4 +6,4 @@ description: >-
 ccVersion: 2.1.178
 -->
 
-<scope>default to private. Save as team only when the guidance is a project-wide convention every contributor should follow (testing policy, build invariant), not a personal preference.</scope>
+<scope>default to private. Save as team only when the guidance is clearly a project-wide convention that every contributor should follow (e.g., a testing policy, a build invariant), not a personal style preference.</scope>

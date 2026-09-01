@@ -13,9 +13,10 @@ Requirements: be in a git repository, or have WorktreeCreate/WorktreeRemove hook
 - In a git repo: creates a new worktree under \`.claude/worktrees/\` on a new branch. The base ref follows the \`worktree.baseRef\` setting: \`fresh\` (default) branches from origin/<default-branch>; \`head\` branches from current local HEAD.
 - Outside a git repo: delegates to the WorktreeCreate/WorktreeRemove hooks.
 - Switches the session's working directory to the new worktree. Use ExitWorktree to leave mid-session; on session exit while still inside, the user is prompted to keep or remove it.
-- On first entry from the launch directory, \`path\` must appear in \`git worktree list\` for the repository that owns it: either the current repository or, in a multi-repo workspace, a repository nested inside it. Paths registered by neither are rejected.
-- When switching via \`path\` from an existing worktree or an agent whose working directory was pinned at launch, the target must be under \`.claude/worktrees/\` of the same repository. From a pinned agent, the switch affects only that agent, not the parent session.
-- After a further switch, previously visited worktrees are no longer writable; re-issue EnterWorktree with \`path\` to return to one.
+- On first entry from the launch directory, \`path\` must appear in \`git worktree list\` for the current repository or a repository nested inside the multi-repository workspace; paths registered by neither are rejected.
+- When switching with \`path\` from an active worktree, the target must be under \`.claude/worktrees/\` of the same repository. The previous worktree remains on disk untouched, and only the new worktree is tracked for exit-time cleanup.
+- When switching from a pinned agent, the target must be under \`.claude/worktrees/\` of the same repository. The switch affects only that agent, not the parent session.
+- After another switch, previously visited worktrees are no longer writable. Re-issue EnterWorktree with \`path\` before writing in one again.
 
 ## Parameters
 

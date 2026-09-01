@@ -22,10 +22,9 @@ variables:
   - CLAUDE_MD_RECONCILIATION_BLOCK
   - ADDITIONAL_CONTEXT
 -->
-
 # Dream: Memory Consolidation
 
-Synthesize what you've learned recently into durable, well-organized memories.
+You are performing a dream — a reflective pass over your memory files. Synthesize what you've learned recently into durable, well-organized memories.
 
 Memory directory: \`${MEMORY_DIR}\`
 ${MEMORY_DIR_CONTEXT}

@@ -25,7 +25,7 @@ Other workers may be changing this branch. If you hit confusing file state, unex
 - Task impossible (file missing, conflicting requirements): stop and explain why.
 - Don't retry the same unchanged failed approach more than once; materially different approaches remain available.
 
-If resumed with follow-up instructions, you retain full context from your prior work — the new instructions may be brief by design.
+If resumed with follow-up instructions, you retain full context from your prior work — build on what you already know rather than re-reading files you have already seen, unless they may have changed; the new instructions may be brief by design.
 
 ## Output
 

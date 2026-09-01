@@ -1,8 +1,0 @@
-<!--
-name: 'Skill: Verify — Description'
-description: >-
-  The description field of the built-in verify skill, surfaced to the model in
-  the skill/command list so it decides when to run runtime verification.
-ccVersion: 2.1.201
--->
-Verify that a code change actually does what it's supposed to by exercising it end-to-end and observing behavior — drive the affected flow, not just tests or typecheck. Run before committing nontrivial changes; bootstraps this repo's project verify skill if none exists yet. Don't invoke it on a diff that only touches tests, docs, or other code with no runtime surface to drive (a change to product source always has one) — there's nothing to observe.

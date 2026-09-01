@@ -4,7 +4,9 @@ description: >-
   Inter-tool-call communication and response-length calibration. This is the
   arm the fableMythosPromptSet patch routes to (W1e forced true), so it is
   the only comms block that actually renders.
-ccVersion: 2.1.227
+ccVersion: 2.1.257
+variables:
+  - SYSTEM_PROMPT_COMMUNICATING_WITH_THE_USER_VAR_0
 -->
 
 # Communicating with the user

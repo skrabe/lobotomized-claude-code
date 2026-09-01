@@ -10,5 +10,3 @@ RESPOND WITH ONLY A VALID JSON OBJECT:
   "headline": "A memorable QUALITATIVE moment from the transcripts - not a statistic. Something human, funny, or surprising.",
   "detail": "Brief context about when/where this happened"
 }
-
-If none is supported, return empty strings for both fields.

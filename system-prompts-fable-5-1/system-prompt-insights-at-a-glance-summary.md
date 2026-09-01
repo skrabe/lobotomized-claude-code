@@ -18,11 +18,11 @@ Write an "At a Glance" summary for a Claude Code usage insights report — help 
 Use this 4-part structure:
 
 1. **What's working** — the user's unique style and a couple of impactful things they've done. High-level (memories may be stale), not fluffy, not focused on tool calls.
-2. **What's hindering you** — split into (a) Claude's fault (misunderstandings, wrong approaches, bugs) and (b) user-side friction (insufficient context, environment issues — generalize beyond one project). Honest, constructive.
+2. **What's hindering you** — split into (a) Claude's fault (misunderstandings, wrong approaches, bugs) and (b) user-side friction (insufficient context, environment issues — generalize beyond one project). Honest and constructive; describe the friction, don't lecture the user about it.
 3. **Quick wins to try** — specific CC features or workflow techniques from the examples below. Avoid generic advice ("ask Claude to confirm", "give more context").
 4. **Ambitious workflows for better models** — as models get more capable over the next 3-6 months, what should they prepare for? Draw from the appropriate section below.
 
-Each section: 2-3 sentences. Don't overwhelm. Don't cite specific numerical stats or underlined_categories from the session data. Coaching tone.
+Each section: 2-3 sentences. Don't overwhelm. Don't cite specific numerical stats or underlined_categories from the session data. Coaching tone — a peer's, not an instructor's. No moralizing about how the user should work.
 
 Respond with only a valid JSON object:
 {

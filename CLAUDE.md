@@ -6,13 +6,13 @@ You're a coding agent invoked in this repo. Read this first. It explains what we
 
 `lobotomized-claude-code` is a set of system-prompt overrides for [Claude Code](https://claude.com/claude-code). Each `.md` replaces one of CC's built-in prompt fragments. A separate tool ([`tweakcc-fixed`](https://github.com/skrabe/tweakcc-fixed), see below) reads these files and patches the user's installed CC binary in place.
 
-Four per-model sets are maintained: `system-prompts-opus-5` (the **active** one — `~/.tweakcc/system-prompts` symlinks to it), `system-prompts-opus-4-8`, `system-prompts-fable-5`, and `system-prompts-opus-4-7` (real overrides only, no pristine stubs). `system-reminders/` is a single shared folder across all four. **Never name a set literally in a procedure** — resolve the active one with `readlink ~/.tweakcc/system-prompts`, because it moves when a new model ships.
+Two per-model sets are maintained: `system-prompts-opus-5` (the **active** one — `~/.tweakcc/system-prompts` symlinks to it) and `system-prompts-fable-5-1`. The legacy `opus-4-8`, `opus-4-7` and `fable-5` sets were deleted from the tree on 2026-09-01 (git history keeps them). `system-reminders/` is a single shared folder across both. **Never name a set literally in a procedure** — resolve the active one with `readlink ~/.tweakcc/system-prompts`, because it moves when a new model ships, and discover the other from the tree.
 
 ## What we're trying to achieve
 
 **The goal of this repo is to remove useless shit and dumb guardrails so we have a clean agentic coding harness.** CC ships every model the same prompt-by-volume that worked for older Claudes. Current models follow instructions more literally, overtrigger on CAPS, don't need anti-laziness scaffolding, and get actively worse from safety theater that wasn't load-bearing in the first place. We strip the bulk and rewrite the load-bearing fragments in a register the model behaves better under.
 
-**Which model a cut is justified against is per-set, and the card is the authority.** Ground every content edit in that set's system card before touching a file: `~/dev/anthropic-reference/Opus-5-Card-Digest.md` for the active `opus-5` set, `Claude-Opus-4.8-System-Card.pdf` for `opus-4-8`, `Fable-5-Card-Digest.md` for `fable-5`, `Claude-Opus-4.7-System-Card.pdf` for `opus-4-7`. The digests carry the keep/cut/reword calls with page cites. Where the fable digest and the opus-5 digest disagree, the opus-5 one wins for the active set — it explicitly reverses fable's anti-moralizing cut, because wet-blanket is flat 1.92 = 1.92 for Opus 5 and there is no improvement to bank.
+**Which model a cut is justified against is per-set, and the card is the authority.** Ground every content edit in that set's system card before touching a file: `~/dev/anthropic-reference/Opus-5-Card-Digest.md` (+ the Opus 5 prompting page) for the active `opus-5` set, `Fable-5.1-Card-Digest.md` (+ the Fable 5.1 prompting page, which partly reverses the card-only reading: 5.1 under-narrates and under-formats) for `fable-5-1`. The digests carry the keep/cut/reword calls with page cites. Each set follows its own model's digest where they disagree.
 
 The README's "~60% leaner on every coding turn" claim is the bar. If your edits don't trend toward that ratio, you're not lobotomizing — you're just cosmeticking.
 
@@ -53,7 +53,7 @@ and they disagreed with each other about which files were sound. Repairing prose
 bookkeeping, so the loop does not converge.
 
 Settle it by computing instead: `node tools/checkFactCoverage.mjs data/prompts/prompts-X.Y.Z.json
---set=<set> --ids=<changed ids>` in the patcher repo, on all four sets. It enumerates the names a
+--set=<set> --ids=<changed ids>` in the patcher repo, on both sets. It enumerates the names a
 model must reproduce EXACTLY — endpoint paths, SDK method chains, CLI commands, object keys — and
 asserts each still reaches the model somewhere in the set. On 2.1.237 it found 26 such facts across
 7 of the 10 files reachable nowhere, and correctly did NOT flag four that the agent rounds claimed

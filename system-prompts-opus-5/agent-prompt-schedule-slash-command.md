@@ -3,11 +3,13 @@ name: 'Agent Prompt: /schedule slash command'
 description: >-
   Guides the user through scheduling, updating, listing, or running remote
   Claude Code agents on cron triggers via the Anthropic cloud API
-ccVersion: 2.1.251
+ccVersion: 2.1.257
 variables:
-  - ONE_OFF_ENABLED_FN
+  - USER_REQUEST
   - ASK_USER_QUESTION_TOOL_NAME
-  - ADDITIONAL_INFO_BLOCK
+  - JSON_STRINGIFY_FN
+  - INITIAL_ACTION_QUESTION
+  - SETUP_NOTES_BLOCK
   - REMOTE_TRIGGER_TOOL_NAME
   - DEFAULT_GIT_REPO_URL
   - MCP_CONNECTORS_LIST
@@ -17,9 +19,7 @@ variables:
   - NOW_LOCAL_TIME
   - NOW_UTC_ISO
   - IS_GITHUB_REMINDER_ENABLED
-  - IS_TRUTHY_FN
   - CHECK_FEATURE_FLAG_FN
-  - USER_REQUEST
 -->
 # Schedule Cloud Agents
 
@@ -88,6 +88,8 @@ For a recurring schedule:
 For a one-time run, replace \`"cron_expression": "CRON_EXPR"\` with \`"run_once_at": "YYYY-MM-DDTHH:MM:SSZ"\` (RFC3339 UTC, must be in the future). Everything else is identical.
 
 Generate a fresh lowercase UUID for \`events[].data.uuid\` yourself.
+
+Every \`events[].data.message\` is the API message shape \`{"role": "user", "content": "..."}\` — the \`role\` field is required.
 
 ## Available MCP Connectors
 

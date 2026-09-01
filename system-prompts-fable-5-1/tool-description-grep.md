@@ -5,10 +5,11 @@ ccVersion: 2.1.218
 variables:
   - GREP_TOOL_NAME
   - BASH_TOOL_NAME
+  - SUBAGENT_STEERING_MODE_FN
   - AGENT_TOOL_NAME
 -->
 
-Search file contents with ripgrep.
+Search tool built on ripgrep.
 
 Usage:
 - Supports full regex syntax (e.g. "log.*Error", "function\\s+\\w+").

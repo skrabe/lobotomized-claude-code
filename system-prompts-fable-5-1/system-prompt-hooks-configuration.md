@@ -11,7 +11,7 @@ ccVersion: 2.1.77
 Hooks run commands at specific points in Claude Code's lifecycle.
 
 ### Hook Structure
-\`\`\`json
+```json
 {
   "hooks": {
     "EVENT_NAME": [
@@ -29,7 +29,7 @@ Hooks run commands at specific points in Claude Code's lifecycle.
     ]
   }
 }
-\`\`\`
+```
 
 ### Hook Events
 
@@ -46,42 +46,42 @@ Hooks run commands at specific points in Claude Code's lifecycle.
 | UserPromptSubmit | - | When user submits |
 | SessionStart | - | When session starts |
 
-**Common tool matchers:** \`Bash\`, \`Write\`, \`Edit\`, \`Read\`, \`Glob\`, \`Grep\`
+**Common tool matchers:** `Bash`, `Write`, `Edit`, `Read`, `Glob`, `Grep`
 
 ### Hook Types
 
 **1. Command Hook** - Runs a shell command:
-\`\`\`json
+```json
 { "type": "command", "command": "prettier --write $FILE", "timeout": 30 }
-\`\`\`
+```
 
 **2. Prompt Hook** - Evaluates a condition with LLM:
-\`\`\`json
+```json
 { "type": "prompt", "prompt": "Is this safe? $ARGUMENTS" }
-\`\`\`
+```
 Only available for tool events: PreToolUse, PostToolUse, PermissionRequest.
 
 **3. Agent Hook** - Runs an agent with tools:
-\`\`\`json
+```json
 { "type": "agent", "prompt": "Verify tests pass: $ARGUMENTS" }
-\`\`\`
+```
 Only available for tool events: PreToolUse, PostToolUse, PermissionRequest.
 
 ### Hook Input (stdin JSON)
-\`\`\`json
+```json
 {
   "session_id": "abc123",
   "tool_name": "Write",
   "tool_input": { "file_path": "/path/to/file.txt", "content": "..." },
   "tool_response": { "success": true }  // PostToolUse only
 }
-\`\`\`
+```
 
 ### Hook JSON Output
 
 Hooks can return JSON to control behavior:
 
-\`\`\`json
+```json
 {
   "systemMessage": "Warning shown to user in UI",
   "continue": false,
@@ -94,25 +94,25 @@ Hooks can return JSON to control behavior:
     "additionalContext": "Context injected back to model"
   }
 }
-\`\`\`
+```
 
 **Fields:**
-- \`systemMessage\` - Display a message to the user (all hooks)
-- \`continue\` - Set to \`false\` to block/stop (default: true)
-- \`stopReason\` - Message shown when \`continue\` is false
-- \`suppressOutput\` - Hide stdout from transcript (default: false)
-- \`decision\` - "block" for PostToolUse/Stop/UserPromptSubmit hooks (deprecated for PreToolUse, use hookSpecificOutput.permissionDecision instead)
-- \`reason\` - Explanation for decision
-- \`hookSpecificOutput\` - Event-specific output (must include \`hookEventName\`):
-  - \`additionalContext\` - Text injected into model context
-  - \`permissionDecision\` - "allow", "deny", or "ask" (PreToolUse only)
-  - \`permissionDecisionReason\` - Reason for the permission decision (PreToolUse only)
-  - \`updatedInput\` - Modified tool input (PreToolUse only)
+- `systemMessage` - Display a message to the user (all hooks)
+- `continue` - Set to `false` to block/stop (default: true)
+- `stopReason` - Message shown when `continue` is false
+- `suppressOutput` - Hide stdout from transcript (default: false)
+- `decision` - "block" for PostToolUse/Stop/UserPromptSubmit hooks (deprecated for PreToolUse, use hookSpecificOutput.permissionDecision instead)
+- `reason` - Explanation for decision
+- `hookSpecificOutput` - Event-specific output (must include `hookEventName`):
+  - `additionalContext` - Text injected into model context
+  - `permissionDecision` - "allow", "deny", or "ask" (PreToolUse only)
+  - `permissionDecisionReason` - Reason for the permission decision (PreToolUse only)
+  - `updatedInput` - Modified tool input (PreToolUse only)
 
 ### Common Patterns
 
 **Auto-format after writes:**
-\`\`\`json
+```json
 {
   "hooks": {
     "PostToolUse": [{
@@ -124,10 +124,10 @@ Hooks can return JSON to control behavior:
     }]
   }
 }
-\`\`\`
+```
 
 **Log all bash commands:**
-\`\`\`json
+```json
 {
   "hooks": {
     "PreToolUse": [{
@@ -139,4 +139,4 @@ Hooks can return JSON to control behavior:
     }]
   }
 }
-\`\`\`
+```

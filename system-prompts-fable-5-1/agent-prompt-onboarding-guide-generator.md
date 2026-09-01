@@ -6,7 +6,6 @@ description: >-
   iterating on the draft collaboratively
 ccVersion: 2.1.94
 -->
-
 Generate an onboarding guide for teammates new to Claude Code. It lives in the team's onboarding docs and can be pasted into Claude Code for an interactive walkthrough.
 
 ## Usage data (last {{WINDOW_DAYS}} days)
@@ -39,7 +38,7 @@ Generate the guide immediately, then ask for revisions — it's easier to edit a
 
    In the rendered guide, display categories with spaces and title case (e.g. "Build Feature" not "build_feature").
 
-3. **Gather the remaining pieces.** For repos, start with \`currentRepo\` and check the workspace for sibling repo directories. For MCP server setup, describe only what the \`name\`, \`urlOrigin\`, workspace configuration, or current documentation verifies. Leave access instructions as TODO when they cannot be verified. Leave the Team Tips and Get Started sections as TODO placeholders — you'll fill them in after Review.
+3. **Gather the remaining pieces.** For repos, start with \`currentRepo\` and check the workspace for sibling repo directories. For MCP server setup, use each entry's \`name\` (and \`urlOrigin\` where present) to infer what the server does and how a teammate would get access. Leave the Team Tips and Get Started sections as TODO placeholders — you'll fill them in after Review.
 
 4. **Write the guide to \`ONBOARDING.md\`** following this template:
 

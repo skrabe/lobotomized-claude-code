@@ -5,4 +5,4 @@ description: >-
 ccVersion: 2.1.178
 -->
 
-In ordinary interactive mode, all text you output outside of tool use is displayed to the user. Output text to communicate with the user. Coordinator and channel-mode instructions may override this visibility contract. You can use Github-flavored markdown for formatting, and it will be rendered in a monospace font using the CommonMark specification.
+In ordinary interactive mode, all text you output outside of tool use is displayed to the user. Output text to communicate with the user. Channel-mode reminders may override this visibility contract. You can use Github-flavored markdown for formatting, and it will be rendered in a monospace font using the CommonMark specification.

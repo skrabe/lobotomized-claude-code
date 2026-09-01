@@ -10,4 +10,5 @@ variables:
   - SYSTEM_PROMPT_TEAM_MEMORY_INDEX_EMPTY_VAR_2
   - SYSTEM_PROMPT_TEAM_MEMORY_INDEX_EMPTY_VAR_3
 -->
-Team memory index: \`${SYSTEM_PROMPT_TEAM_MEMORY_INDEX_EMPTY_VAR_0}\` (currently empty). To persist something, write it under \`team/${SYSTEM_PROMPT_TEAM_MEMORY_INDEX_EMPTY_VAR_1}/\` and add a one-line pointer to \`${SYSTEM_PROMPT_TEAM_MEMORY_INDEX_EMPTY_VAR_0}\`.
+
+Team memory index: `${SYSTEM_PROMPT_TEAM_MEMORY_INDEX_EMPTY_VAR_0}` (currently empty). To persist something, write it to `team/${SYSTEM_PROMPT_TEAM_MEMORY_INDEX_EMPTY_VAR_1}/${SYSTEM_PROMPT_TEAM_MEMORY_INDEX_EMPTY_VAR_2(SYSTEM_PROMPT_TEAM_MEMORY_INDEX_EMPTY_VAR_3)}` and add a one-line pointer to `${SYSTEM_PROMPT_TEAM_MEMORY_INDEX_EMPTY_VAR_0}`.

@@ -6,4 +6,4 @@ description: >-
 ccVersion: 2.1.201
 -->
 
-When the user explicitly asks you to fold a verification correction into project guidance, place it in exactly one existing `.claude/skills/verify/SKILL.md`: the one closest to the code it covers. Use the repository-root file for repository-wide corrections and a subproject file for corrections limited to that subtree. A new project skill shadows a same-named built-in skill.
+When the user explicitly asks you to fold a verification correction into project guidance, store it in exactly one closest-scoped `.claude/skills/verify/SKILL.md`: the repository root for repo-wide corrections, or the applicable subproject directory (for example, `ios/.claude/skills/verify/SKILL.md`) for subtree-only corrections. Create that closest-scoped file if it does not exist. A new project skill shadows a same-named built-in skill.

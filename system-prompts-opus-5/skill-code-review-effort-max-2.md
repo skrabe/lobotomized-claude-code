@@ -7,12 +7,6 @@ description: >-
 ccVersion: 2.1.218
 variables:
   - EFFORT_LEVEL
-  - PHASE_0_GATHER_DIFF
-  - AGENT_TOOL_NAME
-  - HIGH_EFFORT_ANGLES
-  - PHASE_2_VERIFY_3_STATE
-  - PHASE_3_SWEEP
-  - OUTPUT_FORMAT_FN
 -->
 You are reviewing for **recall** at ${EFFORT_LEVEL==="max"?"maximum":"extra-high"} effort: catch every real bug. At
 this level, catching real bugs matters more than avoiding false positives.

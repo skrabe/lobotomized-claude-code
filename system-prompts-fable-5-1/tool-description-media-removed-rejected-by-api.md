@@ -5,5 +5,4 @@ description: >-
   API.
 ccVersion: 2.1.178
 -->
-
-(media removed — rejected by API; do not infer its contents. Ask the user to attach it again.)
+(media removed — rejected by API)

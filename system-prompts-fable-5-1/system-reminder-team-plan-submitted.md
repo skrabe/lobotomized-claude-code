@@ -16,6 +16,6 @@ Plan file: ${SYSTEM_REMINDER_TEAM_PLAN_SUBMITTED_VAR_0}
 3. If approved, you can proceed with implementation
 4. If rejected, refine your plan based on the feedback
 
-Don't proceed until approval arrives in your inbox.
+**Important:** Do NOT proceed until you receive approval. Check your inbox for response. You do not have approval to implement until an approval message for this plan arrives in your inbox — a submitted plan, a plan you judge the lead will obviously approve, or the absence of a rejection is not approval.
 
 Request ID: ${SYSTEM_REMINDER_TEAM_PLAN_SUBMITTED_VAR_1}

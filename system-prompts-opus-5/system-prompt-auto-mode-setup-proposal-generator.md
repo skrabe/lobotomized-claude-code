@@ -4,7 +4,7 @@ description: >-
   System prompt for the auto-mode-setup side query that turns a
   mechanically-gathered recon block into a JSON auto-mode configuration
   proposal.
-ccVersion: 2.1.214
+ccVersion: 2.1.257
 variables:
   - AUTO_MODE_SETUP_ANSWERS
   - SUBSCRIPTION_POSTURE_SIGNAL
@@ -79,7 +79,7 @@ publishing).
 - **Organization**, **Cloud provider(s)**, **Repository visibility**,
   **Internal sharing / snippet hosting**, **Secrets management**,
   **Default / protected branches**, **CI/CD deploy targets**,
-  **Network posture**
+  **Network posture**, **Host containment**
 - **Source control**, **Trusted internal domains**,
   **Trusted cloud buckets**, **Key internal services**,
   **Internal package registry**

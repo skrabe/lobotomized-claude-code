@@ -7,4 +7,3 @@ description: >-
 ccVersion: 2.1.104
 -->
 
-Communication precedence is: exact-output contracts, then mode-specific delivery rules, then user-requested style, then global communication defaults.

@@ -16,9 +16,6 @@ variables:
   - ANGLE_ALTITUDE
   - ANGLE_CONVENTIONS
   - CLEANUP_CANDIDATES_NOTE
-  - PHASE_2_VERIFY_3_STATE
-  - PHASE_3_SWEEP
-  - OUTPUT_FORMAT_FN
 -->
 \`xhigh effort → 10 inline angles → dedup (no verify) → sweep → ≤15 findings\`
 

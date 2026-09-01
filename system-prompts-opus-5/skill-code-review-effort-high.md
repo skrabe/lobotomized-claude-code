@@ -12,10 +12,6 @@ variables:
   - ANGLE_SIMPLIFICATION
   - ANGLE_EFFICIENCY
   - ANGLE_ALTITUDE
-  - ANGLE_CONVENTIONS
-  - CLEANUP_CANDIDATES_NOTE
-  - PHASE_2_VERIFY_RECALL_BIASED
-  - OUTPUT_FORMAT_FN
 -->
 \`high effort → 3+5 angles × 6 candidates → 1-vote verify (recall-biased) → ≤10 findings\`
 

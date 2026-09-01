@@ -1,9 +1,10 @@
 <!--
 name: 'Tool Description: Bash git committing changes'
 description: >-
-  Bash-tool git-commit workflow: safety protocol, parallel status/diff/log,
-  HEREDOC commit, and commit-only-when-asked rules.
-ccVersion: 2.1.251
+  Bash-tool git-commit and PR-creation workflow: safety protocol, parallel
+  status/diff/log, HEREDOC commit, gh pr create body template, and
+  commit-only-when-asked rules.
+ccVersion: 2.1.257
 variables:
   - TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_0
   - TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_1
@@ -60,3 +61,34 @@ git commit -m "$(cat <<'EOF'
    EOF
    )"
 </example>
+
+${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_5?`${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_5}
+
+`:""}# Creating pull requests
+
+When the user asks you to create a pull request:
+
+1. Run the following commands in parallel to see where the branch stands since it diverged from the base branch:
+   - git status and git diff.
+   - Check whether the current branch tracks a remote branch and is up to date with it, so you know whether you need to push.
+   - git log and \`git diff [base-branch]...HEAD\`, for the full commit history of the branch.
+2. Draft a title and body covering every commit in that range. Keep the title under 70 characters.
+3. Run in parallel: push to the remote with -u if needed, and create the PR with gh pr create, passing the body via a HEREDOC:
+<example>
+gh pr create --title "the pr title" --body "$(cat <<'EOF'
+## Summary
+${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_6()}
+
+## Test plan
+${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_7()}${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_8?`
+
+${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_8}`:""}
+EOF
+)"
+</example>
+4. Return the PR URL when you're done.
+
+# Other common operations
+- View comments on a Github PR: gh api repos/foo/bar/pulls/123/comments${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_9?`
+
+${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_9}`:""}
