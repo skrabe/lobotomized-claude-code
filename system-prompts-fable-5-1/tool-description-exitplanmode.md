@@ -14,4 +14,4 @@ ExitPlanMode also provides a cancellation outcome that exits plan mode without s
 
 Use only when planning the implementation steps of a task that requires writing code. For research tasks (gathering information, searching/reading files, understanding the codebase), don't use this tool.
 
-Don't use AskUserQuestion to ask "Is this plan okay?" or "Should I proceed?" — ExitPlanMode is what requests approval. (Use AskUserQuestion earlier to resolve open requirements before finalizing the plan.)
+Don't use ${ASK_USER_QUESTION_TOOL_NAME} to ask "Is this plan okay?" or "Should I proceed?" — ExitPlanMode is what requests approval. (Use ${ASK_USER_QUESTION_TOOL_NAME} earlier to resolve open requirements before finalizing the plan.)
