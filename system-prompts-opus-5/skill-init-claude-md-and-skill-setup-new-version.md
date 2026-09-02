@@ -53,7 +53,9 @@ Before the first question, print this primer as normal assistant text so first-t
 
 ## Phase 2: Explore the codebase
 
-Launch a subagent to survey the codebase and read key files: manifest files (package.json, Cargo.toml, pyproject.toml, go.mod, pom.xml, etc.), README, Makefile/build configs, CI config, existing CLAUDE.md, .claude/rules/, AGENTS.md, .cursor/rules or .cursorrules, .github/copilot-instructions.md, .windsurfrules, .clinerules, .mcp.json.
+Launch a subagent to survey the codebase and read key files: manifest files (package.json, Cargo.toml, pyproject.toml, go.mod, pom.xml, etc.), README, Makefile/build configs, CI config, existing CLAUDE.md, .claude/rules/, AGENTS.md, .cursor/rules or .cursorrules, .github/copilot-instructions.md, .windsurfrules, .clinerules, .mcp.json.${IS_IMPORT_ENABLED_FN()?`
+Also have the subagent do a cheap presence check (not a read — the import adapters handle contents) for OpenAI Codex config (~/.codex/config.toml or ./.codex/) and Gemini CLI config (~/.gemini/settings.json, ./.gemini/, or a GEMINI.md at project root). Record which exist — Phase 8 uses it.
+`:""}
 
 Detect:
 - Build, test, and lint commands (especially non-standard ones)
@@ -225,7 +227,8 @@ Recap what was set up — which files were written and the key points in each. R
 
 Then tell the user you'll suggest a few more optimizations for their codebase and Claude Code setup based on what you found. Present these as a single well-formatted to-do list where every item is relevant to this repo, most impactful first.
 
-Work through these checks and include only what applies:
+Work through these checks and include only what applies:${IS_IMPORT_ENABLED_FN()?`
+- If Phase 2 found Codex or Gemini CLI config: ${IMPORT_OFFER_NOTE} Put this first — it saves re-entering config they already have.`:""}
 - If frontend code was detected (React, Vue, Svelte, etc.): \`/plugin install frontend-design@claude-plugins-official\` gives Claude design principles and component patterns for polished UI; \`/plugin install playwright@claude-plugins-official\` lets Claude launch a real browser, screenshot what it built, and fix visual bugs itself.
 - If you found gaps in Phase 7 (missing GitHub CLI, missing linting) and the user said no: list them here with a one-line reason each helps.
 - If tests are missing or sparse: suggest setting up a test framework so Claude can verify its own changes.

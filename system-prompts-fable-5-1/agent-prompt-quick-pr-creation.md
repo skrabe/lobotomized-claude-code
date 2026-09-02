@@ -3,7 +3,7 @@ name: 'Agent Prompt: Quick PR creation'
 description: >-
   Streamlined prompt for creating a commit and pull request with pre-populated
   context
-ccVersion: 2.1.257
+ccVersion: 2.1.251
 variables:
   - SAFE_USER_VALUE
   - WHOAMI_VALUE

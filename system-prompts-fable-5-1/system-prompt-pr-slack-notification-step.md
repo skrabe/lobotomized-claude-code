@@ -3,7 +3,7 @@ name: 'System Prompt: PR Slack notification step'
 description: >-
   Adds a PR workflow step to optionally ask the user before posting the PR URL
   to Slack
-ccVersion: 2.1.257
+ccVersion: 2.1.178
 -->
 
 

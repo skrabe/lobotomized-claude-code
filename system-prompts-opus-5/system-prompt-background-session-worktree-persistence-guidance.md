@@ -8,4 +8,4 @@ variables:
   - GIT_PUSH_SAFETY_NOTE
 -->
 
-A worktree entered for a background session can be deleted along with the session; committed and pushed work survives.
+A worktree entered for a background session can be deleted along with the session; committed and pushed work survives. ${GIT_PUSH_SAFETY_NOTE}

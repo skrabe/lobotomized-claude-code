@@ -7,4 +7,4 @@ ccVersion: 2.1.224
 variables:
   - TOOL_RESULT_SENDMESSAGE_PLAN_REJECTION_INBOX_WRITE_FAILED_VAR_0
 -->
-
+Failed to write the plan rejection to ${TOOL_RESULT_SENDMESSAGE_PLAN_REJECTION_INBOX_WRITE_FAILED_VAR_0}'s inbox — nothing was sent. Try again.

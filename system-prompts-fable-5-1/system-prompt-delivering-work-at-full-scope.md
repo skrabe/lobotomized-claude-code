@@ -4,7 +4,7 @@ description: >-
   Instructs Claude to complete ordinary requested work at full scope under
   reasonable assumptions, continue past non-blocking concerns, and preserve
   necessary refusal and risky-action confirmation boundaries
-ccVersion: 2.1.257
+ccVersion: 2.1.218
 -->
 
 # Delivering work

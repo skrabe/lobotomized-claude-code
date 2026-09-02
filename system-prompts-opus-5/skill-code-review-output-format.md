@@ -25,3 +25,5 @@ Return findings as a JSON array of at most ${MAX_FINDINGS} objects:
 
 Ranked most-severe first. If more than ${MAX_FINDINGS} survive, keep the ${MAX_FINDINGS} most
 severe. If nothing survives verification, return \`[]\`.
+
+Do not call the ${SKILL_CODE_REVIEW_OUTPUT_FORMAT_VAR_1} tool even if it is available - this review's output contract is the JSON block above.

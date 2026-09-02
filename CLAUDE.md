@@ -6,7 +6,7 @@ You're a coding agent invoked in this repo. Read this first. It explains what we
 
 `lobotomized-claude-code` is a set of system-prompt overrides for [Claude Code](https://claude.com/claude-code). Each `.md` replaces one of CC's built-in prompt fragments. A separate tool ([`tweakcc-fixed`](https://github.com/skrabe/tweakcc-fixed), see below) reads these files and patches the user's installed CC binary in place.
 
-Two per-model sets are maintained: `system-prompts-opus-5` (the **active** one — `~/.tweakcc/system-prompts` symlinks to it) and `system-prompts-fable-5-1`. The legacy `opus-4-8`, `opus-4-7` and `fable-5` sets were deleted from the tree on 2026-09-01 (git history keeps them). `system-reminders/` is a single shared folder across both. **Never name a set literally in a procedure** — resolve the active one with `readlink ~/.tweakcc/system-prompts`, because it moves when a new model ships, and discover the other from the tree.
+Two per-model sets are maintained: `system-prompts-fable-5-1` (the **active** one — `~/.tweakcc/system-prompts` symlinks to it, matching the model in `~/.claude/settings.json`; switch with `driver.mjs set <name>` in the patcher repo) and `system-prompts-opus-5`. The legacy `opus-4-8`, `opus-4-7` and `fable-5` sets were deleted from the tree on 2026-09-01 (git history keeps them). `system-reminders/` is a single shared folder across both. **Never name a set literally in a procedure** — resolve the active one with `readlink ~/.tweakcc/system-prompts`, because it moves when a new model ships, and discover the other from the tree.
 
 ## What we're trying to achieve
 

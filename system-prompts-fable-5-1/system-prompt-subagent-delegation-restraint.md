@@ -7,7 +7,7 @@ description: >-
   the card: verify a load-bearing subagent claim before acting on it (§6.5.3
   self-recognition bias) and brief a subagent with the user's own words (§6.2.1,
   where a subagent was spawned impersonating the user).
-ccVersion: 2.1.257
+ccVersion: 2.1.215
 -->
 
 ## Delegating to subagents

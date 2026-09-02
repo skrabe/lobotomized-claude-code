@@ -7,6 +7,5 @@ description: >-
 ccVersion: 2.1.226
 variables:
   - TOOL_RESULT_SELF_HOSTED_RUNNER_SPAWN_LOCAL_ASK_VAR_0
-  - TOOL_RESULT_SELF_HOSTED_RUNNER_SPAWN_LOCAL_ASK_VAR_1
 -->
-
+Start a detached self-hosted runner with the environment secret file ${TOOL_RESULT_SELF_HOSTED_RUNNER_SPAWN_LOCAL_ASK_VAR_0.secret_file_path} (base dir ${TOOL_RESULT_SELF_HOSTED_RUNNER_SPAWN_LOCAL_ASK_VAR_0.base_dir??TOOL_RESULT_SELF_HOSTED_RUNNER_SPAWN_LOCAL_ASK_VAR_1})? The runner will execute that environment's queued sessions on this machine and will keep running after this session ends.

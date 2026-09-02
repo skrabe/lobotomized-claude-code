@@ -7,4 +7,4 @@ ccVersion: 2.1.224
 variables:
   - SYSTEM_PROMPT_MEMORY_TYPE_PRIVACY_DEFAULTS_VAR_0
 -->
-
+\`user\` memories are always private; default \`feedback\` to private, \`project\` and \`reference\` to ${SYSTEM_PROMPT_MEMORY_TYPE_PRIVACY_DEFAULTS_VAR_0}.

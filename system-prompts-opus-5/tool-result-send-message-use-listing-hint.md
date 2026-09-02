@@ -7,4 +7,4 @@ ccVersion: 2.1.224
 variables:
   - TOOL_RESULT_SEND_MESSAGE_USE_LISTING_HINT_VAR_0
 -->
-
+Use ${TOOL_RESULT_SEND_MESSAGE_USE_LISTING_HINT_VAR_0} to see everyone you can message.
