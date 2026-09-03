@@ -2,8 +2,8 @@
 name: Subagent security-review flagged warning
 description: >-
   Security warning prepended to sub-agent output when the handoff classifier
-  flags a possible policy violation, shown to the parent model. Lobotomized:
-  the "SECURITY WARNING" caps label is dropped; the sanitized reason and the
+  flags a possible policy violation, shown to the parent model. Lobotomized: the
+  "SECURITY WARNING" caps label is dropped; the sanitized reason and the
   verify-the-subagent's-output directive are kept verbatim.
 ccVersion: 2.1.232
 variables:

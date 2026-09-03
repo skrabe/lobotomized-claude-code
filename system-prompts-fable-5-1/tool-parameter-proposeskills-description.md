@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Parameter: ProposeSkills description'
+name: 'Tool Parameter: ProposeSkills Description'
 description: >-
-  Describes the per-proposal description field in the ProposeSkills tool input
-  schema, sent to the model with the tool definition.
-ccVersion: 2.1.257
+  Input-schema description for propose_skills description: one short sentence
+  for the review card and saved skill when-to-use text.
+ccVersion: 2.1.259
 -->
-One line saying when to use this skill. Shown on the review card and saved as the skill's description, which is what decides when the skill is used; for an improvement, restate or update the existing skill's description.
+One short sentence saying when to use this skill: aim for under 200 characters, never more than 1024. Shown on the review card and saved as the skill's description, which is what decides when the skill is used. For an improvement, reuse the existing skill's description unless the change alters when the skill applies.

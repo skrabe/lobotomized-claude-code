@@ -1,7 +1,9 @@
 <!--
 name: 'Tool Description: Workflow'
 description: >-
-  Trimmed 2026-09-02: the meta/script-API paragraph and the example script are carried by the workflow-authoring skill, which the description tells the model to load before writing a script. The opt-in gate is kept verbatim.
+  Trimmed 2026-09-02: the meta/script-API paragraph and the example script are
+  carried by the workflow-authoring skill, which the description tells the model
+  to load before writing a script. The opt-in gate is kept verbatim.
 ccVersion: 2.1.251
 variables:
   - AGENT_TOOL_NAME

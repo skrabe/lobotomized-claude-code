@@ -1,0 +1,12 @@
+<!--
+name: 'Artifact Preview: Local Preview Server Failed To Start'
+description: >-
+  renderError text when the local preview page server throws during start,
+  included in the preview tool_result.
+ccVersion: 2.1.247
+variables:
+  - TOOL_RESULT_ARTIFACT_PREVIEW_SERVER_START_FAILED_VAR_0
+  - TOOL_RESULT_ARTIFACT_PREVIEW_SERVER_START_FAILED_VAR_1
+  - TOOL_RESULT_ARTIFACT_PREVIEW_SERVER_START_FAILED_VAR_2
+-->
+the local preview server could not start (${TOOL_RESULT_ARTIFACT_PREVIEW_SERVER_START_FAILED_VAR_0 instanceof TOOL_RESULT_ARTIFACT_PREVIEW_SERVER_START_FAILED_VAR_1?TOOL_RESULT_ARTIFACT_PREVIEW_SERVER_START_FAILED_VAR_0.message:TOOL_RESULT_ARTIFACT_PREVIEW_SERVER_START_FAILED_VAR_2(TOOL_RESULT_ARTIFACT_PREVIEW_SERVER_START_FAILED_VAR_0)})

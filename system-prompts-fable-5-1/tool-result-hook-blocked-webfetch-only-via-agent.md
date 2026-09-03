@@ -1,7 +1,8 @@
 <!--
-name: "Hook blocked web fetch agent-only path"
+name: Hook blocked web fetch agent-only path
 description: >-
-  Tells the model a hook blocked the session's only web-fetch route and how a hook could exempt it.
+  Tells the model a hook blocked the session's only web-fetch route and how a
+  hook could exempt it.
 ccVersion: 2.1.232
 variables:
   - TOOL_RESULT_HOOK_BLOCKED_WEBFETCH_ONLY_VIA_AGENT_VAR_0

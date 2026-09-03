@@ -1,9 +1,9 @@
 <!--
 name: 'Tool Description: Artifact update and list guidance'
 description: >-
-  Artifact tool description fragment: redeploying to the same URL, and
-  updating an artifact from an earlier conversation via url. (2.1.257 split the
-  rest of the former block into its own prompts.)
+  Artifact tool description fragment: redeploying to the same URL, and updating
+  an artifact from an earlier conversation via url. (2.1.257 split the rest of
+  the former block into its own prompts.)
 ccVersion: 2.1.257
 -->
 **To update**: Edit the file, then call Artifact again with the same file path — it redeploys to the same URL. A different file path claims a new URL, so only use a different path to create a separate Artifact.

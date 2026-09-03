@@ -7,5 +7,6 @@ description: >-
 ccVersion: 2.1.246
 variables:
   - TOOL_RESULT_MEMORY_DELETION_CONFLICT_VAR_0
+  - TOOL_RESULT_MEMORY_DELETION_CONFLICT_VAR_1
 -->
 Your recent deletion of the memory file ${TOOL_RESULT_MEMORY_DELETION_CONFLICT_VAR_0(TOOL_RESULT_MEMORY_DELETION_CONFLICT_VAR_1)} was NOT applied to shared memory: another session updated the file first (concurrent-write conflict). The file on disk has been restored with the server's current version. Re-read it and delete it again if that is still wanted.

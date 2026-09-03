@@ -3,6 +3,8 @@ name: 'Tool Description: Edit'
 description: Tool for performing exact string replacements in files
 ccVersion: 2.1.237
 variables:
+  - SHOULD_OMIT_READ_BEFORE_EDIT_REQUIREMENT
+  - OUTSIDE_WORKING_DIR_READ_REQUIREMENT_FN
   - MUST_READ_FIRST_FN
   - LINE_NUMBER_PREFIX_FORMAT
   - ADDITIONAL_EDIT_GUIDELINES_NOTE

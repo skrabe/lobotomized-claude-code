@@ -1,8 +1,8 @@
 <!--
 name: 'Skill: Claude Code Doctor'
 description: >-
-  Bundled /doctor skill — health-checks the user's Claude Code setup from
-  local data only (installation and settings integrity, unused skills/MCP
+  Bundled /doctor skill — health-checks the user's Claude Code setup from local
+  data only (installation and settings integrity, unused skills/MCP
   servers/plugins, CLAUDE.md dedup and trimming, slow hooks, context-heavy
   extensions, version currency, auto mode, frequently-denied read-only
   commands), then proposes fixes behind a confirm gate. Injected only when the

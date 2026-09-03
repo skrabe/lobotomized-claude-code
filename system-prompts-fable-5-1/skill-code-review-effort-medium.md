@@ -12,10 +12,6 @@ variables:
   - ANGLE_SIMPLIFICATION
   - ANGLE_EFFICIENCY
   - ANGLE_ALTITUDE
-  - ANGLE_CONVENTIONS
-  - CLEANUP_CANDIDATES_NOTE
-  - PHASE_2_VERIFY_3_STATE
-  - OUTPUT_FORMAT_FN
 -->
 \`medium effort → 3+5 angles × 6 candidates → 1-vote verify → ≤8 findings\`
 

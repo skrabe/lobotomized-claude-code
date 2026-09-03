@@ -2,8 +2,8 @@
 name: 'Cloud Review: --fix Apply Instruction'
 description: >-
   Conditional suffix appended to the completed cloud-review task notification
-  instructing the model to apply the findings to the local working tree and
-  run the relevant checks.
+  instructing the model to apply the findings to the local working tree and run
+  the relevant checks.
 ccVersion: 2.1.218
 -->
 

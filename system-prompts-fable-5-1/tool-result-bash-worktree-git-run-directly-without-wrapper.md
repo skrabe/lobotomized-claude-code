@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: Worktree Git Run Directly Without Wrapper'
+description: >-
+  Advice tail when a wrapper runs before git, returned as bash stderr via the
+  worktree command guard.
+ccVersion: 2.1.246
+variables:
+  - TOOL_RESULT_BASH_WORKTREE_GIT_RUN_DIRECTLY_WITHOUT_WRAPPER_VAR_0
+  - TOOL_RESULT_BASH_WORKTREE_GIT_RUN_DIRECTLY_WITHOUT_WRAPPER_VAR_1
+  - TOOL_RESULT_BASH_WORKTREE_GIT_RUN_DIRECTLY_WITHOUT_WRAPPER_VAR_2
+-->
+Run the git command directly, without ${TOOL_RESULT_BASH_WORKTREE_GIT_RUN_DIRECTLY_WITHOUT_WRAPPER_VAR_0(TOOL_RESULT_BASH_WORKTREE_GIT_RUN_DIRECTLY_WITHOUT_WRAPPER_VAR_1)}, from ${TOOL_RESULT_BASH_WORKTREE_GIT_RUN_DIRECTLY_WITHOUT_WRAPPER_VAR_2}.

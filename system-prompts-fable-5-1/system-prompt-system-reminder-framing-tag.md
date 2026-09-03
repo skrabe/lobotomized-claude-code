@@ -1,0 +1,14 @@
+<!--
+name: 'System Prompt: System Reminder Framing Tag'
+description: >-
+  The wrapper template that encloses injected reminder content in
+  <system-reminder> tags before it reaches the model.
+ccVersion: 2.1.237
+variables:
+  - SYSTEM_PROMPT_SYSTEM_REMINDER_FRAMING_TAG_VAR_0
+  - SYSTEM_PROMPT_SYSTEM_REMINDER_FRAMING_TAG_VAR_1
+  - SYSTEM_PROMPT_SYSTEM_REMINDER_FRAMING_TAG_VAR_2
+  - SYSTEM_PROMPT_SYSTEM_REMINDER_FRAMING_TAG_VAR_3
+-->
+<system-reminder>
+${SYSTEM_PROMPT_SYSTEM_REMINDER_FRAMING_TAG_VAR_0(SYSTEM_PROMPT_SYSTEM_REMINDER_FRAMING_TAG_VAR_1(SYSTEM_PROMPT_SYSTEM_REMINDER_FRAMING_TAG_VAR_2))}${SYSTEM_PROMPT_SYSTEM_REMINDER_FRAMING_TAG_VAR_3}

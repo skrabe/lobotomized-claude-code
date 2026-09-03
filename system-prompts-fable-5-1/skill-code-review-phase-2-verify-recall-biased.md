@@ -6,6 +6,7 @@ description: >-
 ccVersion: 2.1.160
 variables:
   - AGENT_TOOL_NAME
+  - RECALL_BIASED_RUBRIC
 -->
 ## Phase 2 — Verify (1-vote, recall-biased)
 

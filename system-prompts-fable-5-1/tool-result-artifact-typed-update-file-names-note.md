@@ -1,0 +1,12 @@
+<!--
+name: Artifact Typed Update File Names Note
+description: >-
+  Typed-artifact update tool_result note listing own files versus the type's
+  fixed files.
+ccVersion: 2.1.246
+variables:
+  - TOOL_RESULT_ARTIFACT_TYPED_UPDATE_FILE_NAMES_NOTE_VAR_0
+  - TOOL_RESULT_ARTIFACT_TYPED_UPDATE_FILE_NAMES_NOTE_VAR_1
+  - TOOL_RESULT_ARTIFACT_TYPED_UPDATE_FILE_NAMES_NOTE_VAR_2
+-->
+ File names in this result are ${TOOL_RESULT_ARTIFACT_TYPED_UPDATE_FILE_NAMES_NOTE_VAR_0}. Its own files now: ${TOOL_RESULT_ARTIFACT_TYPED_UPDATE_FILE_NAMES_NOTE_VAR_1(TOOL_RESULT_ARTIFACT_TYPED_UPDATE_FILE_NAMES_NOTE_VAR_2.own_files)}. The type's files (fixed): ${TOOL_RESULT_ARTIFACT_TYPED_UPDATE_FILE_NAMES_NOTE_VAR_1(TOOL_RESULT_ARTIFACT_TYPED_UPDATE_FILE_NAMES_NOTE_VAR_2.type_files)}.

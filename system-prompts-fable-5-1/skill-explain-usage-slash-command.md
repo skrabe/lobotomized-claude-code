@@ -1,9 +1,9 @@
 <!--
 name: 'Skill: /explain-usage Slash Command'
 description: >-
-  Prompt body of the built-in /explain-usage slash command instructing the
-  model to break the session transcript's token usage into weighted groups,
-  chart it, and explain it plainly.
+  Prompt body of the built-in /explain-usage slash command instructing the model
+  to break the session transcript's token usage into weighted groups, chart it,
+  and explain it plainly.
 ccVersion: 2.1.218
 -->
 Show me where this session's tokens went.

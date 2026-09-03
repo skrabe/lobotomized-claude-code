@@ -5,3 +5,4 @@ description: >-
   tool input schema (what happened to the finding after applying fixes)
 ccVersion: 2.1.196
 -->
+

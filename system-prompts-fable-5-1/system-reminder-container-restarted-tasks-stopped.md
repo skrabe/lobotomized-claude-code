@@ -7,6 +7,7 @@ ccVersion: 2.1.247
 variables:
   - SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_0
   - SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_1
+  - SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_2
 -->
 <system-reminder>
 The container was restarted. The following background tasks were running and are now stopped:

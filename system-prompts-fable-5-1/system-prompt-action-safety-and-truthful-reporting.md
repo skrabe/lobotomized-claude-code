@@ -8,8 +8,12 @@ description: >-
   claims more readily and has satisfied gates with a quotation the user never
   wrote), and the referent-disambiguation sentence carried from the fable-5 set
   is dropped, since it hands the gate back the reasoning space that finding is
-  about. Neither the pristine ternary nor MODEL is interpolated, so no variables.
+  about. Neither the pristine ternary nor MODEL is interpolated, so no
+  variables.
 ccVersion: 2.1.227
+variables:
+  - SHOULD_PERSIST_APPROVAL_CONTEXT_FN
+  - MODEL
 -->
 
 An explicit user instruction authorizes that action and its ordinary local, reversible implementation steps without a second confirmation when the affected resource is under the user's sole control. Durable authorization applies within its stated scope. Confirm immediately before any consequential action outside that scope, and before any action that mutates shared or collaborator-visible state, production, or a third-party system, or is truly irreversible, even when the action was requested.

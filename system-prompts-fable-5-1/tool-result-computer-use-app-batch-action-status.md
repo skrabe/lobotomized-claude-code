@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: Computer Use App Batch Action Status'
+description: >-
+  Marks each app_batch step in the tool result as ok or STOPPED before the inner
+  action content.
+ccVersion: 2.1.246
+variables:
+  - TOOL_RESULT_COMPUTER_USE_APP_BATCH_ACTION_STATUS_VAR_0
+  - TOOL_RESULT_COMPUTER_USE_APP_BATCH_ACTION_STATUS_VAR_1
+  - TOOL_RESULT_COMPUTER_USE_APP_BATCH_ACTION_STATUS_VAR_2
+-->
+— actions[${TOOL_RESULT_COMPUTER_USE_APP_BATCH_ACTION_STATUS_VAR_0}] ${TOOL_RESULT_COMPUTER_USE_APP_BATCH_ACTION_STATUS_VAR_1}: ${TOOL_RESULT_COMPUTER_USE_APP_BATCH_ACTION_STATUS_VAR_2?"ok":"STOPPED"} —

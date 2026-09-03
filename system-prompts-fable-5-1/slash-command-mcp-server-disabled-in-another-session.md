@@ -7,5 +7,6 @@ description: >-
 ccVersion: 2.1.251
 variables:
   - SLASH_COMMAND_MCP_SERVER_DISABLED_IN_ANOTHER_SESSION_VAR_0
+  - SLASH_COMMAND_MCP_SERVER_DISABLED_IN_ANOTHER_SESSION_VAR_1
 -->
 "${SLASH_COMMAND_MCP_SERVER_DISABLED_IN_ANOTHER_SESSION_VAR_0(SLASH_COMMAND_MCP_SERVER_DISABLED_IN_ANOTHER_SESSION_VAR_1)}" is still available in this session, but another session disabled it — it keeps working here and won't reconnect after the next launch. Disable and re-enable it in /mcp to persist the re-enable.

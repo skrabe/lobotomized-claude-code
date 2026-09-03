@@ -1,8 +1,8 @@
 <!--
 name: 'System Reminder: Plan mode is active (5-phase, custom instructions)'
 description: >-
-  Short plan-mode reminder variant that defers the workflow body to the
-  output style's custom instructions
+  Short plan-mode reminder variant that defers the workflow body to the output
+  style's custom instructions
 ccVersion: 2.1.239
 variables:
   - SYSTEM_REMINDER_PLAN_MODE_IS_ACTIVE_5_PHASE_2_VAR_0

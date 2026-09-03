@@ -6,6 +6,7 @@ description: >-
 ccVersion: 2.1.160
 variables:
   - AGENT_TOOL_NAME
+  - VERIFY_VOTE_DEFINITIONS
 -->
 ## Phase 2 — Verify (1-vote, 3-state)
 

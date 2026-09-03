@@ -1,6 +1,8 @@
 <!--
 name: 'Tool Result: SendMessage Notify When Idle Subscribed Conditional'
-description: SendMessage tool result for an idle subscription that is delivered to the model only if the peer shares this session's permission class.
+description: >-
+  SendMessage tool result for an idle subscription that is delivered to the
+  model only if the peer shares this session's permission class.
 ccVersion: 2.1.237
 variables:
   - TOOL_RESULT_SEND_MESSAGE_NOTIFY_WHEN_IDLE_SUBSCRIBED_CONDITIONAL_VAR_0

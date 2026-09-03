@@ -1,8 +1,8 @@
 <!--
 name: 'Tool Result: Unknown Memory Store Id'
 description: >-
-  Refusal returned when the model passes a store id that is not available in this
-  session; lists available ids and points at memory_list.
+  Refusal returned when the model passes a store id that is not available in
+  this session; lists available ids and points at memory_list.
 ccVersion: 2.1.246
 variables:
   - TOOL_RESULT_MEMORY_UNKNOWN_STORE_VAR_0

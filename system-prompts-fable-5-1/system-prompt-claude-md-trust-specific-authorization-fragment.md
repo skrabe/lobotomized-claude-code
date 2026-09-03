@@ -5,3 +5,4 @@ description: >-
   CLAUDE.md may count as user intent; generic encouragement does not
 ccVersion: 2.1.178
 -->
+

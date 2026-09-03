@@ -2,8 +2,8 @@
 name: 'Tool Result: Forked Skill No Longer Resolvable On Resume'
 description: >-
   ResumeAgentStateError message refusing to resume an agent whose originating
-  forked skill no longer resolves to a fork-capable skill, surfaced to the
-  model in the SendMessage tool result.
+  forked skill no longer resolves to a fork-capable skill, surfaced to the model
+  in the SendMessage tool result.
 ccVersion: 2.1.218
 variables:
   - TOOL_RESULT_AGENT_RESUME_FORKED_SKILL_UNRESOLVED_VAR_0

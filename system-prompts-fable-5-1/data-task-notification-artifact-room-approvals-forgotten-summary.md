@@ -1,0 +1,11 @@
+<!--
+name: 'Data: Artifact Room Approvals Forgotten Summary'
+description: >-
+  Task-notification summary when no live rooms were open and remembered
+  room-join approvals were forgotten after the user stopped background activity.
+ccVersion: 2.1.246
+variables:
+  - DATA_TASK_NOTIFICATION_ARTIFACT_ROOM_APPROVALS_FORGOTTEN_SUMMARY_VAR_0
+  - DATA_TASK_NOTIFICATION_ARTIFACT_ROOM_APPROVALS_FORGOTTEN_SUMMARY_VAR_1
+-->
+Forgot the live-room ${DATA_TASK_NOTIFICATION_ARTIFACT_ROOM_APPROVALS_FORGOTTEN_SUMMARY_VAR_0(DATA_TASK_NOTIFICATION_ARTIFACT_ROOM_APPROVALS_FORGOTTEN_SUMMARY_VAR_1,"approval")} of ${DATA_TASK_NOTIFICATION_ARTIFACT_ROOM_APPROVALS_FORGOTTEN_SUMMARY_VAR_1} ${DATA_TASK_NOTIFICATION_ARTIFACT_ROOM_APPROVALS_FORGOTTEN_SUMMARY_VAR_0(DATA_TASK_NOTIFICATION_ARTIFACT_ROOM_APPROVALS_FORGOTTEN_SUMMARY_VAR_1,"artifact")} (the user stopped background activity)

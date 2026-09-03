@@ -3,8 +3,8 @@ name: 'Tool Description: WebFetch (concise)'
 description: >-
   Concise WebFetch tool description — fetches a URL, converts the page to
   markdown, and answers a prompt against it via a small fast model; notes
-  auth-URL failure, HTTPS upgrade, cross-host redirect return, and the
-  per-URL response cache
+  auth-URL failure, HTTPS upgrade, cross-host redirect return, and the per-URL
+  response cache
 ccVersion: 2.1.233
 variables:
   - IS_ARTIFACT_TOOL_ENABLED

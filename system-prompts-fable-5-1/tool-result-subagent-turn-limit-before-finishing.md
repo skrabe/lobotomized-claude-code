@@ -1,0 +1,13 @@
+<!--
+name: 'Tool Result: Subagent turn limit before finishing'
+description: >-
+  Harness note in a subagent's returned content that the agent hit its turn
+  limit before finishing, with partial-output guidance.
+ccVersion: 2.1.251
+variables:
+  - TOOL_RESULT_SUBAGENT_TURN_LIMIT_BEFORE_FINISHING_VAR_0
+  - TOOL_RESULT_SUBAGENT_TURN_LIMIT_BEFORE_FINISHING_VAR_1
+  - TOOL_RESULT_SUBAGENT_TURN_LIMIT_BEFORE_FINISHING_VAR_2
+  - TOOL_RESULT_SUBAGENT_TURN_LIMIT_BEFORE_FINISHING_VAR_3
+-->
+${TOOL_RESULT_SUBAGENT_TURN_LIMIT_BEFORE_FINISHING_VAR_0}${TOOL_RESULT_SUBAGENT_TURN_LIMIT_BEFORE_FINISHING_VAR_1}-turn limit before finishing. ${TOOL_RESULT_SUBAGENT_TURN_LIMIT_BEFORE_FINISHING_VAR_2}${TOOL_RESULT_SUBAGENT_TURN_LIMIT_BEFORE_FINISHING_VAR_3}

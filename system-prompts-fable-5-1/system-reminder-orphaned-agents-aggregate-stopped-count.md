@@ -8,5 +8,6 @@ ccVersion: 2.1.247
 variables:
   - SYSTEM_REMINDER_ORPHANED_AGENTS_AGGREGATE_STOPPED_COUNT_VAR_0
   - SYSTEM_REMINDER_ORPHANED_AGENTS_AGGREGATE_STOPPED_COUNT_VAR_1
+  - SYSTEM_REMINDER_ORPHANED_AGENTS_AGGREGATE_STOPPED_COUNT_VAR_2
 -->
 No completion record was found for ${SYSTEM_REMINDER_ORPHANED_AGENTS_AGGREGATE_STOPPED_COUNT_VAR_0.length} background agents from the previous session: ${SYSTEM_REMINDER_ORPHANED_AGENTS_AGGREGATE_STOPPED_COUNT_VAR_1}. They may have been stopped, or they may have been running when the previous Claude Code process exited — either way their transcripts are saved, so their progress is not lost. ${SYSTEM_REMINDER_ORPHANED_AGENTS_AGGREGATE_STOPPED_COUNT_VAR_2}

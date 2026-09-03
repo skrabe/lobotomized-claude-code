@@ -2,8 +2,8 @@
 name: 'Tool Result: Republish Omits A Recorded Writer Decision'
 description: >-
   Artifact tool decision-provenance error instructing the model to carry every
-  resolved and acted item in decisions_state because re-rendering an omitted
-  one open would erase the writer's click; returned as a <tool_use_error> tool
+  resolved and acted item in decisions_state because re-rendering an omitted one
+  open would erase the writer's click; returned as a <tool_use_error> tool
   result.
 ccVersion: 2.1.218
 variables:

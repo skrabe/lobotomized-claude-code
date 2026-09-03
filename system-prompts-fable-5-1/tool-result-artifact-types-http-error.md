@@ -1,0 +1,12 @@
+<!--
+name: Artifact Types Http Error
+description: >-
+  list_types/describe_type tool result for a non-relay HTTP 4xx/5xx catalog
+  failure.
+ccVersion: 2.1.246
+variables:
+  - TOOL_RESULT_ARTIFACT_TYPES_HTTP_ERROR_VAR_0
+  - TOOL_RESULT_ARTIFACT_TYPES_HTTP_ERROR_VAR_1
+  - TOOL_RESULT_ARTIFACT_TYPES_HTTP_ERROR_VAR_2
+-->
+${TOOL_RESULT_ARTIFACT_TYPES_HTTP_ERROR_VAR_0} could not be read (HTTP ${TOOL_RESULT_ARTIFACT_TYPES_HTTP_ERROR_VAR_1.status}: ${TOOL_RESULT_ARTIFACT_TYPES_HTTP_ERROR_VAR_2(TOOL_RESULT_ARTIFACT_TYPES_HTTP_ERROR_VAR_1.data)})

@@ -1,0 +1,15 @@
+<!--
+name: SendMessage rebound — what the name meant before
+description: >-
+  Tail of the rebound SendMessage tool result identifying the earlier recipient
+  (a session on another machine, or one on this machine) and noting the name now
+  belongs to an in-session agent.
+ccVersion: 2.1.232
+variables:
+  - TOOL_RESULT_SEND_MESSAGE_REBOUND_EARLIER_RECIPIENT_IDENTITY_VAR_0
+  - TOOL_RESULT_SEND_MESSAGE_REBOUND_EARLIER_RECIPIENT_IDENTITY_VAR_1
+  - TOOL_RESULT_SEND_MESSAGE_REBOUND_EARLIER_RECIPIENT_IDENTITY_VAR_2
+  - TOOL_RESULT_SEND_MESSAGE_REBOUND_EARLIER_RECIPIENT_IDENTITY_VAR_3
+  - TOOL_RESULT_SEND_MESSAGE_REBOUND_EARLIER_RECIPIENT_IDENTITY_VAR_4
+-->
+The earlier recipient is ${TOOL_RESULT_SEND_MESSAGE_REBOUND_EARLIER_RECIPIENT_IDENTITY_VAR_0(TOOL_RESULT_SEND_MESSAGE_REBOUND_EARLIER_RECIPIENT_IDENTITY_VAR_1)!==TOOL_RESULT_SEND_MESSAGE_REBOUND_EARLIER_RECIPIENT_IDENTITY_VAR_1?"a Claude session on another machine (cloud or Remote Control)":TOOL_RESULT_SEND_MESSAGE_REBOUND_EARLIER_RECIPIENT_IDENTITY_VAR_2}; this name now belongs to an agent in this session.${TOOL_RESULT_SEND_MESSAGE_REBOUND_EARLIER_RECIPIENT_IDENTITY_VAR_3?` Use ${TOOL_RESULT_SEND_MESSAGE_REBOUND_EARLIER_RECIPIENT_IDENTITY_VAR_4} if you still need that session.`:""}

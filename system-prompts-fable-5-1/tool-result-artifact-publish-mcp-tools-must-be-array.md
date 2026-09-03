@@ -1,0 +1,12 @@
+<!--
+name: Artifact Publish Mcp Tools Must Be Array
+description: >-
+  MCP manifest rejection when a server's tools field is not an array of
+  tool-name strings.
+ccVersion: 2.1.246
+variables:
+  - TOOL_RESULT_ARTIFACT_PUBLISH_MCP_TOOLS_MUST_BE_ARRAY_VAR_0
+  - TOOL_RESULT_ARTIFACT_PUBLISH_MCP_TOOLS_MUST_BE_ARRAY_VAR_1
+  - TOOL_RESULT_ARTIFACT_PUBLISH_MCP_TOOLS_MUST_BE_ARRAY_VAR_2
+-->
+${TOOL_RESULT_ARTIFACT_PUBLISH_MCP_TOOLS_MUST_BE_ARRAY_VAR_0(TOOL_RESULT_ARTIFACT_PUBLISH_MCP_TOOLS_MUST_BE_ARRAY_VAR_1.server)} "${TOOL_RESULT_ARTIFACT_PUBLISH_MCP_TOOLS_MUST_BE_ARRAY_VAR_2(TOOL_RESULT_ARTIFACT_PUBLISH_MCP_TOOLS_MUST_BE_ARRAY_VAR_1.server)}": "tools" must be an array of tool-name strings

@@ -5,7 +5,6 @@ description: >-
   branch, template, attribution, shell-formatting, and git-safety guidance
 ccVersion: 2.1.251
 variables:
-  - EMPTY_STRING
   - DEFAULT_BRANCH
   - REPO_PR_TEMPLATE_CONTEXT_BLOCK
   - ADDITIONAL_PR_GUIDANCE

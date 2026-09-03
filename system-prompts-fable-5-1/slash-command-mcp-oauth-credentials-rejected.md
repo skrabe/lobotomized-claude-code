@@ -7,5 +7,6 @@ description: >-
 ccVersion: 2.1.251
 variables:
   - SLASH_COMMAND_MCP_OAUTH_CREDENTIALS_REJECTED_VAR_0
+  - SLASH_COMMAND_MCP_OAUTH_CREDENTIALS_REJECTED_VAR_1
 -->
 Got new credentials, but ${SLASH_COMMAND_MCP_OAUTH_CREDENTIALS_REJECTED_VAR_0(SLASH_COMMAND_MCP_OAUTH_CREDENTIALS_REJECTED_VAR_1.name)} rejected them on reconnect. Try re-authenticating, or restart Claude Code if it persists.

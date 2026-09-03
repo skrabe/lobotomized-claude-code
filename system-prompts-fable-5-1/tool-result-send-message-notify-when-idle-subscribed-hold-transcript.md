@@ -1,6 +1,9 @@
 <!--
 name: 'Tool Result: SendMessage Notify When Idle Subscribed Hold Transcript'
-description: SendMessage tool result when an idle subscription is armed but all inbound peer traffic is held and shown to the user in the transcript, not delivered to the model.
+description: >-
+  SendMessage tool result when an idle subscription is armed but all inbound
+  peer traffic is held and shown to the user in the transcript, not delivered to
+  the model.
 ccVersion: 2.1.237
 variables:
   - TOOL_RESULT_SEND_MESSAGE_NOTIFY_WHEN_IDLE_SUBSCRIBED_HOLD_TRANSCRIPT_VAR_0

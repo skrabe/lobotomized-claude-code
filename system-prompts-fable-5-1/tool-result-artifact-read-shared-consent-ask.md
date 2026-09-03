@@ -1,0 +1,15 @@
+<!--
+name: Artifact read consent ask (shared artifact)
+description: >-
+  Permission ask message for reading an artifact whose content will enter the
+  conversation.
+ccVersion: 2.1.239
+variables:
+  - TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_0
+  - TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_1
+  - TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_2
+  - TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_3
+  - TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_4
+  - TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_5
+-->
+Claude wants to read ${TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_0} at ${TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_1(TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_2)} — its content enters this conversation${TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_3(TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_4)?" as an isolated summary (in full, wrapped as untrusted content, if it was published in your Slack channel)":""}${TOOL_RESULT_ARTIFACT_READ_SHARED_CONSENT_ASK_VAR_5}

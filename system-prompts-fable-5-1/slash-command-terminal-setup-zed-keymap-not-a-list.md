@@ -1,0 +1,13 @@
+<!--
+name: 'Slash Command: /terminal-setup — Zed Keymap Not A List'
+description: >-
+  Assembled /terminal-setup warning when keymap.json parses but is not an array
+  of bindings.
+ccVersion: 2.1.247
+variables:
+  - SLASH_COMMAND_TERMINAL_SETUP_ZED_KEYMAP_NOT_A_LIST_VAR_0
+  - SLASH_COMMAND_TERMINAL_SETUP_ZED_KEYMAP_NOT_A_LIST_VAR_1
+  - SLASH_COMMAND_TERMINAL_SETUP_ZED_KEYMAP_NOT_A_LIST_VAR_2
+  - SLASH_COMMAND_TERMINAL_SETUP_ZED_KEYMAP_NOT_A_LIST_VAR_3
+-->
+${SLASH_COMMAND_TERMINAL_SETUP_ZED_KEYMAP_NOT_A_LIST_VAR_0("warning",SLASH_COMMAND_TERMINAL_SETUP_ZED_KEYMAP_NOT_A_LIST_VAR_1)("Your Zed keymap isn't a readable list of keybindings, so it was left unchanged.")}${SLASH_COMMAND_TERMINAL_SETUP_ZED_KEYMAP_NOT_A_LIST_VAR_2}${SLASH_COMMAND_TERMINAL_SETUP_ZED_KEYMAP_NOT_A_LIST_VAR_3}${SLASH_COMMAND_TERMINAL_SETUP_ZED_KEYMAP_NOT_A_LIST_VAR_2}

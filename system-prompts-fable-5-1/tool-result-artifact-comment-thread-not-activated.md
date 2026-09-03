@@ -1,0 +1,8 @@
+<!--
+name: 'Tool Result: Artifact Comment Thread Not Activated'
+description: >-
+  Resolve-thread tool_result when Claude is not activated on the comment thread,
+  so the resolve is a no-op.
+ccVersion: 2.1.251
+-->
+Thread not resolved: Claude is not currently activated on this comment thread, so its state is unchanged. Resolving uses the same per-thread activation as replying, and you cannot tell whether the thread was never sent to Claude or its access was revoked — say only that Claude isn't currently activated on it, and that a writer can send it to Claude (reply on it with Send to Claude) or resolve it in the artifact view. Do not retry without that.

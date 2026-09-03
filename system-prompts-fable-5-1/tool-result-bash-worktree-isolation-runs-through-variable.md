@@ -1,0 +1,12 @@
+<!--
+name: Worktree Isolation Runs Through Variable
+description: >-
+  Worktree-isolation refusal telling the model to spell out a known program that
+  is only reached through a variable.
+ccVersion: 2.1.259
+variables:
+  - TOOL_RESULT_BASH_WORKTREE_ISOLATION_RUNS_THROUGH_VARIABLE_VAR_0
+  - TOOL_RESULT_BASH_WORKTREE_ISOLATION_RUNS_THROUGH_VARIABLE_VAR_1
+  - TOOL_RESULT_BASH_WORKTREE_ISOLATION_RUNS_THROUGH_VARIABLE_VAR_2
+-->
+runs ${TOOL_RESULT_BASH_WORKTREE_ISOLATION_RUNS_THROUGH_VARIABLE_VAR_0} through the variable ${TOOL_RESULT_BASH_WORKTREE_ISOLATION_RUNS_THROUGH_VARIABLE_VAR_1} ${TOOL_RESULT_BASH_WORKTREE_ISOLATION_RUNS_THROUGH_VARIABLE_VAR_2}; spell it out
