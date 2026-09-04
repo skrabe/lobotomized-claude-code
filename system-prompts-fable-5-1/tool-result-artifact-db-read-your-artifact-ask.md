@@ -1,0 +1,13 @@
+<!--
+name: Artifact DB Read Your-Artifact Ask
+description: >-
+  checkPermissions ask message when Claude wants to read the database of the
+  user's own artifact, noting rows are viewer-written.
+ccVersion: 2.1.261
+variables:
+  - TOOL_RESULT_ARTIFACT_DB_READ_YOUR_ARTIFACT_ASK_VAR_0
+  - TOOL_RESULT_ARTIFACT_DB_READ_YOUR_ARTIFACT_ASK_VAR_1
+  - TOOL_RESULT_ARTIFACT_DB_READ_YOUR_ARTIFACT_ASK_VAR_2
+  - TOOL_RESULT_ARTIFACT_DB_READ_YOUR_ARTIFACT_ASK_VAR_3
+-->
+Claude wants to read the database of your artifact at ${TOOL_RESULT_ARTIFACT_DB_READ_YOUR_ARTIFACT_ASK_VAR_0(TOOL_RESULT_ARTIFACT_DB_READ_YOUR_ARTIFACT_ASK_VAR_1)}${TOOL_RESULT_ARTIFACT_DB_READ_YOUR_ARTIFACT_ASK_VAR_2}; rows there are written by artifact viewers${TOOL_RESULT_ARTIFACT_DB_READ_YOUR_ARTIFACT_ASK_VAR_3}

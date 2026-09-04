@@ -1,0 +1,13 @@
+<!--
+name: 'Remote Host: Use The Served Tool On That Path'
+description: >-
+  Retry-on-host clause when the remote machine serves the same file tool,
+  interpolated into the session-copy omit suffix.
+ccVersion: 2.1.261
+variables:
+  - TOOL_RESULT_REMOTE_HOST_USE_SERVED_TOOL_ON_PATH_VAR_0
+  - TOOL_RESULT_REMOTE_HOST_USE_SERVED_TOOL_ON_PATH_VAR_1
+  - TOOL_RESULT_REMOTE_HOST_USE_SERVED_TOOL_ON_PATH_VAR_2
+  - TOOL_RESULT_REMOTE_HOST_USE_SERVED_TOOL_ON_PATH_VAR_3
+-->
+${TOOL_RESULT_REMOTE_HOST_USE_SERVED_TOOL_ON_PATH_VAR_0.name} with "${TOOL_RESULT_REMOTE_HOST_USE_SERVED_TOOL_ON_PATH_VAR_1}": "${TOOL_RESULT_REMOTE_HOST_USE_SERVED_TOOL_ON_PATH_VAR_2.name}" on ${TOOL_RESULT_REMOTE_HOST_USE_SERVED_TOOL_ON_PATH_VAR_3}

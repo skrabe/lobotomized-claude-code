@@ -1,0 +1,16 @@
+<!--
+name: Auto Mode Classifier No-Verdict Will Not Change
+description: >-
+  Auto-mode checkPermissions deny/block message when the safety classifier gave
+  no verdict (disabled, skipped, unrecognized, or input too long) and retrying
+  the same action will not produce one.
+ccVersion: 2.1.261
+variables:
+  - TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_0
+  - TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_1
+  - TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_2
+  - TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_3
+  - TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_4
+  - TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_5
+-->
+${TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_0} gave no verdict${TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_1(TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_2,TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_3)}${TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_4}${TOOL_RESULT_AUTO_MODE_CLASSIFIER_NO_VERDICT_WILL_NOT_CHANGE_VAR_5}. Retrying this action will not change that. Continue with other tasks that don't require it; if it is essential, stop and tell the user that auto mode could not evaluate it. 

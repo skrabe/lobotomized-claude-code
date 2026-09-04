@@ -1,0 +1,12 @@
+<!--
+name: Artifact files Source URL Parse Error
+description: >-
+  Wa() files-map error that forwards Sw(artifact).message when the source URL
+  fails to parse.
+ccVersion: 2.1.261
+variables:
+  - TOOL_RESULT_ARTIFACT_FILES_SOURCE_URL_PARSE_ERROR_VAR_0
+  - TOOL_RESULT_ARTIFACT_FILES_SOURCE_URL_PARSE_ERROR_VAR_1
+  - TOOL_RESULT_ARTIFACT_FILES_SOURCE_URL_PARSE_ERROR_VAR_2
+-->
+files: the source for ${TOOL_RESULT_ARTIFACT_FILES_SOURCE_URL_PARSE_ERROR_VAR_0(TOOL_RESULT_ARTIFACT_FILES_SOURCE_URL_PARSE_ERROR_VAR_1)}: ${TOOL_RESULT_ARTIFACT_FILES_SOURCE_URL_PARSE_ERROR_VAR_2.message}

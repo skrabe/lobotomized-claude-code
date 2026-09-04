@@ -9,6 +9,7 @@ placeholders:
   - context_blocks
 shadows:
   - system-reminder-question-context
+  - system-reminder-question-context-relevance
 -->
 As you answer the user's questions, you can use the following context:
 {{context_blocks}}

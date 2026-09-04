@@ -1,0 +1,10 @@
+<!--
+name: 'Tool Parameter: Artifact supporting files'
+description: >-
+  Top-level `files` param of the artifact publish tool: map or list of
+  supporting files published alongside the page.
+ccVersion: 2.1.261
+variables:
+  - MAX_SOURCE_ARTIFACT_VERSIONS_PER_PUBLISH
+-->
+Supporting files to publish alongside the page. Map form {"published/path": "source/path" | {from, contentType} | {artifact, path, ver?} | null} publishes each source at the key (what the HTML references) — an {artifact, path} source copies that Artifact's published file server side (an Artifact you can open, same organization; its type comes with it; not an HTML, SVG or XML document; at most ${MAX_SOURCE_ARTIFACT_VERSIONS_PER_PUBLISH} source Artifact versions per publish); when updating an existing artifact, files left out of the map are kept and null removes that path. List form publishes each file at its own spelling. Local sources must lie under the working directory.

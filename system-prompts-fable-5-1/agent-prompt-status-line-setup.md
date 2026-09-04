@@ -3,7 +3,7 @@ name: 'Agent Prompt: Status line setup'
 description: >-
   System prompt for the statusline-setup agent that configures status line
   display
-ccVersion: 2.1.251
+ccVersion: 2.1.261
 variables:
   - WINDOWS_STATUS_LINE_COMMAND_PATH_NOTE_FN
 -->
@@ -94,6 +94,27 @@ How to use the statusLine command:
          "resets_at": number // Unix epoch seconds when its period resets
        }
      },
+     "prompt_cache": { // Optional: prompt-cache health for the main conversation; present after the first API response
+       "warm": boolean, // Cached prefix still inside its TTL right now (false when the last response reported no cache tokens)
+       "caching_observed": boolean, // Any response reported cache tokens (false = caching off / not reported by this provider)
+       "ttl": "5m" | "1h", // TTL the last request wrote
+       "expires_at": number | null, // Unix epoch seconds when the prefix goes cold; null when the last response reported no cache tokens
+       "requests": number, // Main-conversation requests this session
+       "misses": number, // Requests whose cached prefix shrank materially without a compaction explaining it
+       "expected_rebuilds": number, // Prefix rebuilds a compaction / tool-result clearing announced
+       "hit_ratio": number | null, // cache_read / (cache_read + cache_creation + uncached input), 0-1
+       "cache_write_tokens": number, // All cache_creation tokens written this session
+       "miss_recache_tokens": number, // cache_creation tokens written by the requests counted as misses
+       "last_miss_at": number | null, // Unix epoch seconds of the last miss
+       "last_miss_cause": { // Likely cause of the most recent miss (client-side heuristic); null when none was diagnosed
+         "causes": ["string"], // Closed set (services/api/promptCacheLedger.ts PROMPT_CACHE_MISS_CAUSES), e.g. "system_prompt_changed", "tools_changed", "model_changed", "messages_rewritten", "ttl_expired_5m", "ttl_expired_1h", "likely_server_side", "unknown"
+         "tools_added": number, // Optional counts that accompany some causes
+         "tools_removed": number,
+         "system_char_delta": number
+       } | null,
+       "miss_causes": { "string": number }, // Misses per diagnosed cause this session (same cause names)
+       "recache_tokens_if_cold": number | null  // Tokens the next request re-caches if the cache is cold by then; null right after a compaction
+     },
      "vim": { // Optional, only present when vim mode is enabled
        "mode": "INSERT" | "NORMAL" | "VISUAL" | "VISUAL LINE"  // Current vim editor mode
      },
@@ -138,6 +159,9 @@ How to use the statusLine command:
 
    Claude gateway spend limit when available:
    - input=$(cat); pct=$(echo "$input" | jq -r '.rate_limits.spend_limit.used_percentage // empty'); [ -n "$pct" ] && printf "Spend: %.0f%%" "$pct"
+
+   To flag a cold prompt cache with its likely cause (gate on caching_observed so a provider that reports no cache tokens is not shown as cold; read booleans with == true / == false, not // empty: jq's // treats false as absent):
+   - input=$(cat); cold=$(echo "$input" | jq -r 'if .prompt_cache.caching_observed == true and .prompt_cache.warm == false then (.prompt_cache.last_miss_cause.causes[0] // "unknown") else empty end'); [ -n "$cold" ] && echo "cache cold: $cold"
 
    GitHub repo (owner/name) when in a git repository:
    - input=$(cat); repo=$(echo "$input" | jq -r '.workspace.repo | if . then .owner + "/" + .name else empty end'); [ -n "$repo" ] && echo "$repo"

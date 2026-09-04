@@ -4,10 +4,10 @@ description: >-
   Upload-only attached-machine clause: durable project edits must use the
   absolute path on the host under its permission rules because this session's
   copy is not sent back.
-ccVersion: 2.1.259
+ccVersion: 2.1.261
 variables:
   - SYSTEM_REMINDER_TOOL_HOSTS_UPLOAD_ONLY_ABSOLUTE_PATH_VAR_0
   - SYSTEM_REMINDER_TOOL_HOSTS_UPLOAD_ONLY_ABSOLUTE_PATH_VAR_1
   - SYSTEM_REMINDER_TOOL_HOSTS_UPLOAD_ONLY_ABSOLUTE_PATH_VAR_2
 -->
-${SYSTEM_REMINDER_TOOL_HOSTS_UPLOAD_ONLY_ABSOLUTE_PATH_VAR_0} — make project changes the user should keep that way (edits to this session's copy are not sent back; a change made there reaches this session's copy with the user's next message); read and search the project in this session's copy, without "${SYSTEM_REMINDER_TOOL_HOSTS_UPLOAD_ONLY_ABSOLUTE_PATH_VAR_1}"
+${SYSTEM_REMINDER_TOOL_HOSTS_UPLOAD_ONLY_ABSOLUTE_PATH_VAR_0} — make project changes the user should keep that way (edits to this session's copy are not sent back; ${SYSTEM_REMINDER_TOOL_HOSTS_UPLOAD_ONLY_ABSOLUTE_PATH_VAR_1}); read and search the project in this session's copy, without "${SYSTEM_REMINDER_TOOL_HOSTS_UPLOAD_ONLY_ABSOLUTE_PATH_VAR_2}"

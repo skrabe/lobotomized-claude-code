@@ -4,7 +4,7 @@ description: >-
   Exact body match in pieb-bodymap; appended via --append-system-prompt to the
   `claude self-hosted-runner doctor` child session to drive the runner
   diagnostic decision tree.
-ccVersion: 2.1.238
+ccVersion: 2.1.261
 variables:
   - ANTHROPIC_API_BASE_URL
   - ANTHROPIC_API_HOST
@@ -69,7 +69,7 @@ Each row: **signature** (what the operator or logs show) → **check** → **roo
 | \`failure_log\`: \`command not found\` | \`which <tool>\` inside runner image | Tool missing | Install in the image |
 | \`failure_log\`: \`ENOSPC\` | \`df -h\` on runner host | Disk full | Clean \`--base-dir\` / mount larger volume |
 | Child \`claude\` exits immediately, no output | Inspect \`--exec-path\` wrapper | Wrapper broken | \`chmod +x\`; test standalone |
-| Session aborted after N min wall-clock | \`--kill-session-after-min\` value | Max-lifetime watchdog fired on a single child session | Raise if too aggressive |
+| Session released (if waiting on its user) or aborted after N min wall-clock | \`--kill-session-after-min\` value | Max-lifetime watchdog fired on a single child session | Raise if too aggressive |
 | \`[runner:session] <sid> no child output for <N> — releasing\` | \`--startup-timeout-min\` value (default 15) | Startup-timeout clock fired — child produced no output (slow MCP connect / large \`--resume\` hydration / no pending input) | Raise \`--startup-timeout-min\` or set \`0\` to disable |
 | \`failure_log\`: \`Another runner has taken over this session\` (409) | Network blips / long pauses before? | Lease expired, another runner claimed it | Usually self-resolves |
 | Session shows a **Failed** badge (with an attempt count and **Retry**) in the Activity tab's Sessions view (\`excluded_runner_ids\` length ≥ 3) | \`self_hosted_runner_list_sessions\` → check \`failure_log\` + \`excluded_runner_ids\` | Failed on 3 different runners — usually the session, not the infra | Investigate the session; if you've confirmed the infra is healthy and want to retry on a fresh runner, \`self_hosted_runner_requeue_session({session_id, runner_id})\` clears the block (pass the last runner in excluded_runner_ids as runner_id) |
