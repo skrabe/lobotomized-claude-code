@@ -1,8 +1,10 @@
 <!--
-name: 'Tool result: Artifact file list record unreadable'
+name: 'Tool Result: Artifact File Listing Record Unreadable'
 description: >-
-  Artifact tool result for an unparseable file_list record, telling the model to
-  re-run action list_files
-ccVersion: 2.1.239
+  list_files tool_result when the stored file_list record fails to parse,
+  telling the model to list again.
+ccVersion: 2.1.265
+variables:
+  - TOOL_RESULT_ARTIFACT_FILE_LIST_RECORD_UNREADABLE_VAR_0
 -->
-This record of a file listing is unreadable — run action "list_files" again for the live listing.
+This record of a file listing is unreadable — run ${TOOL_RESULT_ARTIFACT_FILE_LIST_RECORD_UNREADABLE_VAR_0('action "list_files"',()=>'action "list" with `scope: "files"`')} again for the live listing.

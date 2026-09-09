@@ -1,13 +1,14 @@
 <!--
 name: 'System Reminder: Deferred Tools No Longer Available In Session'
 description: >-
-  Tells the model non-MCP deferred tools announced earlier are gone and
-  ToolSearch will not match them.
-ccVersion: 2.1.251
+  deferred_tools_delta meta listing non-MCP tools no longer available in this
+  session.
+ccVersion: 2.1.265
 variables:
   - SYSTEM_REMINDER_DEFERRED_TOOLS_NO_LONGER_AVAILABLE_VAR_0
   - SYSTEM_REMINDER_DEFERRED_TOOLS_NO_LONGER_AVAILABLE_VAR_1
+  - SYSTEM_REMINDER_DEFERRED_TOOLS_NO_LONGER_AVAILABLE_VAR_2
 -->
-The following deferred tools are no longer available in this session. Do not search for them — ${SYSTEM_REMINDER_DEFERRED_TOOLS_NO_LONGER_AVAILABLE_VAR_0} will return no match:
-${SYSTEM_REMINDER_DEFERRED_TOOLS_NO_LONGER_AVAILABLE_VAR_1.other.join(`
+The following ${SYSTEM_REMINDER_DEFERRED_TOOLS_NO_LONGER_AVAILABLE_VAR_0}s are no longer available in this session. ${SYSTEM_REMINDER_DEFERRED_TOOLS_NO_LONGER_AVAILABLE_VAR_1}:
+${SYSTEM_REMINDER_DEFERRED_TOOLS_NO_LONGER_AVAILABLE_VAR_2.other.join(`
 `)}

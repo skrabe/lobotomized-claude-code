@@ -4,7 +4,7 @@ description: >-
   Skill reference for authoring Workflow scripts, covering script persistence,
   metadata, agent hooks, isolation, concurrency, budgeting, quality patterns,
   and resume behavior
-ccVersion: 2.1.261
+ccVersion: 2.1.265
 variables:
   - WORKFLOW_INVOCATION_QUALIFIER
   - WORKFLOW_SCRIPT_PATH_NOTE
@@ -63,6 +63,8 @@ Subagents are told their final text IS the return value (not a human-facing mess
 Schemas need {type: 'object', properties: {...}} at root and required ⊆ properties; unsatisfiable ones throw at agent().
 
 Workflow agents can reach all session-connected MCP tools via ToolSearch — schemas load on demand per agent. Caveat: interactively-authenticated MCP servers (e.g. claude.ai) may be absent in headless/cron runs.
+
+Subagents get the same CLAUDE.md files injected at start that you did (except built-in agent types that omit them, such as Explore and Plan) — don't tell them to re-read those or paste their rules into the prompt; name the specific rule a stage needs, if any.
 
 Scripts are plain JavaScript, NOT TypeScript — type annotations (\`: string[]\`), interfaces, and generics fail to parse. The script body runs in an async context — use await directly. Standard JS built-ins (JSON, Math, Array, etc.) are available — EXCEPT \`Date.now()\`/\`Math.random()\`/argless \`new Date()\`, which throw (they would break resume); pass timestamps in via \`args\`, stamp results after the workflow returns, and for randomness vary the agent prompt/label by index. No filesystem or Node.js API access.
 

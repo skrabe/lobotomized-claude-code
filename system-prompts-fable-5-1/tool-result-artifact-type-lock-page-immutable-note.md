@@ -1,0 +1,14 @@
+<!--
+name: Artifact Type-Lock Page Immutable Note
+description: >-
+  Bracketed type-lock tool_result note that the Artifact's page and the type's
+  other files cannot be changed here.
+ccVersion: 2.1.265
+variables:
+  - TOOL_RESULT_ARTIFACT_TYPE_LOCK_PAGE_IMMUTABLE_NOTE_VAR_0
+  - TOOL_RESULT_ARTIFACT_TYPE_LOCK_PAGE_IMMUTABLE_NOTE_VAR_1
+  - TOOL_RESULT_ARTIFACT_TYPE_LOCK_PAGE_IMMUTABLE_NOTE_VAR_2
+  - TOOL_RESULT_ARTIFACT_TYPE_LOCK_PAGE_IMMUTABLE_NOTE_VAR_3
+-->
+
+[${TOOL_RESULT_ARTIFACT_TYPE_LOCK_PAGE_IMMUTABLE_NOTE_VAR_0(TOOL_RESULT_ARTIFACT_TYPE_LOCK_PAGE_IMMUTABLE_NOTE_VAR_1(TOOL_RESULT_ARTIFACT_TYPE_LOCK_PAGE_IMMUTABLE_NOTE_VAR_2.typeLock))} ${TOOL_RESULT_ARTIFACT_TYPE_LOCK_PAGE_IMMUTABLE_NOTE_VAR_3}; its page and the type's other files can't be changed here.]

@@ -1,11 +1,13 @@
 <!--
-name: 'System Reminder: Deferred tools readded non-MCP'
+name: 'System Reminder: Deferred Tools Readded Non-MCP'
 description: >-
-  Reminder that deferred non-MCP tools announced earlier are available again in
-  this session and should be loaded via ToolSearch.
-ccVersion: 2.1.251
+  deferred_tools_delta meta line announcing non-MCP tools available again in
+  this session; wording is deferred tool(s) when ToolSearch is present,
+  otherwise tool(s).
+ccVersion: 2.1.265
 variables:
   - SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_0
   - SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_1
+  - SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_2
 -->
-${SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_0.other.length} deferred tool${SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_0.other.length===1?" is":"s are"} available again in this session (announced earlier in this conversation): ${SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_0.other.join(", ")}. Load via ${SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_1} as before.
+${SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_0.other.length} ${SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_1}${SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_0.other.length===1?" is":"s are"} available again in this session (announced earlier in this conversation): ${SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_0.other.join(", ")}.${SYSTEM_REMINDER_DEFERRED_TOOLS_READDED_NON_MCP_VAR_2}

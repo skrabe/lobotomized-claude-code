@@ -4,7 +4,7 @@ description: >-
   Bash-tool git-commit and PR-creation workflow: safety protocol, parallel
   status/diff/log, HEREDOC commit, gh pr create body template, and
   commit-only-when-asked rules.
-ccVersion: 2.1.257
+ccVersion: 2.1.265
 variables:
   - TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_0
   - TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_1
@@ -16,6 +16,7 @@ variables:
   - TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_7
   - TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_8
   - TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_9
+  - TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_10
 -->
 # Committing changes with git
 
@@ -55,9 +56,7 @@ Important notes:
 - In order to ensure good formatting, ALWAYS pass the commit message via a HEREDOC, a la this example:
 <example>
 git commit -m "$(cat <<'EOF'
-   Commit message here.${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_4?`
-
-   ${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_4}`:""}
+   Commit message here.${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_4}
    EOF
    )"
 </example>
@@ -73,22 +72,20 @@ When the user asks you to create a pull request:
    - Check whether the current branch tracks a remote branch and is up to date with it, so you know whether you need to push.
    - git log and \`git diff [base-branch]...HEAD\`, for the full commit history of the branch.
 2. Draft a title and body covering every commit in that range. Keep the title under 70 characters.
-3. Run in parallel: push to the remote with -u if needed, and create the PR with gh pr create, passing the body via a HEREDOC:
+3. Run in parallel: push to the remote with -u if needed, and create the PR with gh pr create, passing the body via a HEREDOC:${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_6}
 <example>
 gh pr create --title "the pr title" --body "$(cat <<'EOF'
 ## Summary
-${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_6()}
+${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_7()}
 
 ## Test plan
-${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_7()}${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_8?`
-
-${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_8}`:""}
+${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_8()}${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_9}
 EOF
 )"
 </example>
 4. Return the PR URL when you're done.
 
 # Other common operations
-- View comments on a Github PR: gh api repos/foo/bar/pulls/123/comments${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_9?`
+- View comments on a Github PR: gh api repos/foo/bar/pulls/123/comments${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_10?`
 
-${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_9}`:""}
+${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_10}`:""}
