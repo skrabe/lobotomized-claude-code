@@ -1,12 +1,12 @@
 <!--
-name: Artifact contract echo rejected
+name: Artifact Contract Echo Rejected
 description: >-
-  Artifact publish 422 error explaining the republish echoed the stored contract
-  pin and how to move off it.
-ccVersion: 2.1.232
+  Publish tool result when a republish echoed the artifact's stored contract pin
+  and nothing was published.
+ccVersion: 2.1.267
 variables:
   - TOOL_RESULT_ARTIFACT_CONTRACT_ECHO_REJECTED_VAR_0
   - TOOL_RESULT_ARTIFACT_CONTRACT_ECHO_REJECTED_VAR_1
   - TOOL_RESULT_ARTIFACT_CONTRACT_ECHO_REJECTED_VAR_2
 -->
-deploy ${TOOL_RESULT_ARTIFACT_CONTRACT_ECHO_REJECTED_VAR_0}: ${TOOL_RESULT_ARTIFACT_CONTRACT_ECHO_REJECTED_VAR_1(TOOL_RESULT_ARTIFACT_CONTRACT_ECHO_REJECTED_VAR_2)} — this republish echoed the artifact's stored 
+deploy ${TOOL_RESULT_ARTIFACT_CONTRACT_ECHO_REJECTED_VAR_0}: ${TOOL_RESULT_ARTIFACT_CONTRACT_ECHO_REJECTED_VAR_1(TOOL_RESULT_ARTIFACT_CONTRACT_ECHO_REJECTED_VAR_2,200)} — this republish echoed the artifact's stored 

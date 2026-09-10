@@ -1,0 +1,15 @@
+<!--
+name: 'Slash Command: /effort — Exceeds Org Cap'
+description: >-
+  /effort result telling the model the requested effort exceeded the
+  settings/org cap and was clamped.
+ccVersion: 2.1.267
+variables:
+  - SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_0
+  - SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_1
+  - SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_2
+  - SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_3
+  - SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_4
+  - SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_5
+-->
+Effort '${SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_0}' exceeds the cap for ${SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_1} set by your settings or organization; set to '${SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_2}' instead${SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_3}: ${SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_4}${SLASH_COMMAND_EFFORT_EXCEEDS_ORG_CAP_VAR_5??""}
