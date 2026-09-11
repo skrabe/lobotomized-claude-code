@@ -4,19 +4,21 @@ description: >-
   Step-by-step instructions for executing a dynamic pacing loop that runs tasks,
   arms persistent monitors for event-gated waits, schedules fallback heartbeat
   ticks, and handles task notifications
-ccVersion: 2.1.246
+ccVersion: 2.1.268
 variables:
   - TASK_RUN_LABEL
   - MONITOR_TOOL_NAME
+  - MONITOR_ARMING_GUIDANCE_FN
   - SCHEDULE_WAKEUP_TOOL_NAME
-  - TASK_LIST_TOOL_NAME
+  - MONITOR_REARM_GUIDANCE_FN
   - CONFIRMATION_MESSAGE
   - DYNAMIC_MODE_SENTINEL
   - TASK_STOP_TOOL_NAME
+  - TASK_LIST_TOOL_NAME
   - ADDITIONAL_INFO_FN
 -->
 1. **Run ${TASK_RUN_LABEL} now**, following the instructions inlined below.
-2. **If the next tick is gated on an event** (CI finishing, a PR comment, a log line) and no ${MONITOR_TOOL_NAME} is already running for it: arm one now with \`persistent: true\`. Its events wake this loop immediately — you do not wait for the ${SCHEDULE_WAKEUP_TOOL_NAME} deadline. Arm once; on later ticks call ${TASK_LIST_TOOL_NAME} first and skip if a monitor is already running.
+2. **If the next tick is gated on an event** (CI finishing, a PR comment, a log line) and no ${MONITOR_TOOL_NAME} is already running for it: ${MONITOR_ARMING_GUIDANCE_FN()}. Its events wake this loop immediately — you do not wait for the ${SCHEDULE_WAKEUP_TOOL_NAME} deadline. ${MONITOR_REARM_GUIDANCE_FN("ticks")}
 3. **Briefly confirm**: ${CONFIRMATION_MESSAGE}, whether a ${MONITOR_TOOL_NAME} is the primary wake signal, and what fallback delay you're about to pick. Write this as text *before* calling ${SCHEDULE_WAKEUP_TOOL_NAME} — the turn ends as soon as that tool returns.
 4. **Then, as the last action of this turn, decide whether the loop continues.** If the next check is worth running, call ${SCHEDULE_WAKEUP_TOOL_NAME} with:
    - \`delaySeconds\`: with a ${MONITOR_TOOL_NAME} armed this is the fallback heartbeat (lean 1200–1800s). Without one, pick based on what you observed this turn — quiet branch? wait longer. Lots in flight? wait shorter. Read the tool's own description for cache-aware delay guidance.

@@ -3,7 +3,7 @@ name: 'Agent Prompt: /schedule slash command'
 description: >-
   Guides the user through scheduling, updating, listing, or running remote
   Claude Code agents on cron triggers via the Anthropic cloud API
-ccVersion: 2.1.257
+ccVersion: 2.1.268
 variables:
   - USER_REQUEST
   - ASK_USER_QUESTION_TOOL_NAME
@@ -19,7 +19,6 @@ variables:
   - NOW_LOCAL_TIME
   - NOW_UTC_ISO
   - IS_GITHUB_REMINDER_ENABLED
-  - IS_QUICK_WEB_SETUP_AVAILABLE_FN
 -->
 # Schedule Cloud Agents
 
@@ -171,7 +170,7 @@ Before computing any \`run_once_at\`, re-check the current time with \`date -u +
 - When listing, \`ended_reason: "run_once_fired"\` means a one-shot already ran ("Ran" in the web UI); the user can re-arm it with a new \`run_once_at\`.
 - Default to \`enabled: true\` unless the user says otherwise.
 - Accept GitHub URLs in any format and normalize to the full HTTPS URL (no .git suffix).
-${IS_GITHUB_REMINDER_ENABLED?`- If the request needs GitHub repo access (cloning, opening PRs, reading code), remind the user that ${IS_QUICK_WEB_SETUP_AVAILABLE_FN()?"they should run /web-setup to connect their GitHub account (or install the Claude GitHub App on the repo) — otherwise the cloud agent can't access it":"they need the Claude GitHub App installed on the repo — otherwise the cloud agent can't access it"}.`:""}
+${IS_GITHUB_REMINDER_ENABLED?"- If the request needs GitHub repo access (e.g. cloning a repo, opening PRs, reading code), remind them of the GitHub access setup note above and its remedy — otherwise the cloud agent won't be able to access the repo.":""}
 ${USER_REQUEST?`
 ## User Request
 

@@ -1,8 +1,8 @@
 <!--
-name: Artifact Publish Required Fields New-Artifact Clause
+name: Artifact Publish Required New Artifact Clause
 description: >-
-  validateInput suffix when file_path/favicon are required to publish a new
-  Artifact rather than update via url.
-ccVersion: 2.1.251
+  Clause on a publish validation error that this call creates a new Artifact
+  unless url is passed.
+ccVersion: 2.1.268
 -->
- a new Artifact — to update an existing one instead, pass its `url` (its icon is kept)
+ a new Artifact — to update an existing one instead, pass its `url` (its emoji is kept)

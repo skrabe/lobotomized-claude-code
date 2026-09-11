@@ -1,0 +1,8 @@
+<!--
+name: 'System Reminder: Artifact page-owned comment reply refusal'
+description: >-
+  Reports that no reply was posted to an Artifact relay thread and directs the
+  answer to the page-owned comment thread or the current session
+ccVersion: 2.1.268
+-->
+Reply not posted: this artifact's page keeps and shows its own comment threads, and a reply on this thread would never appear there. Nothing was posted; do not retry this reply. An answer belongs in the page's own comment thread (a comment there, not an edit to the page's content), through whatever tool this session has for posting to that page's comment threads and under that tool's own permissions; if this session has none, answer here in the session and tell the user you cannot reply in the page from here.

@@ -4,10 +4,10 @@ description: >-
   Core interactive-agent identity and harness instructions for the lean
   system-prompt arm: terminal Markdown output, permission modes, hook feedback,
   parallel tools, clickable file refs.
-ccVersion: 2.1.251
+ccVersion: 2.1.268
 variables:
   - OUTPUT_STYLE_CONFIG
-  - OUTPUT_STYLE_AGENT_INTRO_FN
+  - OUTPUT_STYLE_AGENT_INTRO
   - USE_COLLABORATIVE_AGENT_INTRO_FN
   - COLLABORATIVE_AGENT_INTRO
   - SECURITY_POLICY_INSTRUCTIONS
@@ -15,7 +15,7 @@ variables:
   - TOOL_CONTEXT
 -->
 
-${OUTPUT_STYLE_CONFIG!==null?OUTPUT_STYLE_AGENT_INTRO_FN():USE_COLLABORATIVE_AGENT_INTRO_FN()?COLLABORATIVE_AGENT_INTRO:"You are an interactive agent that helps users with software engineering tasks."}
+${OUTPUT_STYLE_CONFIG!==null?OUTPUT_STYLE_AGENT_INTRO:USE_COLLABORATIVE_AGENT_INTRO_FN()?COLLABORATIVE_AGENT_INTRO:"You are an interactive agent that helps users with software engineering tasks."}
 
 ${SECURITY_POLICY_INSTRUCTIONS}
 

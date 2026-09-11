@@ -1,11 +1,10 @@
 <!--
 name: 'Tool Description: ReadFile'
 description: Tool description for reading files
-ccVersion: 2.1.128
+ccVersion: 2.1.268
 variables:
   - MAX_LINES_CONSTANT
   - CONDITIONAL_LENGTH_NOTE
-  - CAT_DASH_N_NOTE
   - READ_FULL_FILE_NOTE
   - CAN_READ_PDF_FILES_FN
   - ADDITIONAL_READ_NOTE
@@ -14,8 +13,8 @@ Reads a file from the local filesystem. Assume it can read any file on the machi
 
 Usage:
 - file_path must be an absolute path, not relative
-- Reads up to ${MAX_LINES_CONSTANT} lines from the start by default${CONDITIONAL_LENGTH_NOTE}
-${CAT_DASH_N_NOTE}
+- Reads up to ${MAX_LINES_CONSTANT} lines from the start by default
+${CONDITIONAL_LENGTH_NOTE}
 ${READ_FULL_FILE_NOTE}
 - Reads images (PNG, JPG, etc.) — contents are presented visually.${CAN_READ_PDF_FILES_FN()?`
 - Reads PDFs (.pdf). For PDFs over 10 pages, provide the pages parameter to read specific ranges (e.g. pages: "1-5"); reading a large PDF without it will fail. Max 20 pages per request.`:""}

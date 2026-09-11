@@ -4,18 +4,20 @@ description: >-
   Instructs Claude how to self-pace a recurring loop by arming event monitors as
   primary wake signals and scheduling fallback heartbeat delays between
   iterations
-ccVersion: 2.1.246
+ccVersion: 2.1.268
 variables:
   - MONITOR_TOOL_NAME
+  - MONITOR_ARMING_GUIDANCE_FN
   - SCHEDULE_WAKEUP_TOOL_NAME
-  - TASK_LIST_TOOL_NAME
+  - MONITOR_REARM_GUIDANCE_FN
   - TASK_STOP_TOOL_NAME
+  - TASK_LIST_TOOL_NAME
   - ADDITIONAL_INFO_FN
 -->
 The user wants you to self-pace. Decide what makes the next iteration worth running — a passage of time, or an observable event.
 
 1. **Run the parsed prompt now.** If it's a slash command, invoke it via the Skill tool; otherwise act on it directly.
-2. **If the next run is gated on an event** (CI finishing, a log line matching, a file changing, a PR comment) and no ${MONITOR_TOOL_NAME} is already running for it: arm one now with \`persistent: true\`. Its events arrive as \`<task-notification>\` messages and wake this loop immediately — you don't wait for the ${SCHEDULE_WAKEUP_TOOL_NAME} deadline. Arm once; on later iterations call ${TASK_LIST_TOOL_NAME} first and skip this step if a monitor is already running.
+2. **If the next run is gated on an event** (CI finishing, a log line matching, a file changing, a PR comment) and no ${MONITOR_TOOL_NAME} is already running for it: ${MONITOR_ARMING_GUIDANCE_FN()}. Its events arrive as \`<task-notification>\` messages and wake this loop immediately — you don't wait for the ${SCHEDULE_WAKEUP_TOOL_NAME} deadline. ${MONITOR_REARM_GUIDANCE_FN("iterations")}
 3. **Briefly confirm** as text: that you're self-pacing, whether a ${MONITOR_TOOL_NAME} is the primary wake signal, that you ran the task now, and the fallback delay you're about to pick. Write this *before* calling ${SCHEDULE_WAKEUP_TOOL_NAME} — the turn ends as soon as that tool returns.
 4. **As the last action of this turn, decide whether the loop continues.** If it needs another iteration, call ${SCHEDULE_WAKEUP_TOOL_NAME} with:
    - \`delaySeconds\`: with a ${MONITOR_TOOL_NAME} armed this is the fallback heartbeat — how long to wait if no event fires (lean 1200–1800s; idle ticks more frequent than the task needs are pure overhead). Without a ${MONITOR_TOOL_NAME} this is the cadence — pick based on what you observed. See the tool's own description for cache-aware delay guidance.

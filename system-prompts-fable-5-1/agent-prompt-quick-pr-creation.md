@@ -3,7 +3,7 @@ name: 'Agent Prompt: Quick PR creation'
 description: >-
   Streamlined prompt for creating a commit and pull request with pre-populated
   context
-ccVersion: 2.1.251
+ccVersion: 2.1.268
 variables:
   - SAFE_USER_VALUE
   - WHOAMI_VALUE
@@ -39,6 +39,7 @@ variables:
 - Don't force push to main/master; warn the user if they request it.
 - Don't commit files likely to contain secrets (.env, credentials.json, etc.).
 - Don't use git \`-i\` flags (rebase -i, add -i) — they require interactive input, which isn't supported.
+- When staging files, add specific files by name rather than using "git add -A" or "git add ." — bulk adds can accidentally include sensitive files (.env, credentials) or large binaries
 
 ## Your task
 

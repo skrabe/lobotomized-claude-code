@@ -4,16 +4,19 @@ description: >-
   Describes the background monitor tool that streams stdout events from
   long-running scripts as chat notifications, with guidelines on script quality,
   output volume, and selective filtering
-ccVersion: 2.1.210
+ccVersion: 2.1.268
 variables:
-  - BACKGROUND_TASKS_DISABLED
+  - SINGLE_NOTIFICATION_GUIDANCE_BLOCK
+  - IS_MONITOR_EXPIRY_ENABLED_FN
+  - SINGLE_NOTIFICATION_COMMAND_NOTE
+  - MONITOR_TIMEOUT_GUIDANCE_FN
 -->
 
 Start a background monitor that streams stdout events from a long-running script. Each stdout line is an event that arrives as a chat notification while you keep working; events arrive on their own schedule and are not user replies, even if one lands while you await an answer. Exit ends the watch.
 
 Pick by how many notifications you need:
-- **One** (server ready, build finishes) → Bash with `run_in_background` when background tasks are available, or foreground Bash when they are not and a command that exits when true, e.g. \`until grep -q "Ready in" dev.log; do sleep 0.5; done\`.
-- **One per occurrence, indefinitely** (every ERROR line) → Monitor with an unbounded command (\`tail -f\`, \`inotifywait -m\`, \`while true\`).
+${SINGLE_NOTIFICATION_GUIDANCE_BLOCK}
+- **One per occurrence, ${IS_MONITOR_EXPIRY_ENABLED_FN()?"until the monitor expires (re-arm to continue)":"indefinitely"}** (every ERROR line) → Monitor with an unbounded command (\`tail -f\`, \`inotifywait -m\`, \`while true\`).
 - **One per occurrence, until a known end** (each CI step, stop when the run completes) → Monitor with a command that emits lines then exits.
 
   # Each matching log line is an event
@@ -41,7 +44,7 @@ Pick by how many notifications you need:
     sleep 30
   done
 
-Don't use an unbounded command for a single notification. \`tail -f\`, \`inotifywait -m\`, and \`while true\` never exit on their own, so the monitor stays armed until timeout even after the event fires — use Bash with `run_in_background` when background tasks are available, or foreground Bash when they are not and an \`until\` loop instead. \`tail -f log | grep -m 1 ...\` does not fix this: if the log goes quiet after the match, \`tail\` never receives SIGPIPE and the pipeline hangs.
+Don't use an unbounded command for a single notification. \`tail -f\`, \`inotifywait -m\`, and \`while true\` never exit on their own, so the monitor stays armed until timeout even after the event fires — ${SINGLE_NOTIFICATION_COMMAND_NOTE}. \`tail -f log | grep -m 1 ...\` does not fix this: if the log goes quiet after the match, \`tail\` never receives SIGPIPE and the pipeline hangs.
 
 Script quality:
 - Every pipe stage must flush per line, or matches sit in its buffer for minutes: \`grep\` needs \`--line-buffered\`, \`awk\` needs \`fflush()\`. \`head\` can't flush — \`| head -N\` emits nothing until N matches accumulate, then ends the stream.
@@ -60,4 +63,4 @@ Coverage: a filter must match every terminal state, not just the happy path. A m
 
 Output volume: every stdout line is a conversation message, so filter for the lines you'd act on — both success and failure signals, never raw logs. Monitors producing too many events are stopped automatically; restart with a tighter filter. Stdout lines within 200ms batch into one notification, so multiline output from a single event groups naturally.
 
-The script runs in the same shell environment as Bash. Exit ends the watch (exit code reported); timeout kills it. Set \`persistent: true\` for session-length watches (PR monitoring, log tails) — it runs until you call TaskStop or the session ends. Use TaskStop to cancel early.
+The script runs in the same shell environment as Bash. Exit ends the watch (exit code reported). ${MONITOR_TIMEOUT_GUIDANCE_FN()} Use TaskStop to cancel early.
