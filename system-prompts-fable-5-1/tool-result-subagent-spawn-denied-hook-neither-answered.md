@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Subagent spawn denied — hook answered neither model nor deny'
+name: 'Tool Result: Subagent Spawn Hook Unanswered'
 description: >-
-  AgentPreconditionError returned when an agent.spawn hook answers with neither
-  a model nor a deny, so spawn is refused.
-ccVersion: 2.1.246
+  Default deny body when an agent.spawn hook does not pass the spawn on,
+  interpolated into the model-visible spawn-denied tool_result.
+ccVersion: 2.1.269
 -->
-agent.spawn: a hook answered with neither model nor deny
+agent.spawn: a hook answered without passing the spawn on

@@ -3,7 +3,7 @@ name: 'Tool Result: WebFetch redirect retry instructions'
 description: >-
   Tells the model to call WebFetch again with the relayed redirect URL and the
   original prompt after a cross-host redirect was not followed
-ccVersion: 2.1.232
+ccVersion: 2.1.269
 variables:
   - TOOL_RESULT_WEBFETCH_REDIRECT_RETRY_INSTRUCTIONS_VAR_0
   - TOOL_RESULT_WEBFETCH_REDIRECT_RETRY_INSTRUCTIONS_VAR_1

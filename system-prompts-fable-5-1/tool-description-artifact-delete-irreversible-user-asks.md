@@ -3,6 +3,6 @@ name: Artifact Delete Irreversible User Asks
 description: >-
   Artifact tool-description delete action: permanently unpublish only when the
   user asks, after they confirm.
-ccVersion: 2.1.257
+ccVersion: 2.1.269
 -->
-`url` — permanently deletes a published artifact (irreversible: the link stops working for everyone); ONLY when the user asks for that artifact to be deleted or unpublished, or says they did not want it published, never on your own initiative — the user confirms every delete, and afterwards you give them the content the way they wanted it
+with `url` alone, permanently deletes a published artifact, which cannot be undone and stops the link working for everyone. Claude does this only when the person asks for that artifact to be deleted or unpublished, or says they did not want it published, never on its own initiative; the person confirms every delete, and afterwards Claude gives them the content the way they wanted it
