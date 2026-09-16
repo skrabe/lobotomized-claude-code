@@ -4,7 +4,7 @@ description: >-
   Slash-command prompt telling the model a /design or /slides invocation is a
   request to create a new artifact from a published Artifact type: list types,
   pick the titled type, create from type_url, then fill from the brief.
-ccVersion: 2.1.265
+ccVersion: 2.1.273
 variables:
   - SLASH_COMMAND_NEW_ARTIFACT_FROM_PUBLISHED_TYPE_VAR_0
   - SLASH_COMMAND_NEW_ARTIFACT_FROM_PUBLISHED_TYPE_VAR_1

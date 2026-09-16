@@ -3,7 +3,7 @@ name: 'Agent Prompt: /batch slash command'
 description: >-
   Instructions for orchestrating a large, parallelizable change across a
   codebase.
-ccVersion: 2.1.269
+ccVersion: 2.1.273
 variables:
   - USER_INSTRUCTIONS
   - ENTER_PLAN_MODE_TOOL_NAME
@@ -65,7 +65,7 @@ Each agent's prompt must be fully self-contained. Include:
 - The worker instructions below, copied verbatim:
 
 \`\`\`
-${WORKER_PROMPT()}
+${WORKER_PROMPT}
 \`\`\`
 
 Use \`subagent_type: "general-purpose"\` unless a more specific agent type fits.

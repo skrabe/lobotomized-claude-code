@@ -1,0 +1,13 @@
+<!--
+name: 'Tool Result: Quickstart No Matching Type'
+description: >-
+  Quickstart tool_result when the account lists no matching type, so the model
+  should make a plain page.
+ccVersion: 2.1.273
+variables:
+  - TOOL_RESULT_ARTIFACT_QUICKSTART_NO_MATCHING_TYPE_VAR_0
+  - TOOL_RESULT_ARTIFACT_QUICKSTART_NO_MATCHING_TYPE_VAR_1
+  - TOOL_RESULT_ARTIFACT_QUICKSTART_NO_MATCHING_TYPE_VAR_2
+  - TOOL_RESULT_ARTIFACT_QUICKSTART_NO_MATCHING_TYPE_VAR_3
+-->
+Quickstart for ${TOOL_RESULT_ARTIFACT_QUICKSTART_NO_MATCHING_TYPE_VAR_0}: this account lists no ${TOOL_RESULT_ARTIFACT_QUICKSTART_NO_MATCHING_TYPE_VAR_1} type to start from${TOOL_RESULT_ARTIFACT_QUICKSTART_NO_MATCHING_TYPE_VAR_2}, so make it as a plain page.${TOOL_RESULT_ARTIFACT_QUICKSTART_NO_MATCHING_TYPE_VAR_3}

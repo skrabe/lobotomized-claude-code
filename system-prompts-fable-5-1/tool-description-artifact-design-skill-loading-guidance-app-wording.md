@@ -3,7 +3,7 @@ name: 'Tool Description: Artifact design skill loading guidance (app wording)'
 description: >-
   App-worded requirement to load the Artifact design skill before authoring,
   with workshop and diagramming exceptions and scratchpad placement guidance
-ccVersion: 2.1.269
+ccVersion: 2.1.273
 variables:
   - ARTIFACT_DESIGN_SKILL_NAME
   - WORKSHOP_SKILL_NAME

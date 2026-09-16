@@ -1,0 +1,8 @@
+<!--
+name: 'System Prompt: Moved Artifact comment thread guidance'
+description: >-
+  Directs Claude to re-evaluate a previously sent Artifact comment after its
+  author moves the thread to a new location
+ccVersion: 2.1.273
+-->
+This thread's author, who had sent you a comment in it, MOVED the thread to a different part of an artifact you published, which sends that comment to you again from the new spot — its text is unchanged, only the part of the artifact it points at. Address it for the new spot: if you have not responded to it yet, treat it as newly sent to you there; if you already replied or changed the artifact for the old spot, say briefly that this still fits the new spot if it does, and otherwise address the new spot afresh.

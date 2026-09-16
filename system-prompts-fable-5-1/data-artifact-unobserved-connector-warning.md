@@ -1,13 +1,12 @@
 <!--
-name: Artifact Unobserved Connector Warning
+name: 'Data: Artifact Unobserved Connector Warning'
 description: >-
-  Warning appended to the artifact-read/publish tool result telling the model a
-  declared connector had no observed call, directing it to verify or tell the
-  user; injected into the model's context via the warnings array.
-ccVersion: 2.1.238
+  Publish warning that a declared connector/interface was never observed
+  in-session.
+ccVersion: 2.1.273
 variables:
   - DATA_ARTIFACT_UNOBSERVED_CONNECTOR_WARNING_VAR_0
   - DATA_ARTIFACT_UNOBSERVED_CONNECTOR_WARNING_VAR_1
   - DATA_ARTIFACT_UNOBSERVED_CONNECTOR_WARNING_VAR_2
 -->
-This page declares ${DATA_ARTIFACT_UNOBSERVED_CONNECTOR_WARNING_VAR_0(DATA_ARTIFACT_UNOBSERVED_CONNECTOR_WARNING_VAR_1)} "${DATA_ARTIFACT_UNOBSERVED_CONNECTOR_WARNING_VAR_2}" but no successful call to it was observed in this session, so the page is published against an unobserved interface. Verify its calls against a real response if you can safely make one, or tell the user the page's "${DATA_ARTIFACT_UNOBSERVED_CONNECTOR_WARNING_VAR_2}" integration is unverified.
+This page declares ${DATA_ARTIFACT_UNOBSERVED_CONNECTOR_WARNING_VAR_0(DATA_ARTIFACT_UNOBSERVED_CONNECTOR_WARNING_VAR_1)} "${DATA_ARTIFACT_UNOBSERVED_CONNECTOR_WARNING_VAR_2}" but no successful call to it was observed in this session, so the page is published against an unobserved interface. Check the page's argument names against each tool's input schema if this session has the tool. The result fields the page reads stay unverified unless you can safely make one real call; otherwise tell the user the page's "${DATA_ARTIFACT_UNOBSERVED_CONNECTOR_WARNING_VAR_2}" integration is unverified.

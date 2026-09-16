@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: Artifact read_file Paths Case-Insensitive Collision'
+description: >-
+  read_file denial when two paths would land on the same file on a
+  case-insensitive volume.
+ccVersion: 2.1.273
+variables:
+  - TOOL_RESULT_ARTIFACT_READ_FILE_PATHS_CASE_INSENSITIVE_COLLISION_VAR_0
+  - TOOL_RESULT_ARTIFACT_READ_FILE_PATHS_CASE_INSENSITIVE_COLLISION_VAR_1
+  - TOOL_RESULT_ARTIFACT_READ_FILE_PATHS_CASE_INSENSITIVE_COLLISION_VAR_2
+-->
+\`paths\` names ${TOOL_RESULT_ARTIFACT_READ_FILE_PATHS_CASE_INSENSITIVE_COLLISION_VAR_0(TOOL_RESULT_ARTIFACT_READ_FILE_PATHS_CASE_INSENSITIVE_COLLISION_VAR_1)} and ${TOOL_RESULT_ARTIFACT_READ_FILE_PATHS_CASE_INSENSITIVE_COLLISION_VAR_0(TOOL_RESULT_ARTIFACT_READ_FILE_PATHS_CASE_INSENSITIVE_COLLISION_VAR_2)}, which could save to the same file on a case-insensitive volume; read one of them on its own

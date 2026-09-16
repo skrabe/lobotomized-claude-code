@@ -4,7 +4,7 @@ description: >-
   Artifact tool-description arm for watchRail none: this session is not notified
   of republishes or comments, so Claude must say so and never claim to be
   watching.
-ccVersion: 2.1.269
+ccVersion: 2.1.273
 variables:
   - TOOL_DESCRIPTION_ARTIFACT_WATCHING_UNAVAILABLE_VAR_0
   - TOOL_DESCRIPTION_ARTIFACT_WATCHING_UNAVAILABLE_VAR_1

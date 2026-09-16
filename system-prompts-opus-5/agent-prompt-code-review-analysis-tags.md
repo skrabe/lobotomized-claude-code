@@ -1,7 +1,7 @@
 <!--
 name: 'Agent Prompt: Code review wrap-in-analysis-tags'
 description: 'Code review subagent: wrap analysis in <analysis> tags before final summary'
-ccVersion: 2.1.141
+ccVersion: 2.1.273
 -->
 Before your final summary, wrap your analysis in <analysis> tags. In it, walk the recent messages in order and identify:
 

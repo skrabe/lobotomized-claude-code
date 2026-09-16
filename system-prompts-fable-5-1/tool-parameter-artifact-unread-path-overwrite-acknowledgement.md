@@ -1,0 +1,8 @@
+<!--
+name: 'Tool Parameter: Artifact unread path overwrite acknowledgement'
+description: >-
+  Defines overwrite_unread paths for an existing multi-file Artifact while
+  preserving change-detection refusal for every other path
+ccVersion: 2.1.273
+-->
+publish with `files` or `root` to an existing artifact: published paths this call may replace or remove although you have not read or listed them in this session. Every other path the call touches must be one you read by its `path`, saw in a file listing, or published yourself, and must not have changed since — otherwise nothing is sent and the refusal names each path. Name a path here only when the user asked for it to be replaced without looking at what is there; it never excuses a path that changed after you read it.

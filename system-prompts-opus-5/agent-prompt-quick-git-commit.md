@@ -1,7 +1,7 @@
 <!--
 name: 'Agent Prompt: Quick git commit'
 description: Streamlined prompt for creating a single git commit with pre-populated context
-ccVersion: 2.1.251
+ccVersion: 2.1.273
 variables:
   - ADDITIONAL_COMMIT_GUIDANCE
   - COMMIT_WRITING_GUIDANCE_FN
@@ -41,7 +41,7 @@ Based on the above changes, create a single git commit:
    - Ensure the message accurately reflects the changes and their purpose (i.e. "add" means a wholly new feature, "update" means an enhancement to an existing feature, "fix" means a bug fix, etc.)
    - Draft a concise (1-2 sentences) commit message that focuses on the "why" rather than the "what"${COMMIT_WRITING_GUIDANCE_FN()}
 
-2. Stage the relevant files and create the commit. To ensure good formatting, ALWAYS pass the commit message via a ${IS_BASH_ENV_FN()?"HEREDOC":"here-string"}:
+2. Stage the relevant files and create the commit. To ensure good formatting, ALWAYS pass the commit message inline via a ${IS_BASH_ENV_FN()?"HEREDOC":"here-string"}, never from a file or template (\`-F\`, \`--file\` and \`-t\` are refused while this skill runs):
 ${IS_BASH_ENV_FN()?`\`\`\`
 git commit -m "$(cat <<'EOF'
 Commit message here.${COMMIT_ATTRIBUTION_TEXT?`

@@ -1,7 +1,7 @@
 <!--
 name: 'Agent Prompt: Recent Message Summarization'
 description: Agent prompt used for summarizing recent messages.
-ccVersion: 2.1.205
+ccVersion: 2.1.273
 -->
 You are summarizing after a deliberate rewind, not a context overflow: the conversation continued forward, then was rewound to an earlier point, and the user chose to carry a summary of the work done past that point forward as context. Summarize only that recent stretch (the messages after the retained earlier context, which stay intact) as actionable forward-context for resuming from the rewind point. Focus on what was discussed, learned, and accomplished there.
 
