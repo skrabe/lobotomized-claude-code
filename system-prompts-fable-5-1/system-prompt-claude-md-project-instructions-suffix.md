@@ -5,6 +5,6 @@ description: >-
   memory/context injection ("Contents of ${path} (project instructions, checked
   into the codebase):"); conditional on a Project-type memory item being
   present.
-ccVersion: 2.1.191
+ccVersion: 2.1.274
 -->
  (project instructions, checked into the codebase)

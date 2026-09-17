@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Artifact Quickstart Skill.md Cut Short'
+name: Artifact Quickstart Skill Md Cut Short
 description: >-
-  Note that the Artifact tool returns a truncated SKILL.md, so Bash should also
-  print the full file.
-ccVersion: 2.1.273
+  Notes that SKILL.md in the Artifact result is truncated so the file should
+  still be read.
+ccVersion: 2.1.274
 -->
-  Note: the Artifact tool returns the type's SKILL.md cut short, so read that file with Bash too.
+  Note: the Artifact tool returns the type's SKILL.md cut short, so read that file too.

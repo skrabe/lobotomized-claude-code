@@ -1,10 +1,10 @@
 <!--
-name: 'Tool Description: Claude in Chrome bridge timeout error'
+name: Claude In Chrome Bridge Timeout Error
 description: >-
-  Error message shown when a Claude in Chrome tool does not respond before
-  timing out
-ccVersion: 2.1.178
+  Lead sentence that a Chrome-bridge tool did not respond in time, then
+  completed with routing-specific advice.
+ccVersion: 2.1.274
 variables:
   - CHROME_TOOL_NAME
 -->
-The "${CHROME_TOOL_NAME}" tool did not respond in time. The Chrome extension is connected but the page may be loading, unresponsive, or waiting on a permission prompt in the extension side panel. Try a lighter operation (e.g., "get_page_text" instead of a screenshot) or ask the user to check the page and any pending prompts.
+The "${CHROME_TOOL_NAME}" tool did not respond in time.

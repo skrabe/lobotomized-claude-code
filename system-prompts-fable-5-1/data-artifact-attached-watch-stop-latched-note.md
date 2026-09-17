@@ -1,9 +1,9 @@
 <!--
-name: Artifact attached stop-latched watch note
+name: Artifact Attached Stop-Latched Watch Note
 description: >-
-  Sentence appended to the artifact-attach meta message when the artifact's
-  watch was stopped earlier in the session: no republish notice will come and
-  Claude must not watch it again unless the user asks.
-ccVersion: 2.1.234
+  Clause appended to the artifact-attach meta message when watch is
+  stop-latched: this session does not track new versions and must not watch
+  again unless the user asks.
+ccVersion: 2.1.274
 -->
- Its watch was stopped earlier in this session, so no republish notice will come; do not watch it again unless the user asks.
+ Its watch was stopped earlier in this session, so this session does not keep track of its new versions; do not watch it again unless the user asks.

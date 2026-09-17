@@ -1,0 +1,12 @@
+<!--
+name: Exit Worktree Uncommitted Files Count
+description: >-
+  Count fragment naming uncommitted files (including hidden submodule work) in
+  the ExitWorktree refusal.
+ccVersion: 2.1.274
+variables:
+  - TOOL_RESULT_EXITWORKTREE_UNCOMMITTED_FILES_COUNT_VAR_0
+  - TOOL_RESULT_EXITWORKTREE_UNCOMMITTED_FILES_COUNT_VAR_1
+  - TOOL_RESULT_EXITWORKTREE_UNCOMMITTED_FILES_COUNT_VAR_2
+-->
+${TOOL_RESULT_EXITWORKTREE_UNCOMMITTED_FILES_COUNT_VAR_0} uncommitted ${TOOL_RESULT_EXITWORKTREE_UNCOMMITTED_FILES_COUNT_VAR_0===1?"file":"files"}${TOOL_RESULT_EXITWORKTREE_UNCOMMITTED_FILES_COUNT_VAR_1?` (including ${TOOL_RESULT_EXITWORKTREE_UNCOMMITTED_FILES_COUNT_VAR_2(TOOL_RESULT_EXITWORKTREE_UNCOMMITTED_FILES_COUNT_VAR_1)}, which git status in the worktree does not show)`:""}

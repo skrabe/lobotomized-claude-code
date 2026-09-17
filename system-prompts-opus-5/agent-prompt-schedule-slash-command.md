@@ -3,7 +3,7 @@ name: 'Agent Prompt: /schedule slash command'
 description: >-
   Guides the user through scheduling, updating, listing, or running remote
   Claude Code agents on cron triggers via the Anthropic cloud API
-ccVersion: 2.1.268
+ccVersion: 2.1.274
 variables:
   - USER_REQUEST
   - ASK_USER_QUESTION_TOOL_NAME
@@ -88,7 +88,7 @@ For a one-time run, replace \`"cron_expression": "CRON_EXPR"\` with \`"run_once_
 
 Generate a fresh lowercase UUID for \`events[].data.uuid\` yourself.
 
-Every \`events[].data.message\` is the API message shape \`{"role": "user", "content": "..."}\` — the \`role\` field is required.
+Every \`events[].data.message\` is the API message shape \`{"role": "user", "content": "..."}\` — the \`role\` field is required. If you instead write the body in the \`session_request\` form that list and get return, the same rule applies to \`session_request.events[].payload.message\`.
 
 ## Available MCP Connectors
 
