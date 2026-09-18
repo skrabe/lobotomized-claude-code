@@ -1,0 +1,13 @@
+<!--
+name: Artifact Type File Empty Not Saved
+description: >-
+  Type-file read tool_result when the file exists but is empty, so nothing was
+  saved to disk.
+ccVersion: 2.1.276
+variables:
+  - TOOL_RESULT_ARTIFACT_TYPE_FILE_EMPTY_NOT_SAVED_VAR_0
+  - TOOL_RESULT_ARTIFACT_TYPE_FILE_EMPTY_NOT_SAVED_VAR_1
+  - TOOL_RESULT_ARTIFACT_TYPE_FILE_EMPTY_NOT_SAVED_VAR_2
+  - TOOL_RESULT_ARTIFACT_TYPE_FILE_EMPTY_NOT_SAVED_VAR_3
+-->
+Read ${TOOL_RESULT_ARTIFACT_TYPE_FILE_EMPTY_NOT_SAVED_VAR_0(TOOL_RESULT_ARTIFACT_TYPE_FILE_EMPTY_NOT_SAVED_VAR_1)} from the ${TOOL_RESULT_ARTIFACT_TYPE_FILE_EMPTY_NOT_SAVED_VAR_2(TOOL_RESULT_ARTIFACT_TYPE_FILE_EMPTY_NOT_SAVED_VAR_3)} Artifact type: the file is empty; nothing was saved to disk.

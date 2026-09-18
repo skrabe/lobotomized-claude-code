@@ -1,0 +1,13 @@
+<!--
+name: Background Agents Interrupted And Parked
+description: >-
+  Task-notification telling the model that background agents were interrupted by
+  the user and parked, with progress preserved, and to resume an agent by
+  sending it a message.
+ccVersion: 2.1.276
+variables:
+  - SYSTEM_REMINDER_BACKGROUND_AGENTS_INTERRUPTED_PARKED_VAR_0
+  - SYSTEM_REMINDER_BACKGROUND_AGENTS_INTERRUPTED_PARKED_VAR_1
+  - SYSTEM_REMINDER_BACKGROUND_AGENTS_INTERRUPTED_PARKED_VAR_2
+-->
+${SYSTEM_REMINDER_BACKGROUND_AGENTS_INTERRUPTED_PARKED_VAR_0.length} background ${SYSTEM_REMINDER_BACKGROUND_AGENTS_INTERRUPTED_PARKED_VAR_1(SYSTEM_REMINDER_BACKGROUND_AGENTS_INTERRUPTED_PARKED_VAR_0.length,"agent")} ${SYSTEM_REMINDER_BACKGROUND_AGENTS_INTERRUPTED_PARKED_VAR_1(SYSTEM_REMINDER_BACKGROUND_AGENTS_INTERRUPTED_PARKED_VAR_0.length,"was","were")} interrupted by the user and parked: ${SYSTEM_REMINDER_BACKGROUND_AGENTS_INTERRUPTED_PARKED_VAR_0.map((SYSTEM_REMINDER_BACKGROUND_AGENTS_INTERRUPTED_PARKED_VAR_2)=>`"${SYSTEM_REMINDER_BACKGROUND_AGENTS_INTERRUPTED_PARKED_VAR_2}"`).join(", ")}. Progress is preserved; resume an agent by sending it a message.

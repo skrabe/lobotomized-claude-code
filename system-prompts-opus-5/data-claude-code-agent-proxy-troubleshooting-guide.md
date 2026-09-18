@@ -3,7 +3,7 @@ name: 'Data: Claude Code agent proxy troubleshooting guide'
 description: >-
   Troubleshooting guide for Claude Code's policy-enforcing HTTPS agent proxy,
   covering TLS trust setup, status checks, git, docker, and unsupported traffic
-ccVersion: 2.1.251
+ccVersion: 2.1.276
 variables:
   - AGENT_PROXY_URL
   - AGENT_PROXY_CA_BUNDLE_PATH
@@ -45,12 +45,14 @@ The failing tool is not reading the pre-set CA configuration. In order:
   pip.conf "cert", npm "cafile" (npm config get cafile), ~/.curlrc "cacert",
   .wgetrc "ca_certificate", conda "ssl_verify", git "http.sslCAInfo",
   gradle.properties / MAVEN_OPTS "-Djavax.net.ssl.trustStore".
-- JVM tools (Maven, Gradle, plain Java): when a JDK is present, a truststore
-  is built at ${AGENT_PROXY_STATE_DIR}/java-truststore.p12 (password "changeit") and
-  injected via JAVA_TOOL_OPTIONS — confirm javaTrustStorePath is set in the
-  status output before pointing a build at it (toolTrustFailureCodes explains
-  why it is missing). If the image or the build sets its own trustStore, that
-  one wins — import the proxy CA into it with
+- JVM tools (Maven, Gradle, plain Java): when a JDK is present,
+  JAVA_TOOL_OPTIONS points JVMs at a truststore that holds the proxy CA: the
+  JDK's own store if the system trust install already added the CA there,
+  otherwise ${AGENT_PROXY_STATE_DIR}/java-truststore.p12 (password "changeit"). Confirm
+  javaTrustStorePath is set in the status output before pointing a build at it
+  (toolTrustFailureCodes explains why it is missing). If the image or the
+  build sets its own trustStore, that one wins — import the proxy CA into it
+  with
   keytool -importcert -noprompt -alias ccr-agent-proxy -file ${AGENT_PROXY_STATE_DIR}/agent-proxy-ca.crt -keystore <their store>
   or point the build at the ready-made one. Bazel reads the managed block in
   /etc/bazel.bazelrc rather than JAVA_TOOL_OPTIONS.

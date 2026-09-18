@@ -3,7 +3,7 @@ name: 'Tool Description: Artifact How To Load A Library'
 description: >-
   Artifact page-contract section on pinning CDN UMD builds, blocked downloads,
   native mermaid, and browser storage.
-ccVersion: 2.1.268
+ccVersion: 2.1.276
 variables:
   - TOOL_DESCRIPTION_ARTIFACT_HOW_TO_LOAD_LIBRARY_VAR_0
   - TOOL_DESCRIPTION_ARTIFACT_HOW_TO_LOAD_LIBRARY_VAR_1
@@ -21,6 +21,4 @@ ${TOOL_DESCRIPTION_ARTIFACT_HOW_TO_LOAD_LIBRARY_VAR_3}
 
 ${TOOL_DESCRIPTION_ARTIFACT_HOW_TO_LOAD_LIBRARY_VAR_4}
 
-**Favicon** (required on a first publish): Pass one or two emoji as \`favicon\` (e.g. \`"📊"\`, \`"🐛"\`, \`"⚡🔥"\`). It marks the artifact in artifact lists and cards. Emoji only — no SVG, no markup. It stays the **same** for the life of an artifact — users recognize the artifact by it, and a changed one reads as a different page — so on a redeploy (the same file path this session, or \`url\`) omit \`favicon\` and the artifact keeps the emoji it has; pass a different one only when the user asks for a new emoji.
-
-**Icon** (optional): Pass one short generic word as \`icon\` (e.g. \`"chart"\`, \`"calendar"\`, \`"recipe"\`) — a plain signifier for what the page is, never a product or brand name. It stays put like the favicon: on a redeploy omit \`icon\` and the artifact keeps the one it has.
+**Icon** (on every first publish): Pass one short generic word as \`icon\` (e.g. \`"chart"\`, \`"calendar"\`, \`"recipe"\`) for the artifact's browser-tab icon — a plain signifier for what the page is, never a product or brand name, and never an emoji or markup. It stays the **same** for the life of an artifact, so on a redeploy (the same file path this session, or \`url\`) omit \`icon\` and the artifact keeps the one it has; pass a different one only when the user asks.

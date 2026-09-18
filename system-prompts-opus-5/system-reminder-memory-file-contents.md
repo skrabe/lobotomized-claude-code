@@ -1,11 +1,10 @@
 <!--
 name: 'System Reminder: Memory file contents'
 description: Contents of a memory file by path
-ccVersion: 2.1.219
+ccVersion: 2.1.276
 variables:
   - MEMORY_ITEM
   - MEMORY_TYPE_DESCRIPTION
 -->
-Contents of ${MEMORY_ITEM.path}${MEMORY_TYPE_DESCRIPTION}:
+Contents of ${MEMORY_ITEM.path}${MEMORY_TYPE_DESCRIPTION_FN(MEMORY_ITEM.type)}:
 
-${MEMORY_ITEM.content.trim()}
