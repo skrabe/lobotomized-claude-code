@@ -1,0 +1,9 @@
+<!--
+name: 'Data: desktopSessionCleanupPeriodDays setting description'
+description: >-
+  Description of the `desktopSessionCleanupPeriodDays` setting in Claude Code's
+  settings JSON schema. The model reads it through /update-config and settings
+  validation errors; it is also shown to users in the settings help.
+ccVersion: 2.1.276
+-->
+Retention ceiling in days for session transcripts created or last written by a desktop-host surface (Claude Desktop, Cowork), which are otherwise exempt from the cleanupPeriodDays sweep. 0 (the default) means no ceiling: such transcripts are kept until deleted another way. Unlike cleanupPeriodDays, 0 is allowed because this setting never disables writes — it only bounds an exemption from deletion. The ceiling is a hard cap: it also bounds an active archive grace, so the grace window of a release marker never keeps files past the ceiling. Ignored when cleanupPeriodDays is managed by org policy. A ceiling at or below cleanupPeriodDays effectively disables the exemption: those transcripts age out on the regular cleanupPeriodDays schedule, so the effective retention is whichever of the two periods is longer.

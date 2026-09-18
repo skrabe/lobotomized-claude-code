@@ -1,0 +1,8 @@
+<!--
+name: 'Data: Cross-session inbound setting'
+description: >-
+  Describes crossSessionInbound delivery, hold, refusal, and permission-mode
+  parity behavior for peer messages
+ccVersion: 2.1.276
+-->
+Inbound cross-session peer messages (SendMessage from your other sessions): 'accept' delivers them, 'hold' parks them for your review without letting Claude act, 'refuse' opts this session out. An explicit value always wins. Unset (mode parity): a message auto-delivers only when the sending session's permission-mode class matches yours (bypass↔bypass or prompting↔prompting); a mismatched sender's message is held for your approval; a sender that asserts no class is held only while this session bypasses permission prompts.
