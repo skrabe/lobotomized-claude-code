@@ -1,8 +1,9 @@
 <!--
-name: 'Cloud session: project-configured hook not run'
+name: 'Tool Result: Cloud session hook held project configured'
 description: >-
-  Permission-ask message when a PreToolUse hook not defined in user/managed
-  settings is skipped for a cloud-served call.
-ccVersion: 2.1.246
+  Permission-ask reason when a project-defined command check hook is not run for
+  a cloud session's call, asking to approve the command and how to stop these
+  prompts
+ccVersion: 2.1.277
 -->
-A hook that your own user or managed settings do not define as it stands (this project or an agent defines it, or it changed since launch) would normally judge this command — it is not run for a call from a cloud session, which can rewrite this project — approve running the command?
+A command check that your own settings don't define (this project's, usually) isn't run by this computer for a cloud session, because the session could edit it. Approve this command? (To stop these, review the check and copy it into ~/.claude/settings.json.)

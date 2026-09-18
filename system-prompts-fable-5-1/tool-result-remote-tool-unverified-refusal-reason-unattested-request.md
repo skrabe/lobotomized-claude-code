@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Remote-Tool Unverified Refusal Reason - Unattested Request'
+name: 'Tool Result: Remote tool unverified refusal — unattested request'
 description: >-
-  Reason clause wrapped by E() into an unverified-sender remote-tool refusal
-  when the service could not vouch for the call's sender.
-ccVersion: 2.1.276
+  Refusal reason when a remote tool call arrived without a valid device
+  signature.
+ccVersion: 2.1.277
 -->
-the service could not vouch for the call's sender, which that machine's account requires
+the call arrived without a valid device signature

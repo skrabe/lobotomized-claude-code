@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Artifact publish — private until shared'
+name: 'Tool result: artifact publish private-until-shared note'
 description: >-
-  States that the artifact stays private to the user until they choose to share
-  it.
-ccVersion: 2.1.233
+  Share-status sentence in the artifact publish consent ask saying the artifact
+  stays private to the user until they share it.
+ccVersion: 2.1.277
 -->
-, private to you until you share it
+ It stays private to you until you share it.

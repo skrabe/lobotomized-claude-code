@@ -1,13 +1,14 @@
 <!--
-name: Artifact Publish Files Downloaded From
+name: 'Tool result: artifact publish files downloaded from'
 description: >-
-  Publish permission-ask clause naming how many of the artifact's files were
-  downloaded from other artifacts.
-ccVersion: 2.1.265
+  Clause in the artifact publish consent ask stating how many of the published
+  files were downloaded from which artifacts.
+ccVersion: 2.1.277
 variables:
   - TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_0
   - TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_1
   - TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_2
   - TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_3
+  - TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_4
 -->
-, ${TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_0.length} of its files downloaded from ${[...TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_1.map(TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_2),...TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_3].join(", ")}
+ Of the files in this publish, ${TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_0.length} ${TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_0.length===1?"was":"were"} downloaded from ${TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_1([...TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_2.map(TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_3),...TOOL_RESULT_ARTIFACT_PUBLISH_FILES_DOWNLOADED_FROM_VAR_4])}.

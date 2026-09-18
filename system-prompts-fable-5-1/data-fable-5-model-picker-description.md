@@ -1,10 +1,10 @@
 <!--
-name: 'Data: Fable 5 Model-Picker descriptionForModel'
+name: 'Data: Fable 5 model picker description'
 description: >-
-  descriptionForModel string for Fable 5 in the model picker, read by the model
-  (most capable for hardest/longest-running tasks).
-ccVersion: 2.1.257
+  Model-facing description of a Fable model option as most capable for the
+  hardest and longest-running tasks
+ccVersion: 2.1.277
 variables:
   - DATA_FABLE_5_MODEL_PICKER_DESCRIPTION_VAR_0
 -->
-${DATA_FABLE_5_MODEL_PICKER_DESCRIPTION_VAR_0.display_name} - most capable for your hardest and longest-running tasks
+${DATA_FABLE_5_MODEL_PICKER_DESCRIPTION_VAR_0} - most capable for your hardest and longest-running tasks
