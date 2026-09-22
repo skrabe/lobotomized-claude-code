@@ -4,7 +4,7 @@ description: >-
   Simplified usage notes for the Agent tool, including when to delegate, fork
   behavior, resumption, worktree isolation, background execution, remote
   isolation, and context restrictions
-ccVersion: 2.1.273
+ccVersion: 2.1.280
 variables:
   - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_0
   - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_1
@@ -26,4 +26,4 @@ ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_0}${TOOL_DESCRIPTION_AGENT_SIMPL
 
 - The agent's final message is the tool result; the user does not see it — relay what matters.
 - ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_4} with the agent's ID or name continues a spawned agent with its context intact; a new ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_5} call starts fresh${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_6?' (except subagent_type: "fork", which inherits your context)':""}.
-- `isolation: "worktree"` gives the agent its own git worktree (auto-cleaned if unchanged).${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_7}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_8}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_9}
+- `isolation: "worktree"` gives the agent its own git worktree (auto-cleaned if unchanged).${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_7?` ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_7} Each result comes back with a branch and worktree path to merge.`:""}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_8}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_9}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_10}
