@@ -6,19 +6,19 @@ You're a coding agent invoked in this repo. Read this first. It explains what we
 
 `lobotomized-claude-code` is a set of system-prompt overrides for [Claude Code](https://claude.com/claude-code). Each `.md` replaces one of CC's built-in prompt fragments. A separate tool ([`tweakcc-fixed`](https://github.com/skrabe/tweakcc-fixed), see below) reads these files and patches the user's installed CC binary in place.
 
-Two per-model sets are maintained: `system-prompts-fable-5-1` (the **active** one — `~/.tweakcc/system-prompts` symlinks to it, matching the model in `~/.claude/settings.json`; switch with `driver.mjs set <name>` in the patcher repo) and `system-prompts-opus-5`. The legacy `opus-4-8`, `opus-4-7` and `fable-5` sets were deleted from the tree on 2026-09-01 (git history keeps them). `system-reminders/` is a single shared folder across both. **Never name a set literally in a procedure** — resolve the active one with `readlink ~/.tweakcc/system-prompts`, because it moves when a new model ships, and discover the other from the tree.
+One set is maintained: `system-prompts-lcc`, which `~/.tweakcc/system-prompts` symlinks to. It serves every model in the install — Fable 5.1 plans and Opus 5.5 executes against the same patched text in one fable-plan session, and subagents share it too. Claude Code already routes model-specific sections itself (e.g. `delivering-work-at-full-scope` and `writing-for-the-user` render for Fable 5.1 only; see the wire capture before trimming a section, since a section a model never receives is not evidence for or against a cut). The per-model `opus-5` and `fable-5-1` sets were merged on 2026-09-22 (git history keeps them). `system-reminders/` is the shared reminder folder. Resolve the set with `readlink ~/.tweakcc/system-prompts` rather than naming it in a procedure.
 
 ## What we're trying to achieve
 
 **The goal of this repo is to remove useless shit and dumb guardrails so we have a clean agentic coding harness.** CC ships every model the same prompt-by-volume that worked for older Claudes. Current models follow instructions more literally, overtrigger on CAPS, don't need anti-laziness scaffolding, and get actively worse from safety theater that wasn't load-bearing in the first place. We strip the bulk and rewrite the load-bearing fragments in a register the model behaves better under.
 
-**Which model a cut is justified against is per-set, and the card is the authority.** Ground every content edit in that set's system card before touching a file: `~/dev/anthropic-reference/Opus-5-Card-Digest.md` (+ the Opus 5 prompting page) for the active `opus-5` set, `Fable-5.1-Card-Digest.md` (+ the Fable 5.1 prompting page, which partly reverses the card-only reading: 5.1 under-narrates and under-formats) for `fable-5-1`. The digests carry the keep/cut/reword calls with page cites. Each set follows its own model's digest where they disagree.
+**Every cut must hold for both served models, and the cards are the authority.** Ground every content edit in `~/dev/anthropic-reference/Opus-5.5-Card-Digest.md` and `Fable-5.1-Card-Digest.md`, plus both models' prompting pages. The Opus 5.5 digest's §5 compares the two on 30 behaviour axes and finds none that need conflicting text; both under-narrate and stop early, so narration-suppressing and anti-formatting lines are removals. A default only one model has is not coverage for the other.
 
 The README's "~60% leaner on every coding turn" claim is the bar. If your edits don't trend toward that ratio, you're not lobotomizing — you're just cosmeticking.
 
 ### The decision rule (read this every time)
 
-**For each load-bearing claim in a prompt: is it conveyed elsewhere (sibling override) OR a 4.7 default per Anthropic's guide OR a feature the user doesn't use? → cut it. Whatever unique signals remain → keep them. If nothing unique remains → full-wipe is the correct outcome.**
+**For each load-bearing claim in a prompt: is it conveyed elsewhere (sibling override) OR a default of both served models per their cards OR a feature the user doesn't use? → cut it. Whatever unique signals remain → keep them. If nothing unique remains → full-wipe is the correct outcome.**
 
 **Many prompts will get fully wiped. That is expected, not a failure mode.** "Wipe vs trim" is not a stylistic preference — the outcome falls out of the per-claim checks. A prompt where every claim is duplicated/default/useless goes to zero. A prompt with one unique signal becomes a one-sentence override. There is no bias toward keeping content — there is a bias toward keeping *unique* content.
 
@@ -37,7 +37,7 @@ The earlier "trim, don't wipe" framing came from one specific incident — `syst
 For each candidate edit:
 1. List the load-bearing claims in the prompt.
 2. `grep` the rest of `system-prompts/` for prompts conveying any of those claims. Closest sibling first (e.g. `system-prompt-executing-actions-with-care.md` covers destructive-action confirmation; `system-prompt-doing-tasks-security.md` covers OWASP-style guards).
-3. For each claim: if a sibling already conveys it OR Anthropic's guide says it's a 4.7 default OR the user doesn't use the feature → drop it from this override.
+3. For each claim: if a sibling already conveys it OR both models' cards show it is a default OR the user doesn't use the feature → drop it from this override.
 4. Whatever remains is what stays. Could be the full prompt minus a few sentences. Could be one sentence. Could be empty.
 
 The user's framing: *"if the file contents aren't phrased similarly (same message conveyed) elsewhere, then trim it/cull it not wipe it"* — applies to *unique* content. *"something will get wiped if useless. and there will be many"* — applies to fully-duplicated/default/useless content. Both are true; the per-claim check is what decides which path each prompt takes.
@@ -66,11 +66,11 @@ model emit a call that fails at runtime.
 
 ### What "useless shit" looks like (cut on sight)
 
-- **Dumb guardrails / safety theater.** Cautions about scenarios that won't happen in this user's workflow. "Be respectful when responding to humans." "Don't make up facts." 4.7 doesn't need these and they trigger overcorrection. Anthropic's literal Production safety filters live elsewhere.
-- **Anti-laziness scaffolding.** "Make sure to actually do the work, not just describe it." "Don't stop early." "Be thorough." 4.7 already does the work; this scaffolding becomes noise.
-- **CAPS theater.** `MUST`, `NEVER`, `ALWAYS`, `CRITICAL`, `STRICTLY`. 4.7 overtriggers on these. Plain directives outperform.
+- **Dumb guardrails / safety theater.** Cautions about scenarios that won't happen in this user's workflow. "Be respectful when responding to humans." "Don't make up facts." Current models don't need these, and the Opus 5.5 card blames residual over-refusal on exactly this kind of text. Anthropic's literal Production safety filters live elsewhere.
+- **Anti-laziness scaffolding.** "Be thorough." "Double-check your work." "Don't be lazy." Current models do the work; this is noise. The exception is early stopping: Opus 5.5 and Fable 5.1 do end turns while work is still owed, so a specific statement of which stops are unwanted (Anthropic's own paragraph, calm prose) is a keep, not scaffolding.
+- **CAPS theater.** `MUST`, `NEVER`, `ALWAYS`, `CRITICAL`, `STRICTLY`. Current models overtrigger on these. Plain directives outperform.
 - **Negative framing.** "Don't X" → "Do Y" wherever a positive form exists. Per Anthropic's guide.
-- **Always-on CTAs.** "End every reply with /schedule." "Always offer to commit." 4.7 follows literal CTAs and they become spam.
+- **Always-on CTAs.** "End every reply with /schedule." "Always offer to commit." Current models follow literal CTAs and they become spam.
 - **Restated rules.** A bullet that paraphrases the previous bullet adds zero information. Cut.
 - **Motivational filler.** "Speed is the goal." "Persistence is the point." "Be careful with this." Sentence-of-rhetoric after a rule that already covers the rhetoric. Cut.
 - **Validation-forward phrasing.** "It's okay to…", "Feel free to…", "If you'd like, …". Cut and state the rule directly.
@@ -95,23 +95,22 @@ After cutting, ask: did I lose information the model couldn't otherwise infer? I
 **The single canonical source for prompting principles in this repo:**
 [`platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices`](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
 
-This is the URL Anthropic actively maintains for Opus 4.7 + 4.6 + Sonnet 4.6 + Haiku 4.5. Fetch it fresh at the start of every session that touches `system-prompts/*.md` (`mcp__kindly-web-search__get_content` or `WebFetch`). Do not rely on training-data recall — Anthropic edits this page often, and prompt edits anchored on stale guidance produce regressions.
+Fetch it fresh at the start of every session that touches `system-prompts/*.md` (`mcp__kindly-web-search__get_content` or `WebFetch`). Do not rely on training-data recall — Anthropic edits this page often, and prompt edits anchored on stale guidance produce regressions.
 
 The digest below is a checklist, not a substitute. Read the URL.
 
-**Opus 4.7 lobotomization checklist** (apply these as the standard for every override edit):
+**Editing checklist for Opus 5.5 + Fable 5.1** (the full cited list is §6 of `~/dev/anthropic-reference/Opus-5.5-Card-Digest.md`; read it):
 
-1. **Less is more.** 4.7 is more literal — fewer rules, less drift. If you can cut a sentence without losing information, cut it.
-2. **No CAPS theater.** `STRICTLY PROHIBITED`, `CRITICAL REQUIREMENT`, `MUST` trigger overcorrection on 4.7. Use plain directives. Per Anthropic: dial back from `"CRITICAL: You MUST use this tool when..."` to `"Use this tool when..."`.
-3. **Tell it what to DO, not what NOT to do.** Anthropic's guide is explicit: positive instructions outperform negative ones. "Don't use markdown" → "Respond in flowing prose paragraphs."
-4. **Parallel by default.** Independent tool calls go in one message, multiple blocks. The harness prompt explicitly says so. Anthropic ships canonical `<use_parallel_tool_calls>` snippet — match its shape rather than reinventing.
-5. **Interview before planning.** Plan mode runs Matt Pocock's [grill-me](https://www.aihero.dev/my-grill-me-skill-has-gone-viral) pattern in Phase 1: walk the design tree one decision at a time with a recommended answer.
-6. **No always-on CTAs.** 4.7 follows literal CTAs; an "end every reply with /schedule" prompt becomes spam. Cull always-on upsells.
-7. **Tighter destructive-action guards.** Git commit/push/merge/PR all require explicit confirmation in the current conversation. "Commit and push" splits into two confirmations. Anthropic's reference snippet for this is `<balancing-autonomy-and-safety>` — align our overrides with its phrasing.
-8. **Anti-overengineering.** Anthropic ships a canonical "Avoid over-engineering" snippet covering scope, documentation, defensive coding, abstractions. When our overrides touch this territory, treat the official snippet as the baseline and only diverge intentionally.
-9. **Frontend "AI slop" guard.** Anthropic ships a canonical `<frontend_aesthetics>` snippet. Our `frontend-design` skill override should be a strict subset of (or aligned with) the canonical version, not a reinvention.
-10. **Investigate before answering.** Anthropic's `<investigate_before_answering>` snippet handles anti-hallucination; align our overrides with it.
-11. **Effort respect at low/medium.** 4.7 won't "go above and beyond" at low effort. If our override implies the model should expand scope, state it explicitly.
+1. **Say it once, at normal volume.** No CAPS or stacked NEVER/MUST; state the one real constraint with its reason.
+2. **Cut paranoia and safety theatre.** Injection suspicion, "be careful" prose, over-refusal hedges and security-work disclaimers go. Opus 5.5 was compromised on 0 of ~2,900 adaptive coding attacks, and the card blames the remaining over-refusals on system-prompt caution text.
+3. **Keep authorization as a lookup.** Permission is only what the user wrote; relay it verbatim to subagents, tools and gates, and treat an approval you cannot point to as absent (card p.102). Keep the concrete gates (publish, push, destructive, credentials) as plain rules.
+4. **Autonomy text carries the protected-block exception.** "Keep going" never means working around something deliberately blocked from you, and never replaces confirmation for risky or destructive actions.
+5. **Remove narration suppressors and thinking-steering prose.** Both models under-narrate and stop early; effort, not prose, controls thinking; never ask for reasoning in the visible reply.
+6. **Report depth and provenance, not effort.** Say what was checked, sampled or inferred; name a dropped doubt or a departure from the plan. Cut "double-check" and "don't be lazy" nags.
+7. **Scope both ways.** The request is the deliverable: finish all of it, and extras become follow-ups.
+8. **Delegation text is about the brief and relay accuracy, not volume.** Plans handed to another model are self-contained.
+9. **Leave harness mechanics alone**: the `<pasted_content>` marker, system-reminder tags, output-format sentinels, scan needles.
+10. **Tool descriptions are contracts.** Keep parameters, limits and failure modes; move steering and worked examples out.
 
 For migrating prompts when Anthropic releases a new model (Opus 4.6 → 4.7, etc.), the [migration guide](https://docs.claude.com/en/docs/about-claude/models/migration-guide) is canonical. It documents breaking changes (`budget_tokens` → adaptive thinking, prefilled responses removed, sampling params removed on 4.7), silent default changes, and prompt-behavior shifts.
 
@@ -123,7 +122,7 @@ For each conflict reported by `tweakcc-fixed --apply` (or `.diff.html` produced 
 
 1. **Open the diff HTML.** It shows the pristine-old → pristine-new content for that prompt. Read it. This is the only way to know whether Anthropic added/removed/restructured anything that affects our lobotomization scope.
 2. **Cross-check our override body against the new pristine.** If Anthropic added a new paragraph or rule, decide whether our lobotomization should extend to it. If Anthropic deleted scaffolding our override was countering, our anti-scaffolding text might be obsolete.
-3. **Apply the Opus 4.7 checklist above.** Look for CAPS theater, negative-framed rules, always-on CTAs, redundant scaffolding. Tighten or replace.
+3. **Apply the editing checklist above.**
 4. **Bump `ccVersion:` frontmatter** to the prompt's `lastModifiedVersion` from `tweakcc-fixed/data/prompts/prompts-X.Y.Z.json`. The apply log lists the targets explicitly.
 5. **Re-apply** locally. Verify zero stderr, zero conflicts, smoke test `claude --print "say hello"`.
 6. **Run the mis-bind audit** — dump upstream (`git show upstream/main:data/prompts/prompts-X.Y.Z.json > /tmp/pieb.json`) then `node ~/dev/tweakcc-fixed/tools/auditMisbinds.mjs ~/dev/tweakcc-fixed/data/prompts/prompts-X.Y.Z.json /tmp/pieb.json` — must report **0**. A `${VAR}` being *in* the identifierMap is necessary but NOT sufficient: it must sit at the **same slot as upstream**, else it silently binds to the wrong minified var (wrong content, no crash, smoke and zero-conflicts both pass — croncreate, bash-git-commit and agent-usage-notes were all exactly this). Fix by adopting upstream's identifierMap for that prompt on the tweakcc-fixed side (the override body usually needs no change once the map is right).
