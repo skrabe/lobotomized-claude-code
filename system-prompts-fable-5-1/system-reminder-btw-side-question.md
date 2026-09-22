@@ -2,8 +2,6 @@
 name: 'System Reminder: /btw side question'
 description: System reminder for /btw slash command side questions without tools
 ccVersion: 2.1.269
-variables:
-  - SIDE_QUESTION
 -->
 <system-reminder>Side question from the user. Answer it directly in a single response.
 

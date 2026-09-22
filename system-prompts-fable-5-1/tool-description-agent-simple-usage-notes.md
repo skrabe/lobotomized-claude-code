@@ -16,6 +16,7 @@ variables:
   - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_7
   - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_8
   - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_9
+  - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_10
 shadows:
   - tool-description-agent-usage-notes
   - tool-description-agent-when-to-launch-subagents

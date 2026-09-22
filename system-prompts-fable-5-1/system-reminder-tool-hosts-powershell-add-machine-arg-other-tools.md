@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Hosts Notice: PowerShell Add Machine Arg For Other Tools'
+description: >-
+  Non-REPL suffix telling the model to add the machine argument to the host's
+  other served tools so they run there too.
+ccVersion: 2.1.280
+variables:
+  - SYSTEM_REMINDER_TOOL_HOSTS_POWERSHELL_ADD_MACHINE_ARG_OTHER_TOOLS_VAR_0
+  - SYSTEM_REMINDER_TOOL_HOSTS_POWERSHELL_ADD_MACHINE_ARG_OTHER_TOOLS_VAR_1
+  - SYSTEM_REMINDER_TOOL_HOSTS_POWERSHELL_ADD_MACHINE_ARG_OTHER_TOOLS_VAR_2
+-->
+; add "${SYSTEM_REMINDER_TOOL_HOSTS_POWERSHELL_ADD_MACHINE_ARG_OTHER_TOOLS_VAR_0}": "<name>" to a ${SYSTEM_REMINDER_TOOL_HOSTS_POWERSHELL_ADD_MACHINE_ARG_OTHER_TOOLS_VAR_1(SYSTEM_REMINDER_TOOL_HOSTS_POWERSHELL_ADD_MACHINE_ARG_OTHER_TOOLS_VAR_2)} call to run it there too

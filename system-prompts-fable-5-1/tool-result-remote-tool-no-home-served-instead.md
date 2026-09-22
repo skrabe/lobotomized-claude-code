@@ -1,0 +1,12 @@
+<!--
+name: Remote Tool No Home Served Instead
+description: >-
+  Clause of the incompatible-protocol tool error telling the model which
+  attached machine serves the tool.
+ccVersion: 2.1.280
+variables:
+  - TOOL_RESULT_REMOTE_TOOL_NO_HOME_SERVED_INSTEAD_VAR_0
+  - TOOL_RESULT_REMOTE_TOOL_NO_HOME_SERVED_INSTEAD_VAR_1
+  - TOOL_RESULT_REMOTE_TOOL_NO_HOME_SERVED_INSTEAD_VAR_2
+-->
+${TOOL_RESULT_REMOTE_TOOL_NO_HOME_SERVED_INSTEAD_VAR_0.toolName} has no home ${TOOL_RESULT_REMOTE_TOOL_NO_HOME_SERVED_INSTEAD_VAR_1()}; ${TOOL_RESULT_REMOTE_TOOL_NO_HOME_SERVED_INSTEAD_VAR_0.name} serves it — set "${TOOL_RESULT_REMOTE_TOOL_NO_HOME_SERVED_INSTEAD_VAR_2}" to "${TOOL_RESULT_REMOTE_TOOL_NO_HOME_SERVED_INSTEAD_VAR_0.name}".

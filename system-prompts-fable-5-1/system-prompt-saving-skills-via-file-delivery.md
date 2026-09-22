@@ -6,6 +6,7 @@ description: >-
 ccVersion: 2.1.257
 variables:
   - SEND_USER_FILE_TOOL_NAME
+  - SYSTEM_PROMPT_SAVING_SKILLS_VIA_FILE_DELIVERY_VAR_1
 -->
 # Saving skills
 

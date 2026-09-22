@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: Git Bundle Refs Unreadable'
+description: >-
+  Failure detail, spliced into the cloud-upload error, when packed-refs or a
+  file under refs cannot be listed.
+ccVersion: 2.1.280
+variables:
+  - TOOL_RESULT_GIT_BUNDLE_REFS_UNREADABLE_VAR_0
+  - TOOL_RESULT_GIT_BUNDLE_REFS_UNREADABLE_VAR_1
+  - TOOL_RESULT_GIT_BUNDLE_REFS_UNREADABLE_VAR_2
+-->
+could not list the refs (${TOOL_RESULT_GIT_BUNDLE_REFS_UNREADABLE_VAR_0(TOOL_RESULT_GIT_BUNDLE_REFS_UNREADABLE_VAR_1,TOOL_RESULT_GIT_BUNDLE_REFS_UNREADABLE_VAR_2(TOOL_RESULT_GIT_BUNDLE_REFS_UNREADABLE_VAR_1.commonDir,"packed-refs"))} or a file under ${TOOL_RESULT_GIT_BUNDLE_REFS_UNREADABLE_VAR_0(TOOL_RESULT_GIT_BUNDLE_REFS_UNREADABLE_VAR_1,TOOL_RESULT_GIT_BUNDLE_REFS_UNREADABLE_VAR_2(TOOL_RESULT_GIT_BUNDLE_REFS_UNREADABLE_VAR_1.commonDir,"refs"))} is unreadable or broken)
