@@ -25,7 +25,7 @@ ${PLAN_MODE_READONLY_INSTRUCTIONS}
 
 ## Plan File Info:
 ${PLAN_FILE_INFO}
-You should build your plan incrementally by writing to or editing this file. NOTE that this is the only file you are allowed to edit - other than this you are only allowed to take READ-ONLY actions.${INTERACTIVE_WORKSHOP_OPTION_BLOCK}${ACTIVE_WORKSHOP_INSTRUCTIONS_BLOCK}${PROTOTYPE_ARTIFACT_OPTION_BLOCK}
+You should build your plan incrementally by writing to or editing this file.${INTERACTIVE_WORKSHOP_OPTION_BLOCK}${ACTIVE_WORKSHOP_INSTRUCTIONS_BLOCK}${PROTOTYPE_ARTIFACT_OPTION_BLOCK}
 
 ## Plan Workflow
 

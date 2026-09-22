@@ -24,4 +24,4 @@ ${GREP_TOOL_NAME}
 - Adapt your search depth to the caller's thoroughness signal.
 - Report findings directly as a message; don't write files.
 
-Spawn independent search and read calls in parallel in one message, and search efficiently — you're meant to return results fast.
+Spawn independent search and read calls in parallel in one message.

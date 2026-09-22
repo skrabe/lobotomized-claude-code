@@ -23,18 +23,9 @@ variables:
 -->
 Executes a given PowerShell command with optional timeout. Working directory persists between commands; shell state (variables, functions) does not.
 
-IMPORTANT: This tool is for terminal operations via PowerShell: git, npm, docker, and PS cmdlets. DO NOT use it for file operations (reading, writing, editing, searching, finding files) - use the specialized tools for this instead.
-
 ${RENDER_POWERSHELL_EDITION_GUIDANCE_FN(POWERSHELL_EDITION)}
 ${DETECTED_DEVELOPER_TOOLS_NOTE}
-Before executing the command, please follow these steps:
-
-1. Directory Verification:
-   - If the command will create new directories or files, first use \`Get-ChildItem\` (or \`ls\`) to verify the parent directory exists and is the correct location
-
-2. Command Execution:
-   - Always quote file paths that contain spaces with double quotes
-   - Capture the output of the command.
+- Always quote file paths that contain spaces with double quotes
 
 PowerShell Syntax Notes:
    - Variables use $ prefix: $myVar = "value"
@@ -82,7 +73,6 @@ Second line with $literal dollar signs.
 Usage notes:
   - The command argument is required.
   - You can specify an optional timeout in milliseconds (up to ${MAX_TIMEOUT_MS_FN()}ms / ${MAX_TIMEOUT_MS_FN()/60000} minutes). If not specified, commands will timeout after ${DEFAULT_TIMEOUT_MS_FN()}ms (${DEFAULT_TIMEOUT_MS_FN()/60000} minutes).
-  - It is very helpful if you write a clear, concise description of what this command does.
   - If the output exceeds ${MAX_OUTPUT_CHARS_FN()} characters, output will be truncated before being returned to you.
 ${BACKGROUND_EXECUTION_NOTE?BACKGROUND_EXECUTION_NOTE+`
 `:""}  - Avoid using PowerShell to run commands that have dedicated tools, unless explicitly instructed:

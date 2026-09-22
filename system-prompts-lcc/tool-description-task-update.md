@@ -10,10 +10,8 @@ Use this tool to update a task in the task list.
 **Mark tasks as resolved:**
 - When you have completed the work described in a task
 - When a task is no longer needed or has been superseded
-- IMPORTANT: Always mark your assigned tasks as resolved when you finish them
 - After resolving, call TaskList to find your next task
 
-- ONLY mark a task as completed when you have FULLY accomplished it
 - If you encounter errors, blockers, or cannot finish, keep the task as in_progress
 - When blocked, create a new task describing what needs to be resolved
 - Never mark a task as completed if:
