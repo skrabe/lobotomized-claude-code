@@ -1,8 +1,9 @@
 <!--
-name: Orphaned background shell stopped explanation
+name: 'System Reminder: Orphaned shell stopped text'
 description: >-
-  Inner explanatory text of the orphaned background shell task-result block
-  injected into model context on resume.
-ccVersion: 2.1.265
+  Suffix, added when output files are readable, telling the model to check a
+  resumed background shell's output file for partial results before assuming it
+  completed.
+ccVersion: 2.1.281
 -->
-No completion record was found for it in the previous session. It may have been stopped (via the UI, Monitor timeout, or agent teardown — these leave no transcript marker), or it may have been running when the previous Claude Code process exited. Check the output file for partial results before assuming it completed.
+ Check the output file for partial results before assuming it completed.

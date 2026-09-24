@@ -23,7 +23,7 @@ ${[...IMPORT_SOURCES.filter((IMPORT_SOURCE)=>IMPORT_SOURCE.unmappable.length>0).
 
 `)}
 
-Claude Code config locations:
+Relevant Claude Code config locations:
 - Settings: \`~/.claude/settings.json\` (user) or \`.claude/settings.json\` (project)
 - MCP servers: \`.mcp.json\` (project) or \`claude mcp add\`
 - Slash commands: \`~/.claude/commands/*.md\`

@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Device Bridge Host Offline'
+name: 'Tool Result: device bridge host offline'
 description: >-
-  Device-bridge error when the attached machine could not be reached, so the
-  remote tool call did not run.
-ccVersion: 2.1.246
+  Remote-tool error when the user's computer cannot be reached right now: the
+  call did not run; try again shortly.
+ccVersion: 2.1.281
 -->
-The attached machine could not be reached through the device bridge right now; the call did not run. Try again shortly.
+The user's computer could not be reached right now; the call did not run. Try again shortly.

@@ -14,7 +14,7 @@ Analyze this Claude Code usage data and suggest improvements.
 4. **Headless Mode** — non-interactive scripts/CI. Use: \`claude -p "fix lint errors" --allowedTools "Edit,Read,Bash"\`. Good for: CI/CD, batch fixes, automated reviews.
 5. **Task Agents** — focused sub-agents for parallel work. Use: auto-invoked, or "use an agent to explore X". Good for: codebase exploration, complex systems.
 
-Respond with only a valid JSON object:
+RESPOND WITH ONLY A VALID JSON OBJECT:
 {
   "claude_md_additions": [
     {"addition": "A specific line or block to add to CLAUDE.md based on workflow patterns. E.g., 'Always run tests after modifying auth-related files'", "why": "1 sentence explaining why this would help based on actual sessions", "prompt_scaffold": "Instructions for where to add this in CLAUDE.md. E.g., 'Add under ## Testing section'"}

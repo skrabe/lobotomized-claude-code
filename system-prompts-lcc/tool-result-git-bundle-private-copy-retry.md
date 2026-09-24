@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Git Bundle Private Copy Retry'
-description: >-
-  d6.other remedy telling the model to retry and use git status if the
-  private-copy failure keeps happening.
-ccVersion: 2.1.280
+name: 'Git bundle: retry remedy'
+description: Generic retry remedy suffix pointing at the index link check and git status
+ccVersion: 2.1.281
+variables:
+  - TOOL_RESULT_GIT_BUNDLE_PRIVATE_COPY_RETRY_VAR_0
 -->
- Retry; if it keeps happening, `git status` here shows whether git itself still reads this checkout.
+ Retry; if it keeps happening, first ${TOOL_RESULT_GIT_BUNDLE_PRIVATE_COPY_RETRY_VAR_0}; \`git status\` here then shows whether git itself still reads this checkout.

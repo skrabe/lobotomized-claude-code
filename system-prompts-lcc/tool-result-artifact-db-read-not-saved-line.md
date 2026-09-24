@@ -1,9 +1,9 @@
 <!--
-name: Artifact DB Read Not Saved Line
+name: 'Tool Result: Artifact db read not saved line'
 description: >-
-  Tells the model how many returned database documents were not saved and to
-  read them without out_dir.
-ccVersion: 2.1.280
+  Line in a read_db out_dir result listing returned documents that were not
+  saved and why, with a hint to read them without out_dir.
+ccVersion: 2.1.281
 variables:
   - TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_0
   - TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_1
@@ -11,4 +11,4 @@ variables:
   - TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_3
 -->
 
-[${TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_0.length} returned ${TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_1(TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_0.length,"document")} not saved — ${TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_2[Y]}${TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_3}; read ${TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_0.length===1?"it":"them"} without out_dir if needed]
+[${TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_0.length} returned ${TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_1(TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_0.length,"document")} not saved — ${TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_2[J]}${TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_3}; read ${TOOL_RESULT_ARTIFACT_DB_READ_NOT_SAVED_LINE_VAR_0.length===1?"it":"them"} without out_dir if needed]

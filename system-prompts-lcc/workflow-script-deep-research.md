@@ -3,7 +3,7 @@ name: 'Workflow Script: deep-research'
 description: >-
   Bundled deep-research workflow — a multi-round scoped search pipeline with URL
   dedup, fetch/extract, vote-based verification, and a gap critic between rounds
-ccVersion: 2.1.257
+ccVersion: 2.1.281
 variables:
   - WORKFLOW_NAME
   - WORKFLOW_DESCRIPTION
@@ -31,10 +31,8 @@ const MAX_ROUNDS = 3
 
 // ─── Schemas ───
 const SCOPE_SCHEMA = {
-  type: "object", required: ["question", "angles", "summary"],
+  type: "object", required: ["angles"],
   properties: {
-    question: { type: "string" },
-    summary: { type: "string" },
     angles: { type: "array", minItems: 3, maxItems: 6, items: {
       type: "object", required: ["label", "query"],
       properties: {
@@ -131,8 +129,7 @@ const scope = await agent(
   "- broad/primary  · academic/technical  · recent news  · contrarian/skeptical  · practitioner/implementation\\n" +
   "- For medical: anatomy · common causes · serious differentials · authoritative refs · red flags\\n" +
   "- For tech: state-of-art · benchmarks · limitations · industry adoption · cost/tradeoffs\\n\\n" +
-  "Make queries specific enough to surface high-signal results. Avoid redundancy.\\n" +
-  "Return: the question (verbatim or lightly normalized), a 1-2 sentence decomposition strategy, and the angles.\\n\\nStructured output only.",
+  "Make queries specific enough to surface high-signal results. Avoid redundancy.\\n\\nStructured output only.",
   { label: "scope", schema: SCOPE_SCHEMA }
 )
 if (!scope) {

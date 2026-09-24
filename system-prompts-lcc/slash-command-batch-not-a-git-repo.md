@@ -1,8 +1,9 @@
 <!--
 name: /batch not-a-git-repo guard
 description: >-
-  Guard text returned as the /batch command prompt when the workspace is not a
-  git repository, injected into the model's turn.
-ccVersion: 2.1.206
+  Guard text returned as the /batch command prompt when the directory is not a
+  git repository and no WorktreeCreate hook is configured, injected into the
+  model's turn.
+ccVersion: 2.1.281
 -->
-This is not a git repository. The `/batch` command requires a git repo because it spawns agents in isolated git worktrees and creates PRs from each. Initialize a repo first, or run this from inside an existing one.
+The `/batch` command runs each agent in its own isolated worktree, and none can be created here: this directory is not in a git repository and no WorktreeCreate hook is configured. Run `/batch` from inside a git repository, or configure WorktreeCreate and WorktreeRemove hooks in settings.json for another version-control system.

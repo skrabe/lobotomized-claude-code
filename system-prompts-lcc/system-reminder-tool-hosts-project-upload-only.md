@@ -1,10 +1,11 @@
 <!--
-name: 'Tool Hosts Notice: Project Upload-Only Sync'
+name: 'System Reminder: Tool Hosts Project Upload-Only'
 description: >-
-  Host description fragment: the project path is upload-only — saved changes
-  there arrive before each user message; changes here are not sent back.
-ccVersion: 2.1.246
+  Tool-hosts notice line for a project whose saved changes are uploaded to this
+  session before each user message, with nothing sent back.
+ccVersion: 2.1.281
 variables:
   - SYSTEM_REMINDER_TOOL_HOSTS_PROJECT_UPLOAD_ONLY_VAR_0
+  - SYSTEM_REMINDER_TOOL_HOSTS_PROJECT_UPLOAD_ONLY_VAR_1
 -->
-project at ${SYSTEM_REMINDER_TOOL_HOSTS_PROJECT_UPLOAD_ONLY_VAR_0} (the user's saved changes there are uploaded to this session before each of their messages; changes here are not sent back)
+project at ${SYSTEM_REMINDER_TOOL_HOSTS_PROJECT_UPLOAD_ONLY_VAR_0} (upload-only: ${SYSTEM_REMINDER_TOOL_HOSTS_PROJECT_UPLOAD_ONLY_VAR_1} reach this session before each of the user's messages; nothing is sent back)

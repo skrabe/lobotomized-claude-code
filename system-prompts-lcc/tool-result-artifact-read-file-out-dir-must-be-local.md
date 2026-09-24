@@ -1,8 +1,8 @@
 <!--
-name: Artifact read_file out_dir must be local
+name: 'Tool Result: Artifact Read File Out Dir Must Be Local'
 description: >-
-  Validation error returned to the model when read_file's out_dir names a
-  network path.
-ccVersion: 2.1.239
+  Artifact read_file refusal when out_dir names a network path or cannot be
+  resolved.
+ccVersion: 2.1.281
 -->
-read_file saves only to local directories — out_dir names a network path.
+read_file saves only to local directories — out_dir names a network path or cannot be resolved.

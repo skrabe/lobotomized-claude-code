@@ -3,7 +3,7 @@ name: 'Agent Prompt: /batch slash command'
 description: >-
   Instructions for orchestrating a large, parallelizable change across a
   codebase.
-ccVersion: 2.1.273
+ccVersion: 2.1.281
 variables:
   - USER_INSTRUCTIONS
   - ENTER_PLAN_MODE_TOOL_NAME
@@ -13,6 +13,7 @@ variables:
   - EXIT_PLAN_MODE_TOOL_NAME
   - AGENT_TOOL_NAME
   - WORKER_PROMPT
+  - AGENT_PROMPT_BATCH_SLASH_COMMAND_VAR_8
 -->
 # Batch: Parallel Work Orchestration
 
@@ -69,7 +70,7 @@ ${WORKER_PROMPT}
 \`\`\`
 
 Use \`subagent_type: "general-purpose"\` unless a more specific agent type fits.
-
+${AGENT_PROMPT_BATCH_SLASH_COMMAND_VAR_8}
 ## Phase 3: Track Progress
 
 After launching all workers, render an initial status table:

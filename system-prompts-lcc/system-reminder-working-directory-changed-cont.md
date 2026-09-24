@@ -1,8 +1,8 @@
 <!--
-name: Working-directory-changed notice (continuation)
+name: Working-Directory-Changed Notice (Continued)
 description: >-
-  Continuation fragment of the working-directory-changed system reminder
-  injected into model context via modelMessage.
-ccVersion: 2.1.206
+  Second literal of the stale-environment sentence in the
+  working-directory-changed notice.
+ccVersion: 2.1.281
 -->
-previous directory — that information is stale. All tool calls and 
+previous directory — that information is stale. 

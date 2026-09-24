@@ -1,7 +1,7 @@
 <!--
 name: 'Tool Description: EnterWorktree'
 description: Tool description for the EnterWorktree tool.
-ccVersion: 2.1.204
+ccVersion: 2.1.281
 -->
 
 Create an isolated git worktree and switch the session into it. Use only when explicitly instructed to work in a worktree — either the user says "worktree" (start/create/use a worktree) or CLAUDE.md / memory directs it. For branch switching or normal feature/bugfix work, use git commands instead.

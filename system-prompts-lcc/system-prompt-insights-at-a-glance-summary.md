@@ -24,7 +24,7 @@ Use this 4-part structure:
 
 Each section: 2-3 sentences. Don't overwhelm. Don't cite specific numerical stats or underlined_categories from the session data. Coaching tone — a peer's, not an instructor's. No moralizing about how the user should work.
 
-Respond with only a valid JSON object:
+RESPOND WITH ONLY A VALID JSON OBJECT:
 {
   "whats_working": "...",
   "whats_hindering": "...",

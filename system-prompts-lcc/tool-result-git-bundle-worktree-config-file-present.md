@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Git Bundle Worktree Config File Present'
+name: 'Git bundle: worktree config file present'
 description: >-
-  tC.worktree_config clause refusing the upload when the admin entry carries a
-  per-worktree config file a session can write.
-ccVersion: 2.1.280
+  Refusal reason when a linked worktree admin entry carries a per-worktree
+  config file
+ccVersion: 2.1.281
 -->
-its administrative entry carries a per-worktree configuration file, which a session of the repository can write into an entry it makes — remove that file if nothing relies on it, or start from the repository’s main checkout
+its administrative entry carries a per-worktree configuration file, one a Claude Code session of this repository could have written there — delete that file only if nothing in it matters (`git rev-parse --git-path config.worktree` names it; git sparse-checkout writes one, and a sparse tree needs it to stay sparse), or start from the repository’s main checkout

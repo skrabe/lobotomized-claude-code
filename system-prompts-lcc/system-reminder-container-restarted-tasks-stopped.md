@@ -1,17 +1,14 @@
 <!--
 name: 'System Reminder: Container restarted, tasks stopped'
 description: >-
-  Reminder listing background tasks stopped by a container restart, prompting
-  re-creation.
-ccVersion: 2.1.247
+  Meta reminder after a container restart. It wraps the lists of background
+  tasks that were stopped and of tasks that finished but whose results were not
+  delivered.
+ccVersion: 2.1.281
 variables:
   - SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_0
-  - SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_1
-  - SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_2
 -->
 <system-reminder>
-The container was restarted. The following background tasks were running and are now stopped:
-${SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_0.map((SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_1)=>`- ${SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_2(SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_1.description||"(no description)")} (task ${SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_2(SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_1.task_id)})`).join(`
+The container was restarted. ${SYSTEM_REMINDER_CONTAINER_RESTARTED_TASKS_STOPPED_VAR_0.join(`
 `)}
-Re-create them if still needed.
 </system-reminder>

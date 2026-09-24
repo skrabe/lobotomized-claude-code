@@ -1,12 +1,11 @@
 <!--
-name: Working-directory-changed notice
+name: Working-Directory-Changed Notice
 description: >-
-  System reminder enqueued as modelMessage into the conversation when the
-  session cwd changes via /cd or set_cwd, telling the model the environment
-  block is stale.
-ccVersion: 2.1.206
+  Opening of the notice sent to the model when the session's working directory
+  changes (via /cd or by the user).
+ccVersion: 2.1.281
 variables:
   - SYSTEM_REMINDER_WORKING_DIRECTORY_CHANGED_VAR_0
   - SYSTEM_REMINDER_WORKING_DIRECTORY_CHANGED_VAR_1
 -->
-The session's working directory has changed to ${SYSTEM_REMINDER_WORKING_DIRECTORY_CHANGED_VAR_0} (${SYSTEM_REMINDER_WORKING_DIRECTORY_CHANGED_VAR_1==="cd_command"?"via /cd":"by the user"}). The environment block at the start of this conversation still names the 
+The session's working directory has changed to ${SYSTEM_REMINDER_WORKING_DIRECTORY_CHANGED_VAR_0} (${SYSTEM_REMINDER_WORKING_DIRECTORY_CHANGED_VAR_1}). 

@@ -1,8 +1,8 @@
 <!--
-name: Aggregate orphaned agents (state lost) notice
+name: 'System Reminder: Orphaned agents aggregate lost'
 description: >-
-  Aggregate-summary fragment injected into model context stating orphaned tasks
-  were running at exit and lost their in-process state.
-ccVersion: 2.1.265
+  Suffix, added when output files are readable, telling the model to check each
+  worktree/output for partial work before assuming an orphaned task landed.
+ccVersion: 2.1.281
 -->
-They were running when the previous Claude Code process exited and did not complete; their in-process state was lost. Check each worktree/output for partial work before assuming a task landed. They have been marked failed.
+ Check each worktree/output for partial work before assuming a task landed.
