@@ -1,8 +1,8 @@
 <!--
 name: 'Data: Sonnet 5 model description for model'
 description: >-
-  descriptionForModel string presented to the model for the new Sonnet 5 model
-  option (2.1.197).
-ccVersion: 2.1.197
+  Model-facing description of the Sonnet model: efficient for routine tasks and
+  generally recommended for most coding tasks
+ccVersion: 2.1.282
 -->
-Sonnet 5 - efficient for routine tasks. Generally recommended for most coding tasks
+efficient for routine tasks. Generally recommended for most coding tasks

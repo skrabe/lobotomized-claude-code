@@ -13,7 +13,7 @@ variables:
   - EXIT_PLAN_MODE_TOOL_NAME
   - AGENT_TOOL_NAME
   - WORKER_PROMPT
-  - AGENT_PROMPT_BATCH_SLASH_COMMAND_VAR_8
+  - NON_GIT_WORKTREE_GUIDANCE
 -->
 # Batch: Parallel Work Orchestration
 
@@ -70,7 +70,7 @@ ${WORKER_PROMPT}
 \`\`\`
 
 Use \`subagent_type: "general-purpose"\` unless a more specific agent type fits.
-${AGENT_PROMPT_BATCH_SLASH_COMMAND_VAR_8}
+${NON_GIT_WORKTREE_GUIDANCE}
 ## Phase 3: Track Progress
 
 After launching all workers, render an initial status table:

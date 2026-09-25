@@ -3,7 +3,7 @@ name: 'Agent Prompt: /schedule slash command'
 description: >-
   Guides the user through scheduling, updating, listing, or running remote
   Claude Code agents on cron triggers via the Anthropic cloud API
-ccVersion: 2.1.274
+ccVersion: 2.1.282
 variables:
   - USER_REQUEST
   - ASK_USER_QUESTION_TOOL_NAME
@@ -11,6 +11,7 @@ variables:
   - INITIAL_ACTION_QUESTION
   - SETUP_NOTES_BLOCK
   - REMOTE_TRIGGER_TOOL_NAME
+  - DEFAULT_SCHEDULE_MODEL
   - DEFAULT_GIT_REPO_URL
   - MCP_CONNECTORS_LIST
   - ENVIRONMENTS_LIST
@@ -63,7 +64,7 @@ For a recurring schedule:
     "ccr": {
       "environment_id": "ENVIRONMENT_ID",
       "session_context": {
-        "model": "claude-sonnet-5",
+        "model": "${DEFAULT_SCHEDULE_MODEL}",
         "sources": [
           {"git_repository": {"url": "${DEFAULT_GIT_REPO_URL||"https://github.com/ORG/REPO"}"}}
         ],
