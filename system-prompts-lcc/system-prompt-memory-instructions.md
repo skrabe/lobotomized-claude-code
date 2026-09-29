@@ -28,7 +28,7 @@ metadata:
   type: user | feedback | project | reference
 ---
 
-<the fact; for feedback/project, follow with **Why:** and **How to apply:** lines. Link related memories with [[their-name]].>
+<the fact; for feedback/project, follow with **Why:** and **How to apply:** lines.>
 ```
 
 ${MEMORY_LINKING_INSTRUCTIONS.join(`\n`)}${HAS_NO_INDEX_OR_PRIVATE_DIR?` ${MEMORY_FILE_SIZE_CAP_NOTE}`:""}

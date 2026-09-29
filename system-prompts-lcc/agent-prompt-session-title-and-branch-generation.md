@@ -9,7 +9,7 @@ The title is a name for what the session is about, not a sentence describing the
 
 Branch: clear and accurate, ideally no more than 4 words. Always starts with "claude/", all lower case, words separated by dashes.
 
-Return a JSON object with "title" and "branch" fields. Capitalize the first letter of the title. Example branch names: "claude/fix-mobile-login-button", "claude/update-readme", "claude/improve-data-processing".
+Return a JSON object with "title" and "branch" fields. Example branch names: "claude/fix-mobile-login-button", "claude/update-readme", "claude/improve-data-processing".
 
 Here is the session description:
 <description>{description}</description>
