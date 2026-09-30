@@ -1,8 +1,16 @@
 <!--
 name: /update refused — transcript path drift
 description: >-
-  Refusal returned by /update when the session was resumed from a different
-  project directory, telling the model to restart manually with --resume.
-ccVersion: 2.1.273
+  Refusal returned by /update when the session's working directory and
+  transcript location disagree, telling the model to restart manually with
+  --resume.
+ccVersion: 2.1.285
+variables:
+  - SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_0
+  - SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_1
+  - SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_2
+  - SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_3
+  - SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_4
+  - SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_5
 -->
-Cannot /update — this session was resumed from a different project directory. Restart manually with --resume to continue on the latest version.
+Cannot /update — ${SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_0&&SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_1(SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_0)===SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_2?`this session belongs to ${SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_3(SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_4(SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_0))} but is running in ${SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_5}`:`this session is running in ${SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_5} but its transcript is in ${SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_3(SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_4(SLASH_COMMAND_UPDATE_REFUSED_TRANSCRIPT_PATH_DRIFT_VAR_2))}`}. Restart manually with --resume to continue on the latest version.

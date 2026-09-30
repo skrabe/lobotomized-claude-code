@@ -1,10 +1,10 @@
 <!--
-name: 'Slash Command: Remote Workflow Disabled By Managed Settings'
+name: 'Slash Command: Remote Workflow Disabled By disableWorkflows Setting'
 description: >-
-  Policy-gate refusal line explaining dynamic workflows are off via managed
-  settings `disableWorkflows`; wrapped as `remote-workflow: error[policy-gate]:
-  …` and returned by the __remote-workflow / workflow-launch-exec local commands
-  as <local-command-stdout>, which is replayed to the model.
-ccVersion: 2.1.218
+  Policy-gate refusal line explaining dynamic workflows are off via the
+  disableWorkflows setting; returned by the __remote-workflow /
+  workflow-launch-exec local commands as local-command stdout replayed to the
+  model.
+ccVersion: 2.1.285
 -->
-dynamic workflows are disabled for this session (managed settings `disableWorkflows`).
+dynamic workflows are disabled for this session (the `disableWorkflows` setting).

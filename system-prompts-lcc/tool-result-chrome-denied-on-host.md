@@ -3,7 +3,7 @@ name: Claude-in-Chrome denied on host
 description: >-
   Permission-deny message returned to the model when Claude-in-Chrome is denied
   on a specific host.
-ccVersion: 2.1.276
+ccVersion: 2.1.285
 variables:
   - TOOL_RESULT_CHROME_DENIED_ON_HOST_VAR_0
 -->

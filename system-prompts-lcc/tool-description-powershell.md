@@ -4,7 +4,7 @@ description: >-
   Describes the PowerShell command execution tool with syntax guidance, timeout
   settings, and instructions to prefer specialized tools over PowerShell for
   file operations
-ccVersion: 2.1.273
+ccVersion: 2.1.285
 variables:
   - RENDER_POWERSHELL_EDITION_GUIDANCE_FN
   - POWERSHELL_EDITION
@@ -72,7 +72,7 @@ Second line with $literal dollar signs.
 
 Usage notes:
   - The command argument is required.
-  - You can specify an optional timeout in milliseconds (up to ${MAX_TIMEOUT_MS_FN()}ms / ${MAX_TIMEOUT_MS_FN()/60000} minutes). If not specified, commands will timeout after ${DEFAULT_TIMEOUT_MS_FN()}ms (${DEFAULT_TIMEOUT_MS_FN()/60000} minutes).
+  - You can specify an optional timeout in milliseconds (up to ${MAX_TIMEOUT_MS_FN()}ms / ${MAX_TIMEOUT_MS_FN()/60000} minutes for a foreground command). If not specified, commands will timeout after ${DEFAULT_TIMEOUT_MS_FN()}ms (${DEFAULT_TIMEOUT_MS_FN()/60000} minutes).
   - If the output exceeds ${MAX_OUTPUT_CHARS_FN()} characters, output will be truncated before being returned to you.
 ${BACKGROUND_EXECUTION_NOTE?BACKGROUND_EXECUTION_NOTE+`
 `:""}  - Avoid using PowerShell to run commands that have dedicated tools, unless explicitly instructed:

@@ -1,11 +1,11 @@
 <!--
-name: 'Bash worktree guard: script computed at runtime'
+name: 'Worktree Guard Operand: Script Computed At Runtime'
 description: >-
-  Bash worktree-isolation guard clause flagging a script argument computed at
-  runtime.
-ccVersion: 2.1.284
+  Wc() refusal when the script operand itself is non-literal (computed at
+  runtime).
+ccVersion: 2.1.285
 variables:
   - TOOL_RESULT_BASH_WORKTREE_GUARD_OPERAND_RUNTIME_SCRIPT_VAR_0
   - TOOL_RESULT_BASH_WORKTREE_GUARD_OPERAND_RUNTIME_SCRIPT_VAR_1
 -->
-with a script computed at runtime (${TOOL_RESULT_BASH_WORKTREE_GUARD_OPERAND_RUNTIME_SCRIPT_VAR_0(TOOL_RESULT_BASH_WORKTREE_GUARD_OPERAND_RUNTIME_SCRIPT_VAR_1[Te].value)})
+with a script computed at runtime (${TOOL_RESULT_BASH_WORKTREE_GUARD_OPERAND_RUNTIME_SCRIPT_VAR_0(TOOL_RESULT_BASH_WORKTREE_GUARD_OPERAND_RUNTIME_SCRIPT_VAR_1[Ee].value)})

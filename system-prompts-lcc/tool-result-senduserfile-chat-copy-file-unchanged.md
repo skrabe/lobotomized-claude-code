@@ -1,0 +1,13 @@
+<!--
+name: 'Tool Result: SendUserFile Chat Copy File Unchanged'
+description: >-
+  SendUserFile tool_result line for a file delivered by uuid only: the chat got
+  a jpeg/png copy named X, and the file at the original path is unchanged.
+ccVersion: 2.1.285
+variables:
+  - TOOL_RESULT_SENDUSERFILE_CHAT_COPY_FILE_UNCHANGED_VAR_0
+  - TOOL_RESULT_SENDUSERFILE_CHAT_COPY_FILE_UNCHANGED_VAR_1
+  - TOOL_RESULT_SENDUSERFILE_CHAT_COPY_FILE_UNCHANGED_VAR_2
+  - TOOL_RESULT_SENDUSERFILE_CHAT_COPY_FILE_UNCHANGED_VAR_3
+-->
+The chat got a ${TOOL_RESULT_SENDUSERFILE_CHAT_COPY_FILE_UNCHANGED_VAR_0(TOOL_RESULT_SENDUSERFILE_CHAT_COPY_FILE_UNCHANGED_VAR_1)} copy of ${TOOL_RESULT_SENDUSERFILE_CHAT_COPY_FILE_UNCHANGED_VAR_1.path}, named ${TOOL_RESULT_SENDUSERFILE_CHAT_COPY_FILE_UNCHANGED_VAR_2}${TOOL_RESULT_SENDUSERFILE_CHAT_COPY_FILE_UNCHANGED_VAR_3}; the file at that path is unchanged.

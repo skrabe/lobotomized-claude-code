@@ -4,6 +4,6 @@ description: >-
   Description of the `sandbox.filesystem.allowWrite` setting in Claude Code's
   settings JSON schema. The model reads it through /update-config and settings
   validation errors; it is also shown to users in the settings help.
-ccVersion: 2.1.276
+ccVersion: 2.1.285
 -->
-Additional paths to allow writing within the sandbox. Merged with paths from Edit(...) allow permission rules.
+Additional paths to allow writing within the sandbox. Merged with paths from Edit(...) allow permission rules. 

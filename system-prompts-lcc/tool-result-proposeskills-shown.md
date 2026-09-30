@@ -4,8 +4,9 @@ description: >-
   tool_result content built by ProposeSkills'
   mapToolResultToToolResultBlockParam, telling the model the proposals were
   shown and to continue without waiting.
-ccVersion: 2.1.214
+ccVersion: 2.1.285
 variables:
   - TOOL_RESULT_PROPOSESKILLS_SHOWN_VAR_0
+  - TOOL_RESULT_PROPOSESKILLS_SHOWN_VAR_1
 -->
-Shown ${TOOL_RESULT_PROPOSESKILLS_SHOWN_VAR_0} skill proposal(s) to the user for review. Continue without waiting for a response.
+Shown ${TOOL_RESULT_PROPOSESKILLS_SHOWN_VAR_0} skill proposal(s) to the user for review.${TOOL_RESULT_PROPOSESKILLS_SHOWN_VAR_1} Continue without waiting for a response.

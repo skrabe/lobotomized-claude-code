@@ -3,7 +3,7 @@ name: 'Tool Result: Artifact publish path-pin changed'
 description: >-
   Directs the agent to re-read each concurrently edited or deleted Artifact
   file, re-apply the change, and republish without resending the earlier copy.
-ccVersion: 2.1.284
+ccVersion: 2.1.285
 variables:
   - TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_0
   - TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_1
@@ -18,4 +18,4 @@ variables:
 -->
 ${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_0}
 ${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_1(TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_2.map((TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_3)=>TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_4(TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_3,TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_5,TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_6)),TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_7,TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_6)}
-Read each one${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_8?" that still exists":""} again (${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_9(TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_6)}), re-apply your change to what it holds now, and publish again${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_8?"; a deleted one needs no read":""}. Never resend your earlier copy.${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_6.forced?" `force` does not override this.":""}${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_6.remembered?' The live file list could not be read for this publish, so each "now" line and its version are from an earlier listing in this session; the reads will show what is there now.':""}
+Read each one${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_8?" that still exists":""} again (${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_9(TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_6)}), re-apply your change to what it holds now, and publish again${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_8?"; a deleted one needs no read":""}. Never resend your earlier copy.${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_6.forced?" `force` does not override this.":""}${TOOL_RESULT_ARTIFACT_PUBLISH_PATH_PIN_CHANGED_VAR_6.remembered?' The live file list could not be read for this publish, so each "now" line and its version are from an earlier listing or publish result in this session; the reads will show what is there now.':""}

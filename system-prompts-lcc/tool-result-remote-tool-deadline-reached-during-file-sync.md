@@ -1,11 +1,10 @@
 <!--
-name: Deadline reached during file sync (pre-start)
+name: 'Remote tool: stopped at deadline before start'
 description: >-
-  tool_result message for a call whose admission deadline was reached while file
-  sync was still writing the cloud session's newer files into the checkout,
-  before the command started; nothing ran.
-ccVersion: 2.1.284
+  tool_result message for a remote-tool call stopped at its deadline before the
+  command started (while install/file-sync hold was pending); nothing ran.
+ccVersion: 2.1.285
 variables:
   - TOOL_RESULT_REMOTE_TOOL_DEADLINE_REACHED_DURING_FILE_SYNC_VAR_0
 -->
-The call reached its deadline on ${TOOL_RESULT_REMOTE_TOOL_DEADLINE_REACHED_DURING_FILE_SYNC_VAR_0} while file sync was still writing the cloud session's newer files into this checkout, before the command started — nothing ran.
+The call was stopped on ${TOOL_RESULT_REMOTE_TOOL_DEADLINE_REACHED_DURING_FILE_SYNC_VAR_0} at its deadline before the command started — nothing ran.

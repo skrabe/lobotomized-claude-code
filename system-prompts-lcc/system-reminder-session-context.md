@@ -3,7 +3,7 @@ name: 'System Reminder: Session context'
 description: >-
   Provides selected session context values, marks replacement updates, and
   directs the agent to use them only when highly relevant
-ccVersion: 2.1.252
+ccVersion: 2.1.285
 variables:
   - HAS_SESSION_CONTEXT_CHANGED
   - SESSION_CONTEXT_REFRESH_REASON

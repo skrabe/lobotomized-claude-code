@@ -1,8 +1,8 @@
 <!--
 name: 'Slash Command: /resume Background Session Agents Hint'
 description: >-
-  Tells the model to find the background session id via claude agents, then
-  attach or stop it, when /resume hits a live session with no job id.
-ccVersion: 2.1.251
+  Tells the model to find the background session via claude agents, then open it
+  or stop it there first, when /resume hits a live session with no job id.
+ccVersion: 2.1.285
 -->
-Run `claude agents` to find its id, then `claude attach <id>` to open it, or `claude stop <id>` first to resume it here.
+Run `claude agents` to find it and open it, or stop it there first to resume it here.

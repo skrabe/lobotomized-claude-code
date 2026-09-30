@@ -1,11 +1,11 @@
 <!--
-name: 'Bash worktree isolation: descriptor holds program'
+name: Worktree Isolation Descriptor Holds Program
 description: >-
-  Bash worktree-isolation guard clause: the command runs the program a file
-  descriptor holds.
-ccVersion: 2.1.284
+  Worktree-isolation refusal when the program is a descriptor-held path, so it
+  cannot be shown not to be git.
+ccVersion: 2.1.285
 variables:
   - TOOL_RESULT_BASH_WORKTREE_ISOLATION_DESCRIPTOR_HOLDS_PROGRAM_VAR_0
   - TOOL_RESULT_BASH_WORKTREE_ISOLATION_DESCRIPTOR_HOLDS_PROGRAM_VAR_1
 -->
-runs the program a descriptor holds (${TOOL_RESULT_BASH_WORKTREE_ISOLATION_DESCRIPTOR_HOLDS_PROGRAM_VAR_0[Te]}) ${TOOL_RESULT_BASH_WORKTREE_ISOLATION_DESCRIPTOR_HOLDS_PROGRAM_VAR_1}, so it cannot be shown not to be git
+runs the program a descriptor holds (${TOOL_RESULT_BASH_WORKTREE_ISOLATION_DESCRIPTOR_HOLDS_PROGRAM_VAR_0[Ee]}) ${TOOL_RESULT_BASH_WORKTREE_ISOLATION_DESCRIPTOR_HOLDS_PROGRAM_VAR_1}, so it cannot be shown not to be git

@@ -1,8 +1,9 @@
 <!--
-name: 'Tool Description: Subagent Handback'
+name: 'Tool Description: SubagentHandback (short)'
 description: >-
   Short SubagentHandback tool description: deliver the final report to the
-  spawning agent as the last tool call.
-ccVersion: 2.1.267
+  spawning agent, the only way it reaches them, as the last call which ends the
+  run
+ccVersion: 2.1.285
 -->
-Deliver your final report to the agent that spawned you, once, as your last tool call. The only way your report reaches it.
+Deliver your final report to the agent that spawned you: the only way it reaches them. The call ends your run, so make it your last.

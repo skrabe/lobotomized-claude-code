@@ -3,7 +3,7 @@ name: 'System Reminder: Queued notifications delivery'
 description: >-
   Formats an authoritative system notification for a drained batch of queued
   notifications, including relayed bodies and the remaining queue count
-ccVersion: 2.1.231
+ccVersion: 2.1.285
 variables:
   - NOTIFICATIONS
   - PLURALIZE_FN

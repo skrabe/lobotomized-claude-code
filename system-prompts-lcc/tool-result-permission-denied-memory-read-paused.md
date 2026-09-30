@@ -2,7 +2,7 @@
 name: Memory read denied (paused)
 description: >-
   Permission-deny tool result returned to the model when it reads memory while
-  automemory is paused.
-ccVersion: 2.1.206
+  memory is paused for the session; only the user can turn it back on.
+ccVersion: 2.1.285
 -->
-Cannot read memory while it is paused. Run /pause-memory to resume automemory.
+Cannot read memory while it is paused for this session; only the user can turn it back on.

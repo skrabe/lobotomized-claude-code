@@ -1,11 +1,8 @@
 <!--
 name: 'Tool Result: Git Bundle Included Config'
 description: >-
-  Teleport git-bundle refusal when git config for the checkout is read from a
-  file inside the working tree, so nothing is uploaded.
-ccVersion: 2.1.246
-variables:
-  - TOOL_RESULT_GIT_BUNDLE_INCLUDED_CONFIG_VAR_0
-  - TOOL_RESULT_GIT_BUNDLE_INCLUDED_CONFIG_VAR_1
+  Upload refusal when git reads configuration for the checkout from a file a
+  cloud session in the working tree could change or that cannot be examined.
+ccVersion: 2.1.285
 -->
-Not uploading this working tree: git reads configuration for this checkout from ${TOOL_RESULT_GIT_BUNDLE_INCLUDED_CONFIG_VAR_0.file===void 0?"a file":TOOL_RESULT_GIT_BUNDLE_INCLUDED_CONFIG_VAR_1(TOOL_RESULT_GIT_BUNDLE_INCLUDED_CONFIG_VAR_0.file)}, which this working tree or a cloud session in it could change — it lies inside the checkout (by some spelling or link), shares an inode with a file that does, or is named by an include that leads there; a checkout that is itself your home directory reads that way too — which this upload does not support. Keep that configuration outside the working tree (or remove the include), then retry.
+Not uploading this working tree: git reads configuration for this checkout from a file that a cloud session in this working tree could change, or that cannot be examined from here, which this upload does not support. The file is one of these: the system-wide git configuration, ~/.gitconfig, ~/.config/git/config (or $XDG_CONFIG_HOME/git/config), what GIT_CONFIG_GLOBAL or GIT_CONFIG_SYSTEM names, the repository’s config or config.worktree, or a file that one of them includes. It is judged even if it does not exist yet, or if the include does not apply here. It lies inside this working tree or the repository’s git directory (other than that directory’s own config and config.worktree), is reached through a link that leads there, has a second name (a hard link), is on another host, or has a name that is not valid text. Keep that configuration elsewhere (or remove the include, the link or the second name), then retry.
