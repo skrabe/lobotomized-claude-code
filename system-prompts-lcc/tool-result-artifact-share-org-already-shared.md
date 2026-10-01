@@ -1,0 +1,11 @@
+<!--
+name: 'Artifact share: org already shared'
+description: Share tool result when the artifact was already open to the organization.
+ccVersion: 2.1.286
+variables:
+  - TOOL_RESULT_ARTIFACT_SHARE_ORG_ALREADY_SHARED_VAR_0
+  - TOOL_RESULT_ARTIFACT_SHARE_ORG_ALREADY_SHARED_VAR_1
+  - TOOL_RESULT_ARTIFACT_SHARE_ORG_ALREADY_SHARED_VAR_2
+  - TOOL_RESULT_ARTIFACT_SHARE_ORG_ALREADY_SHARED_VAR_3
+-->
+Already shared: ${TOOL_RESULT_ARTIFACT_SHARE_ORG_ALREADY_SHARED_VAR_0} ${TOOL_RESULT_ARTIFACT_SHARE_ORG_ALREADY_SHARED_VAR_1} — the artifact${TOOL_RESULT_ARTIFACT_SHARE_ORG_ALREADY_SHARED_VAR_2} (${TOOL_RESULT_ARTIFACT_SHARE_ORG_ALREADY_SHARED_VAR_3}) was already open to the organization, so nothing changed.

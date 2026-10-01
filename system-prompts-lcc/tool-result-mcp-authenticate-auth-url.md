@@ -1,9 +1,9 @@
 <!--
-name: 'MCP authenticate: authorization URL'
+name: 'MCP authenticate: auth URL result'
 description: >-
-  Tool-result message from MCP authenticate asking the user to open the
-  authorization URL.
-ccVersion: 2.1.251
+  McpAuth tool result telling the model to have the user open the OAuth URL to
+  authorize the MCP server, prefixed by an in-progress-sign-in note when reused.
+ccVersion: 2.1.286
 variables:
   - TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_0
   - TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_1
@@ -11,9 +11,10 @@ variables:
   - TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_3
   - TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_4
   - TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_5
+  - TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_6
 -->
-Ask the user to open this URL in their browser to authorize the ${TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_0(TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_1)} MCP server:
+${TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_0}Ask the user to open this URL in their browser to authorize the ${TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_1(TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_2)} MCP server:
 
-${TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_2}
+${TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_3}
 
-Once they complete the flow, the server's tools will become ${TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_3(TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_4.options.tools)}.${TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_5}
+Once they complete the flow, the server's tools will become ${TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_4(TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_5)}.${TOOL_RESULT_MCP_AUTHENTICATE_AUTH_URL_VAR_6}

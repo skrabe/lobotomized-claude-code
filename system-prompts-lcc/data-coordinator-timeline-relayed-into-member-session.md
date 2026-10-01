@@ -1,0 +1,13 @@
+<!--
+name: 'Data: Coordinator timeline message relayed into member session'
+description: >-
+  Provenance marker closing a verified user message that the coordinator session
+  relayed into a member session, with time, location and author
+ccVersion: 2.1.286
+variables:
+  - DATA_COORDINATOR_TIMELINE_RELAYED_INTO_MEMBER_SESSION_VAR_0
+  - DATA_COORDINATOR_TIMELINE_RELAYED_INTO_MEMBER_SESSION_VAR_1
+  - DATA_COORDINATOR_TIMELINE_RELAYED_INTO_MEMBER_SESSION_VAR_2
+  - DATA_COORDINATOR_TIMELINE_RELAYED_INTO_MEMBER_SESSION_VAR_3
+-->
+${DATA_COORDINATOR_TIMELINE_RELAYED_INTO_MEMBER_SESSION_VAR_0} ${DATA_COORDINATOR_TIMELINE_RELAYED_INTO_MEMBER_SESSION_VAR_1.written_at} ${DATA_COORDINATOR_TIMELINE_RELAYED_INTO_MEMBER_SESSION_VAR_2} by ${DATA_COORDINATOR_TIMELINE_RELAYED_INTO_MEMBER_SESSION_VAR_3(DATA_COORDINATOR_TIMELINE_RELAYED_INTO_MEMBER_SESSION_VAR_1)}, relayed by the coordinator session into this member session]

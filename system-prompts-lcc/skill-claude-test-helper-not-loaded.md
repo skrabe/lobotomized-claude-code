@@ -3,8 +3,9 @@ name: Skill Claude Test Helper Not Loaded
 description: >-
   Claude Test failure that this session did not load the built-in browser-helper
   module, usually because another claude-test plugin is installed.
-ccVersion: 2.1.276
+ccVersion: 2.1.286
 variables:
   - SKILL_CLAUDE_TEST_HELPER_NOT_LOADED_VAR_0
+  - SKILL_CLAUDE_TEST_HELPER_NOT_LOADED_VAR_1
 -->
-Claude Test cannot run in this session yet: Claude Code did not load its part that starts the browser helper. Type /${SKILL_CLAUDE_TEST_HELPER_NOT_LOADED_VAR_0}, then /claude-test again. If that changes nothing, the usual cause is another enabled plugin that is also named claude-test. If /plugin lists a claude-test that is not under Built-in, disable that one. Then, or if there is none, start a new session.
+Claude Test cannot run in this session yet: Claude Code did not load its part that starts the browser helper. Type /${SKILL_CLAUDE_TEST_HELPER_NOT_LOADED_VAR_0}, then /claude-test. If that changes nothing, the usual cause is another enabled Claude Test plugin. In /plugin, open the Installed tab. Leave ${SKILL_CLAUDE_TEST_HELPER_NOT_LOADED_VAR_1} (builtin) on. If the tab lists another Claude Test plugin, disable that one. Then, or if there is none, restart Claude Code.

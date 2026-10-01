@@ -1,10 +1,8 @@
 <!--
 name: 'System Prompt: Claude Test Helper Timeout'
 description: >-
-  Claude Test skill/command prompt when the browser helper does not come up
-  within 7 seconds of plugin reload.
-ccVersion: 2.1.274
-variables:
-  - SYSTEM_PROMPT_CLAUDE_TEST_HELPER_TIMEOUT_VAR_0
+  Claude Test start failure when its browser helper did not come up, telling the
+  person to rerun /claude-test and check node and /mcp
+ccVersion: 2.1.286
 -->
-Claude Test did not start: its browser helper did not come up within 7 seconds of the plugin reload. Type /claude-test again first; a slow start only needs that. If /${SYSTEM_PROMPT_CLAUDE_TEST_HELPER_TIMEOUT_VAR_0} above says it was held, run /${SYSTEM_PROMPT_CLAUDE_TEST_HELPER_TIMEOUT_VAR_0} --force and then /claude-test. If it keeps failing, check that node is installed and see /mcp for the error.
+Claude Test did not start: its browser helper did not come up. Run /claude-test. If the helper was only slow to start, that will work. If it keeps failing, check that node is installed, and see /mcp for the error; you can reconnect the helper there, then run /claude-test.
