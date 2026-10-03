@@ -1,8 +1,8 @@
 <!--
-name: 'Cloud session: unreadable hook not run'
+name: 'Tool Result: Cloud Session Hook Held (Unreadable)'
 description: >-
-  Permission-ask message when a PreToolUse hook cannot be pinned to a single
-  script outside the synced project and is skipped for a cloud-served call.
-ccVersion: 2.1.246
+  Permission-ask reason when a command check that could not be verified was not
+  run for a cloud-session call, asking whether to approve the command.
+ccVersion: 2.1.288
 -->
-A hook whose command this machine cannot pin to a single script outside the synced project would normally judge this command — it is not run for a call from a cloud session — approve running the command?
+A check that couldn't be verified didn't run. Approve this command?

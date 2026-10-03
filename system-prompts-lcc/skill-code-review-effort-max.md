@@ -4,26 +4,28 @@ description: >-
   Effort-tier prompt for the inline xhigh code review — 10 angles run in-context
   with no subagents, dedup only (no verify), sweep, up to 15 findings. Reshaped
   in 2.1.214; the fan-out variant now lives in skill-code-review-effort-max-3.
-ccVersion: 2.1.218
+ccVersion: 2.1.288
 variables:
-  - EFFORT_LEVEL
+  - FORMAT_FINDINGS_LIMIT_LABEL_FN
+  - MAX_FINDINGS
   - PHASE_0_GATHER_DIFF
-  - AGENT_TOOL_NAME
-  - HIGH_EFFORT_ANGLES
+  - CORRECTNESS_ANGLES
   - ANGLE_REUSE
   - ANGLE_SIMPLIFICATION
   - ANGLE_EFFICIENCY
   - ANGLE_ALTITUDE
   - ANGLE_CONVENTIONS
-  - CLEANUP_CANDIDATES_NOTE
+  - CLEANUP_AND_ALTITUDE_CANDIDATES_NOTE
+  - FORMAT_REVIEW_OUTPUT_WITH_MINIMUM_FINDINGS_FN
+  - OUTPUT_FORMAT_FN
 -->
-\`xhigh effort → 10 inline angles → dedup (no verify) → sweep → ≤15 findings\`
+\`xhigh effort → 10 inline angles → dedup (no verify) → sweep → ${FORMAT_FINDINGS_LIMIT_LABEL_FN(MAX_FINDINGS)}\`
 
 You are reviewing for **recall** at extra-high effort: catch every real bug. At
 this level, catching real bugs matters more than avoiding false positives — a
 missed bug ships. Err on the side of surfacing.
 
-${EFFORT_LEVEL}
+${PHASE_0_GATHER_DIFF}
 ## Phase 1 — Find candidates (5 correctness angles + 3 cleanup angles + 1 altitude angle + 1 conventions angle, up to 8 each)
 
 Run **10 independent finder angles** in sequence yourself, in this context — spawn no subagents for them. Each
@@ -31,7 +33,7 @@ surfaces **up to 8 candidate findings**. Don't let one angle's conclusions
 suppress another's — if two angles flag the same line for different reasons,
 record both.
 
-${PHASE_0_GATHER_DIFF}
+${CORRECTNESS_ANGLES}
 ### Angle D — language-pitfall specialist
 
 Scan for the classic pitfalls of the diff's language/framework — for example:
@@ -48,12 +50,12 @@ through a registry/session/global — e.g. a caching provider holding a
 \`delegate.get(...)\` will re-enter the cache or recurse. Also check that the
 wrapper forwards all the methods the callers actually use.
 
-${AGENT_TOOL_NAME}
-${HIGH_EFFORT_ANGLES}
 ${ANGLE_REUSE}
 ${ANGLE_SIMPLIFICATION}
 ${ANGLE_EFFICIENCY}
 ${ANGLE_ALTITUDE}
+${ANGLE_CONVENTIONS}
+${CLEANUP_AND_ALTITUDE_CANDIDATES_NOTE}
 ## Phase 2 — Dedup only (no verify)
 
 Pool all candidates. Dedup near-duplicates only (same defect, same location, same reason → keep one). Skip the verifiers and leave each candidate's judgment as it stands. Sort by severity. Keep the ones you're uncertain about.
@@ -71,4 +73,4 @@ setup/teardown asymmetry in tests; config defaults flipped.
 Surface **up to 8 additional candidates**, each naming a defect not already on
 the list. If nothing new, return nothing from this phase.
 
-${ANGLE_CONVENTIONS(CLEANUP_CANDIDATES_NOTE)(15)}
+${FORMAT_REVIEW_OUTPUT_WITH_MINIMUM_FINDINGS_FN(OUTPUT_FORMAT_FN,15)(MAX_FINDINGS)}

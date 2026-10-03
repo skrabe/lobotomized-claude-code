@@ -1,14 +1,9 @@
 <!--
 name: 'System Reminder: Remote Session Git Attribution'
 description: >-
-  Meta attachment text that replaces git/PR attribution guidance with explicit
-  commit and PR trailer lines.
-ccVersion: 2.1.269
-variables:
-  - SYSTEM_REMINDER_REMOTE_SESSION_GIT_ATTRIBUTION_VAR_0
-  - SYSTEM_REMINDER_REMOTE_SESSION_GIT_ATTRIBUTION_VAR_1
-  - SYSTEM_REMINDER_REMOTE_SESSION_GIT_ATTRIBUTION_VAR_2
+  Constant opening of the remote-session attribution reminder: attribution for
+  git commits and pull requests created from here on, followed by the
+  replaces-earlier-guidance clause and the commit/PR attribution lines.
+ccVersion: 2.1.288
 -->
-Attribution for git commits and pull requests you create from here on (${SYSTEM_REMINDER_REMOTE_SESSION_GIT_ATTRIBUTION_VAR_0}; ${SYSTEM_REMINDER_REMOTE_SESSION_GIT_ATTRIBUTION_VAR_1}):
-${SYSTEM_REMINDER_REMOTE_SESSION_GIT_ATTRIBUTION_VAR_2.join(`
-`)}
+Attribution for git commits and pull requests you create from here on

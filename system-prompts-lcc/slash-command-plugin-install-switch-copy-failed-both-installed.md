@@ -1,0 +1,14 @@
+<!--
+name: 'Slash Command: /plugin Install — Switch Copy Failed, Both Installed'
+description: >-
+  Result note when switching a plugin to another marketplace copy could not copy
+  the option values or stored secrets, so the old plugin was not uninstalled and
+  both stay installed until switched again
+ccVersion: 2.1.288
+variables:
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_COPY_FAILED_BOTH_INSTALLED_VAR_0
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_COPY_FAILED_BOTH_INSTALLED_VAR_1
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_COPY_FAILED_BOTH_INSTALLED_VAR_2
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_COPY_FAILED_BOTH_INSTALLED_VAR_3
+-->
+${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_COPY_FAILED_BOTH_INSTALLED_VAR_0(SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_COPY_FAILED_BOTH_INSTALLED_VAR_1)} is installed, but the ${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_COPY_FAILED_BOTH_INSTALLED_VAR_2} of ${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_COPY_FAILED_BOTH_INSTALLED_VAR_3} could not be copied to it, so ${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_COPY_FAILED_BOTH_INSTALLED_VAR_3} was not uninstalled. Both are installed until you switch again or uninstall ${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_COPY_FAILED_BOTH_INSTALLED_VAR_3}

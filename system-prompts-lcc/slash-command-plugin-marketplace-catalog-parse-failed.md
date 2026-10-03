@@ -1,0 +1,12 @@
+<!--
+name: 'Slash Command: Plugin Marketplace Catalog Parse Failed'
+description: >-
+  Error that a fetched marketplace file could not be parsed, naming the file
+  path and the parse error.
+ccVersion: 2.1.288
+variables:
+  - SLASH_COMMAND_PLUGIN_MARKETPLACE_CATALOG_PARSE_FAILED_VAR_0
+  - SLASH_COMMAND_PLUGIN_MARKETPLACE_CATALOG_PARSE_FAILED_VAR_1
+  - SLASH_COMMAND_PLUGIN_MARKETPLACE_CATALOG_PARSE_FAILED_VAR_2
+-->
+Failed to parse marketplace file at ${SLASH_COMMAND_PLUGIN_MARKETPLACE_CATALOG_PARSE_FAILED_VAR_0}: ${SLASH_COMMAND_PLUGIN_MARKETPLACE_CATALOG_PARSE_FAILED_VAR_1(SLASH_COMMAND_PLUGIN_MARKETPLACE_CATALOG_PARSE_FAILED_VAR_2)}

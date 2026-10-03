@@ -1,8 +1,8 @@
 <!--
-name: 'You should know: example heads-up tail'
+name: 'Agent Prompt: You should know example heads-up tail'
 description: >-
-  Closing half of the example Heads up card in the You-should-know suggestion
-  agent's system prompt.
-ccVersion: 2.1.286
+  Closing literal of the Heads up example card in the You should know agent
+  prompt ("/ask, but it could end up being more expensive for the user.").
+ccVersion: 2.1.288
 -->
-could end up being more expensive for the user.
+/ask, but it could end up being more expensive for the user.

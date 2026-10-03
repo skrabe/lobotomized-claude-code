@@ -1,8 +1,8 @@
 <!--
-name: 'Skill: Claude Test whenToUse Skip Docs-Only'
+name: 'Skill: Claude Test when to use (skip docs-only)'
 description: >-
-  Tail of the Claude Test skill whenToUse: never begin setup on your own, and
-  skip docs-only or test-only changes.
-ccVersion: 2.1.274
+  Tail of the claude-test skill whenToUse: begin setup on your own; skip for
+  docs-only or test-only changes
+ccVersion: 2.1.288
 -->
-begin setup, on your own. Skip for docs-only or test-only changes.
+setup, on your own. Skip for docs-only or test-only changes.

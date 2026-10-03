@@ -4,11 +4,12 @@ description: >-
   Describes the background monitor tool that streams stdout events from
   long-running scripts as chat notifications, with guidelines on script quality,
   output volume, and selective filtering
-ccVersion: 2.1.268
+ccVersion: 2.1.288
 variables:
   - SINGLE_NOTIFICATION_GUIDANCE_BLOCK
   - IS_MONITOR_EXPIRY_ENABLED_FN
   - SINGLE_NOTIFICATION_COMMAND_NOTE
+  - IS_DISKLESS_SESSION_FN
   - MONITOR_TIMEOUT_GUIDANCE_FN
 -->
 
@@ -51,7 +52,7 @@ Script quality:
 - In poll loops, handle transient failures (\`curl ... || true\`) so one failed request doesn't kill the monitor.
 - Poll intervals: 30s+ for remote APIs (rate limits), 0.5-1s for local checks.
 - Write a specific \`description\` — it appears in every notification ("errors in deploy.log", not "watching logs").
-- Only stdout triggers notifications. Stderr goes to the output file (readable via Read) but is silent — for a command you run directly, merge it with \`2>&1\` so failures reach your filter (no effect when tailing an existing log).
+- Only stdout triggers notifications. ${IS_DISKLESS_SESSION_FN()?"Stderr is silent; you see only its last lines, in the notice sent when the script ends":"Stderr goes to the output file (readable via Read) but is silent"} — for a command you run directly, merge it with \`2>&1\` so failures reach your filter (no effect when tailing an existing log).
 
 Coverage: a filter must match every terminal state, not just the happy path. A monitor that greps only for the success marker stays silent through a crashloop, hang, or unexpected exit — and silence looks identical to "still running." For poll loops, emit on every terminal status (\`succeeded|failed|cancelled|timeout\`); if you can't enumerate the failure signatures, broaden the alternation rather than narrow it.
 

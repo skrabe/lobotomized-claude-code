@@ -3,12 +3,15 @@ name: 'Skill: Code Review (low effort)'
 description: >-
   Effort-tier prompt for low code review — single diff pass, no verify, up to 4
   findings
-ccVersion: 2.1.218
+ccVersion: 2.1.288
 variables:
-  - SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0
-  - SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_1
+  - FORMAT_FINDINGS_LIMIT_LABEL_FN
+  - MAX_FINDINGS
+  - HAS_REPORT_FINDINGS_TOOL
+  - FORMAT_FINDINGS_LIMIT_PHRASE_FN
+  - REPORT_FINDINGS_TOOL_NAME
 -->
-\`low effort → 1 diff pass → no verify → ≤4 findings\`
+\`low effort → 1 diff pass → no verify → ${FORMAT_FINDINGS_LIMIT_LABEL_FN(MAX_FINDINGS)}\`
 
 ## Turn 1 — read
 
@@ -31,13 +34,13 @@ helper visible in the diff context, and dead code the diff leaves behind.
 Do **not** flag style, naming, perf, missing tests, or anything outside the
 hunk.
 
-${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0?`Report at most **4 findings**, most-severe first, in one
-${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_1} call with \`{level, findings}\` — each entry has
+${HAS_REPORT_FINDINGS_TOOL?`Report ${FORMAT_FINDINGS_LIMIT_PHRASE_FN(MAX_FINDINGS)}, most-severe first, in one
+${REPORT_FINDINGS_TOOL_NAME} call with \`{level, findings}\` — each entry has
 \`file\`, \`line\`, \`summary\`, \`short_summary\` (≤60 characters), and
 \`failure_scenario\`. If nothing qualifies, call it with an empty findings
 array. Do not also print the findings as text.
-`:`Output at most **4 findings**, most-severe first, one line each:
+`:`Output ${FORMAT_FINDINGS_LIMIT_PHRASE_FN(MAX_FINDINGS)}, most-severe first, one line each:
 \`path/to/file.ext:123 — what's wrong and the concrete failure\`. If nothing
 qualifies, output exactly \`(none)\`. Do not call the
-${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_1} tool even if it is available.
+${REPORT_FINDINGS_TOOL_NAME} tool even if it is available.
 `}

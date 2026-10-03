@@ -1,8 +1,8 @@
 <!--
 name: 'Skill: Claude Test Description'
 description: >-
-  Lead of the Claude Test skill description: check that the web app in this repo
-  still works with Claude Test.
-ccVersion: 2.1.274
+  Lead of the Claude Test skill description: checks that the web app in this
+  repo still works, in plain language.
+ccVersion: 2.1.288
 -->
-Check that the web app in this repo still works, with Claude Test — 
+Checks that the web app in this repo still works — plain-language 

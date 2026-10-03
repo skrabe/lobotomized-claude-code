@@ -1,9 +1,8 @@
 <!--
-name: 'Skill: Claude Test When To Use'
+name: 'Skill: Claude Test when to use'
 description: >-
-  whenToUse metadata for the user-invocable claude-test run skill, limiting
-  unsolicited offers to projects that already have specs after a user-visible
-  app change.
-ccVersion: 2.1.274
+  whenToUse text for the claude-test skill: what it checks, how specs run, when
+  to offer or run it
+ccVersion: 2.1.288
 -->
-When the user asks for it. Unasked, only in a project that already has .claude-test/specs/ and only after a change a person can see in 
+specs in .claude-test/specs/ run in the background in a fenced headless browser against the local dev server, and a PASS / FAIL summary comes back with screenshots. On a first run it proposes a starter set of specs for the person to approve. Use when the user asks ("test my app", "did I break anything?", "run claude test"). When the user asks for it. Unasked, only in a project that already has .claude-test/specs/ and only after a change a person can see in 

@@ -1,0 +1,13 @@
+<!--
+name: 'Slash Command: Plugin Install Other Marketplace Scope Uninstall First'
+description: >-
+  Refusal when the other-marketplace copy is installed at a scope that cannot be
+  switched from here; says to uninstall it first, with the uninstall command
+  when available.
+ccVersion: 2.1.288
+variables:
+  - SLASH_COMMAND_PLUGIN_INSTALL_OTHER_MARKETPLACE_SCOPE_UNINSTALL_FIRST_VAR_0
+  - SLASH_COMMAND_PLUGIN_INSTALL_OTHER_MARKETPLACE_SCOPE_UNINSTALL_FIRST_VAR_1
+  - SLASH_COMMAND_PLUGIN_INSTALL_OTHER_MARKETPLACE_SCOPE_UNINSTALL_FIRST_VAR_2
+-->
+${SLASH_COMMAND_PLUGIN_INSTALL_OTHER_MARKETPLACE_SCOPE_UNINSTALL_FIRST_VAR_0} at ${SLASH_COMMAND_PLUGIN_INSTALL_OTHER_MARKETPLACE_SCOPE_UNINSTALL_FIRST_VAR_1} scope, which can't be switched from here. Uninstall it first${SLASH_COMMAND_PLUGIN_INSTALL_OTHER_MARKETPLACE_SCOPE_UNINSTALL_FIRST_VAR_2?`: ${SLASH_COMMAND_PLUGIN_INSTALL_OTHER_MARKETPLACE_SCOPE_UNINSTALL_FIRST_VAR_2}`:""}

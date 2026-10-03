@@ -4,9 +4,11 @@ description: >-
   Template for medium and high inline code-review prompts that run eight finder
   angles, deduplicate without verification, and enforce a minimum findings
   target
-ccVersion: 2.1.206
+ccVersion: 2.1.288
 variables:
   - REVIEW_EFFORT_SUMMARY
+  - FORMAT_FINDINGS_LIMIT_LABEL_FN
+  - MAX_FINDINGS
   - REVIEW_EFFORT_INTRO
   - REVIEW_ANGLE_SHARED_INTRO
   - REVIEW_CORRECTNESS_ANGLES
@@ -18,9 +20,9 @@ variables:
   - REVIEW_CANDIDATE_PRECEDENCE_NOTE
   - FORMAT_REVIEW_OUTPUT_WITH_MINIMUM_FINDINGS_FN
   - REVIEW_OUTPUT_FORMATTER_FN
-  - MAX_FINDINGS
+  - DEFAULT_MAX_FINDINGS
 -->
-\`${REVIEW_EFFORT_SUMMARY}\`
+\`${REVIEW_EFFORT_SUMMARY} → ${FORMAT_FINDINGS_LIMIT_LABEL_FN(MAX_FINDINGS)}\`
 
 ${REVIEW_EFFORT_INTRO}
 
@@ -45,4 +47,4 @@ silently drop half-believed candidates are the dominant cause of misses.
 
 Pool all candidates. Dedup near-duplicates only (same defect, same location, same reason → keep one). Do NOT run verifiers; do NOT re-judge. Sort by severity.
 
-${FORMAT_REVIEW_OUTPUT_WITH_MINIMUM_FINDINGS_FN(REVIEW_OUTPUT_FORMATTER_FN)(MAX_FINDINGS)}
+${FORMAT_REVIEW_OUTPUT_WITH_MINIMUM_FINDINGS_FN(REVIEW_OUTPUT_FORMATTER_FN,DEFAULT_MAX_FINDINGS)(MAX_FINDINGS)}

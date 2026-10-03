@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: PreToolUse hook could not render a verdict'
+name: 'Tool Result: PreToolUse hook gave no verdict'
 description: >-
-  Reason a served-call PreToolUse hook refused the call: a non-blocking error
-  that was required by contract, so it could not render a verdict.
-ccVersion: 2.1.246
+  Reason a served-call PreToolUse hook refused the call: it ended in a
+  non-blocking error without having run by contract, so it gave no verdict.
+ccVersion: 2.1.288
 -->
-could not render a verdict
+gave no verdict

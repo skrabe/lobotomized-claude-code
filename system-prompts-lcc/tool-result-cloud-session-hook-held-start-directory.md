@@ -1,9 +1,8 @@
 <!--
-name: 'Tool Result: Cloud session hook held (start directory)'
+name: 'Tool Result: Cloud Session Hook Held (Start Directory)'
 description: >-
-  Permission-ask message on Windows when Claude cannot confirm the folder a
-  command check would start in lies outside the synced project, so the check is
-  not run for a cloud session and the command needs approval
-ccVersion: 2.1.285
+  Permission-ask reason when a command check that may start in a folder the
+  cloud session can change was not run, asking whether to approve the command.
+ccVersion: 2.1.288
 -->
-One of your own checks isn't run by this Windows computer for a cloud session: Claude can't confirm that the folder it would start in lies outside the synced project, which the session could edit. Approve this command?
+A check that may start in a folder the cloud session can change didn't run. Approve this command?

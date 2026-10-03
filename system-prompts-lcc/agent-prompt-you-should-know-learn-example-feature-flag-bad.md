@@ -1,8 +1,8 @@
 <!--
-name: 'You should know: insider-shorthand flag learn example'
+name: 'Agent Prompt: You should know learn example feature flag bad'
 description: >-
-  Bad insider-shorthand learn: example about gating the flag at 0% rollout in
-  the You should know side-agent prompt.
-ccVersion: 2.1.286
+  BAD learn: example using insider shorthand about gating feature_multi_turn_ask
+  at 0% rollout.
+ccVersion: 2.1.288
 -->
-learn: I gated `feature_multi_turn_ask` in the flag dashboard at 0% rollout
+learn: We gated `feature_multi_turn_ask` in the flag dashboard at 0% rollout

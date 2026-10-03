@@ -1,8 +1,9 @@
 <!--
 name: Local-parity policy notes
 description: >-
-  Notes describing the 'local_parity' personal-machine policy attached to
-  remote-tool call results.
-ccVersion: 2.1.284
+  Notes describing the local_parity personal-machine policy (project-folder
+  start, local rules and hooks apply, approvals asked in this session) announced
+  with the remote-tool serving record.
+ccVersion: 2.1.288
 -->
-Approvals are asked in this session. This machine's rules, hooks and sandbox settings apply exactly as locally (a hook can block or rewrite a call, never pre-approve it). This machine's own shell timeout applies to commands. No background commands.
+Commands start in the project folder. A cd inside it carries over. This machine's rules, hooks and sandbox settings apply (a hook can block or rewrite a call, never pre-approve it). Approvals are asked in this session.

@@ -3,14 +3,15 @@ name: 'Skill: Code Review (findings JSON output)'
 description: >-
   Shared output spec for the code-review skill — findings as a JSON array with
   file/line/summary/failure_scenario
-ccVersion: 2.1.218
+ccVersion: 2.1.288
 variables:
   - MAX_FINDINGS
-  - SKILL_CODE_REVIEW_OUTPUT_FORMAT_VAR_1
+  - PLURALIZE_FN
+  - REPORT_FINDINGS_TOOL_NAME
 -->
 ## Output
 
-Return findings as a JSON array of at most ${MAX_FINDINGS} objects:
+Return findings as a JSON array ${MAX_FINDINGS==="all"?"with one object for every finding that survives, no maximum":`of at most ${MAX_FINDINGS} ${PLURALIZE_FN(MAX_FINDINGS,"object")}`}:
 
 \`\`\`json
 [
@@ -23,7 +24,7 @@ Return findings as a JSON array of at most ${MAX_FINDINGS} objects:
 ]
 \`\`\`
 
-Ranked most-severe first. If more than ${MAX_FINDINGS} survive, keep the ${MAX_FINDINGS} most
-severe. If nothing survives verification, return \`[]\`.
-
-Do not call the ${SKILL_CODE_REVIEW_OUTPUT_FORMAT_VAR_1} tool even if it is available - this review's output contract is the JSON block above.
+Ranked most-severe first. ${MAX_FINDINGS==="all"?"Keep every finding that survives. There is no maximum.":`If more than ${MAX_FINDINGS} survive, keep the ${MAX_FINDINGS} most
+severe.`} If nothing survives verification, return \`[]\`. Do not call the
+${REPORT_FINDINGS_TOOL_NAME} tool even if it is available - this review's
+output contract is the JSON block above.

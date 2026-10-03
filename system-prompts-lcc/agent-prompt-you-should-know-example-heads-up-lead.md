@@ -1,8 +1,9 @@
 <!--
-name: 'You should know: example heads-up lead'
+name: 'Agent Prompt: You Should Know — Example Heads-Up Lead'
 description: >-
-  Opening half of the example Heads up card in the You-should-know suggestion
-  agent's system prompt.
-ccVersion: 2.1.286
+  Opening fragment of the you-should-know observer's Heads up example line
+  (prompt caching on multi-turn /ask); reworded from first person to 'The main
+  agent chose'.
+ccVersion: 2.1.288
 -->
-Heads up · I chose to add prompt caching to multi-turn /ask, but it 
+Heads up · The main agent chose to add prompt caching to multi-turn 

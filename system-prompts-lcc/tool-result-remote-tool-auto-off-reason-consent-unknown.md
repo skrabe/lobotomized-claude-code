@@ -1,9 +1,8 @@
 <!--
-name: 'Tool result: Remote tool auto-off reason consent unknown'
+name: 'Tool Result: Remote tool auto-off reason (consent setting unreadable)'
 description: >-
-  Reason appended to the auto-mode-refused-here note when this computer could
-  not read its saved answer about unattended commands from cloud sessions, with
-  how to set it again.
-ccVersion: 2.1.286
+  Reason added to a served call's permission-ask note when this computer could
+  not read its unattended-commands setting
+ccVersion: 2.1.288
 -->
-This computer could not read its answer about unattended commands from cloud sessions just now. If that keeps happening, set it again: ${"open Claude Code's settings on this computer (/config in the terminal, Settings › Claude Code in the desktop app)"}.
+This computer could not read its unattended commands setting. If this repeats, check its Claude Code settings.

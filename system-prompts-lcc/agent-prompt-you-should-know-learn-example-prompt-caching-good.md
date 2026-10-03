@@ -1,8 +1,8 @@
 <!--
-name: 'You should know: prompt-caching learn example'
+name: 'Agent Prompt: You should know learn example prompt caching good'
 description: >-
-  Good learn: example about adding prompt caching to multi-turn /ask in the You
-  should know side-agent prompt.
-ccVersion: 2.1.286
+  GOOD learn: example about adding prompt caching to multi-turn /ask possibly
+  costing the user more.
+ccVersion: 2.1.288
 -->
-learn: I chose to add prompt caching to multi-turn /ask, but it could end up being more expensive for the user.
+learn: The main agent chose to add prompt caching to multi-turn /ask, but it could end up being more expensive for the user.

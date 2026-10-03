@@ -1,8 +1,8 @@
 <!--
-name: 'Cloud session: in-reach hook not run'
+name: 'Tool Result: Cloud Session Hook Held (In Reach)'
 description: >-
-  Permission-ask message when a PreToolUse hook whose script lives in the synced
-  project is skipped for a cloud-served call.
-ccVersion: 2.1.246
+  Permission-ask reason when a command check the cloud session can change is not
+  run for a served call, asking whether to approve the command.
+ccVersion: 2.1.288
 -->
-A hook whose script lives inside the synced project would normally judge this command — it is not run for a call from a cloud session, which can rewrite that script — approve running the command?
+A check that the cloud session can change didn't run. Approve this command?

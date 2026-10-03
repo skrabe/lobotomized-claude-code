@@ -1,8 +1,9 @@
 <!--
-name: SendMessage Queued — No Inbox Bound
+name: SendMessage queued — no inbox bound
 description: >-
-  SendMessage success-message suffix when no inbox is bound here: the peer may
-  hold or refuse the item, and silence is not agreement.
-ccVersion: 2.1.273
+  SendMessage success-message suffix when no inbox is bound here: the message is
+  in the peer inbox unread, the peer may hold or refuse it, and silence is not
+  agreement.
+ccVersion: 2.1.288
 -->
-; queued there — that session may hold it (different permission mode: its user must approve first) or refuse it, and with no inbox bound here nothing reports back, so never treat silence as agreement
+; in that session's inbox, not yet read by its Claude — that session may hold it (usually a different permission mode) or refuse it, and with no inbox bound here nothing reports back, so never treat silence as agreement

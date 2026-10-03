@@ -1,0 +1,18 @@
+<!--
+name: 'Slash Command: /plugin Install — Switch Old Copy Record Unknown, Leftovers'
+description: >-
+  Note appended to the plugin switch result listing the settings, stored secrets
+  and data folder left in place when the old copy's install records could not be
+  read, with the removal guidance
+ccVersion: 2.1.288
+variables:
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_0
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_1
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_2
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_3
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_4
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_5
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_6
+  - SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_7
+-->
+${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_0}: its settings under "pluginConfigs" in your user settings file, ${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_1?`its stored secrets in ${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_2}, and its data folder (${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_3(SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_4(SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_5))})`:`and its stored secrets in ${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_2}`}.${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_6==="unreadable"?` plugin-directory-bindings.json in the plugins folder could not be used, so "${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_7}" cannot be installed again until that file can be used.`:""} If it is installed nowhere any more, no command removes them for this id yet; you can take that entry out yourself; ${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_1?"leave the data folder until the install records can be read again, because another installed plugin may use it; ":""}the stored secrets stay${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_6==="none"?`. Nothing ties "${SLASH_COMMAND_PLUGIN_INSTALL_SWITCH_OLD_COPY_RECORD_UNKNOWN_LEFTOVERS_VAR_7}" to the repository it came from, so a plugin installed under that name later could read what is left`:""}

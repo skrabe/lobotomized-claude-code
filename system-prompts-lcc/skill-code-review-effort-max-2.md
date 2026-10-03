@@ -4,7 +4,7 @@ description: >-
   Effort-tier posture fragment for max / xhigh code review — recall over
   precision. Shrunk to this fragment in 2.1.214; the phases and finder angles
   now live in skill-code-review-effort-max and -max-3.
-ccVersion: 2.1.218
+ccVersion: 2.1.288
 variables:
   - EFFORT_LEVEL
 -->

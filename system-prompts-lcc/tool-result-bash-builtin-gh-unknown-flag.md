@@ -1,0 +1,16 @@
+<!--
+name: 'Tool Result: Built-in gh unknown flag'
+description: >-
+  Refusal from the built-in gh api parser when it meets an unknown flag or
+  shorthand flag, followed by the full gh api usage text.
+ccVersion: 2.1.288
+variables:
+  - TOOL_RESULT_BASH_BUILTIN_GH_UNKNOWN_FLAG_VAR_0
+  - TOOL_RESULT_BASH_BUILTIN_GH_UNKNOWN_FLAG_VAR_1
+  - TOOL_RESULT_BASH_BUILTIN_GH_UNKNOWN_FLAG_VAR_2
+  - TOOL_RESULT_BASH_BUILTIN_GH_UNKNOWN_FLAG_VAR_3
+  - TOOL_RESULT_BASH_BUILTIN_GH_UNKNOWN_FLAG_VAR_4
+-->
+unknown ${TOOL_RESULT_BASH_BUILTIN_GH_UNKNOWN_FLAG_VAR_0?"flag":"shorthand flag"}: ${TOOL_RESULT_BASH_BUILTIN_GH_UNKNOWN_FLAG_VAR_1(TOOL_RESULT_BASH_BUILTIN_GH_UNKNOWN_FLAG_VAR_2)}
+
+${TOOL_RESULT_BASH_BUILTIN_GH_UNKNOWN_FLAG_VAR_3(TOOL_RESULT_BASH_BUILTIN_GH_UNKNOWN_FLAG_VAR_4)}

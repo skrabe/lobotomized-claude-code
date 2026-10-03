@@ -1,0 +1,21 @@
+<!--
+name: 'Plugin Install: Listing Names Different Repository, Saved Data Kept'
+description: >-
+  Install refusal when an earlier install under the name came from a different
+  repository than the directory now lists; says saved options, secrets and data
+  may remain and gives the uninstall command to delete them before installing
+  again.
+ccVersion: 2.1.288
+variables:
+  - >-
+    SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_0
+  - >-
+    SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_1
+  - >-
+    SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_2
+  - >-
+    SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_3
+  - >-
+    SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_4
+-->
+"${SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_0(SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_1.name,120)}" was not installed. An earlier install under that name came from a different repository than the one the ${SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_2} now lists, and what it saved (options, secrets, data) may still be here. To delete that, ${SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_3("plugin uninstall",SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_4,{fallback:`uninstall "${SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_0(SLASH_COMMAND_PLUGIN_INSTALL_DIRECTORY_LISTING_REPOSITORY_CHANGED_SAVED_DATA_VAR_4,200)}" from the command line`})}, then install it again.

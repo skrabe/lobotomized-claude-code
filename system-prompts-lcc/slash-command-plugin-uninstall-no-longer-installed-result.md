@@ -1,0 +1,17 @@
+<!--
+name: >-
+  Slash Command: /plugin Uninstall Result — No Longer Installed, Saved Data
+  Cleared
+description: >-
+  Success result when an uninstall targets a plugin that was no longer
+  installed, describing what was removed from enabled plugins and from its saved
+  options, secrets and data.
+ccVersion: 2.1.288
+variables:
+  - SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_0
+  - SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_1
+  - SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_2
+  - SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_3
+  - SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_4
+-->
+"${SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_0}" was no longer installed.${SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_1.length>0?` Removed it from the enabled plugins in ${SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_1.join(" and ")}.`:""} ${SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_2===void 0?`Removed anything still saved under its name (${SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_3?"options, secrets, data":"options, secrets"}).`:SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_4(SLASH_COMMAND_PLUGIN_UNINSTALL_NO_LONGER_INSTALLED_RESULT_VAR_2)}

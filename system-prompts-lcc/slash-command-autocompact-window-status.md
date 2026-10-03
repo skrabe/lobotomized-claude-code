@@ -2,14 +2,12 @@
 name: 'Slash Command: Autocompact Window Status'
 description: >-
   Text /autocompact prints (and which enters the transcript as
-  local-command-stdout) describing the current auto-compact window and where its
-  value came from.
-ccVersion: 2.1.285
+  local-command-stdout) naming the model's settings key and the current
+  auto-compact window; the window value is a separate branch expression.
+ccVersion: 2.1.288
 variables:
   - SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_0
   - SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_1
   - SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_2
-  - SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_3
-  - SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_4
 -->
-Auto-compact window: ${SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_0==="auto"?"auto":SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_0==="experiment"||SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_0==="clientdata"?`auto (${SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_1(SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_2)} tokens)${SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_3}`:`${SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_1(SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_2)} tokens (${SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_4[r]})${SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_3}`}
+Auto-compact window for ${SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_0(SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_1.settingsKey)}: ${SLASH_COMMAND_AUTOCOMPACT_WINDOW_STATUS_VAR_2}

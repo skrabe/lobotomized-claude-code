@@ -4,7 +4,7 @@ description: >-
   Adds instructions for sharing the draft ONBOARDING.md before review, then
   updating the same ShareOnboardingGuide link after the user answers the review
   questions
-ccVersion: 2.1.132
+ccVersion: 2.1.288
 variables:
   - SHARE_ONBOARDING_GUIDE_TOOL_NAME
 -->
