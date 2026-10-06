@@ -1,0 +1,10 @@
+<!--
+name: 'System Reminder: Async rewake hook unquoted path summary'
+description: Notification summary saying a hook needs quotes around a path with a space
+ccVersion: 2.1.291
+variables:
+  - SYSTEM_REMINDER_ASYNC_REWAKE_HOOK_UNQUOTED_PATH_SUMMARY_VAR_0
+  - SYSTEM_REMINDER_ASYNC_REWAKE_HOOK_UNQUOTED_PATH_SUMMARY_VAR_1
+  - SYSTEM_REMINDER_ASYNC_REWAKE_HOOK_UNQUOTED_PATH_SUMMARY_VAR_2
+-->
+${SYSTEM_REMINDER_ASYNC_REWAKE_HOOK_UNQUOTED_PATH_SUMMARY_VAR_0} hook needs quotes around a path with a space (${SYSTEM_REMINDER_ASYNC_REWAKE_HOOK_UNQUOTED_PATH_SUMMARY_VAR_1(SYSTEM_REMINDER_ASYNC_REWAKE_HOOK_UNQUOTED_PATH_SUMMARY_VAR_2)})

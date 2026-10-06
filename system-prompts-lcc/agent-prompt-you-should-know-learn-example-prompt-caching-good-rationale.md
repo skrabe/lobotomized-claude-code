@@ -1,8 +1,8 @@
 <!--
-name: 'You should know: prompt-caching learn rationale'
+name: 'You-should-know: learn example good rationale'
 description: >-
-  Explains why the prompt-caching learn: line is a good suggestion in the You
-  should know side-agent prompt.
-ccVersion: 2.1.286
+  Rationale for the good learn example: highlights a tradeoff in plain language
+  with a clear implication.
+ccVersion: 2.1.291
 -->
-Highlights a tradeoff the agent made in plain English without getting too in the weeds, but the implication is clear.
+Highlights a tradeoff the agent made in plain language without getting too in the weeds, but the implication is clear.

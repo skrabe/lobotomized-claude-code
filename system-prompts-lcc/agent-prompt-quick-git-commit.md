@@ -1,13 +1,12 @@
 <!--
 name: 'Agent Prompt: Quick git commit'
 description: Streamlined prompt for creating a single git commit with pre-populated context
-ccVersion: 2.1.273
+ccVersion: 2.1.291
 variables:
   - ADDITIONAL_COMMIT_GUIDANCE
   - COMMIT_WRITING_GUIDANCE_FN
   - IS_BASH_ENV_FN
   - COMMIT_ATTRIBUTION_TEXT
-  - PRE_COMMIT_CHECKS_GUIDANCE
 -->
 ## Context
 
@@ -56,9 +55,7 @@ Commit message here.${COMMIT_ATTRIBUTION_TEXT?`
 ${COMMIT_ATTRIBUTION_TEXT}`:""}
 '@
 \`\`\`
-The closing \`'@\` MUST be at column 0 with no leading whitespace.`}${PRE_COMMIT_CHECKS_GUIDANCE?`
-
-${PRE_COMMIT_CHECKS_GUIDANCE}`:""}
+The closing \`'@\` MUST be at column 0 with no leading whitespace.`}
 
 3. Run git status after the commit completes to verify it succeeded.
 

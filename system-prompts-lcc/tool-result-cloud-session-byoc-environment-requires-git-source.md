@@ -1,14 +1,11 @@
 <!--
-name: 'Tool Result: Cloud Session BYOC Environment Requires Git Source'
+name: 'Tool result: cloud session BYOC environment requires git source'
 description: >-
-  onCreateFail message when the selected self-hosted (BYOC) environment needs a
-  git source but no GitHub remote was detected, with a hint to check git remote
-  get-url origin.
-ccVersion: 2.1.288
+  Error when the selected environment requires a git source but no GitHub remote
+  was detected.
+ccVersion: 2.1.291
 variables:
   - TOOL_RESULT_CLOUD_SESSION_BYOC_ENVIRONMENT_REQUIRES_GIT_SOURCE_VAR_0
   - TOOL_RESULT_CLOUD_SESSION_BYOC_ENVIRONMENT_REQUIRES_GIT_SOURCE_VAR_1
-  - TOOL_RESULT_CLOUD_SESSION_BYOC_ENVIRONMENT_REQUIRES_GIT_SOURCE_VAR_2
-  - TOOL_RESULT_CLOUD_SESSION_BYOC_ENVIRONMENT_REQUIRES_GIT_SOURCE_VAR_3
 -->
-${`The selected environment "${TOOL_RESULT_CLOUD_SESSION_BYOC_ENVIRONMENT_REQUIRES_GIT_SOURCE_VAR_0?.TOOL_RESULT_CLOUD_SESSION_BYOC_ENVIRONMENT_REQUIRES_GIT_SOURCE_VAR_1??TOOL_RESULT_CLOUD_SESSION_BYOC_ENVIRONMENT_REQUIRES_GIT_SOURCE_VAR_2}"`} requires a git source, but no GitHub remote was detected${TOOL_RESULT_CLOUD_SESSION_BYOC_ENVIRONMENT_REQUIRES_GIT_SOURCE_VAR_3}. Check that \`git remote get-url origin\` returns a GitHub URL.
+${`The selected environment "${TOOL_RESULT_CLOUD_SESSION_BYOC_ENVIRONMENT_REQUIRES_GIT_SOURCE_VAR_0}"`} requires a git source, but no GitHub remote was detected${TOOL_RESULT_CLOUD_SESSION_BYOC_ENVIRONMENT_REQUIRES_GIT_SOURCE_VAR_1}. Check that \`git remote get-url origin\` returns a GitHub URL.

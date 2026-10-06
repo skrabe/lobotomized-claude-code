@@ -1,8 +1,10 @@
 <!--
-name: 'Tool Result: Artifact Comments Thread Not Activated Open'
+name: 'Tool result: artifact comment thread not activated (open)'
 description: >-
-  Per-thread label on an open thread that Claude is not activated on and cannot
-  reply to or resolve.
-ccVersion: 2.1.251
+  Row label in the comment threads tool result for a thread Claude is not
+  activated on, which it cannot reply to or resolve.
+ccVersion: 2.1.291
+variables:
+  - TOOL_RESULT_ARTIFACT_COMMENTS_THREAD_NOT_ACTIVATED_OPEN_VAR_0
 -->
-Claude: NOT activated (you cannot reply to or resolve it; it stays open)
+${TOOL_RESULT_ARTIFACT_COMMENTS_THREAD_NOT_ACTIVATED_OPEN_VAR_0} (you cannot reply to or resolve it; it stays open)

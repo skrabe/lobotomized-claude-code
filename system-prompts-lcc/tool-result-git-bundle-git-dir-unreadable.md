@@ -1,10 +1,8 @@
 <!--
-name: 'Tool Result: Git Bundle Git Dir Unreadable'
+name: 'Tool result: git bundle git dir unreadable'
 description: >-
-  Bundle-failure result when git rev-parse did not name this checkout's git
-  directory, so nothing was uploaded.
-ccVersion: 2.1.281
-variables:
-  - TOOL_RESULT_GIT_BUNDLE_GIT_DIR_UNREADABLE_VAR_0
+  Error when git could not name where it keeps this checkout, so nothing was
+  uploaded.
+ccVersion: 2.1.291
 -->
-Could not read where git keeps this checkout (git rev-parse did not name its git directory), so nothing was uploaded. First ${TOOL_RESULT_GIT_BUNDLE_GIT_DIR_UNREADABLE_VAR_0}; then check \`git status\` here, and retry.
+Could not read where git keeps this checkout, so nothing was uploaded. Run `git rev-parse --git-dir --show-toplevel` here (it changes nothing) to see what git says, then retry.

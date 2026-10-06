@@ -3,10 +3,13 @@ name: Agent listing reminder
 description: >-
   The "Available agent types for the Agent tool" block emitted at session start.
   Empty .md body = suppress entirely.
-ccVersion: 2.1.141
+ccVersion: 2.1.291
 placeholders:
+  - heading
   - listing
-  - removed
+  - removed_section
 -->
-Available agent types for the Agent tool:
+{{heading}}
 {{listing}}
+
+{{removed_section}}

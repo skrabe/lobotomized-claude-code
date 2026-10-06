@@ -4,7 +4,7 @@ description: >-
   Usage text for Claude Code's built-in gh stand-in, which supports only gh api
   REST requests to GitHub hosts through the session's GitHub proxy, listing its
   flags and how {owner}, {repo} and {branch} placeholders are filled in
-ccVersion: 2.1.288
+ccVersion: 2.1.291
 variables:
   - BUILT_IN_GH_CLIENT_DESCRIPTION
   - NO_GITHUB_CLI_REASON
@@ -27,7 +27,7 @@ PATH. On a self-hosted runner that one has only the GitHub credentials the
 runner's operator provides and does not go through this session's GitHub proxy.
 
 Flags:${ALLOWS_ADDITIONAL_GITHUB_HOSTS?`
-      --hostname <host>     GitHub host of the request, as GH_HOST (default ${DEFAULT_GITHUB_HOST}, or the
+      --hostname <host>     GitHub host of the request${ALLOWS_ANY_GITHUB_HOST?"":", as GH_HOST"} (default ${DEFAULT_GITHUB_HOST}, or the
                             host of the repository that fills {owner}, {repo} in the endpoint)`:""}
   -X, --method <method>     HTTP method (default GET, or POST with parameters or --input)
   -f, --raw-field key=value String parameter
@@ -46,6 +46,8 @@ Flags:${ALLOWS_ADDITIONAL_GITHUB_HOSTS?`
 -F values are filled in from GH_REPO, else from the ${ALLOWS_ADDITIONAL_GITHUB_HOSTS&&!ALLOWS_ANY_GITHUB_HOST?"remotes on those hosts":`${DEFAULT_GITHUB_HOST} remotes`} of the
 current repository: upstream, github, origin, then the others by name.${ALLOWS_ANY_GITHUB_HOST?`
 A repository with no ${DEFAULT_GITHUB_HOST} remote is read for its other remotes the same
-way, and the remote chosen names the host the request goes to.`:""}
+way, and the remote chosen names the host the request goes to.
+GH_HOST and a host in GH_REPO pick no host other than ${DEFAULT_GITHUB_HOST} here: name one
+with --hostname. A request to another host says so in one line on standard error.`:""}
 
 Example: gh api repos/{owner}/{repo}/pulls -f title='Fix' -f head='my-branch' -f base='main'

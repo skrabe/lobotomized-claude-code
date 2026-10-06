@@ -1,10 +1,10 @@
 <!--
-name: 'Tool Result: Git Bundle Index Link'
+name: 'Tool result: git bundle index link'
 description: >-
-  Remedy clause when a cloud bundle upload refuses because the git index is a
-  symlink that git would write through.
-ccVersion: 2.1.280
+  Remedy clause appended when the git index is a link: git never makes it one
+  and would write through it.
+ccVersion: 2.1.291
 variables:
   - TOOL_RESULT_GIT_BUNDLE_INDEX_LINK_VAR_0
 -->
- Git never makes it a link: if you did not, something else did. Look at it first (ls -l) and remove the link BEFORE running any git command here — git writes through it; ${TOOL_RESULT_GIT_BUNDLE_INDEX_LINK_VAR_0}. Then retry.
+ Git never makes it a link: if you did not, something else did, and git would write through it. ${TOOL_RESULT_GIT_BUNDLE_INDEX_LINK_VAR_0}

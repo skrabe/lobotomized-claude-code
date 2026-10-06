@@ -1,8 +1,10 @@
 <!--
-name: 'Tool Result: Git Bundle Shallow Link'
+name: 'Tool result: git bundle shallow file link'
 description: >-
-  Remedy clause when a cloud bundle upload refuses because the shallow file is a
-  symlink.
-ccVersion: 2.1.280
+  Remedy clause appended when the shallow file in the git directory is a link
+  that git never makes.
+ccVersion: 2.1.291
+variables:
+  - TOOL_RESULT_GIT_BUNDLE_SHALLOW_LINK_VAR_0
 -->
- Git never makes it a link: if you did not, something else did. Look at it first (ls -l) and remove the link before running any git command here. Then retry.
+ Git never makes it a link: if you did not, something else did. ${TOOL_RESULT_GIT_BUNDLE_SHALLOW_LINK_VAR_0}

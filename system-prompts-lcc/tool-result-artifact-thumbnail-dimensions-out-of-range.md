@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: Artifact thumbnail dimensions out of range'
+description: >-
+  Artifact publish error when a thumbnail side is outside the allowed pixel
+  range.
+ccVersion: 2.1.291
+variables:
+  - TOOL_RESULT_ARTIFACT_THUMBNAIL_DIMENSIONS_OUT_OF_RANGE_VAR_0
+  - TOOL_RESULT_ARTIFACT_THUMBNAIL_DIMENSIONS_OUT_OF_RANGE_VAR_1
+  - TOOL_RESULT_ARTIFACT_THUMBNAIL_DIMENSIONS_OUT_OF_RANGE_VAR_2
+-->
+thumbnail ${TOOL_RESULT_ARTIFACT_THUMBNAIL_DIMENSIONS_OUT_OF_RANGE_VAR_0} is ${TOOL_RESULT_ARTIFACT_THUMBNAIL_DIMENSIONS_OUT_OF_RANGE_VAR_1.width}×${TOOL_RESULT_ARTIFACT_THUMBNAIL_DIMENSIONS_OUT_OF_RANGE_VAR_1.height}; each side must be 1 to ${TOOL_RESULT_ARTIFACT_THUMBNAIL_DIMENSIONS_OUT_OF_RANGE_VAR_2} pixels — export it at about 1200×630

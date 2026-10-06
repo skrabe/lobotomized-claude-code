@@ -1,0 +1,10 @@
+<!--
+name: '/plugin install: npm tarball too large'
+description: Error when a downloaded npm plugin tarball exceeds the size limit
+ccVersion: 2.1.291
+variables:
+  - SLASH_COMMAND_PLUGIN_INSTALL_NPM_TARBALL_TOO_LARGE_VAR_0
+  - SLASH_COMMAND_PLUGIN_INSTALL_NPM_TARBALL_TOO_LARGE_VAR_1
+  - SLASH_COMMAND_PLUGIN_INSTALL_NPM_TARBALL_TOO_LARGE_VAR_2
+-->
+${SLASH_COMMAND_PLUGIN_INSTALL_NPM_TARBALL_TOO_LARGE_VAR_0} is larger than ${SLASH_COMMAND_PLUGIN_INSTALL_NPM_TARBALL_TOO_LARGE_VAR_1(SLASH_COMMAND_PLUGIN_INSTALL_NPM_TARBALL_TOO_LARGE_VAR_2)} MB and was not installed

@@ -1,12 +1,12 @@
 <!--
-name: 'Tool Hosts Notice: Agent-Obeyed Config Files List'
+name: 'Tool hosts reminder: obeyed config files list'
 description: >-
-  Fragment listing the files the user's Claude Code or git obeys (.claude
-  directory, .mcp.json, CLAUDE.md, AGENTS.md, .gitattributes …), interpolated
-  into the moving-work-between-copies guidance.
-ccVersion: 2.1.277
+  List of config files/directories an agent obeys, interpolated into the
+  tool-hosts reminder.
+ccVersion: 2.1.291
 variables:
   - SYSTEM_REMINDER_TOOL_HOSTS_AGENT_OBEYED_CONFIG_FILES_LIST_VAR_0
   - SYSTEM_REMINDER_TOOL_HOSTS_AGENT_OBEYED_CONFIG_FILES_LIST_VAR_1
+  - SYSTEM_REMINDER_TOOL_HOSTS_AGENT_OBEYED_CONFIG_FILES_LIST_VAR_2
 -->
-a ${SYSTEM_REMINDER_TOOL_HOSTS_AGENT_OBEYED_CONFIG_FILES_LIST_VAR_0} directory, ${SYSTEM_REMINDER_TOOL_HOSTS_AGENT_OBEYED_CONFIG_FILES_LIST_VAR_1.slice(0,-1).join(", ")} and ${SYSTEM_REMINDER_TOOL_HOSTS_AGENT_OBEYED_CONFIG_FILES_LIST_VAR_1.at(-1)}
+a ${SYSTEM_REMINDER_TOOL_HOSTS_AGENT_OBEYED_CONFIG_FILES_LIST_VAR_0(SYSTEM_REMINDER_TOOL_HOSTS_AGENT_OBEYED_CONFIG_FILES_LIST_VAR_1)} directory, ${SYSTEM_REMINDER_TOOL_HOSTS_AGENT_OBEYED_CONFIG_FILES_LIST_VAR_2.slice(0,-1).join(", ")} and ${SYSTEM_REMINDER_TOOL_HOSTS_AGENT_OBEYED_CONFIG_FILES_LIST_VAR_2.at(-1)}

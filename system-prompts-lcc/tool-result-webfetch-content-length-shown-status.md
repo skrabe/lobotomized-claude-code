@@ -1,0 +1,13 @@
+<!--
+name: 'Tool Result: WebFetch content length and shown range'
+description: >-
+  Status clause in the WebFetch result header giving the page text length and,
+  for an offset read, what is shown from that offset
+ccVersion: 2.1.291
+variables:
+  - TOOL_RESULT_WEBFETCH_CONTENT_LENGTH_SHOWN_STATUS_VAR_0
+  - TOOL_RESULT_WEBFETCH_CONTENT_LENGTH_SHOWN_STATUS_VAR_1
+  - TOOL_RESULT_WEBFETCH_CONTENT_LENGTH_SHOWN_STATUS_VAR_2
+  - TOOL_RESULT_WEBFETCH_CONTENT_LENGTH_SHOWN_STATUS_VAR_3
+-->
+${TOOL_RESULT_WEBFETCH_CONTENT_LENGTH_SHOWN_STATUS_VAR_0.length} characters${TOOL_RESULT_WEBFETCH_CONTENT_LENGTH_SHOWN_STATUS_VAR_1&&(TOOL_RESULT_WEBFETCH_CONTENT_LENGTH_SHOWN_STATUS_VAR_2===""?`; nothing is left to show from offset ${TOOL_RESULT_WEBFETCH_CONTENT_LENGTH_SHOWN_STATUS_VAR_3}`:`, shown${TOOL_RESULT_WEBFETCH_CONTENT_LENGTH_SHOWN_STATUS_VAR_1}`)}

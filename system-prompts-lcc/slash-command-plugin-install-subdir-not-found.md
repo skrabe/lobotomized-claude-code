@@ -1,0 +1,11 @@
+<!--
+name: 'Plugin install: subdirectory not found'
+description: Install failure when a git-subdir plugin path does not exist at the ref/sha.
+ccVersion: 2.1.291
+variables:
+  - SLASH_COMMAND_PLUGIN_INSTALL_SUBDIR_NOT_FOUND_VAR_0
+  - SLASH_COMMAND_PLUGIN_INSTALL_SUBDIR_NOT_FOUND_VAR_1
+  - SLASH_COMMAND_PLUGIN_INSTALL_SUBDIR_NOT_FOUND_VAR_2
+  - SLASH_COMMAND_PLUGIN_INSTALL_SUBDIR_NOT_FOUND_VAR_3
+-->
+Subdirectory '${SLASH_COMMAND_PLUGIN_INSTALL_SUBDIR_NOT_FOUND_VAR_0}' not found in repository ${SLASH_COMMAND_PLUGIN_INSTALL_SUBDIR_NOT_FOUND_VAR_1(SLASH_COMMAND_PLUGIN_INSTALL_SUBDIR_NOT_FOUND_VAR_2)}${SLASH_COMMAND_PLUGIN_INSTALL_SUBDIR_NOT_FOUND_VAR_3?` (ref: ${SLASH_COMMAND_PLUGIN_INSTALL_SUBDIR_NOT_FOUND_VAR_3})`:""}. Check that the path is correct and exists at the specified ref/sha.

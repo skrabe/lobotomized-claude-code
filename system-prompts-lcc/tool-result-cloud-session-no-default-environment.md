@@ -1,0 +1,13 @@
+<!--
+name: 'Tool result: cloud session no default environment'
+description: >-
+  Error when no configured default or anthropic_cloud environment is available
+  after retry.
+ccVersion: 2.1.291
+variables:
+  - TOOL_RESULT_CLOUD_SESSION_NO_DEFAULT_ENVIRONMENT_VAR_0
+  - TOOL_RESULT_CLOUD_SESSION_NO_DEFAULT_ENVIRONMENT_VAR_1
+  - TOOL_RESULT_CLOUD_SESSION_NO_DEFAULT_ENVIRONMENT_VAR_2
+  - TOOL_RESULT_CLOUD_SESSION_NO_DEFAULT_ENVIRONMENT_VAR_3
+-->
+No configured default or anthropic_cloud environment available after retry (got: ${TOOL_RESULT_CLOUD_SESSION_NO_DEFAULT_ENVIRONMENT_VAR_0.length>1500?`${TOOL_RESULT_CLOUD_SESSION_NO_DEFAULT_ENVIRONMENT_VAR_1.length} environments`:TOOL_RESULT_CLOUD_SESSION_NO_DEFAULT_ENVIRONMENT_VAR_0}${TOOL_RESULT_CLOUD_SESSION_NO_DEFAULT_ENVIRONMENT_VAR_2?`; configured default ${TOOL_RESULT_CLOUD_SESSION_NO_DEFAULT_ENVIRONMENT_VAR_3(TOOL_RESULT_CLOUD_SESSION_NO_DEFAULT_ENVIRONMENT_VAR_2)} not in list`:""})

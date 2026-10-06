@@ -1,10 +1,9 @@
 <!--
-name: 'Tool Result: Write Permission Ask In Plan Mode'
-description: >-
-  checkPermissions ask message returned when a file write is attempted while the
-  session is in plan mode.
-ccVersion: 2.1.288
+name: 'Tool result: write permission ask in plan mode'
+description: Permission ask message when Claude tries to write while in plan mode
+ccVersion: 2.1.291
 variables:
   - TOOL_RESULT_WRITE_PERMISSION_ASK_PLAN_MODE_VAR_0
+  - TOOL_RESULT_WRITE_PERMISSION_ASK_PLAN_MODE_VAR_1
 -->
-Cannot write to ${TOOL_RESULT_WRITE_PERMISSION_ASK_PLAN_MODE_VAR_0} while in plan mode.
+Cannot write to ${TOOL_RESULT_WRITE_PERMISSION_ASK_PLAN_MODE_VAR_0(TOOL_RESULT_WRITE_PERMISSION_ASK_PLAN_MODE_VAR_1)} while in plan mode.

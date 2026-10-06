@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: WebFetch final characters not read clause'
+description: >-
+  Header clause noting the final characters of the page were not read even by
+  the summary
+ccVersion: 2.1.291
+variables:
+  - TOOL_RESULT_WEBFETCH_OVERFLOW_FINAL_CHARS_NOT_READ_CLAUSE_VAR_0
+  - TOOL_RESULT_WEBFETCH_OVERFLOW_FINAL_CHARS_NOT_READ_CLAUSE_VAR_1
+  - TOOL_RESULT_WEBFETCH_OVERFLOW_FINAL_CHARS_NOT_READ_CLAUSE_VAR_2
+-->
+; the final ${TOOL_RESULT_WEBFETCH_OVERFLOW_FINAL_CHARS_NOT_READ_CLAUSE_VAR_0.length-TOOL_RESULT_WEBFETCH_OVERFLOW_FINAL_CHARS_NOT_READ_CLAUSE_VAR_1} characters were not read${TOOL_RESULT_WEBFETCH_OVERFLOW_FINAL_CHARS_NOT_READ_CLAUSE_VAR_2}

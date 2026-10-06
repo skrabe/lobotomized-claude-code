@@ -1,6 +1,8 @@
 <!--
-name: Check spelling against roster
-description: SendMessage tool-error fragment returned to the model.
-ccVersion: 2.1.206
+name: 'Tool result: SendMessage check teammate spelling'
+description: >-
+  SendMessage not-found hint telling the model to check a teammate name against
+  the team roster.
+ccVersion: 2.1.291
 -->
-Check the spelling against your team roster.
+A teammate is addressed by its name: check the spelling against your team roster.

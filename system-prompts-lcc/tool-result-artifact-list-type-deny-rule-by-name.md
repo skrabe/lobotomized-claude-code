@@ -1,0 +1,15 @@
+<!--
+name: 'Tool result: Artifact list type denied by name rule'
+description: >-
+  Artifact list error when a deny rule covering the type name blocks the
+  listing.
+ccVersion: 2.1.291
+variables:
+  - TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_0
+  - TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_1
+  - TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_2
+  - TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_3
+  - TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_4
+  - TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_5
+-->
+Listing the ${TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_0(TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_1(TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_2))} type is blocked by the permission rule ${TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_3(TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_4)}, which covers that type however ${TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_NAME_VAR_5===void 0?"the call names it":"its name is spelled in the call"}. Nothing was listed; tell the user.

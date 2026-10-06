@@ -1,8 +1,8 @@
 <!--
-name: 'System Prompt: You should know explain field format lead'
+name: 'You-should-know: explain field format lead'
 description: >-
-  Opens the output-format bullet for the explain field: a plain-English
-  explanation
-ccVersion: 2.1.286
+  Describes the explain: field as a plain-language explanation for someone with
+  no context.
+ccVersion: 2.1.291
 -->
-* “explain:” with a plain-english explanation for someone 
+* “explain:” with a plain-language explanation for someone 

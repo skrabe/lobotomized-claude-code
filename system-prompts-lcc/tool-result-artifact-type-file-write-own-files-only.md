@@ -1,0 +1,10 @@
+<!--
+name: 'Tool result: Artifact type file write refused'
+description: Error telling the model to send only the Artifact's own files.
+ccVersion: 2.1.291
+variables:
+  - TOOL_RESULT_ARTIFACT_TYPE_FILE_WRITE_OWN_FILES_ONLY_VAR_0
+  - TOOL_RESULT_ARTIFACT_TYPE_FILE_WRITE_OWN_FILES_ONLY_VAR_1
+  - TOOL_RESULT_ARTIFACT_TYPE_FILE_WRITE_OWN_FILES_ONLY_VAR_2
+-->
+${TOOL_RESULT_ARTIFACT_TYPE_FILE_WRITE_OWN_FILES_ONLY_VAR_0(TOOL_RESULT_ARTIFACT_TYPE_FILE_WRITE_OWN_FILES_ONLY_VAR_1)}: ${TOOL_RESULT_ARTIFACT_TYPE_FILE_WRITE_OWN_FILES_ONLY_VAR_2} — send only this Artifact's own files

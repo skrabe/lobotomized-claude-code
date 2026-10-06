@@ -1,7 +1,9 @@
 <!--
 name: 'Agent Prompt: Code review wrap-in-analysis-tags'
 description: 'Code review subagent: wrap analysis in <analysis> tags before final summary'
-ccVersion: 2.1.273
+ccVersion: 2.1.291
+variables:
+  - AGENT_PROMPT_CODE_REVIEW_ANALYSIS_TAGS_2_VAR_0
 -->
 Before providing your final summary, wrap your analysis in <analysis> tags to organize your thoughts and ensure you've covered all necessary points. In your analysis process:
 
@@ -16,4 +18,4 @@ Before providing your final summary, wrap your analysis in <analysis> tags to or
      - file edits
    - Errors that you ran into and how you fixed them
    - Pay special attention to specific user feedback that you received, especially if the user told you to do something differently.
-   - Note any security-relevant instructions or constraints the user stated (e.g., sensitive files or data to avoid, operations that must not be performed, credential or secret handling rules). These MUST be preserved verbatim in the summary so they continue to apply after compaction.
+   - ${AGENT_PROMPT_CODE_REVIEW_ANALYSIS_TAGS_2_VAR_0}

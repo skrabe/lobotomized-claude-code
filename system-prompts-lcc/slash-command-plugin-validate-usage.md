@@ -1,7 +1,7 @@
 <!--
 name: /plugin validate usage
 description: Usage text returned when /plugin validate is invoked without a path.
-ccVersion: 2.1.233
+ccVersion: 2.1.291
 -->
 Usage: /plugin validate <path>
 
@@ -16,7 +16,7 @@ Examples:
   /plugin validate .
 
 When given a directory, validates .claude-plugin/marketplace.json
-or .claude-plugin/plugin.json (prefers marketplace if both exist).
+or .claude-plugin/plugin.json (both, and the plugin, if both exist).
 With no manifest, the components are validated instead: a directory
 named skills, agents, or commands validates its own; a directory
 named .claude validates the ones inside it; any other directory

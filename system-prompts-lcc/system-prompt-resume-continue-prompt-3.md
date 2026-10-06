@@ -1,9 +1,9 @@
 <!--
 name: Resume Continue Prompt
 description: >-
-  Model-facing resume prompt (aqn() env-fallback returning
-  CLAUDE_CODE_RESUME_PROMPT or this literal, isMeta) injected as a user message
-  on interrupted-turn and deferred-tool auto-resume.
-ccVersion: 2.1.224
+  Model-facing resume prompt set as CLAUDE_CODE_RESUME_PROMPT for a session
+  respawned on a new runner (worker epoch > 1), injected as a user message on
+  interrupted-turn auto-resume.
+ccVersion: 2.1.291
 -->
-Continue from where you left off. This session was automatically restarted after its process exited unexpectedly; the user has not sent a new message since the restart. Work in flight when the process died did not complete.
+Continue from where you left off. This session moved to a new runner; files you created earlier may no longer exist, so verify the working directory state before relying on prior edits.

@@ -1,0 +1,14 @@
+<!--
+name: 'Tool result: Artifact list type denied by link rule'
+description: >-
+  Artifact list error when a deny rule naming the type by its link blocks the
+  listing.
+ccVersion: 2.1.291
+variables:
+  - TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_LINK_VAR_0
+  - TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_LINK_VAR_1
+  - TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_LINK_VAR_2
+  - TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_LINK_VAR_3
+  - TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_LINK_VAR_4
+-->
+Listing ${TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_LINK_VAR_0===void 0?"this":`the ${TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_LINK_VAR_1(TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_LINK_VAR_2(TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_LINK_VAR_0))}`} type is blocked by the permission rule ${TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_LINK_VAR_3(TOOL_RESULT_ARTIFACT_LIST_TYPE_DENY_RULE_BY_LINK_VAR_4)}, which names that type by its link. Nothing was listed; tell the user.

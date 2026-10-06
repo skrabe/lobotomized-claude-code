@@ -1,0 +1,10 @@
+<!--
+name: '/plugin install: npm registry override invalid'
+description: Install refusal when the npm registry set for a plugin is not a valid URL.
+ccVersion: 2.1.291
+variables:
+  - SLASH_COMMAND_PLUGIN_INSTALL_NPM_REGISTRY_INVALID_ADDRESS_VAR_0
+  - SLASH_COMMAND_PLUGIN_INSTALL_NPM_REGISTRY_INVALID_ADDRESS_VAR_1
+  - SLASH_COMMAND_PLUGIN_INSTALL_NPM_REGISTRY_INVALID_ADDRESS_VAR_2
+-->
+"${SLASH_COMMAND_PLUGIN_INSTALL_NPM_REGISTRY_INVALID_ADDRESS_VAR_0(SLASH_COMMAND_PLUGIN_INSTALL_NPM_REGISTRY_INVALID_ADDRESS_VAR_1(SLASH_COMMAND_PLUGIN_INSTALL_NPM_REGISTRY_INVALID_ADDRESS_VAR_2))}" was not fetched: the npm registry set for it is not a valid address.

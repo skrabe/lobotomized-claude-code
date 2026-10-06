@@ -1,7 +1,9 @@
 <!--
 name: 'Agent Prompt: Code review wrap-in-analysis-tags'
 description: 'Code review subagent: wrap analysis in <analysis> tags before final summary'
-ccVersion: 2.1.273
+ccVersion: 2.1.291
+variables:
+  - AGENT_PROMPT_CODE_REVIEW_ANALYSIS_TAGS_VAR_0
 -->
 Before your final summary, wrap your analysis in <analysis> tags. In it, walk the recent messages in order and identify:
 
@@ -11,6 +13,6 @@ Before your final summary, wrap your analysis in <analysis> tags. In it, walk th
 - Specifics: file names, code snippets, function signatures, file edits
 - Errors you hit and how you fixed them
 - User feedback, especially anywhere the user asked you to do something differently
-- Security-relevant constraints the user stated (sensitive files or data to avoid, forbidden operations, credential/secret rules). Preserve these verbatim in the summary so they keep applying after compaction.
+- ${AGENT_PROMPT_CODE_REVIEW_ANALYSIS_TAGS_VAR_0}
 
 Then cross-check the analysis for technical accuracy before writing the summary.

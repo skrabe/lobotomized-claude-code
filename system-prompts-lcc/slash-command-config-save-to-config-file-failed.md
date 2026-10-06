@@ -1,8 +1,8 @@
 <!--
-name: 'Slash Command: /config could not save to the config file'
+name: 'Slash Command: config save failed'
 description: >-
-  Error from /config key=value when the setting could not be written to the
-  config file: nothing changed, check the file is writable and try again.
-ccVersion: 2.1.288
+  Message when /config cannot save a setting to the config file, so nothing
+  changed.
+ccVersion: 2.1.291
 -->
-Could not save this to the config file, so nothing changed. Check that the file can be written, then try again.
+Could not save this to the config file, so nothing changed.

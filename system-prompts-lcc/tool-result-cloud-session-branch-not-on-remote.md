@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Cloud Session Branch Not On Remote'
+name: 'Tool result: cloud session branch not on remote'
 description: >-
-  Bundle-fail suffix telling the model the local branch has no remote history
-  and must be pushed or fetched before starting from GitHub.
-ccVersion: 2.1.268
+  Suffix on a bundle upload failure saying the branch shares no history with the
+  remote; push it to start from GitHub.
+ccVersion: 2.1.291
 -->
-. This branch shares no history with the remote as last fetched here; push it (or fetch) to start from GitHub instead
+. This branch shares no history with the remote as last fetched here; push it to start from GitHub instead

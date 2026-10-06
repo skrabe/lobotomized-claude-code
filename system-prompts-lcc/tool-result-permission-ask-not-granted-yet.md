@@ -1,11 +1,12 @@
 <!--
-name: 'Tool Result: Permission Ask Not Granted Yet'
+name: 'Tool result: permission ask not granted yet'
 description: >-
-  Permission-ask message telling the model the user has not yet granted the
-  requested read or write.
-ccVersion: 2.1.280
+  Generic permission ask message when Claude requests an operation on a path the
+  user has not granted
+ccVersion: 2.1.291
 variables:
   - TOOL_RESULT_PERMISSION_ASK_NOT_GRANTED_YET_VAR_0
   - TOOL_RESULT_PERMISSION_ASK_NOT_GRANTED_YET_VAR_1
+  - TOOL_RESULT_PERMISSION_ASK_NOT_GRANTED_YET_VAR_2
 -->
-Claude requested permissions to ${TOOL_RESULT_PERMISSION_ASK_NOT_GRANTED_YET_VAR_0} ${TOOL_RESULT_PERMISSION_ASK_NOT_GRANTED_YET_VAR_1}, but you haven't granted it yet.
+Claude requested permissions to ${TOOL_RESULT_PERMISSION_ASK_NOT_GRANTED_YET_VAR_0} ${TOOL_RESULT_PERMISSION_ASK_NOT_GRANTED_YET_VAR_1(TOOL_RESULT_PERMISSION_ASK_NOT_GRANTED_YET_VAR_2)}, but you haven't granted it yet.

@@ -3,7 +3,7 @@ name: 'Agent Prompt: Pull request creation'
 description: >-
   Prompt for creating a single GitHub pull request from existing commits with
   branch, template, attribution, shell-formatting, and git-safety guidance
-ccVersion: 2.1.273
+ccVersion: 2.1.291
 variables:
   - DEFAULT_BRANCH
   - REPO_PR_TEMPLATE_CONTEXT_BLOCK
@@ -14,7 +14,6 @@ variables:
   - PR_SUMMARY_TEMPLATE_FN
   - PR_TEST_PLAN_TEMPLATE_FN
   - PR_ATTRIBUTION_TEXT
-  - PRE_COMMIT_CHECKS_GUIDANCE
 -->
 ## Context
 
@@ -65,9 +64,7 @@ ${PR_TEST_PLAN_TEMPLATE_FN()}${PR_ATTRIBUTION_TEXT?`
 ${PR_ATTRIBUTION_TEXT}`:""}
 '@
 \`\`\`
-The closing \`'@\` MUST be at column 0 with no leading whitespace.`}${PRE_COMMIT_CHECKS_GUIDANCE?`
-
-${PRE_COMMIT_CHECKS_GUIDANCE}`:""}
+The closing \`'@\` MUST be at column 0 with no leading whitespace.`}
 
 3. Return the PR URL when you're done, so the user can see it.
 

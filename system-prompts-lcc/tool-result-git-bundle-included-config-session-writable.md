@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Git Bundle Included Config Session Writable'
+name: 'Tool Result: Git bundle included config session writable'
 description: >-
-  r6.included_config clause refusing the upload when git config includes a file
-  a session can write.
-ccVersion: 2.1.280
+  Reason the checkout is not uploaded the previous way: a cloud session could
+  change a file git reads this checkout's configuration from
+ccVersion: 2.1.291
 -->
-its git configuration includes a file a session can write, so that capture would run under whatever is put there; keep that configuration outside the working tree (or remove the include)
+a cloud session could change a file that git reads this checkout’s configuration from, so that capture would run under whatever is put there
