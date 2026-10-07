@@ -1,12 +1,13 @@
 <!--
-name: Artifact listing count header
-description: >-
-  Count/scope header line of the ArtifactTool listing tool_result (e.g. "N
-  artifacts shared with you (most recent first):"), returned to the model.
-ccVersion: 2.1.239
+name: 'Tool Result: Artifact list count header'
+description: 'Header line of the artifact listing giving the count, scope and ordering'
+ccVersion: 2.1.292
 variables:
   - TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_0
   - TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_1
   - TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_2
+  - TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_3
+  - TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_4
+  - TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_5
 -->
-${TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_0.length} ${TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_1.scope==="shared"?TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_2(TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_0.length,"artifact shared with you","artifacts shared with you"):TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_2(TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_0.length,TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_1.scope==="all"?"artifact":"published artifact")}${TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_1.scope==="all"?", published by you or shared with you":""} (most recent first):
+${TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_0!==void 0?`Showing ${TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_1.length} of ${TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_2?"at least ":""}${TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_0}`:TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_1.length} ${TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_3.scope==="shared"?TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_4(TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_0??TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_1.length,"artifact shared with you","artifacts shared with you"):TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_4(TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_0??TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_1.length,TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_3.scope==="all"?"artifact":"published artifact")}${TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_3.scope==="all"?", published by you or shared with you":""} (${TOOL_RESULT_ARTIFACT_LIST_COUNT_HEADER_VAR_5}):

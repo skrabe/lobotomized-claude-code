@@ -1,10 +1,11 @@
 <!--
-name: 'Tool Result: Artifact content host unexpected status'
+name: 'Tool Result: Artifact asset content unexpected status'
 description: >-
-  Error for any other non-200 answer from the artifact content host, naming the
-  HTTP status.
-ccVersion: 2.1.234
+  Artifact asset read error for an unexpected HTTP status from the artifact
+  service or content host.
+ccVersion: 2.1.292
 variables:
   - TOOL_RESULT_ARTIFACT_ASSET_CONTENT_UNEXPECTED_STATUS_VAR_0
+  - TOOL_RESULT_ARTIFACT_ASSET_CONTENT_UNEXPECTED_STATUS_VAR_1
 -->
-unexpected answer from the content host (HTTP ${TOOL_RESULT_ARTIFACT_ASSET_CONTENT_UNEXPECTED_STATUS_VAR_0.status})
+unexpected answer from the ${TOOL_RESULT_ARTIFACT_ASSET_CONTENT_UNEXPECTED_STATUS_VAR_0?"artifact service":"content host"} (HTTP ${TOOL_RESULT_ARTIFACT_ASSET_CONTENT_UNEXPECTED_STATUS_VAR_1.status})

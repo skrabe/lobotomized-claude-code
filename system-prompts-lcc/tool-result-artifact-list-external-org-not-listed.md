@@ -1,8 +1,8 @@
 <!--
-name: Artifact List External Org Not Listed
+name: 'Tool Result: Artifact list external org not listed'
 description: >-
-  list tool_result caveat that artifacts shared from another organization are
-  omitted and the user should supply the link.
-ccVersion: 2.1.276
+  Note that artifacts shared from another organization are not listed and to ask
+  for the link
+ccVersion: 2.1.292
 -->
- Artifacts shared from another organization are not listed here yet; ask the user for the link.
+Artifacts shared from another organization are not listed here yet; ask the user for the link.
