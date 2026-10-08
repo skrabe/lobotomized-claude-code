@@ -3,11 +3,9 @@ name: 'System Prompt: Auto-mode classifier action denied'
 description: >-
   Tool_result returned when the auto-mode permission classifier denies an
   action, telling the model it may continue independent tasks
-ccVersion: 2.1.281
+ccVersion: 2.1.294
 variables:
   - SYSTEM_PROMPT_TOOL_EXECUTION_DENIED_AUTO_MODE_CLASSIFIER_VAR_0
   - SYSTEM_PROMPT_TOOL_EXECUTION_DENIED_AUTO_MODE_CLASSIFIER_VAR_1
-  - SYSTEM_PROMPT_TOOL_EXECUTION_DENIED_AUTO_MODE_CLASSIFIER_VAR_2
-  - SYSTEM_PROMPT_TOOL_EXECUTION_DENIED_AUTO_MODE_CLASSIFIER_VAR_3
 -->
-${SYSTEM_PROMPT_TOOL_EXECUTION_DENIED_AUTO_MODE_CLASSIFIER_VAR_0}${SYSTEM_PROMPT_TOOL_EXECUTION_DENIED_AUTO_MODE_CLASSIFIER_VAR_1}. If you have other tasks that don't depend on this action, continue working on those. ${SYSTEM_PROMPT_TOOL_EXECUTION_DENIED_AUTO_MODE_CLASSIFIER_VAR_2} ${SYSTEM_PROMPT_TOOL_EXECUTION_DENIED_AUTO_MODE_CLASSIFIER_VAR_3}
+${SYSTEM_PROMPT_TOOL_EXECUTION_DENIED_AUTO_MODE_CLASSIFIER_VAR_0}${SYSTEM_PROMPT_TOOL_EXECUTION_DENIED_AUTO_MODE_CLASSIFIER_VAR_1}. If you have other tasks that don't depend on this action, continue working on those. 

@@ -1,10 +1,11 @@
 <!--
-name: 'Tool Result: Async Agent Running (send message)'
+name: Running Agent Duplicate Warning
 description: >-
-  Tells the model a background agent is still running without an output file: do
-  not spawn a duplicate; send it a message for a progress report.
-ccVersion: 2.1.268
+  Warns against duplicating a running agent and offers a progress request when
+  supported.
+ccVersion: 2.1.294
 variables:
   - TOOL_RESULT_ASYNC_AGENT_RUNNING_READ_PARTIAL_VAR_0
+  - TOOL_RESULT_ASYNC_AGENT_RUNNING_READ_PARTIAL_VAR_1
 -->
-Do NOT spawn a duplicate. You will be notified when it completes. Send it a message with ${TOOL_RESULT_ASYNC_AGENT_RUNNING_READ_PARTIAL_VAR_0} if you need a progress report before then.
+Do NOT spawn a duplicate. You will be notified when it completes.${TOOL_RESULT_ASYNC_AGENT_RUNNING_READ_PARTIAL_VAR_0?` Send it a message with ${TOOL_RESULT_ASYNC_AGENT_RUNNING_READ_PARTIAL_VAR_1} if you need a progress report before then.`:""}

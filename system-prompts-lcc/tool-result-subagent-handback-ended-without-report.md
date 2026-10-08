@@ -1,11 +1,10 @@
 <!--
-name: Subagent Handback Ended Without Report
+name: Subagent ended without a report
 description: >-
-  Agent-tool harness note that the subagent ended without delivering a report
-  through SendMessage.
-ccVersion: 2.1.267
+  Reports that a subagent ended without delivering its report through the
+  handback tool.
+ccVersion: 2.1.294
 variables:
   - TOOL_RESULT_SUBAGENT_HANDBACK_ENDED_WITHOUT_REPORT_VAR_0
-  - TOOL_RESULT_SUBAGENT_HANDBACK_ENDED_WITHOUT_REPORT_VAR_1
 -->
-The subagent ended without delivering a report through ${TOOL_RESULT_SUBAGENT_HANDBACK_ENDED_WITHOUT_REPORT_VAR_0}, so no report was delivered. Its unsent text is not shown.${TOOL_RESULT_SUBAGENT_HANDBACK_ENDED_WITHOUT_REPORT_VAR_1?" Send the agent a message (SendMessage) to ask it to deliver its report.":""}
+The subagent ended without delivering a report through ${TOOL_RESULT_SUBAGENT_HANDBACK_ENDED_WITHOUT_REPORT_VAR_0}, so no report was delivered.
