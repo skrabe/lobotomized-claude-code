@@ -4,8 +4,9 @@ description: >-
   Partial-completion message for /sandbox install describing which of the
   sandbox user, credential and network filters landed; emitted as
   <local-command-stdout> command output the model sees.
-ccVersion: 2.1.265
+ccVersion: 2.1.294
 variables:
+  - DATA_SANDBOX_INSTALL_PARTIAL_STATUS_VAR_1
   - DATA_SANDBOX_INSTALL_PARTIAL_STATUS_VAR_0
 -->
-Install completed (sandbox user: ${{user_not_provisioned:"not provisioned",cred_not_readable:"provisioned, credential not readable",wfp_not_installed:"provisioned"}[n]}, filters: ${DATA_SANDBOX_INSTALL_PARTIAL_STATUS_VAR_0.wfp.state}). Run /sandbox install again to retry.
+Install completed (sandbox user: ${{user_not_provisioned:"not provisioned",cred_not_readable:"provisioned, credential not readable",wfp_not_installed:"provisioned"}[DATA_SANDBOX_INSTALL_PARTIAL_STATUS_VAR_1]}, filters: ${DATA_SANDBOX_INSTALL_PARTIAL_STATUS_VAR_0.wfp.state}). Run /sandbox install again to retry.
