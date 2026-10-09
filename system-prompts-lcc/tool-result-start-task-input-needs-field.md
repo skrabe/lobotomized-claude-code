@@ -1,0 +1,10 @@
+<!--
+name: 'Tool Result: Start task input — needs field'
+description: Input validation error for a missing nested field.
+ccVersion: 2.1.295
+variables:
+  - TOOL_RESULT_START_TASK_INPUT_NEEDS_FIELD_VAR_0
+  - TOOL_RESULT_START_TASK_INPUT_NEEDS_FIELD_VAR_1
+  - TOOL_RESULT_START_TASK_INPUT_NEEDS_FIELD_VAR_2
+-->
+${TOOL_RESULT_START_TASK_INPUT_NEEDS_FIELD_VAR_0} needs the field ${TOOL_RESULT_START_TASK_INPUT_NEEDS_FIELD_VAR_1(TOOL_RESULT_START_TASK_INPUT_NEEDS_FIELD_VAR_2)}

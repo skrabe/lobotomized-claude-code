@@ -1,0 +1,10 @@
+<!--
+name: 'Tool Result: Artifact watch status — no live connection'
+description: 'Watch-list row for an artifact with no live connection, naming its state.'
+ccVersion: 2.1.295
+variables:
+  - TOOL_RESULT_ARTIFACT_WATCH_STATUS_NO_LIVE_CONNECTION_VAR_0
+  - TOOL_RESULT_ARTIFACT_WATCH_STATUS_NO_LIVE_CONNECTION_VAR_1
+  - TOOL_RESULT_ARTIFACT_WATCH_STATUS_NO_LIVE_CONNECTION_VAR_2
+-->
+- ${TOOL_RESULT_ARTIFACT_WATCH_STATUS_NO_LIVE_CONNECTION_VAR_0} — no live connection (state: ${TOOL_RESULT_ARTIFACT_WATCH_STATUS_NO_LIVE_CONNECTION_VAR_1(TOOL_RESULT_ARTIFACT_WATCH_STATUS_NO_LIVE_CONNECTION_VAR_2.state)}).
