@@ -1,0 +1,14 @@
+<!--
+name: 'System Reminder: Staged files not placed'
+description: >-
+  Lists handed-off files that may be missing or stale because they did not
+  arrive at the current worker.
+ccVersion: 2.1.295
+variables:
+  - SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_0
+  - SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_1
+  - SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_2
+  - SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_3
+  - SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_4
+-->
+${SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_0.length} ${SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_1?"file":"files"} may not have arrived here, so ${SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_1?"this path":"these paths"} may be missing or hold an older copy: ${SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_0.slice(0,SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_2).map(SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_3).join(", ")}${SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_4>0?`, and ${SYSTEM_REMINDER_STAGED_FILES_NOT_PLACED_VAR_4} more`:""}

@@ -1,0 +1,8 @@
+<!--
+name: 'Tool Result: WorktreeCreate personal hook restricted'
+description: >-
+  Explains why a personal WorktreeCreate hook cannot choose the worktree folder
+  under restricted personal configuration.
+ccVersion: 2.1.295
+-->
+A WorktreeCreate hook from your own Claude Code files ran, but this session doesn't let your own hooks choose the worktree folder (CLAUDE_CODE_RESTRICT_PERSONAL_CONFIG), so Claude Code didn't use any folder the hook made (remove that folder if you don't need it). Remove that hook, or turn off the skill, agent or plugin that adds it, to create worktrees in this session.
