@@ -1,0 +1,11 @@
+<!--
+name: 'Tool Description: Artifact multifile supporting files count'
+description: >-
+  Count clause naming the supporting files in the Artifact multi-file sources
+  description
+ccVersion: 2.1.295
+variables:
+  - TOOL_DESCRIPTION_ARTIFACT_MULTIFILE_SUPPORTING_FILES_COUNT_VAR_0
+  - TOOL_DESCRIPTION_ARTIFACT_MULTIFILE_SUPPORTING_FILES_COUNT_VAR_1
+-->
+ and ${TOOL_DESCRIPTION_ARTIFACT_MULTIFILE_SUPPORTING_FILES_COUNT_VAR_0} supporting ${TOOL_DESCRIPTION_ARTIFACT_MULTIFILE_SUPPORTING_FILES_COUNT_VAR_1(TOOL_DESCRIPTION_ARTIFACT_MULTIFILE_SUPPORTING_FILES_COUNT_VAR_0,"file")}
