@@ -4,7 +4,7 @@ description: >-
   Simplified usage notes for the Agent tool, including when to delegate, fork
   behavior, resumption, worktree isolation, background execution, remote
   isolation, and context restrictions
-ccVersion: 2.1.294
+ccVersion: 2.1.296
 variables:
   - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_0
   - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_1
@@ -19,6 +19,7 @@ variables:
   - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_10
   - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_11
   - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_12
+  - TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_13
 shadows:
   - tool-description-agent-usage-notes
   - tool-description-agent-when-to-launch-subagents
@@ -27,5 +28,5 @@ shadows:
 ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_0}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_1}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_2}
 
 - ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_3||TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_4?"The agent's final report is not shown to the user — relay what matters.":"The agent's final message is returned to you as the tool result; it is not shown to the user — relay what matters."}
-- ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_5?`Use ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_6} with the agent's ID or name to continue a previously spawned agent with its context intact; a new ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_7} call starts fresh`:`A previously spawned agent cannot be continued from here; every ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_7} call starts fresh`}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_8?' (except subagent_type: "fork", which inherits your context)':""}.
-- `isolation: "worktree"` gives the agent its own git worktree (auto-cleaned if unchanged).${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_9?` ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_9} Each result comes back with a branch and worktree path to merge.`:""}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_10}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_11}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_12}
+- ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_5?`Use ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_6} with the agent's ID or name to continue a previously spawned agent with its context intact; a new ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_7} call starts fresh`:`A previously spawned agent cannot be continued from here; every ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_7} call starts fresh`}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_8?' (except subagent_type: "fork", which inherits your context)':""}.${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_9}
+- `isolation: "worktree"` gives the agent its own git worktree (auto-cleaned if unchanged).${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_10?` ${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_10} Each result comes back with a branch and worktree path to merge.`:""}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_11}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_12}${TOOL_DESCRIPTION_AGENT_SIMPLE_USAGE_NOTES_VAR_13}

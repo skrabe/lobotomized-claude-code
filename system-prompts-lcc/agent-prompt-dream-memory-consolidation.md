@@ -4,7 +4,7 @@ description: >-
   Instructs an agent to perform a multi-phase memory consolidation pass —
   orienting on existing memories, gathering recent signal from logs and
   transcripts, merging updates into topic files, and pruning the index
-ccVersion: 2.1.285
+ccVersion: 2.1.296
 variables:
   - MEMORY_DIR
   - MEMORY_DIR_CONTEXT
@@ -38,15 +38,14 @@ ${TEAM_MEMORY_GUIDANCE_BLOCK}
 - \`ls\` the memory directory to see what already exists
 - Read \`${INDEX_FILE}\` to understand the current index
 - Skim existing topic files so you improve them rather than creating duplicates
-- \`ls -R logs/\` — recent activity logs (one file per session under \`YYYY/MM/DD/\`). If a \`sessions/\` subdirectory also exists, review recent entries there too
+- If a \`sessions/\` subdirectory exists, review recent entries there
 
 ## Phase 2 — Gather recent signal
 
 Look for new information worth persisting. Sources in rough priority order:
 
-1. **Session logs** (\`logs/YYYY/MM/DD/<id>-<title>.md\`) — the append-only activity stream, one file per session. Read the most recent 1–3 days of sessions (the filename title tells you what each was about); each line is prefix-coded (\`>\` user, \`<\` assistant, \`.\` tool call)
-2. **Existing memories that drifted** — facts that contradict something you see in the codebase now
-3. **Transcript search** — if you need specific context (e.g., "what was the error message from yesterday's build failure?"), grep the JSONL transcripts for narrow terms:
+1. **Existing memories that drifted** — facts that contradict something you see in the codebase now
+2. **Transcript search** — if you need specific context (e.g., "what was the error message from yesterday's build failure?"), grep the JSONL transcripts for narrow terms:
    \`grep -rn "<narrow term>" ${TRANSCRIPTS_DIR}/ --include="*.jsonl" | tail -50\`
 
 Don't exhaustively read transcripts. Look only for things you already suspect matter.

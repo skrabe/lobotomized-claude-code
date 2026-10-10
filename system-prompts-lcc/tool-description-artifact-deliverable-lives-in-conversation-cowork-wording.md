@@ -1,9 +1,9 @@
 <!--
 name: 'Tool Description: Artifact deliverable lives-in-conversation wording'
 description: >-
-  Replacement half of the Artifact tool description rewrite pair: the
-  non-terminal surface says an unpublished deliverable lives only in this
-  conversation or a local file.
-ccVersion: 2.1.281
+  Replacement half of the Artifact tool description respelling pair: outside the
+  terminal, the finished-work paragraph says unpublished work exists only in
+  this conversation or in a local file.
+ccVersion: 2.1.296
 -->
-lives only in this conversation or a local file
+exists only in this conversation or in a local file
