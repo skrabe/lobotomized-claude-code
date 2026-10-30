@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: worktree guard find exec clause GNU/BSD end'
+description: >-
+  Worktree guard operand detail for a find -exec clause that GNU and BSD end
+  differently
+ccVersion: 2.1.314
+variables:
+  - TOOL_RESULT_BASH_WORKTREE_GUARD_FIND_EXEC_CLAUSE_GNU_BSD_END_VAR_0
+  - TOOL_RESULT_BASH_WORKTREE_GUARD_FIND_EXEC_CLAUSE_GNU_BSD_END_VAR_1
+  - TOOL_RESULT_BASH_WORKTREE_GUARD_FIND_EXEC_CLAUSE_GNU_BSD_END_VAR_2
+-->
+${TOOL_RESULT_BASH_WORKTREE_GUARD_FIND_EXEC_CLAUSE_GNU_BSD_END_VAR_0} with a clause containing ${TOOL_RESULT_BASH_WORKTREE_GUARD_FIND_EXEC_CLAUSE_GNU_BSD_END_VAR_1(TOOL_RESULT_BASH_WORKTREE_GUARD_FIND_EXEC_CLAUSE_GNU_BSD_END_VAR_2)}, which GNU and BSD find end differently,

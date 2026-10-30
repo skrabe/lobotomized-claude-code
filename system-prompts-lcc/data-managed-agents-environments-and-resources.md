@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Managed Agents environments and resources)
   inlined as <doc> or extracted for the model to Read when the skill's Reading
   Guide points to it.
-ccVersion: 2.1.300
+ccVersion: 2.1.314
 -->
 # Managed Agents - Environments & Resources
 
@@ -93,7 +93,9 @@ const session = await client.beta.sessions.create({
 });
 \`\`\`
 
-**\`mount_path\` is optional**; when set, it should be absolute and is rooted under the session's uploads directory: \`/data.csv\` lands at \`/mnt/session/uploads/data.csv\`. Without it, the file lands at \`/mnt/session/uploads/<file_id>\`. A prompt that points the agent at the file should use the full \`/mnt/session/uploads/...\` path. Parent directories are created automatically. Agent working directory defaults to \`/workspace\`. Files are mounted read-only - the agent writes modified versions to new paths.
+**A file's \`mount_path\` is rooted under \`/mnt/session/uploads/\`:** \`mount_path: "/data.csv"\` puts the file at \`/mnt/session/uploads/data.csv\`, not at \`/data.csv\`.
+
+\`mount_path\` is optional; when set, it should be absolute. Without it, the file lands at \`/mnt/session/uploads/<file_id>\`. A prompt that points the agent at the file should use the full \`/mnt/session/uploads/...\` path. Parent directories are created automatically. Agent working directory defaults to \`/workspace\`. Files are mounted read-only - the agent writes modified versions to new paths.
 
 ### Session outputs (output - agent -> host)
 

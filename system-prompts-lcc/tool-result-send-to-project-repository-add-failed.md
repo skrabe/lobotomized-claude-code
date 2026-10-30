@@ -1,0 +1,10 @@
+<!--
+name: 'Tool Result: Send-to-project repository add failed'
+description: Reports the repository was not added with the error
+ccVersion: 2.1.314
+variables:
+  - TOOL_RESULT_SEND_TO_PROJECT_REPOSITORY_ADD_FAILED_VAR_0
+  - TOOL_RESULT_SEND_TO_PROJECT_REPOSITORY_ADD_FAILED_VAR_1
+  - TOOL_RESULT_SEND_TO_PROJECT_REPOSITORY_ADD_FAILED_VAR_2
+-->
+The repository wasn’t added (${TOOL_RESULT_SEND_TO_PROJECT_REPOSITORY_ADD_FAILED_VAR_0(TOOL_RESULT_SEND_TO_PROJECT_REPOSITORY_ADD_FAILED_VAR_1)}). Add github.com/${TOOL_RESULT_SEND_TO_PROJECT_REPOSITORY_ADD_FAILED_VAR_2.owner}/${TOOL_RESULT_SEND_TO_PROJECT_REPOSITORY_ADD_FAILED_VAR_2.name} from project settings.

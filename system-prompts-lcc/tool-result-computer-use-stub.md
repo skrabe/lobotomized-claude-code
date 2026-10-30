@@ -1,10 +1,10 @@
 <!--
 name: Computer use stub result
 description: 'Computer-use tools need no enabling; load and use them, guidance on failures.'
-ccVersion: 2.1.300
+ccVersion: 2.1.314
 variables:
   - TOOL_RESULT_COMPUTER_USE_STUB_VAR_0
   - TOOL_RESULT_COMPUTER_USE_STUB_VAR_1
   - TOOL_RESULT_COMPUTER_USE_STUB_VAR_2
 -->
-The computer-use tools are the ${TOOL_RESULT_COMPUTER_USE_STUB_VAR_0} tools; there is no separate enable step. ${TOOL_RESULT_COMPUTER_USE_STUB_VAR_1}: load them all in one ${TOOL_RESULT_COMPUTER_USE_STUB_VAR_2} call (query "${TOOL_RESULT_COMPUTER_USE_STUB_VAR_0}", max_results 100), and use them once that result has come back, not in the same reply. Try the user's request with them, asking for access to the applications you need first, the way those tools describe. Don't tell the user their computer is connected until a call to one of them has succeeded; if calls keep not responding, the Claude app on the user's computer isn't answering: it may be closed or the computer asleep. Tell the user that, ask them to open the Claude app on that computer, and carry on with what you can do here. If you have no such tools here, tell the user that computer use isn't available on their computer right now and that the Claude app on that computer may show why under Settings → This computer → Computer use, then continue with what you can do here. Don't say a permission was denied unless a result says so.
+The computer-use tools are the ${TOOL_RESULT_COMPUTER_USE_STUB_VAR_0} tools; there is no separate enable step. ${TOOL_RESULT_COMPUTER_USE_STUB_VAR_1}: load them all in one ${TOOL_RESULT_COMPUTER_USE_STUB_VAR_2} call (query "${TOOL_RESULT_COMPUTER_USE_STUB_VAR_0}", max_results 100), and use them once that result has come back, not in the same reply. Try the user's request with them, asking for access to the applications you need first, the way those tools describe. Don't tell the user their computer is connected until a call to one of them has succeeded; if calls keep not responding, the Claude app on the user's computer isn't answering: it may be closed or the computer asleep. Tell the user that, ask them to open the Claude app on that computer, and carry on with what you can do here. If you have no such tools here, tell the user that computer use isn't available on their computer right now and that the Claude app on that computer may show why in the Computer use section of its Settings, then continue with what you can do here. Don't say a permission was denied unless a result says so.

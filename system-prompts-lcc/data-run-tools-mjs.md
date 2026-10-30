@@ -5,7 +5,7 @@ description: >-
   defining the background runner's claude_test_save / status / elapsed /
   progress / write_log / finish / read MCP tool descriptions, input schemas and
   result texts the model receives.
-ccVersion: 2.1.308
+ccVersion: 2.1.314
 -->
 
 
@@ -616,7 +616,7 @@ export function makeRunTools({ send, settings = launcherConfig, root = sessionRo
 
       const stem = typeof a.name === 'string' && a.name.endsWith('.md') ? a.name.slice(0, -3) : null;
       if (stem === null || !SPEC_NAME.test(stem)) return refuse(id, nothing + ': ' + (a.name === undefined ? 'name is missing. It' : quoted(a.name) + ' is not a name this tool writes. The name') + ' must be the spec\\'s title in lower-case ASCII letters, digits and hyphens, starting with a letter or digit and at most 80 characters long, then .md (for example cart-total.md). It is a name, never a path.');
-      if (!specNameOk(stem)) return refuse(id, nothing + ': this tool does not write ' + quoted(a.name) + '. Claude Code can read claude.md and agents.md as instructions, readme.md is never saved as a spec, and Windows reserves con, prn, aux, nul, and com or lpt followed by a digit (com1, lpt1) for devices, even with .md after them. Give the draft another name.');
+      if (!specNameOk(stem)) return refuse(id, nothing + ': this tool does not write ' + quoted(a.name) + '. Claude Code can read claude.md, agents.md and architecture.md as instructions, readme.md is never saved as a spec, and Windows reserves con, prn, aux, nul, and com or lpt followed by a digit (com1, lpt1) for devices, even with .md after them. Give the draft another name.');
       if (typeof a.text !== 'string') return refuse(id, nothing + ': ' + (a.text === undefined ? 'text is missing. It' : 'text') + ' must be the whole file, as text.');
       const text = a.text.replace(/^\\uFEFF/, '');
       if (!text.trim()) return refuse(id, nothing + ': text is empty or only white space. Pass the whole file.');

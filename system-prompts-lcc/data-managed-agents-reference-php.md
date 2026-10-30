@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Managed Agents reference — PHP) inlined as
   <doc> or extracted for the model to Read when the skill's Reading Guide points
   to it.
-ccVersion: 2.1.311
+ccVersion: 2.1.314
 -->
 # Managed Agents - PHP
 
@@ -91,7 +91,7 @@ echo "Trace: https://platform.claude.com/workspaces/default/sessions/{$session->
 
 ### Updating an Agent
 
-Updates create new versions; the agent object is immutable per version.
+An update that changes the agent creates a new version; the agent object is immutable per version.
 
 \`\`\`php
 $updatedAgent = $client->beta->agents->update(

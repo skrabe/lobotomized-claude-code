@@ -3,7 +3,7 @@ name: 'Data: managed-agents-overview'
 description: >-
   claude-api skill reference file (managed-agents-overview) inlined as <doc> or
   extracted for the model to Read when the skill's Reading Guide points to it.
-ccVersion: 2.1.310
+ccVersion: 2.1.314
 -->
 # Managed Agents - Overview
 
@@ -11,7 +11,7 @@ Managed Agents provisions a container per session as the agent's workspace. The 
 
 ## Warning: the mandatory flow: Agent (once) -> Session (every run)
 
-**Why agents are separate objects: versioning.** An agent is a persisted, versioned config - every update creates a new immutable version, and sessions pin to a version at creation time. This lets you iterate on the agent (tweak the prompt, add a tool) without breaking sessions already running, roll back if a change regresses, and A/B test versions side-by-side. None of that works if you \`agents.create()\` fresh on every run.
+**Why agents are separate objects: versioning.** An agent is a persisted, versioned config - every update that changes it creates a new immutable version, and sessions pin to a version at creation time. This lets you iterate on the agent (tweak the prompt, add a tool) without breaking sessions already running, roll back if a change regresses, and A/B test versions side-by-side. None of that works if you \`agents.create()\` fresh on every run.
 
 Every session references a pre-created \`/v1/agents\` object. Create the agent once, store the ID, and reuse it across runs.
 
@@ -24,7 +24,7 @@ If you're about to pass \`model\`, \`system\`, or \`tools\` to \`sessions.create
 
 **When generating code, separate setup from runtime.** \`agents.create()\` belongs in a setup script (or a guarded \`if agent_id is None:\` block), not at the top of the hot path. If the user's code calls \`agents.create()\` on every invocation, they're accumulating orphaned agents and paying the create latency for nothing. The correct shape is: define the agent as a version-controlled file and sync it with \`ant apply\`, which records the ID in \`claude-lock.json\` (see \`shared/anthropic-cli.md\`) - or use a guarded setup script that persists the returned ID (config file, env var, secrets manager) - and have every run load the ID and call \`sessions.create()\`.
 
-**To change the agent's behavior, use \`POST /v1/agents/{id}\` - don't create a new one.** (For an agent managed with \`ant apply\`, edit its file and re-run instead - an update made outside the files makes the next \`ant apply\` refuse to run.) Each update bumps the version; running sessions keep their pinned version, new sessions get the latest (or pin explicitly via \`{type: "agent", id, version}\`). See \`shared/managed-agents-core.md\` -> Agents -> Versioning. To change \`tools\`/\`mcp_servers\` on **one running session** without touching the agent object, use \`sessions.update()\` (\`vault_ids\` attaches at session create only) - see \`shared/managed-agents-core.md\` -> Updating the agent configuration mid-session.
+**To change the agent's behavior, use \`POST /v1/agents/{id}\` - don't create a new one.** (For an agent managed with \`ant apply\`, edit its file and re-run instead - an update made outside the files makes the next \`ant apply\` refuse to run.) An update that changes the agent bumps the version; running sessions keep their pinned version, new sessions get the latest (or pin explicitly via \`{type: "agent", id, version}\`). See \`shared/managed-agents-core.md\` -> Agents -> Versioning. To change \`tools\`/\`mcp_servers\` on **one running session** without touching the agent object, use \`sessions.update()\` (\`vault_ids\` attaches at session create only) - see \`shared/managed-agents-core.md\` -> Updating the agent configuration mid-session.
 
 ## Beta Headers
 
@@ -70,7 +70,7 @@ Managed Agents is in beta. The SDK sets required beta headers automatically:
 | Pin where model inference runs (data residency) | \`shared/managed-agents-core.md\` (§ Pinning inference geography) - \`model.inference_geo\` on the agent, per-session override, roster uniformity |
 | Load skills from the codebase instead of uploading | \`shared/managed-agents-tools.md\` (§ Skills from a GitHub repository) - root \`.claude/skills\` discovery at session start |
 | Let the agent run many agents in phases (hundreds of documents, many sources) as a background workflow run - on for every team | \`shared/managed-agents-multiagent.md\` (§ Dynamic workflows) - \`multiagent: {type: "multiagent_20261001", workflows: {type: "enabled"}}\` (can combine with a roster), the system-prompt line that says when to start a run, \`workflow_run.*\` events, knowing when the work is done, interrupting with runs open |
-| Make a workflow run cheaper, faster or better | \`shared/managed-agents-multiagent.md\` (§ Dynamic workflows -> Reading the plan the agent wrote) - read the plan the agent wrote before you propose a change |
+| Make a workflow run cheaper, faster or better | \`shared/managed-agents-multiagent.md\` (§ Dynamic workflows -> Reading the workflow the agent wrote) - read the workflow the agent wrote before you change anything |
 | Give the session an advisor to consult mid-turn | \`shared/managed-agents-multiagent.md\` (§ Advisor) - \`advisor: {type: "enabled", model}\` in \`multiagent\`, consultation threads, plaintext vs redacted delivery |
 
 ## Common Pitfalls

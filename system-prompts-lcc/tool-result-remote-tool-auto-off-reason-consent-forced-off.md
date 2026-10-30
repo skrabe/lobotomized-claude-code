@@ -1,9 +1,9 @@
 <!--
-name: 'Tool Result: Remote tool auto-off reason (forced off by settings)'
+name: 'Tool Result: Remote tool auto-off reason (consent forced off)'
 description: >-
-  Reason appended to the served-call permission-ask note when this computer's
-  remoteTools.allowUnattendedServing setting turns off unattended commands from
-  cloud sessions
-ccVersion: 2.1.286
+  Reason given in served-call permission notes when this computer's settings
+  turn off unattended commands from cloud sessions in auto mode
+  (remoteTools.allowUnattendedServing).
+ccVersion: 2.1.314
 -->
-This computer's settings turn off unattended commands from cloud sessions (remoteTools.allowUnattendedServing).
+This computer's settings turn off unattended commands from cloud sessions in auto mode (remoteTools.allowUnattendedServing).

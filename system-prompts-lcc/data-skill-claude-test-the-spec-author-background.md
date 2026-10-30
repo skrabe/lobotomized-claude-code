@@ -3,7 +3,7 @@ name: 'Data: SKILL (Claude Test — the spec author (background; nobody is watch
 description: >-
   Prompt body of the claude-test "draft" skill (spec-author background), loaded
   as skill text by we().
-ccVersion: 2.1.310
+ccVersion: 2.1.314
 -->
 ---
 description: Internal to Claude Test — drafts spec files in the background for a first run. Started only by the claude-test run skill.
@@ -71,6 +71,7 @@ disallowed-tools:
   - Edit(//**/CLAUDE.md)
   - Edit(//**/CLAUDE.local.md)
   - Edit(//**/AGENTS.md)
+  - Edit(//**/ARCHITECTURE.md)
   - Edit(//**/.mcp.json)
   - Edit(//**/.github/**)
   - Edit(//**/.gitlab-ci.yml)

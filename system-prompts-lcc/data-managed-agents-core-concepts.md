@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Managed Agents core concepts) inlined as
   <doc> or extracted for the model to Read when the skill's Reading Guide points
   to it.
-ccVersion: 2.1.310
+ccVersion: 2.1.314
 -->
 # Managed Agents - Core Concepts
 
@@ -280,7 +280,7 @@ The \`model\` object also takes \`inference_geo\` to pin the geography that serv
 
 ### Versioning
 
-Each \`POST /v1/agents/{id}\` (update) creates a new immutable version - a sequential integer, starting at 1 and incrementing on each update. The agent's history is append-only - you can't edit a past version.
+Each \`POST /v1/agents/{id}\` (update) that changes the agent creates a new immutable version - a sequential integer, starting at 1 and incrementing on each such update; an update that changes nothing returns the current version. The agent's history is append-only - you can't edit a past version.
 
 **\`version\` on update is optional.** Supply it for optimistic concurrency, or omit it to apply the update unconditionally:
 

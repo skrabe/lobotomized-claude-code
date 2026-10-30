@@ -3,7 +3,7 @@ name: 'Data: SKILL (Claude Test runner — drive the app in a browser, judge eac
 description: >-
   Prompt body of the claude-test "execute" skill (runner that drives the app),
   loaded as skill text by we().
-ccVersion: 2.1.310
+ccVersion: 2.1.314
 -->
 ---
 description: Internal to Claude Test — runs the specs in a background browser. Started only by the claude-test run skill.
@@ -53,6 +53,7 @@ disallowed-tools:
   - Edit(//**/CLAUDE.md)
   - Edit(//**/CLAUDE.local.md)
   - Edit(//**/AGENTS.md)
+  - Edit(//**/ARCHITECTURE.md)
   - Edit(//**/.mcp.json)
   - Edit(//**/.github/**)
   - Edit(//**/.gitlab-ci.yml)

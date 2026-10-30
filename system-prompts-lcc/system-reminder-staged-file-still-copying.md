@@ -1,10 +1,10 @@
 <!--
 name: 'System Reminder: Staged file still copying'
 description: Explains that a staged file is still copying and how to wait for it
-ccVersion: 2.1.312
+ccVersion: 2.1.314
 variables:
   - FORMAT_STAGED_FILE_PATHS_FN
   - STAGED_FILE_PATHS
 -->
 1 file is still being copied here, so this path may be missing or hold an older copy for now: ${FORMAT_STAGED_FILE_PATHS_FN(STAGED_FILE_PATHS)}
-The copy has not failed. It can take a few more minutes. While it runs, do not tell the user that the file did not arrive, and do not ask for it again, whatever an earlier message says about a missing file. If you need the file, wait for up to a minute at a time, then look again. If it is still missing after a few minutes, tell the user that it is still being copied. Another note will tell you if the copy fails.
+The copy has not failed. It can take a few more minutes. While it runs, do not tell the user that the file did not arrive, and do not ask for it again, whatever an earlier message says about a missing file. If you need the file, wait for up to a minute at a time: run a foreground command that ends when the file is there or the minute is over, then look again. If it is still missing after a few minutes, tell the user that it is still being copied. Another note will tell you if the copy fails.

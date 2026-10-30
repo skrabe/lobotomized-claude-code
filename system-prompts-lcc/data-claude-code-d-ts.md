@@ -4,7 +4,7 @@ description: >-
   Claude Code plugin API declarations written as the plugin-authoring skill file
   types/claude-code.d.ts, which SKILL.md points the model to as the API
   reference (also used for type-checking).
-ccVersion: 2.1.312
+ccVersion: 2.1.314
 -->
 // Claude Code function hooks: the plugin API's TypeScript declarations.
 //
@@ -2569,6 +2569,18 @@ declare module 'claude-code' {
            * if (!isUp) await $.ui.open({ id: "clock", title: "Clock" })
            */
           panes: () => Promise<readonly UiPane[]>;
+          /**
+           * Places one row at the transcript's end, which scrolls with the
+           * conversation and draws what \`ui.render\` answers for \`Placed\`.
+           *
+           * A hook reads \`e.props.id\` and \`e.props.plugin\`. Display only: the model
+           * and the transcript file never read it, and \`--resume\` brings none back. A
+           * hook that passes draws nothing; the same id answers the row that stands.
+           *
+           * @example
+           * await $.ui.place({ id: "build" })
+           */
+          place: (args: UiPlaceArgs) => Promise<UiPlaceResult>;
           /**
            * Scrolls something into view as the DOM's \`scrollIntoView\` would: a
            * render instance by \`requestId\`, an element by \`key\`, a site's edge.
@@ -7231,6 +7243,10 @@ declare module 'claude-code' {
        */
       'ui.panes': NoArgs;
       /**
+       * The argument of \`$.ui.place({ id })\`.
+       */
+      'ui.place': UiPlaceArgs;
+      /**
        * The argument of \`$.ui.selection()\`.
        */
       'ui.selection': NoArgs;
@@ -7484,6 +7500,10 @@ declare module 'claude-code' {
        * The calling plugin's open panes, placed then unplaced, in open order.
        */
       'ui.panes': readonly UiPane[];
+      /**
+       * The row's id, or why nothing draws it.
+       */
+      'ui.place': UiPlaceResult;
       /**
        * What the person last selected; \`undefined\` when there is nothing.
        */
@@ -9924,9 +9944,10 @@ declare module 'claude-code' {
    *
    * The permission dialog is drawn by the engine alone, since its answer
    * authorises an action; a plugin adds context with \`$.ui.notice\`. \`Pane\` is
-   * the one component whose instances a plugin opens (\`$.ui.open\`).
+   * a component whose instances a plugin opens (\`$.ui.open\`), and
+   * \`Placed\` the other (\`$.ui.place\`).
    */
-  export type RenderComponent = 'AskUserQuestion' | 'UserMessage' | 'AssistantMessage' | 'ToolUse' | 'ToolResult' | 'ToolGroup' | 'ToolProgress' | 'CommandOutput' | 'Spinner' | 'TurnDuration' | 'InfoNotice' | 'SessionMode' | 'PromptHint' | 'AbovePrompt' | 'Pane';
+  export type RenderComponent = 'AskUserQuestion' | 'UserMessage' | 'AssistantMessage' | 'ToolUse' | 'ToolResult' | 'ToolGroup' | 'ToolProgress' | 'CommandOutput' | 'Spinner' | 'TurnDuration' | 'InfoNotice' | 'SessionMode' | 'PromptHint' | 'AbovePrompt' | 'Pane' | 'Placed';
 
   /**
    * What a render hook returns, and what \`next(e)\` resolves to: a plain-data
@@ -11012,6 +11033,34 @@ declare module 'claude-code' {
            * it on as received; one that changes or drops it is refused.
            */
           view: SiteView;
+      };
+      /**
+       * A row a plugin placed in the transcript (\`$.ui.place\`): empty until a hook
+       * draws it, in the row's place in the conversation.
+       *
+       * Every plugin's hook hears every row, so read \`plugin\` beside \`id\`. Outside
+       * fullscreen a compaction ends the row, and the same id then places a new one.
+       *
+       * Raised on every attached surface.
+       */
+      Placed: {
+          /**
+           * What \`$.ui.place\` was given, unique among that plugin's rows. Read-only.
+           */
+          id: string;
+          /**
+           * Who placed the row, so a hook can leave another's alone. Read-only.
+           */
+          plugin: string;
+          /**
+           * Which of its rows the transcript's viewport shows now: \`null\` while
+           * drawn outside it, absent where the surface does not say. Read-only.
+           *
+           * Reported once drawn and again when it changes: on a scroll, for the
+           * messages at the viewport's edges only. A rewrite carries it on as
+           * received; one that changes or drops it is refused.
+           */
+          onScreen?: OnScreen | null;
       };
   };
 
@@ -13176,8 +13225,9 @@ declare module 'claude-code' {
    * element's data, as a string is a Text's, drawn isolated.
    *
    * A leaf: no children. The surface never lets the markup reach the page
-   * (the engine bounds it; the desktop and the editor draw it as an image, or
-   * in a sandboxed frame when \`isInteractive\`; the mobile app in a web view).
+   * (the engine bounds it; the desktop draws it as an image, or in a sandboxed
+   * frame when \`isInteractive\`; the editor as an image; the mobile app in a
+   * web view).
    */
   export type SvgProps = {
       /**
@@ -13200,6 +13250,9 @@ declare module 'claude-code' {
       /**
        * \`true\` draws the SVG in a script-less sandboxed frame so hover, CSS
        * \`:hover\`, SMIL animation and \`<title>\` tooltips work; absent, an image.
+       * The editor ignores it and always draws an image, where SMIL and CSS
+       * animation can run but hover, CSS \`:hover\` and \`<title>\` tooltips never
+       * work.
        *
        * It never enables script or event-handler attributes (the frame has no
        * allow-scripts and the scrub strips them); presses that other plugins
@@ -15241,6 +15294,50 @@ declare module 'claude-code' {
        * focused, while an open answers \`no-surface\`.
        */
       isPlaced: boolean;
+  };
+
+  /**
+   * The argument of \`$.ui.place\`.
+   */
+  type UiPlaceArgs = {
+      /**
+       * Names the row among this plugin's: 1 to 64 of letters, digits, \`_\` and
+       * \`-\`, as a pane's id. A \`ui.render\` hook reads it as \`e.props.id\`.
+       */
+      id: string;
+  };
+
+  /**
+   * What \`$.ui.place\` resolves to and what a \`ui.place\` hook's \`{ value }\` holds.
+   *
+   * The row stands in the conversation either way but past the cap and with no
+   * conversation, where there is no \`requestId\`.
+   *
+   * @example
+   * const placed = await $.ui.place({ id: "build" })
+   */
+  type UiPlaceResult = {
+      /**
+       * True: a surface is attached to draw the row.
+       */
+      isPlaced: true;
+      /**
+       * The row's \`e.requestId\` at \`ui.render\`, and what \`$.ui.scroll\` takes.
+       */
+      requestId: string;
+  } | {
+      /**
+       * False: nothing draws the row now, for the \`reason\` given.
+       */
+      isPlaced: false;
+      /**
+       * The row's id when it stands for a surface yet to attach.
+       */
+      requestId?: string;
+      /**
+       * Why nothing draws it, one line to show or log.
+       */
+      reason: string;
   };
 
   /**

@@ -1,14 +1,13 @@
 <!--
-name: 'Slash Command: permissions granted retry'
-description: Meta message listing granted permissions; the model may retry those commands.
-ccVersion: 2.1.308
+name: 'Slash command: /permissions granted retry'
+description: >-
+  Meta message telling the model permission was granted only for the exact
+  commands or calls listed and it may retry them
+ccVersion: 2.1.314
 variables:
   - SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_0
   - SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_1
   - SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_2
-  - SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_6
   - SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_3
-  - SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_4
-  - SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_5
 -->
-Permission granted for: ${SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_0.map((SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_1)=>{if(SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_1.command===void 0)return SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_2[SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_6.indexOf(SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_1)]?.SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_3;let SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_4=SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_5(SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_1.command);return SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_4.cutChars>0?SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_1.command:SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_4.text}).join(", ")}. You may now retry ${SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_0.length===1?"this command":"these commands"} if you would like.
+Permission granted for ${SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_0} only, ${SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_1?"as one whole string":"each as one whole string"}: ${SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_2.join(", ")}. This does not approve any other ${SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_3}, any part of ${SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_1?"this one":"these"}, or running ${SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_1?"it":"them"} with added options such as turning off the sandbox, extra network access, or running in the background. You may now retry ${SLASH_COMMAND_PERMISSIONS_GRANTED_RETRY_VAR_0} if you would like.

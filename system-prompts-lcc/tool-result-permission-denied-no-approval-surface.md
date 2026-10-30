@@ -1,8 +1,10 @@
 <!--
-name: 'Tool Result: Permission Denied No Approval Surface'
+name: 'Tool Result: Permission denied no approval surface'
 description: >-
-  checkPermissions deny message when this session has no approval surface, so
-  the action is denied automatically and must not be retried.
-ccVersion: 2.1.259
+  Explains automatic denial when no approval surface exists and forbids retrying
+  approval-requiring actions
+ccVersion: 2.1.314
+variables:
+  - TOOL_RESULT_PERMISSION_DENIED_NO_APPROVAL_SURFACE_VAR_0
 -->
-Permission for this tool use was denied. It requires approval, and this session has no approval surface — nobody can answer a permission prompt here — so it was denied automatically. The action was NOT performed; do not claim it succeeded, and do not retry it: this action, and anything else that requires approval, will be denied the same way for the rest of this session. 
+${TOOL_RESULT_PERMISSION_DENIED_NO_APPROVAL_SURFACE_VAR_0} — nobody can answer a permission prompt here — so it was denied automatically. The action was NOT performed; do not claim it succeeded, and do not retry it: this action, and anything else that requires approval, will be denied the same way for the rest of this session. 

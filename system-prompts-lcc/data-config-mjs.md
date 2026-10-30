@@ -4,7 +4,7 @@ description: >-
   claude-test shared library (skills/run/scripts/lib/config.mjs) whose config
   warnings, consent and sign-in notes surface in ct.mjs status JSON and the
   browser server's tool results that the model reads.
-ccVersion: 2.1.310
+ccVersion: 2.1.314
 -->
 
 
@@ -1021,7 +1021,7 @@ export function draftTextFault(text) {
 
 
 
-export function specNameOk(stem) { return typeof stem === 'string' && /^[a-z0-9][a-z0-9-]{0,79}$/.test(stem) && !['readme', 'claude', 'agents'].includes(stem) && !WIN_DEVICE.test(stem + '.md'); }
+export function specNameOk(stem) { return typeof stem === 'string' && /^[a-z0-9][a-z0-9-]{0,79}$/.test(stem) && !['readme', 'claude', 'agents', 'architecture'].includes(stem) && !WIN_DEVICE.test(stem + '.md'); }
 
 export function hasControl(s) { return RE_HAS_CONTROL.test(String(s)); }
 

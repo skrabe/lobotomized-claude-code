@@ -3,7 +3,7 @@ name: 'Data: Anthropic CLI'
 description: >-
   claude-api skill reference file (Anthropic CLI) inlined as <doc> or extracted
   for the model to Read when the skill's Reading Guide points to it.
-ccVersion: 2.1.311
+ccVersion: 2.1.314
 -->
 # Anthropic CLI (\`ant\`)
 
@@ -25,7 +25,6 @@ The \`ant\` CLI exposes every Claude API resource as a shell subcommand. Compare
 \`\`\`sh
 # macOS
 brew install anthropics/tap/ant
-xattr -d com.apple.quarantine "$(brew --prefix)/bin/ant"
 
 # Linux / WSL - pick the release from github.com/anthropics/anthropic-cli/releases
 curl -fsSL "https://github.com/anthropics/anthropic-cli/releases/download/v\${VERSION}/ant_\${VERSION}_$(uname -s | tr A-Z a-z)_$(uname -m | sed -e s/x86_64/amd64/ -e s/aarch64/arm64/).tar.gz" \\

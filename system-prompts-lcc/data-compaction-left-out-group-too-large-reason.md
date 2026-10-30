@@ -1,0 +1,13 @@
+<!--
+name: 'Data: Compaction left-out group too-large reason'
+description: >-
+  Reason clause inside the left-out marker when a result and those leaving with
+  it were too large together
+ccVersion: 2.1.314
+variables:
+  - DATA_COMPACTION_LEFT_OUT_GROUP_TOO_LARGE_REASON_VAR_0
+  - DATA_COMPACTION_LEFT_OUT_GROUP_TOO_LARGE_REASON_VAR_1
+  - DATA_COMPACTION_LEFT_OUT_GROUP_TOO_LARGE_REASON_VAR_2
+  - DATA_COMPACTION_LEFT_OUT_GROUP_TOO_LARGE_REASON_VAR_3
+-->
+it and the results that leave with it were too large for this summary request (${DATA_COMPACTION_LEFT_OUT_GROUP_TOO_LARGE_REASON_VAR_0(DATA_COMPACTION_LEFT_OUT_GROUP_TOO_LARGE_REASON_VAR_1.members.reduce((DATA_COMPACTION_LEFT_OUT_GROUP_TOO_LARGE_REASON_VAR_2,DATA_COMPACTION_LEFT_OUT_GROUP_TOO_LARGE_REASON_VAR_3)=>DATA_COMPACTION_LEFT_OUT_GROUP_TOO_LARGE_REASON_VAR_2+DATA_COMPACTION_LEFT_OUT_GROUP_TOO_LARGE_REASON_VAR_3.textLength,0))} in all)

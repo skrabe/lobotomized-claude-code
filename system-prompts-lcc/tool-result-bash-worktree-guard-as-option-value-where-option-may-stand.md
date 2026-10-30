@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: worktree guard as option value where option may stand'
+description: >-
+  Clause naming the option whose value a computed word is, where an option may
+  stand
+ccVersion: 2.1.314
+variables:
+  - TOOL_RESULT_BASH_WORKTREE_GUARD_AS_OPTION_VALUE_WHERE_OPTION_MAY_STAND_VAR_0
+  - TOOL_RESULT_BASH_WORKTREE_GUARD_AS_OPTION_VALUE_WHERE_OPTION_MAY_STAND_VAR_1
+  - TOOL_RESULT_BASH_WORKTREE_GUARD_AS_OPTION_VALUE_WHERE_OPTION_MAY_STAND_VAR_2
+-->
+as the ${TOOL_RESULT_BASH_WORKTREE_GUARD_AS_OPTION_VALUE_WHERE_OPTION_MAY_STAND_VAR_0} value${TOOL_RESULT_BASH_WORKTREE_GUARD_AS_OPTION_VALUE_WHERE_OPTION_MAY_STAND_VAR_1?` of the cluster ${TOOL_RESULT_BASH_WORKTREE_GUARD_AS_OPTION_VALUE_WHERE_OPTION_MAY_STAND_VAR_2}`:""}, where an option may stand

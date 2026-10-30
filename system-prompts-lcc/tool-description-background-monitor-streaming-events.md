@@ -4,10 +4,14 @@ description: >-
   Describes the background monitor tool that streams stdout events from
   long-running scripts as chat notifications, with guidelines on script quality,
   output volume, and selective filtering
-ccVersion: 2.1.311
+ccVersion: 2.1.314
 variables:
   - IS_DISKLESS_SESSION_FN
   - DISKLESS_MONITOR_LIFETIME_NOTE
+  - DOES_SESSION_STOP_AFTER_REPLY_FN
+  - STOPPING_SESSION_MONITOR_LIFETIME_NOTE
+  - CAN_BACKGROUND_AGENT_KEEP_SESSION_ALIVE_FN
+  - BASH_TOOL_NAME
   - SINGLE_NOTIFICATION_GUIDANCE_BLOCK
   - MONITOR_TOOL_NAME
   - IS_MONITOR_EXPIRY_ENABLED_FN
@@ -15,11 +19,11 @@ variables:
   - MONITOR_TIMEOUT_GUIDANCE_FN
 -->
 
-Start a background monitor that streams stdout events from a long-running script. Each stdout line is an event that arrives as a chat notification while you keep working; events arrive on their own schedule and are not user replies, even if one lands while you await an answer.${IS_DISKLESS_SESSION_FN()?` ${DISKLESS_MONITOR_LIFETIME_NOTE}`:""} Exit ends the watch.
+Start a background monitor that streams stdout events from a long-running script. Each stdout line is an event that arrives as a chat notification while you keep working; events arrive on their own schedule and are not user replies, even if one lands while you await an answer.${IS_DISKLESS_SESSION_FN()?` ${DISKLESS_MONITOR_LIFETIME_NOTE}`:DOES_SESSION_STOP_AFTER_REPLY_FN()?` ${STOPPING_SESSION_MONITOR_LIFETIME_NOTE} ${CAN_BACKGROUND_AGENT_KEEP_SESSION_ALIVE_FN()?`To wait past your reply, have a background agent wait with foreground ${BASH_TOOL_NAME} commands, or tell the user what to check and when.`:"For anything longer, tell the user what to check and when."}`:""} Exit ends the watch.
 
 Pick by how many notifications you need:
 ${SINGLE_NOTIFICATION_GUIDANCE_BLOCK}
-${IS_DISKLESS_SESSION_FN()?`- **One per occurrence, while you work on this turn** (each ERROR line in the dev server's log while you try the change) → ${MONITOR_TOOL_NAME} with an unbounded command (\`tail -f\`, \`inotifywait -m\`, \`while true\`).
+${IS_DISKLESS_SESSION_FN()||DOES_SESSION_STOP_AFTER_REPLY_FN()?`- **One per occurrence, while you work on this turn** (each ERROR line in the dev server's log while you try the change) → ${MONITOR_TOOL_NAME} with an unbounded command (\`tail -f\`, \`inotifywait -m\`, \`while true\`).
 - **One per occurrence, until a known end, while you work on this turn** (each test file's result as the suite runs, stop when it ends) → ${MONITOR_TOOL_NAME} with a command that emits lines then exits.`:`- **One per occurrence, ${IS_MONITOR_EXPIRY_ENABLED_FN()?"until the monitor expires (re-arm to continue)":"indefinitely"}** (every ERROR line) → Monitor with an unbounded command (\`tail -f\`, \`inotifywait -m\`, \`while true\`).
 - **One per occurrence, until a known end** (each CI step, stop when the run completes) → Monitor with a command that emits lines then exits.`}
 

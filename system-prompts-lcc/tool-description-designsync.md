@@ -4,7 +4,7 @@ description: >-
   Describes the DesignSync tool — reads/updates the user's claude.ai/design
   design-system projects through their claude.ai login, dispatching on a method
   field, paired with the /design-sync skill
-ccVersion: 2.1.302
+ccVersion: 2.1.314
 variables:
   - SHOULD_INCLUDE_ARTIFACT_DESIGN_REDIRECTION
   - ARTIFACT_DESIGN_REDIRECTION_NOTE
@@ -26,7 +26,7 @@ Project setup (permission prompt):
 - \`create_project\` — create a new design-system project owned by the user. Use when \`list_projects\` returns nothing, or the user picks "create new" rather than an existing project. Pass \`name\`. Returns the new \`projectId\` you can finalize_plan against.
 
 Plan boundary (permission prompt):
-- \`finalize_plan\` — lock the exact set of paths you will write and delete, and the local directory uploads may be read from (\`localDir\`, defaults to cwd). Returns a \`planId\`. Call this after the user has reviewed and approved the plan. The user sees the structured path list and the source directory independent of your narration.
+- \`finalize_plan\` — lock the exact set of paths you will write and delete, and the local directory uploads may be read from (\`localDir\`, defaults to cwd). Returns a \`planId\`. Call this after the user has reviewed and approved the plan. The user sees the source directory, the project and, where they fit, the paths, independent of your narration. When some don't fit, the prompt tells the user to answer No and ask you for them. If the user asks, list every path exactly as you passed it, and call finalize_plan again once the user agrees.
 
 Write methods (require a finalized plan):
 - \`write_files\` — write files to the project. Every path must be in the finalized plan's writes. Pass the \`planId\` from \`finalize_plan\`. Each file takes a \`localPath\` (default — the tool reads from disk, encodes, and uploads; contents never enter your context. Max 256 files per call — split larger bundles across multiple \`write_files\` calls under the same \`planId\`) or inline \`data\` (small dynamic content only). \`localPath\` must be inside the plan's \`localDir\`.

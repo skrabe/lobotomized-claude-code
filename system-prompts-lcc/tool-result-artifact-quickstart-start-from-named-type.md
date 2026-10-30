@@ -1,9 +1,10 @@
 <!--
-name: 'Tool Result: Artifact quickstart start from type'
+name: 'Tool result: artifact quickstart start from named type'
 description: >-
-  Generic quickstart line to start from a named Artifact type: publish with
-  type_url, a title, no files, then follow the instructions
-ccVersion: 2.1.304
+  Artifact quickstart clause telling the model to start from a named type:
+  publish with type_url, a title and no files, then follow the instructions in
+  that result.
+ccVersion: 2.1.314
 variables:
   - TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_0
   - TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_1
@@ -11,5 +12,6 @@ variables:
   - TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_3
   - TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_4
   - TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_5
+  - TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_6
 -->
- For ${TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_0}, start from the ${TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_1} type${TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_2}: publish with \`type_url\`: ${TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_3(TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_4)}, a \`title\`, no files${TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_5}, then follow the instructions that result carries.
+ For ${TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_0}, start from the ${TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_1} type${TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_2}${TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_3}: publish with \`type_url\`: ${TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_4(TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_5)}, a \`title\`, no files${TOOL_RESULT_ARTIFACT_QUICKSTART_START_FROM_NAMED_TYPE_VAR_6}, then follow the instructions that result carries.
