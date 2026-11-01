@@ -3,7 +3,7 @@ name: 'Skill: Prompt audit'
 description: >-
   claude-api skill reference file (Prompt audit) inlined as <doc> or extracted
   for the model to Read when the skill's Reading Guide points to it.
-ccVersion: 2.1.310
+ccVersion: 2.1.316
 -->
 # Prompt Audit - Finding and Removing Dated Prompting Patterns
 
@@ -181,7 +181,7 @@ The same audit keeps surfacing these next to prompt cruft; report them even thou
 
 - **API fossils**: parameters and headers that error or are deprecated on the target model - the per-model lists live in \`shared/model-migration.md\`; treat each migration checklist as a removal checklist.
 - **Thinking config and \`max_tokens\` sized for the wrong model**: \`thinking: {type: "disabled"}\` and \`budget_tokens\` 400 on {{OPUS_NAME}} (thinking is always on - remove the field and set \`effort\`, default \`medium\`), and a \`max_tokens\` sized for a thinking-off route cuts replies off, because thinking counts toward it even when its text isn't returned (64K is a reasonable start for long agentic coding turns). On {{SONNET_NAME}}, \`thinking: {type: "disabled"}\` 400s as well - adaptive thinking at \`low\` effort first, else \`{type: "between_tools"}\` at effort \`high\` or below.
-- **History-editing harness**: request-building code that rewrites the \`system\` prompt, the \`tools\` array, or earlier messages mid-session - including deleting a per-turn reminder, or adding a tool late (declare any tool the session may need, such as a send-the-user-a-message tool, from the first request) - invalidates preserved-thinking blocks on {{FABLE_NAME}}, {{OPUS_NAME}}, {{SONNET_NAME}}, and {{HAIKU_NAME}}. Report each edit site with its append-only replacement from \`shared/model-migration.md\` -> Migrating to {{FABLE_NAME}} from {{PREV_FABLE_NAME}}.
+- **History-editing harness**: request-building code that rewrites the \`system\` prompt, the \`tools\` array, or earlier messages mid-session - including deleting a per-turn reminder, or adding a tool late (declare any tool the session may need, such as a send-the-user-a-message tool, from the first request) - invalidates preserved-thinking blocks on {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{OPUS_NAME}}, {{SONNET_NAME}}, and {{HAIKU_NAME}}. Report each edit site with its append-only replacement from \`shared/model-migration.md\` -> Migrating to {{FABLE_NAME}} from {{PREV_FABLE_NAME}}.
 - **User text in the wrong place** (targeting {{SONNET_NAME}} or {{HAIKU_NAME}}): a harness that delivers a user's mid-task message inside a \`tool_result\` block, or as a mid-conversation system message right after a tool result, or injects a task-budget countdown after every tool result on an interactive session, makes the model read the user's words as a possible prompt injection. Report each site with its fix from \`shared/model-migration.md\` -> Migrating to {{SONNET_NAME}} -> Behavioral shifts (user input as a text block after the last \`tool_result\`, harness notices in a separate system message, no task budget on interactive sessions).
 - **Cache-hostile ordering**: timestamps, UUIDs, per-user content interpolated above stable content. Read \`shared/prompt-caching.md\` -> Silent invalidators, and run its greps during this audit.
 - **Budget countdowns rendered into context**: surfacing remaining-token counts to the model can cause premature wrap-up behavior; avoid showing them where possible.

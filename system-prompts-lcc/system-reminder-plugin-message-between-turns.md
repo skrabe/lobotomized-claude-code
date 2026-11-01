@@ -1,14 +1,8 @@
 <!--
-name: 'System Reminder: Plugin Message Between Turns'
-description: >-
-  Opening of the wrapper that tells the model a plugin submitted a prompt
-  between turns.
-ccVersion: 2.1.246
-variables:
-  - SYSTEM_REMINDER_PLUGIN_MESSAGE_BETWEEN_TURNS_VAR_0
-  - SYSTEM_REMINDER_PLUGIN_MESSAGE_BETWEEN_TURNS_VAR_1
+name: 'System Reminder: Plugin message between turns'
+description: Frames a prompt a plugin submits between turns as arriving in the user's place
+ccVersion: 2.1.316
 -->
-The ${SYSTEM_REMINDER_PLUGIN_MESSAGE_BETWEEN_TURNS_VAR_0} plugin sent a message:
-${SYSTEM_REMINDER_PLUGIN_MESSAGE_BETWEEN_TURNS_VAR_1}
+
 
 This is how Claude Code surfaces a prompt a plugin submits between 

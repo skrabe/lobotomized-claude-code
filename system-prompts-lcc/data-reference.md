@@ -3,7 +3,7 @@ name: 'Data: reference'
 description: >-
   Long-form plugin/mod API reference (reference.md) extracted with the
   plugin-authoring skill and pointed to by its SKILL.md.
-ccVersion: 2.1.311
+ccVersion: 2.1.316
 -->
 # Function hooks: the long form
 
@@ -191,6 +191,20 @@ In a hooked session a row is stored once its chain has run, a conversation's app
 on("session.append", ($, e, next) => next({ ...e, message: redact(e.message) }))
   .catch(($, e, next) => next({ ...e, message: placeholderFor(e.message) }))
 \`\`\`
+
+## What a thread has sent is fixed
+
+A thread is one conversation, the main one or a subagent's, as the model is sent it. A mod does not change what the model was already sent in a thread: the system prompt, the tools and their descriptions, the earlier messages. On the models that check it, a thinking block is bound to the request prefix before it, so a changed prefix loses the thinking after the change; on every model it loses the prompt cache from that point on. The system prompt and the tools come ahead of every message, so a change there loses all the thinking.
+
+A mod does this by accident with an answer that drifts. \`$.ui.invalidate("tool.describe")\` sends a changed description next turn over the text every thread of the process sent, and \`$.ui.invalidate("prompt.section")\` a changed section over the main thread's (a subagent keeps the prompt it started with). The engine drops the same answers on its own: any mod loaded, reloaded or removed, the hooks worker lost, and for sections a move to a worktree, among others. So a section or a description answers the same way for a whole thread, and neither call is a way to keep one up to date. A resumed thread keeps its recorded sections, and only an answer that changes there after its first turn goes out; asked again, a \`tool.describe\` hook's answer goes over the recorded description where it differs. A \`prompt.compose\` answer that changes is not sent while the thread's recorded prompt stands.
+
+What a mod does instead:
+
+- New context goes in a new row at the end: \`$.session.append\` with \`type: "user"\`, since the model never reads a notice. Everything before the row stays as sent.
+- A lasting change to a section or a description waits for a new thread, or for a compaction, where the prefix starts over. The engine does not time that for the mod: an automatic compaction sends the old text first, and no compaction asks \`tool.describe\` again.
+- A hook that rewrites a row before it is appended is fine: \`session.append\` runs before the row is stored, so that row has not been sent. An answer given before a thread's first request is fine too, and so is one for a tool behind ToolSearch that the thread has not loaded.
+
+The engine keeps to the same rule in ordinary turns: by default a thread's later requests send its recorded system prompt and tool descriptions byte for byte. Where it does change a sent prefix (a compaction, a rewind, a model switch, clearing old tool results, getting a refused request through, among others) it pays the same cost.
 
 ## Work that outlives a dispatch
 

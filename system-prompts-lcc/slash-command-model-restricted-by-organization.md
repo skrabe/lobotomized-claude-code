@@ -1,12 +1,12 @@
 <!--
-name: 'Slash Command: /model restricted by organization'
+name: 'Slash command: model restricted by organization'
 description: >-
-  Result text when the requested model is restricted by the organization's
-  settings, suggesting the model picker command or switching to a different
-  model.
-ccVersion: 2.1.281
+  /model message that the requested model is restricted by organization
+  settings, with a hint to choose another.
+ccVersion: 2.1.316
 variables:
   - SLASH_COMMAND_MODEL_RESTRICTED_BY_ORGANIZATION_VAR_0
   - SLASH_COMMAND_MODEL_RESTRICTED_BY_ORGANIZATION_VAR_1
+  - SLASH_COMMAND_MODEL_RESTRICTED_BY_ORGANIZATION_VAR_2
 -->
-Model '${SLASH_COMMAND_MODEL_RESTRICTED_BY_ORGANIZATION_VAR_0}' is restricted by your organization's settings. ${SLASH_COMMAND_MODEL_RESTRICTED_BY_ORGANIZATION_VAR_1?`Run ${SLASH_COMMAND_MODEL_RESTRICTED_BY_ORGANIZATION_VAR_1} to choose a different model.`:"Switch to a different model."}
+Model '${SLASH_COMMAND_MODEL_RESTRICTED_BY_ORGANIZATION_VAR_0(SLASH_COMMAND_MODEL_RESTRICTED_BY_ORGANIZATION_VAR_1)}' is restricted by your organization's settings. ${SLASH_COMMAND_MODEL_RESTRICTED_BY_ORGANIZATION_VAR_2?`Run ${SLASH_COMMAND_MODEL_RESTRICTED_BY_ORGANIZATION_VAR_2} to choose a different model.`:"Switch to a different model."}

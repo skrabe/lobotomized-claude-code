@@ -1,8 +1,12 @@
 <!--
 name: 'System Prompt: Exited auto mode'
 description: >-
-  Meta message injected when the user exits auto mode, telling the model to ask clarifying questions.
+  Meta message injected when the user exits auto mode, telling the model to ask
+  clarifying questions.
 ccVersion: 2.1.308
+variables:
+  - SYSTEM_PROMPT_EXITED_AUTO_MODE_VAR_0
+  - SYSTEM_PROMPT_EXITED_AUTO_MODE_VAR_1
 -->
 
 ## Exited Auto Mode

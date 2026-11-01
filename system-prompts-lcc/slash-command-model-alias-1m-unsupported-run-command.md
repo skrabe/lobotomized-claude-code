@@ -1,14 +1,15 @@
 <!--
-name: 'Slash Command: /model 1M alias unsupported (run command wording)'
+name: 'Slash command: model alias 1M unsupported (run command)'
 description: >-
-  /model rejection when the requested [1m] alias's model has no 1M context
-  window. It tells the user to run /model with the standard alias instead.
-ccVersion: 2.1.281
+  /model message that the carrier model lacks a 1M window, telling the user to
+  run the command for its standard window.
+ccVersion: 2.1.316
 variables:
   - SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_0
   - SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_1
   - SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_2
   - SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_3
   - SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_4
+  - SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_5
 -->
-${SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_0(SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_1.carrier)} doesn't have a 1M context window, so '${SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_2}' isn't available. Run ${SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_3} ${SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_4} to use it with its standard context window.
+${SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_0(SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_1(SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_2.carrier))} doesn't have a 1M context window, so '${SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_3}' isn't available. Run ${SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_4} ${SLASH_COMMAND_MODEL_ALIAS_1M_UNSUPPORTED_RUN_COMMAND_VAR_5} to use it with its standard context window.
