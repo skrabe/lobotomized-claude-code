@@ -3,8 +3,10 @@ name: 'Tool Result: Design write paths outside plan'
 description: >-
   Claude Design write_files error listing paths not declared in the finalized
   plan.
-ccVersion: 2.1.291
+ccVersion: 2.1.317
 variables:
   - TOOL_RESULT_DESIGN_WRITE_PATHS_OUTSIDE_PLAN_VAR_0
+  - TOOL_RESULT_DESIGN_WRITE_PATHS_OUTSIDE_PLAN_VAR_1
+  - TOOL_RESULT_DESIGN_WRITE_PATHS_OUTSIDE_PLAN_VAR_2
 -->
-Cannot write paths outside the finalized plan: ${TOOL_RESULT_DESIGN_WRITE_PATHS_OUTSIDE_PLAN_VAR_0.join(", ")}. Re-run finalize_plan with the full set.
+Cannot write paths outside the finalized plan: ${TOOL_RESULT_DESIGN_WRITE_PATHS_OUTSIDE_PLAN_VAR_0.map(TOOL_RESULT_DESIGN_WRITE_PATHS_OUTSIDE_PLAN_VAR_1).join(", ")}. ${TOOL_RESULT_DESIGN_WRITE_PATHS_OUTSIDE_PLAN_VAR_2(TOOL_RESULT_DESIGN_WRITE_PATHS_OUTSIDE_PLAN_VAR_0)}

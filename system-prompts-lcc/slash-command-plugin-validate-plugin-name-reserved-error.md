@@ -2,11 +2,14 @@
 name: '/plugin validate: plugin name reserved'
 description: >-
   Validation error that a plugin name is reserved because it passes as one of
-  Anthropic's own, followed by the third-party naming rule and advice to name it
-  for what it does.
-ccVersion: 2.1.288
+  Anthropic's own, with the third-party naming rule (reserved prefixes,
+  Anthropic product names, "official" beside claude/anthropic) inlined.
+ccVersion: 2.1.317
 variables:
   - SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_0
   - SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_1
+  - SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_2
+  - SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_3
+  - SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_4
 -->
-Plugin name ${SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_0} is reserved: it passes as one of Anthropic's own. ${SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_1} 
+Plugin name ${SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_0} is reserved: it passes as one of Anthropic's own. A third party's plugin name cannot start with ${SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_1(SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_2.map((SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_3)=>`${SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_3}-`))}, be ${SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_1(SLASH_COMMAND_PLUGIN_VALIDATE_PLUGIN_NAME_RESERVED_ERROR_VAR_4)}, or put "official" beside "claude" or "anthropic". 

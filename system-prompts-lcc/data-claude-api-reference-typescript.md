@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Claude API reference — TypeScript) inlined as
   <doc> or extracted for the model to Read when the skill's Reading Guide points
   to it.
-ccVersion: 2.1.296
+ccVersion: 2.1.317
 -->
 # Claude API - TypeScript
 
@@ -261,7 +261,7 @@ All classes extend \`Anthropic.APIError\` with a typed \`status\` field. Check f
 
 ## Multi-Turn Conversations
 
-The API is stateless - send the full conversation history each time. Use \`Anthropic.MessageParam[]\` to type the messages array:
+The API is stateless - send the full conversation history each time (unless you use a message thread: \`shared/message-threads.md\`). Use \`Anthropic.MessageParam[]\` to type the messages array:
 
 \`\`\`typescript
 const messages: Anthropic.MessageParam[] = [

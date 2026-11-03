@@ -5,7 +5,7 @@ description: >-
   the user's machine is a separate unsynced copy that may sit at another commit,
   hold uncommitted work, or not even be the same repository, and to state which
   copy any report refers to
-ccVersion: 2.1.277
+ccVersion: 2.1.317
 variables:
   - REMOTE_MACHINE_NAME
 -->

@@ -3,7 +3,7 @@ name: 'Agent Prompt: /schedule slash command'
 description: >-
   Guides the user through scheduling, updating, listing, or running remote
   Claude Code agents on cron triggers via the Anthropic cloud API
-ccVersion: 2.1.282
+ccVersion: 2.1.317
 variables:
   - USER_REQUEST
   - ASK_USER_QUESTION_TOOL_NAME
@@ -86,6 +86,8 @@ For a recurring schedule:
 
 For a one-time run, replace \`"cron_expression": "CRON_EXPR"\` with \`"run_once_at": "YYYY-MM-DDTHH:MM:SSZ"\` (RFC3339 UTC, must be in the future). Everything else is identical.
 
+If the user asked for no connectors, add \`"clear_mcp_connections": true\` at the top level of the body, beside \`name\` and not inside \`job_config\`.
+
 Generate a fresh lowercase UUID for \`events[].data.uuid\` yourself.
 
 Every \`events[].data.message\` is the API message shape \`{"role": "user", "content": "..."}\` — the \`role\` field is required. If you instead write the body in the \`session_request\` form that list and get return, the same rule applies to \`session_request.events[].payload.message\`.
@@ -98,7 +100,7 @@ ${MCP_CONNECTORS_LIST}
 
 When attaching connectors, use the \`connector_uuid\`, \`name\`, and URL shown above. The \`name\` in \`mcp_connections\` must contain only \`[a-zA-Z0-9_-]\` — no dots or spaces.
 
-Infer which services the agent needs from the user's description (e.g. "check Datadog and Slack me errors" needs both Datadog and Slack). Cross-reference the list above; if a needed connector is missing, warn the user and link them to https://claude.ai/customize/connectors to connect it first.
+Infer which services the agent needs from the user's description (e.g. "check Datadog and Slack me errors" needs both Datadog and Slack). Cross-reference the list above; if a needed connector is missing, warn the user and link them to https://claude.ai/customize/connectors to connect it first. If the routine seems to need no connectors, tell the user it will normally still get any connectors connected to their account unless they ask for none, and send \`clear_mcp_connections: true\` only if they do.
 
 ## Environments
 
@@ -126,9 +128,12 @@ Note: a new environment \`${NEW_ENVIRONMENT_OBJECT.name}\` (id: \`${NEW_ENVIRONM
   \`\`\`json
   [{"connector_uuid": "uuid", "name": "server-name", "url": "https://..."}]
   \`\`\`
+- \`clear_mcp_connections\` (boolean) — Create the routine with an empty stored connector list. Send it only when the user asked for none. The server rejects it alongside a non-empty \`mcp_connections\`.
+
+If both are left out, or \`mcp_connections\` is empty, the server normally attaches the user's connected connectors. Only \`clear_mcp_connections: true\` reliably leaves the routine's stored list empty. Connectors an organization admin set up can still reach its runs, so do not promise the user that a run has no connectors.
 
 ### Update Routine — Optional Fields
-All fields optional (partial update): \`name\`, \`cron_expression\`, \`run_once_at\`, \`enabled\`, \`job_config\`, \`mcp_connections\` (replaces connections), \`clear_mcp_connections\` (boolean, removes all connections).
+All fields optional (partial update): \`name\`, \`cron_expression\`, \`run_once_at\`, \`enabled\`, \`job_config\`, \`mcp_connections\` (replaces connections; an empty list changes nothing), \`clear_mcp_connections\` (boolean, empties the routine's stored MCP connection list).
 
 ### Cron Expression Examples
 

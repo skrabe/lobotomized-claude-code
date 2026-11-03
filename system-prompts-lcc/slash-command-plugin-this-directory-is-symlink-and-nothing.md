@@ -1,8 +1,8 @@
 <!--
 name: Plugin symlinked component-directory warning
 description: >-
-  Plugin symlinked component-directory warning. Emitted by the concrete
-  model-context route documented below.
-ccVersion: 2.1.296
+  Lead fragment of the /plugin validate warning (project scope) that a symlinked
+  component directory was not read.
+ccVersion: 2.1.317
 -->
-This directory is a symlink and nothing in it was read — component 
+This directory is a symlink and nothing in it was read — 

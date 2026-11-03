@@ -3,7 +3,7 @@ name: 'Skill: Building LLM-powered applications with Claude'
 description: >-
   Main prompt body of the claude-api skill (building LLM-powered applications
   with Claude), injected at skill invocation.
-ccVersion: 2.1.316
+ccVersion: 2.1.317
 -->
 # Building LLM-Powered Applications with Claude
 
@@ -276,6 +276,12 @@ See \`{lang}/claude-api/README.md\` (Compaction section) for code examples. Full
 
 ---
 
+## Message Threads (Quick Reference)
+
+**Beta (\`message-threads-2026-08-12\`); not Managed Agents session threads.** With a \`thread\` field on the request, the API keeps the conversation for a short time, so each later request sends only the new messages. In long multi-turn loops (agent tool loops, long chats) that means smaller requests and lower time to first token, at the same price. Threads are best-effort: keep your own copy of the conversation and replay it when the API can't continue the thread; the SDK thread helper (\`client.beta.messages.thread(...)\`) does this for you. **Threads can't be combined with compaction**, most context editing, Message Batches or token counting; to compact, start a new thread from a summary you write. Message threads are not ZDR eligible. Using this feature does not affect your use of other ZDR eligible features. Availability: \`shared/platform-availability.md\`. Read \`shared/message-threads.md\` before writing thread code.
+
+---
+
 ## Prompt Caching (Quick Reference)
 
 **Prefix match.** Any byte change anywhere in the prefix invalidates everything after it. Render order is \`tools\` -> \`system\` -> \`messages\`. Keep stable content first (frozen system prompt, deterministic tool list), put volatile content (timestamps, per-request IDs, varying questions) after the last \`cache_control\` breakpoint.
@@ -516,6 +522,8 @@ After you build a large job, read \`tool-use.md\`'s top.
 
 **Long-running conversations (may exceed context window):**
 -> Read \`{lang}/claude-api/README.md\` - see Compaction section
+**Long multi-turn loops: smaller requests, lower time to first token (\`thread\` field):**
+-> Read \`shared/message-threads.md\`
 **Migrating to a newer model (Haiku 5.5 / Sonnet 5.5 / Opus 5.5 / Fable 5.1 / Fable 5 / Opus 5 / Opus 4.8 / Opus 4.7 / Opus 4.6 / Sonnet 5 / Sonnet 4.6), replacing a retired model, or translating \`budget_tokens\` / prefill patterns to the current API:**
 -> Read \`shared/model-migration.md\`
 **Upgrading the Anthropic SDK package itself across a major version (\`anthropic\` 0.x -> 1.x: \`httpx2\`, awaited async \`.with_raw_response\`, removed deprecated parameters / aliases / Text Completions, Python >= 3.10) - or writing new code against a project already on 1.x:**

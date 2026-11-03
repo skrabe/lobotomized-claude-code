@@ -3,7 +3,7 @@ name: 'Data: platform-availability'
 description: >-
   claude-api skill reference file (platform-availability) inlined as <doc> or
   extracted for the model to Read when the skill's Reading Guide points to it.
-ccVersion: 2.1.316
+ccVersion: 2.1.317
 -->
 # Platform Availability
 
@@ -28,6 +28,7 @@ Columns: **1P** = first-party Claude API, **P-AWS** = Claude Platform on AWS (An
 | Fine-grained tool streaming | Yes | Yes | Yes | Yes | Yes | Bedrock: \`eager_input_streaming\` on the newer serving stack only (Opus 4.7/4.8/5, Fable 5, Sonnet 4.6/5); older deployments (Opus 4.5/4.6, Sonnet 4.0/4.5, Haiku 4.5) 400 on the field |
 | Compaction | beta | beta | beta | beta | beta | |
 | Context editing | beta | beta | beta | beta | beta | |
+| Message threads | beta | beta | No | No | beta | Beta \`message-threads-2026-08-12\`; server-side \`fallbacks\` with a thread are documented for the Claude API only |
 | Context windows (1M) | Yes | Yes | Yes | Yes | Yes | |
 | \`inference_geo\` (data residency) | Yes | Yes | No | No | No | |
 | **Server-side tools** | | | | | | |
@@ -171,6 +172,8 @@ azureAi->Foundry; *Beta suffix->beta; prop absent->No). Per-row citations:
   Tool search              ov:87; agents-and-tools/tool-use/tool-search-tool.mdx:24-30
   Compaction               ov:95
   Context editing          ov:96
+  Message threads          the Message Threads docs page's feature data, read 2026-10-29 before the live page existed;
+                           that data and the guide's "Limitations" both list Claude Models on Google Cloud (Anthropic managed), so that platform's 1P reading holds
   Automatic caching        ov:97
   Prompt caching 5m/1h     ov:98,99
   Token counting           ov:100

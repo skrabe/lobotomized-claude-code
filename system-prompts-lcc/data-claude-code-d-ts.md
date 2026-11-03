@@ -4,7 +4,7 @@ description: >-
   Claude Code plugin API declarations written as the plugin-authoring skill file
   types/claude-code.d.ts, which SKILL.md points the model to as the API
   reference (also used for type-checking).
-ccVersion: 2.1.316
+ccVersion: 2.1.317
 -->
 // Claude Code function hooks: the plugin API's TypeScript declarations.
 //
@@ -2584,6 +2584,23 @@ declare module 'claude-code' {
            * await $.ui.place({ id: "build" })
            */
           place: (args: UiPlaceArgs) => Promise<UiPlaceResult>;
+          /**
+           * Sets the session's backdrop, drawn behind the conversation by what
+           * \`ui.render\` answers for \`Backdrop\`; \`undefined\` clears this plugin's own.
+           *
+           * One backdrop stands, the latest set. The desktop app draws it full
+           * window, and frosts its own panels over it unless \`glass\` is \`false\`; the
+           * other surfaces draw none. Display only: \`--resume\` brings none back, and
+           * a plugin that unloads takes its own with it, so set it at \`session.start\`.
+           *
+           * @param backdrop \`id\`, and \`glass\` (\`blur\`, \`tint\`, \`opacity\`) or \`false\`
+           * @returns \`{ isDrawn: true, requestId }\`, or \`isDrawn: false\` and why
+           * @example
+           * await $.ui.backdrop({ id: "lagoon", glass: { blur: 14, opacity: 0.55 } })
+           * @example
+           * await $.ui.backdrop(undefined) // a preview ends
+           */
+          backdrop: (backdrop: UiBackdropArgs | undefined) => Promise<UiBackdropResult>;
           /**
            * Scrolls something into view as the DOM's \`scrollIntoView\` would: a
            * render instance by \`requestId\`, an element by \`key\`, a site's edge.
@@ -7252,6 +7269,13 @@ declare module 'claude-code' {
        */
       'ui.place': UiPlaceArgs;
       /**
+       * The argument of \`$.ui.backdrop(backdrop)\`; \`backdrop\` undefined clears
+       * the plugin's own.
+       */
+      'ui.backdrop': {
+          backdrop: UiBackdropArgs | undefined;
+      };
+      /**
        * The argument of \`$.ui.selection()\`.
        */
       'ui.selection': NoArgs;
@@ -7509,6 +7533,10 @@ declare module 'claude-code' {
        * The row's id, or why nothing draws it.
        */
       'ui.place': UiPlaceResult;
+      /**
+       * The backdrop's request id, or why nothing draws it.
+       */
+      'ui.backdrop': UiBackdropResult;
       /**
        * What the person last selected; \`undefined\` when there is nothing.
        */
@@ -9948,10 +9976,11 @@ declare module 'claude-code' {
    *
    * The permission dialog is drawn by the engine alone, since its answer
    * authorises an action; a plugin adds context with \`$.ui.notice\`. \`Pane\` is
-   * a component whose instances a plugin opens (\`$.ui.open\`), and
-   * \`Placed\` the other (\`$.ui.place\`).
+   * a component whose instances a plugin opens (\`$.ui.open\`), \`Placed\`
+   * another (\`$.ui.place\`), and \`Backdrop\` the one a plugin sets
+   * (\`$.ui.backdrop\`), drawn behind the conversation by the desktop app alone.
    */
-  export type RenderComponent = 'AskUserQuestion' | 'UserMessage' | 'AssistantMessage' | 'ToolUse' | 'ToolResult' | 'ToolGroup' | 'ToolProgress' | 'CommandOutput' | 'Spinner' | 'TurnDuration' | 'InfoNotice' | 'SessionMode' | 'PromptHint' | 'AbovePrompt' | 'Pane' | 'Placed';
+  export type RenderComponent = 'AskUserQuestion' | 'UserMessage' | 'AssistantMessage' | 'ToolUse' | 'ToolResult' | 'ToolGroup' | 'ToolProgress' | 'CommandOutput' | 'Spinner' | 'TurnDuration' | 'InfoNotice' | 'SessionMode' | 'PromptHint' | 'AbovePrompt' | 'Pane' | 'Placed' | 'Backdrop';
 
   /**
    * What a render hook returns, and what \`next(e)\` resolves to: a plain-data
@@ -11066,6 +11095,34 @@ declare module 'claude-code' {
            * received; one that changes or drops it is refused.
            */
           onScreen?: OnScreen | null;
+      };
+      /**
+       * The session's backdrop (\`$.ui.backdrop\`), drawn behind the conversation by
+       * the desktop app alone: empty until a hook draws it.
+       *
+       * Every plugin's hook hears it, so read \`plugin\` beside \`id\`. The surface
+       * sizes the drawing to its window and lets presses through to what is over it.
+       *
+       * Raised on the desktop surface only.
+       */
+      Backdrop: {
+          /**
+           * What \`$.ui.backdrop\` was given. Read-only.
+           */
+          id: string;
+          /**
+           * Who set the backdrop, so a hook can leave another's alone. Read-only.
+           */
+          plugin: string;
+          /**
+           * How the surface frosts its panels over the drawing, defaults filled in;
+           * \`false\` where they stay as they are. Read-only.
+           */
+          glass: {
+              blur: number;
+              tint?: string;
+              opacity: number;
+          } | false;
       };
   };
 
@@ -14752,6 +14809,80 @@ declare module 'claude-code' {
        * Which model answered, by the id the API reports.
        */
       model: string;
+  };
+
+  /**
+   * The argument of \`$.ui.backdrop\`; \`undefined\` in its place clears the
+   * plugin's own backdrop.
+   */
+  export type UiBackdropArgs = {
+      /**
+       * Names the backdrop among this plugin's: 1 to 64 of letters, digits, \`_\`
+       * and \`-\`, as a pane's id. A \`ui.render\` hook reads it as \`e.props.id\`.
+       */
+      id: string;
+      /**
+       * How the surface frosts its panels over the backdrop: absent, the default
+       * glass; \`false\`, the panels stay as they are.
+       */
+      glass?: UiBackdropGlass | false;
+  };
+
+  /**
+   * How a surface frosts its own panels over a backdrop: each key absent takes
+   * the surface's default, so \`{}\` is the default glass.
+   */
+  export type UiBackdropGlass = {
+      /**
+       * How far the backdrop blurs behind a panel, in CSS pixels: 0 to 64.
+       * Absent, 16.
+       */
+      blur?: number;
+      /**
+       * What colours a panel over the backdrop: a raw color, \`#hex\` or \`rgb()\`,
+       * \`rgba()\`, \`hsl()\` or \`hsla()\` of numbers; a theme key or a name is refused.
+       * Absent, the surface's own panel color.
+       */
+      tint?: string;
+      /**
+       * How opaque the tinted panel is over the backdrop: 0 to 1. Absent, 0.6.
+       */
+      opacity?: number;
+  };
+
+  /**
+   * What \`$.ui.backdrop\` resolves to and what a \`ui.backdrop\` hook's \`{ value }\`
+   * holds.
+   *
+   * The backdrop stands for the session either way, so a surface that attaches
+   * later draws it; a cleared one resolves \`isDrawn: false\` with its reason.
+   *
+   * @example
+   * const set = await $.ui.backdrop({ id: "lagoon" })
+   */
+  export type UiBackdropResult = {
+      /**
+       * True: a surface is attached that draws backdrops.
+       */
+      isDrawn: true;
+      /**
+       * The backdrop's \`e.requestId\` at \`ui.render\`: \`backdrop\`, the same for
+       * every backdrop; \`e.props.id\` and \`e.props.plugin\` say which it is.
+       */
+      requestId: string;
+  } | {
+      /**
+       * False: nothing draws the backdrop now, for the \`reason\` given.
+       */
+      isDrawn: false;
+      /**
+       * The backdrop's id when it stands for a surface yet to attach.
+       */
+      requestId?: string;
+      /**
+       * Why nothing draws it, one line to show or log.
+       */
+      reason: string;
   };
 
   /**
