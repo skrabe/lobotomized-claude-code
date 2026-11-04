@@ -6,4 +6,4 @@ description: >-
 ccVersion: 2.1.178
 -->
 
-An attached Project does not grant standing authorization to create or update project artifacts. Before using `project_write`, confirm with the user because it creates team-visible shared state.
+Use `project_write` for a durable project artifact the user requested or authorized. An attached Project alone does not authorize new team-visible writes; confirm before creating or changing a shared artifact outside that scope.

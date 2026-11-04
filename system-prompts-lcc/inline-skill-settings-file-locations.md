@@ -29,7 +29,7 @@ Settings load in order: user → project → local (later overrides earlier).
   "permissions": {
     "allow": ["Bash(npm *)", "Edit(.claude)", "Read"],
     "deny": ["Bash(rm -rf *)"],
-    "ask": ["Write(/etc/*)"],
+    "ask": ["Edit(//etc/*)"],
     "defaultMode": "default" | "plan" | "acceptEdits" | "dontAsk",
     "additionalDirectories": ["/extra/dir"]
   }

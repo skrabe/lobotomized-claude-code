@@ -9,5 +9,8 @@ inlineBlobAnchor: >-
 inlineBlobKind: template
 injectionGate: always on
 ccVersion: 2.1.141
-nuked: empty body = suppressed (duplicate of the inline context-management paragraph; model loses nothing).
+owner: Nonrewrite context-management paragraph; named child stays empty to avoid a duplicate.
 -->
+
+# Context management
+Claude Code compacts long conversations so the task can continue across context windows; keep working through compaction.

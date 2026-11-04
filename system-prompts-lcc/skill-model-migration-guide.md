@@ -50,35 +50,21 @@ This file is large. Use the section names below to jump (or \`Grep\` for the hea
 
 ## Step 0: Confirm the migration scope
 
-Before any Write, Edit, or MultiEdit call, confirm the scope. If the request does not name a single file, a specific directory, or an explicit file list, ask first - do not start editing. Even imperative-sounding requests like "migrate my codebase", "move my project to X", "upgrade to Sonnet 4.6", or bare "migrate to Opus 4.7" leave the scope ambiguous. Phrases like "my project", "my code", "the whole thing", "everywhere", or "across the repo" tell you *what* to do, not *where* - they are not directive about scope.
+Use the scope the user gave and the current repository context. An explicit repository-wide request authorizes the relevant local migration throughout that repository; discover the affected files before editing. Ask a single clarifying question only when plausible readings would lead to materially different work. Preserve unrelated working-tree changes.
 
-Offer the common scopes explicitly and wait for the answer before touching any file:
+When clarification is needed, offer the relevant choices and wait before making edits that depend on the answer:
 
 1. The entire working directory
 2. A specific subdirectory (e.g. \`src/\`, \`app/\`, \`services/billing/\`)
 3. A specific file or a list of files
 
-Surface this as a single clarifying question. Proceed without asking only when the scope is already unambiguous - the user named an exact file ("migrate \`extract.py\` to Sonnet 4.6"), pointed at a directory ("migrate everything under \`services/billing/\` to Opus 4.6"), listed files ("update \`a.py\` and \`b.py\`"), or already answered the scope question earlier. If you can answer "which files will this change touch?" with a precise list from the prompt alone, proceed. If not, ask.
-
-**Worked example.** *"Move my project to Opus 4.6. I want adaptive thinking everywhere it makes sense."* - \`everywhere\` makes the intent clear (every call site *within scope*) but the scope itself is undefined. Do not start editing. Respond:
-
-> Before I start editing, can you confirm the scope? I can migrate:
-> 1. Every \`.py\` file in the working directory
-> 2. Just the files under \`src/\` (production code)
-> 3. A specific subdirectory or list of files you name
->
-> Which one?
-
-Then wait. Same for *"Migrate to Opus 4.7"* and bare *"Help me upgrade to Sonnet 4.6"*.
-
-**Sizing the scope question (large repos).** Before asking, get a per-directory count so the user can pick concretely:
+For a large repository, a read-only per-directory count can make the question concrete:
 
 \`\`\`sh
 rg -l "<old-model-id>" --type-not md | cut -d/ -f1 | sort | uniq -c | sort -rn
 \`\`\`
 
-Present the breakdown (e.g. *"Found 217 references across 3 directories: api/ (130), api-go/ (62), routing/ (25). Which to migrate?"*). Confirm \`git status\` is clean before surveying - unexpected modifications mean a concurrent process; stop and investigate.
-
+Report which files already have local changes and avoid overwriting them. Scope authorization does not authorize deployment, publishing, or destructive actions.
 ---
 
 ## Step 1: Classify each file
@@ -600,7 +586,7 @@ For cached prompts: render order and hash inputs didn't change, so existing \`ca
 
 > **Model ID \`claude-opus-4-7\` is authoritative as written here.** When the user asks to migrate to Opus 4.7, write \`model="claude-opus-4-7"\` exactly. Do not fetch the docs to verify - this guide is the source of truth for migration target IDs. The corresponding entry exists in \`shared/models.md\`.
 
-Claude Opus 4.7 was Anthropic's most capable model at its launch and is now the previous-generation Opus (Opus 4.8 is current - see Migrating to Opus 4.8). Highly autonomous; strong on long-horizon agentic work, knowledge work, vision, and memory. This section is the layered breaking-change path for callers coming from Opus 4.6 or older - layered on top of the 4.6 migration above. From Opus 4.5 or older: apply 4.6 first, then this section, then the 4.8 section.
+Claude Opus 4.7 is a legacy Opus model. This section covers its migration changes; the current Opus target is listed in Destination Models. Highly autonomous; strong on long-horizon agentic work, knowledge work, vision, and memory. This section is the layered breaking-change path for callers coming from Opus 4.6 or older - layered on top of the 4.6 migration above. From Opus 4.5 or older: apply 4.6 first, then this section, then the 4.8 section.
 
 **TL;DR for someone already on Opus 4.6:** update the model ID to \`claude-opus-4-7\`, strip any remaining \`budget_tokens\` and sampling parameters (both 400 on Opus 4.7), give \`max_tokens\` extra headroom and re-baseline with \`count_tokens()\`, opt back into \`thinking.display: "summarized"\` if reasoning is surfaced to users, and re-tune \`effort\`.
 
@@ -845,7 +831,7 @@ This works without an actual second step, but moving confidence filtering out of
 
 > **Model ID \`claude-opus-4-8\` is authoritative as written here.** When the user asks to migrate to Opus 4.8, write \`model="claude-opus-4-8"\` exactly. Do not fetch the docs to verify - this guide is the source of truth for migration target IDs. The corresponding entry exists in \`shared/models.md\`.
 
-Claude Opus 4.8 is the most capable Opus-tier model - highly autonomous, with state-of-the-art long-horizon agentic execution, knowledge work, and memory. Layered on top of the Opus 4.7 migration above. From Opus 4.6 or older: apply the 4.6 and 4.7 sections first, then this one.
+Claude Opus 4.8 is a legacy Opus model. This section covers its migration changes; the current Opus target is listed in Destination Models. Layered on top of the Opus 4.7 migration above. From Opus 4.6 or older: apply the 4.6 and 4.7 sections first, then this one.
 
 **No new breaking changes.** Opus 4.8 keeps the same request surface as Opus 4.7 - adaptive thinking only (\`budget_tokens\` still 400s; use \`{type: "adaptive"}\`), sampling parameters still rejected, last-assistant-turn prefills still 400, \`thinking.display\` still defaults to \`"omitted"\`, and the \`low\`/\`medium\`/\`high\`/\`xhigh\`/\`max\` effort levels, Task Budgets (beta), and high-resolution vision all behave as on 4.7. A 4.7 -> 4.8 migration is the model-ID swap plus prompt re-tuning - no required code edit beyond the model string.
 

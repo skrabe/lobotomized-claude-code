@@ -7,12 +7,10 @@ description: >-
 ccVersion: 2.1.284
 variables:
   - TOOL_DESCRIPTION_SNOOZE_DELAY_AND_REASON_GUIDANCE_VAR_0
-  - TOOL_DESCRIPTION_SNOOZE_DELAY_AND_REASON_GUIDANCE_VAR_1
-  - TOOL_DESCRIPTION_SNOOZE_DELAY_AND_REASON_GUIDANCE_VAR_2
 -->
 
-Schedule when to resume work in /loop dynamic mode — the user invoked /loop without an interval, asking you to self-pace iterations of a specific task.
+Resume work in /loop dynamic mode: the user invoked /loop without an interval.
 
-Don't schedule a short-interval wakeup to poll harness-tracked background work you started — you're re-invoked automatically when it finishes, so polling is wasted. Schedule a long fallback (1200s+) so the loop survives if the work hangs or never notifies. The exception is external work the harness can't track (CI, deploy, remote queue) — there, match the delay to how fast that state changes.
+For harness-tracked background work, rely on completion notifications and use a fallback of at least 1200s. For external work the harness cannot track, match the delay to how fast its state changes.
 
-Pass the same /loop prompt back via \`prompt\` each turn to repeat the task. For an autonomous /loop (no user prompt), pass the literal sentinel \`${TOOL_DESCRIPTION_SNOOZE_DELAY_AND_REASON_GUIDANCE_VAR_0}\` as \`prompt\` instead — the runtime resolves it back to the autonomous-loop instructions at fire time. (There is a similar \`${TOOL_DESCRIPTION_SNOOZE_DELAY_AND_REASON_GUIDANCE_VAR_1}\` sentinel for CronCreate-based autonomous loops; do not confuse the two — ${TOOL_DESCRIPTION_SNOOZE_DELAY_AND_REASON_GUIDANCE_VAR_2} always uses the \`-dynamic\` variant.) To end the loop, call this tool with \`stop: true\` (omit every other field) — the loop ends immediately and no further wakeups fire.
+Pass the same /loop prompt verbatim each turn. For autonomous loops with no user prompt, pass \`${TOOL_DESCRIPTION_SNOOZE_DELAY_AND_REASON_GUIDANCE_VAR_0}\`; the runtime resolves it when the wakeup fires. End the loop with \`stop: true\` alone.

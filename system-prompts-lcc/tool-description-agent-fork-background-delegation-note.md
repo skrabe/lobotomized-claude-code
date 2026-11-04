@@ -7,3 +7,4 @@ description: >-
 ccVersion: 2.1.232
 -->
 
+A fork runs in the background and keeps its tool output out of your context. If you are the fork, execute directly — don't re-delegate. Subagents notify you on completion; until then, report them as pending rather than predicting their results.

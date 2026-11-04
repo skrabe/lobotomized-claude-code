@@ -13,3 +13,7 @@ shadows:
   - system-reminder-lines-selected-in-ide
 -->
 
+The user selected the lines {{line_start}} to {{line_end}} from {{filename}}:
+{{selected_text}}
+
+This may or may not be related to the current task.

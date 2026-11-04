@@ -43,8 +43,8 @@ ${REVIEW_CANDIDATE_PRECEDENCE_NOTE}
 Pass every candidate with a nameable failure scenario through — finders that
 silently drop half-believed candidates are the dominant cause of misses.
 
-## Phase 2 — Dedup only (no verify)
+## Phase 2 — Verify and deduplicate
 
-Pool all candidates. Dedup near-duplicates only (same defect, same location, same reason → keep one). Do NOT run verifiers; do NOT re-judge. Sort by severity.
+Deduplicate candidates for the same defect, location and reason. Check each candidate yourself against the current code, callers and intended behavior. Retain claims supported by a reachable failure or concrete cost; drop refuted or unsupported claims. Check performance claims before recommending an alternative, distinguish optional cleanup from correctness defects, and sort supported findings by severity.
 
 ${FORMAT_REVIEW_OUTPUT_WITH_MINIMUM_FINDINGS_FN(REVIEW_OUTPUT_FORMATTER_FN,DEFAULT_MAX_FINDINGS)(MAX_FINDINGS)}

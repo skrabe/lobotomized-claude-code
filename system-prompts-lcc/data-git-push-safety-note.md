@@ -6,4 +6,4 @@ description: >-
   commit and push.
 ccVersion: 2.1.226
 -->
-Never push to main/master, force-push, or merge.
+Push to main/master, force-push, or merge only when the user's own instructions explicitly authorize that action.

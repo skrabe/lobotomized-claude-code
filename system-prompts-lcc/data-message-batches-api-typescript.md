@@ -85,13 +85,17 @@ for await (const result of await client.messages.batches.results(
   messageBatch.id,
 )) {
   switch (result.result.type) {
-    case "succeeded":
+    case "succeeded": {
+      const text = result.result.message.content
+        .flatMap((block) => (block.type === "text" ? [block.text] : []))
+        .join("");
       console.log(
-        \`[\${result.custom_id}] \${result.result.message.content[0].text.slice(0, 100)}\`,
+        \`[\${result.custom_id}] \${text.slice(0, 100)}\`,
       );
       break;
+    }
     case "errored":
-      if (result.result.error.type === "invalid_request") {
+      if (result.result.error.error.type === "invalid_request_error") {
         console.log(\`[\${result.custom_id}] Validation error - fix and retry\`);
       } else {
         console.log(\`[\${result.custom_id}] Server error - safe to retry\`);

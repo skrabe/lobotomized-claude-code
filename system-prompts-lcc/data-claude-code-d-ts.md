@@ -5516,8 +5516,8 @@ declare module 'claude-code' {
    * picture scrolls and clips as a word does. Drawn again with another \`source\`
    * it is replaced in place; keyed, \`$.ui.blit\` swaps it at the frame rate.
    *
-   * @example const { bytes } = await $.fs.read('chart.png', { as: 'bytes' })
-   * <Image source={{ png: bytes.toBase64() }} columns={40} rows={12} alt="p95" />
+   * @example const { base64 } = await $.fs.read('chart.png', { as: 'bytes' })
+   * <Image source={{ png: base64 }} columns={40} rows={12} alt="p95" />
    * @example <Image key="view" source={{ shm: '/tb-7', format: 'rgb', width: 960,
    *   height: 600 }} columns={80} rows={25} alt="the page" />
    */

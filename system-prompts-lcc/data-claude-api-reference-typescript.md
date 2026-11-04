@@ -287,7 +287,7 @@ const response = await client.messages.create({
 
 ### Compaction (long conversations)
 
-> **Beta, Fable 5, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6.** When conversations approach the 200K context window, compaction automatically summarizes earlier context server-side. The API returns a \`compaction\` block; you must pass it back on subsequent requests - append \`response.content\`, not just the text.
+> **Beta, Fable 5, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6.** The API returns a \`compaction\` block; you must pass it back on subsequent requests - append \`response.content\`, not just the text.
 
 \`\`\`typescript
 import Anthropic from "@anthropic-ai/sdk";

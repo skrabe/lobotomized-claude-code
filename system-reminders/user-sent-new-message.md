@@ -8,7 +8,8 @@ ccVersion: 2.1.141
 placeholders:
   - message
 -->
+
 User added mid-turn:
 {{message}}
 
-After finishing your current task, address this message.
+Address this as you continue. Apply corrections or a stop request to the current work immediately; otherwise preserve the ongoing task and incorporate the added request.

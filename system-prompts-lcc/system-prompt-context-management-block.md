@@ -7,6 +7,6 @@ description: >-
 ccVersion: 2.1.191
 nuked: >-
   empty body = suppressed — near-verbatim duplicate of sibling
-  inline-context-management.md, which already carries the identical paragraph.
+  inline-context-management.md, which owns the concise nonrewrite compaction guidance.
 -->
 

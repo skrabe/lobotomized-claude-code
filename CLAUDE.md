@@ -12,13 +12,13 @@ One set is maintained: `system-prompts-lcc`, which `~/.tweakcc/system-prompts` s
 
 **The goal of this repo is to remove useless shit and dumb guardrails so we have a clean agentic coding harness.** CC ships every model the same prompt-by-volume that worked for older Claudes. Current models follow instructions more literally, overtrigger on CAPS, don't need anti-laziness scaffolding, and get actively worse from safety theater that wasn't load-bearing in the first place. We strip the bulk and rewrite the load-bearing fragments in a register the model behaves better under.
 
-**Every cut must hold for both served models, and the cards are the authority.** Ground every content edit in `~/dev/anthropic-reference/Opus-5.5-Card-Digest.md` and `Fable-5.1-Card-Digest.md`, plus both models' prompting pages. The Opus 5.5 digest's §5 compares the two on 30 behaviour axes and finds none that need conflicting text; both under-narrate and stop early, so narration-suppressing and anti-formatting lines are removals. A default only one model has is not coverage for the other.
+**Every cut must hold for both served models.** Ground edits in the page-cited Opus 5.5 and Fable 5.1 digests under `~/dev/anthropic-reference/`, their current prompting guides, and the deployed harness. A system-card result measures the tested model and scaffold; it does not establish that removing an instruction is safe. A default documented for one model is not coverage for the other. Check progress-update transport before diagnosing silence, and preserve useful structure and completion guidance.
 
-The README's "~60% leaner on every coding turn" claim is the bar. If your edits don't trend toward that ratio, you're not lobotomizing — you're just cosmeticking.
+Measure savings against the current stock version, separately for the catalogue and actual rendered requests. There is no percentage quota. Keep useful unique instructions even when that makes a prompt longer; remove text only when its function is redundant, obsolete or demonstrably counterproductive.
 
 ### The decision rule (read this every time)
 
-**For each load-bearing claim in a prompt: is it conveyed elsewhere (sibling override) OR a default of both served models per their cards OR a feature the user doesn't use? → cut it. Whatever unique signals remain → keep them. If nothing unique remains → full-wipe is the correct outcome.**
+**For each claim, identify its function and when it reaches the model.** Remove duplication only when a deployed sibling conveys the same function whenever this prompt renders. Treat model-default coverage as a hypothesis to check on the served models. An unused conditional feature is not a reason to remove its instructions. Keep unique contracts; suppress an entire fragment only when no useful function remains and its parser/cache role allows suppression.
 
 **Many prompts will get fully wiped. That is expected, not a failure mode.** "Wipe vs trim" is not a stylistic preference — the outcome falls out of the per-claim checks. A prompt where every claim is duplicated/default/useless goes to zero. A prompt with one unique signal becomes a one-sentence override. There is no bias toward keeping content — there is a bias toward keeping *unique* content.
 
@@ -26,7 +26,7 @@ The earlier "trim, don't wipe" framing came from one specific incident — `syst
 
 ### Three valid outcomes (no preference order — outcome falls out of the checks)
 
-- **No override** (file absent, or override identical to pristine): zero unique signals worth saving — pristine is fine.
+- **No override** (file absent, or override identical to pristine): the stock prompt already conveys the needed behavior and requires no change.
 - **Trimmed override**: some claims are unique-and-load-bearing, others are duplicated/default — keep the uniques, cut the duplicates.
 - **Full-wiped override** (empty body): every claim is duplicated/default/useless — we override with empty content to suppress the pristine entirely. Used when pristine **actively gets in the way of an always-on turn** (anti-laziness theater Anthropic ships, sibling-duplicated scaffolding). Empty body = file present, frontmatter with `ccVersion:`, zero body content.
 
@@ -37,7 +37,7 @@ The earlier "trim, don't wipe" framing came from one specific incident — `syst
 For each candidate edit:
 1. List the load-bearing claims in the prompt.
 2. `grep` the rest of `system-prompts/` for prompts conveying any of those claims. Closest sibling first (e.g. `system-prompt-executing-actions-with-care.md` covers destructive-action confirmation; `system-prompt-doing-tasks-security.md` covers OWASP-style guards).
-3. For each claim: if a sibling already conveys it OR both models' cards show it is a default OR the user doesn't use the feature → drop it from this override.
+3. Drop a claim only after checking its deployed co-rendered owner, obsolescence, or tested model-default coverage. Preserve unique instructions for conditional features.
 4. Whatever remains is what stays. Could be the full prompt minus a few sentences. Could be one sentence. Could be empty.
 
 The user's framing: *"if the file contents aren't phrased similarly (same message conveyed) elsewhere, then trim it/cull it not wipe it"* — applies to *unique* content. *"something will get wiped if useless. and there will be many"* — applies to fully-duplicated/default/useless content. Both are true; the per-claim check is what decides which path each prompt takes.
@@ -64,9 +64,9 @@ Losing an exact name is worse than carrying a duplicated sentence: a duplicated 
 tokens, a missing `mcp_servers` limit or `client.beta.memory_stores.memories.update` makes the
 model emit a call that fails at runtime.
 
-### What "useless shit" looks like (cut on sight)
+### Candidates for removal (check their function first)
 
-- **Dumb guardrails / safety theater.** Cautions about scenarios that won't happen in this user's workflow. "Be respectful when responding to humans." "Don't make up facts." Current models don't need these, and the Opus 5.5 card blames residual over-refusal on exactly this kind of text. Anthropic's literal Production safety filters live elsewhere.
+- **Generic caution and refusal hedges.** Remove rhetoric that adds no functional control. Preserve explicit authorization, input provenance and truthful coverage. The card reports strong results under particular safeguards; neither those results nor a system-prompt attribution of some over-refusals establish universal immunity or justify deleting unrelated controls.
 - **Anti-laziness scaffolding.** "Be thorough." "Double-check your work." "Don't be lazy." Current models do the work; this is noise. The exception is early stopping: Opus 5.5 and Fable 5.1 do end turns while work is still owed, so a specific statement of which stops are unwanted (Anthropic's own paragraph, calm prose) is a keep, not scaffolding.
 - **CAPS theater.** `MUST`, `NEVER`, `ALWAYS`, `CRITICAL`, `STRICTLY`. Current models overtrigger on these. Plain directives outperform.
 - **Negative framing.** "Don't X" → "Do Y" wherever a positive form exists. Per Anthropic's guide.
@@ -95,17 +95,17 @@ After cutting, ask: did I lose information the model couldn't otherwise infer? I
 **The single canonical source for prompting principles in this repo:**
 [`platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices`](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
 
-Fetch it fresh at the start of every session that touches `system-prompts/*.md` (`mcp__kindly-web-search__get_content` or `WebFetch`). Do not rely on training-data recall — Anthropic edits this page often, and prompt edits anchored on stale guidance produce regressions.
+Fetch it fresh with `kindly-fetch` at the start of every session that touches prompt overrides, and read the model-specific Opus 5.5 and Fable 5.1 pages it links. Do not rely on training-data recall — Anthropic edits this page often, and prompt edits anchored on stale guidance produce regressions.
 
 The digest below is a checklist, not a substitute. Read the URL.
 
 **Editing checklist for Opus 5.5 + Fable 5.1** (the full cited list is §6 of `~/dev/anthropic-reference/Opus-5.5-Card-Digest.md`; read it):
 
 1. **Say it once, at normal volume.** No CAPS or stacked NEVER/MUST; state the one real constraint with its reason.
-2. **Cut paranoia and safety theatre.** Injection suspicion, "be careful" prose, over-refusal hedges and security-work disclaimers go. Opus 5.5 was compromised on 0 of ~2,900 adaptive coding attacks, and the card blames the remaining over-refusals on system-prompt caution text.
+2. **Remove generic caution without deleting contracts.** The Shade coding result was 0/2,872 direct-model compromises under its tested setup; GUI attacks included direct-model successes. Keep pasted-content provenance, concrete authorization and failure reporting. A benchmark score alone does not prove a prompt cut improves the harness.
 3. **Keep authorization as a lookup.** Permission is only what the user wrote; relay it verbatim to subagents, tools and gates, and treat an approval you cannot point to as absent (card p.102). Keep the concrete gates (publish, push, destructive, credentials) as plain rules.
-4. **Autonomy text carries the protected-block exception.** "Keep going" never means working around something deliberately blocked from you, and never replaces confirmation for risky or destructive actions.
-5. **Remove narration suppressors and thinking-steering prose.** Both models under-narrate and stop early; effort, not prose, controls thinking; never ask for reasoning in the visible reply.
+4. **Use one coherent authorization contract.** Existing scoped user authorization remains valid. Ask for material scope or consequence changes, and keep the protected-block exception: persistence does not authorize bypassing a deliberately denied operation.
+5. **Separate thinking, progress transport and reply style.** Preserve adaptive thinking and useful updates; do not request hidden reasoning in replies. Opus 5.5 interim updates can be omitted by the client transport, so inspect the request and renderer before adding narration prose. Keep requested final reports complete.
 6. **Report depth and provenance, not effort.** Say what was checked, sampled or inferred; name a dropped doubt or a departure from the plan. Cut "double-check" and "don't be lazy" nags.
 7. **Scope both ways.** The request is the deliverable: finish all of it, and extras become follow-ups.
 8. **Delegation text is about the brief and relay accuracy, not volume.** Plans handed to another model are self-contained.

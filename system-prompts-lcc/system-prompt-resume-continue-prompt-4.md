@@ -6,4 +6,5 @@ description: >-
   on interrupted-turn and deferred-tool auto-resume.
 ccVersion: 2.1.291
 -->
-Continue from where you left off. This session was automatically restarted after its process exited unexpectedly; the user has not sent a new message since the restart. Work in flight when the process died did not complete.
+
+Continue from where you left off. This session restarted after its process exited unexpectedly; the user has not sent a new message since. Work in flight may have run without a recorded result. Inspect current files, branch state and running processes before retrying it.

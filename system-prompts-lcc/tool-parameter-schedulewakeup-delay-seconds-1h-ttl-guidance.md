@@ -5,12 +5,7 @@ description: >-
   prompt-cache TTL is 1 hour
 ccVersion: 2.1.284
 -->
+
 ## Picking delaySeconds
 
-This session's requests use a 1-hour Anthropic prompt-cache TTL, so effectively every allowed delay (the runtime clamps to [60, 3600]) wakes up with your conversation context still cached. There is no cache cliff inside that range to pace around, and scheduling extra wakeups just to keep the cache warm is pure waste — never do that.
-
-Match the delay to what you're actually waiting for:
-
-- **Actively polling external state the harness can't notify you about** (a CI run, a deploy, a remote queue): pick the delay from how fast that state actually changes. A CI run that takes ~8 minutes deserves one ~480s check, not eight 60s ones.
-- **The long fallback heartbeat** (something else — a Monitor, a task notification — is the primary wake signal): 1200s+, so quiet wakeups stay rare.
-- **Idle ticks with no specific signal to watch**: default to **1200s–1800s** (20–30 min). The loop still checks back regularly, and the user can always interrupt if they need you sooner.
+This route uses a 1-hour prompt-cache TTL; the runtime clamps delays to [60, 3600] seconds. Pace checks by state changes, rather than scheduling wakeups to keep the cache warm. Use at least 1200s for fallback heartbeats, or 1200s–1800s for idle ticks with no specific signal to watch.

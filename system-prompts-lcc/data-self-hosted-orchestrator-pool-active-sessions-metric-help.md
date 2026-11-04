@@ -7,3 +7,4 @@ description: >-
 ccVersion: 2.1.224
 -->
 
+# HELP ${"claude_code_self_hosted_orchestrator"}_pool_active_sessions Sessions currently assigned to an alive runner in this environment (the server's environment-wide sum of the per-runner _active_sessions gauges). Environment-wide aggregate — identical on every orchestrator for one environment; use MAX not SUM across orchestrator instances.

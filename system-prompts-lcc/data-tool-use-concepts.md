@@ -317,7 +317,7 @@ tools = [
 ]
 \`\`\`
 
-**To change a tool's definition**, do it across two requests: send a \`tool_removal\` for the old definition on the first, then carry the conversation forward with the updated entry in \`tools[]\` on the next.
+**To change a tool's definition** while preserving the conversation prefix, use a \`tool_addition\` carrying the revised definition under \`inline-tools-2026-09-15\` on a supported platform; leave the original \`tools[]\` entries unchanged. Changing \`tools[]\` after a \`tool_removal\` still rewrites the prefix and loses earlier cache hits, and can invalidate preserved thinking. Without the beta, start a new conversation or rebuild history without affected thinking before replacing a tool definition.
 
 > Warning: Earlier previews used a different beta header and different block shapes; both are deprecated. Use \`mid-conversation-tool-changes-2026-07-01\` with \`tool_addition\` / \`tool_removal\` / \`tool_reference\`.
 

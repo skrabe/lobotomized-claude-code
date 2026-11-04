@@ -182,7 +182,7 @@ def connect_with_consolidation(client, session_id):
 
     # 3. Yield history first, then stream - dedupe by event.id
     seen = set()
-    for ev in history.data:
+    for ev in history:
         seen.add(ev.id)
         yield ev
     for ev in stream:

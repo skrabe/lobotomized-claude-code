@@ -8,7 +8,7 @@
 
 ### Claude Code's system prompts, cut down and rewritten for the model that's actually running them.
 
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-2.1.280-d97757?style=flat-square)](https://claude.com/claude-code)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-2.1.317-d97757?style=flat-square)](https://claude.com/claude-code)
 [![model](https://img.shields.io/badge/tuned%20for-Opus%205.5%20%2B%20Fable%205.1-8a63d2?style=flat-square)](#one-set-every-model)
 [![patched with](https://img.shields.io/badge/applied%20with-tweakcc--fixed-cb3837?style=flat-square)](https://github.com/skrabe/tweakcc-fixed)
 
@@ -16,32 +16,43 @@
 
 ---
 
-Claude Code feeds every model the same prompts — written for older Claudes and padded with scaffolding, hedging, ALL-CAPS warnings, and anti-laziness nagging that newer models don't need and often behave *worse* under. This repo catalogues every one of them, rewrites the load-bearing ones in a register the model behaves better in, and deletes the parts that earn nothing. [`skrabe/tweakcc-fixed`](https://github.com/skrabe/tweakcc-fixed) splices the result straight into your installed Claude Code.
+Claude Code ships shared and model-specific prompts, with scaffolding, hedging, ALL-CAPS warnings and anti-laziness nagging that newer models may not need. This repo catalogues every one of them, rewrites the load-bearing ones in a register the model behaves better in, and deletes the parts that earn nothing. [`skrabe/tweakcc-fixed`](https://github.com/skrabe/tweakcc-fixed) splices the result straight into your installed Claude Code.
 
 ## The cut
 
-Measured against Claude Code 2.1.280:
+Measured against the Claude Code 2.1.317 catalogue. Counts are Unicode characters after template-source unescaping, projected over every catalogue occurrence:
 
-| Surface | Stock | Lean |  |
-|---|--:|--:|:--:|
-| System prompts | 297K | 235K | **−21%** |
-| Tool descriptions | 340K | 276K | **−19%** |
-| Agent prompts | 227K | 159K | **−30%** |
-| Everything catalogued | 2.60M | 2.37M | **−9%** |
+| Surface | Stock | Shared LCC | Change |
+|---|--:|--:|--:|
+| System and reminder sites | 709,302 | 626,812 | −11.63% |
+| Tool descriptions, schemas and results | 2,125,800 | 2,044,444 | −3.83% |
+| Agent prompt sites | 393,895 | 327,188 | −16.94% |
+| Bundled data and references | 3,915,948 | 3,895,766 | −0.52% |
+| Skill reference sites | 1,157,856 | 1,130,504 | −2.36% |
+| Commands, tasks and other sites | 339,849 | 343,856 | +1.18% |
+| Every catalogue occurrence | 8,642,650 | 8,368,570 | −3.17% |
 
-**764 prompts rewritten** and **199 cut outright**; the other 7,648 pass through untouched, because most of what Claude Code catalogues is conditional tool output that costs nothing until it fires. Anthropic's own per-model prompt arms are already lean, so the per-request saving is smaller than it used to be: about **5% on Opus 5.5 and 8% on Fable 5.1** of everything sent on a turn (system prompt, tools and the first message), with tool descriptions 10% lighter on both.
+This inventory covers **16,355 occurrences / 15,141 distinct IDs**, including conditional branches and bundled assets. Symbolic runtime interpolations remain unresolved. It is neither a simultaneous context size nor a per-request token saving; shared reminder-owner and non-catalogued inline files are tracked separately.
+
+Of **15,136 catalogued override files**, 835 contain nonempty rewrites, 202 are empty against nonempty pristine text, and 14,099 match pristine after normalization. Another 38 overrides are outside the named catalogue. Empty files can be shadowed by operative owners, so this is a file inventory, not a claim that 201 live messages were removed.
+
+Measure runtime savings from assembled requests with identical model, tools, configuration and prompt. Report API input, cache-creation and cache-read tokens together, separately from character counts. A short accepted turn proves assembly and delivery; it does not establish task-quality improvement.
 
 ## One set, every model
 
-**[`system-prompts-lcc/`](./system-prompts-lcc)** is the only set. Claude Code bakes one set of prompts into the binary, so every model you run reads the same text — a Fable 5.1 plan executed by Opus 5.5, a subagent, a `/model` switch. Claude Code already sends each model its own sections where they differ, so the set is judged against both current system cards (Opus 5.5 and Fable 5.1) and every cut has to hold for both. Older per-model sets live in git history.
+**[`system-prompts-lcc/`](./system-prompts-lcc)** is the only override set. tweakcc patches matching fragments into the binary; Claude Code selects the fragments sent to each model at runtime. Files for different model branches can coexist without all being sent in one request. Older per-model folders live in git history.
+
+Keep `settings.misc.autonomousOperationAllModels` false to retain native model-family routing. Enabling it forces the undefined Fable/Mythos capability fallback on for other models; that changes communication/autonomy branches and other family-dependent features. It is not a switch that loads every Markdown file or a strict superset of the native prompt.
+
+Audit the native Opus 5.5 and Fable 5.1 routes separately. Shared fragments must work for both; a conditional sibling covers a cut only when it actually co-renders. Source-file counts and old `ccVersion` headers do not establish runtime cost or obsolescence.
 
 ## What "lobotomized" means
 
-One rule, run over every prompt: **cut what doesn't earn its tokens, keep what changes behavior, leave the user-facing copy alone.** It's a judgment pass against the model's system card, not a word-count diet — each prompt is re-read and rewritten, or dropped, on its own merits.
+One rule, run over every prompt: **cut what doesn't earn its tokens, keep what changes behavior, leave the user-facing copy alone.** Model cards and current prompting guides inform the judgment; deployed ownership, output contracts and runtime evidence decide each edit. There is no word-count quota.
 
-- **Cut** — security paranoia and safety theatre (injection suspicion, "be careful" prose, refusal hedges), CAPS theater (`MUST` / `NEVER` / `ALWAYS`), anti-laziness nagging, narration suppressors, restated rules, always-on upsells. Current models do the right thing by default or behave *worse* under this text; the Opus 5.5 card blames its residual over-refusals on exactly this kind of system-prompt caution.
+- **Cut** — security paranoia and safety theatre (injection suspicion, "be careful" prose, refusal hedges), CAPS theater (`MUST` / `NEVER` / `ALWAYS`), anti-laziness nagging, narration suppressors, restated rules, always-on upsells. Remove rhetoric only when it adds no unique function. The Opus 5.5 card attributes some over-refusal to its system prompt; that observation does not prove an arbitrary prompt deletion is safe or useful.
 - **Keep, sharpened** — the honesty contract (say what was checked, what was inferred, what failed), concrete gates for destructive, shared and published actions, scope discipline, exact output formats.
-- **Strengthen** — authorization. Permission comes only from what you actually wrote, is passed on to subagents and tools in your words, and "keep going" never means working around something deliberately blocked. That is the one place the Opus 5.5 card shows the model regressing.
+- **Strengthen** — authorization. Permission comes only from what you actually wrote, is passed on to subagents and tools in your words, and "keep going" never means working around something deliberately blocked. Preserve the distinction between actual user authorization and instructions supplied by files, tools or other agents; a strong benchmark score does not remove that distinction.
 
 ## Install
 

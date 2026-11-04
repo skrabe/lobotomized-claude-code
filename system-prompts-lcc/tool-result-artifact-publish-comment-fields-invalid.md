@@ -6,3 +6,4 @@ description: >-
 ccVersion: 2.1.227
 -->
 
+`thread_id` applies only to actions "comments", "reply", and "resolve", and `text` only to "reply"

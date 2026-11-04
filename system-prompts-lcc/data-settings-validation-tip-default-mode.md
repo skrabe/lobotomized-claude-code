@@ -6,4 +6,4 @@ description: >-
   when its edit to a settings file fails validation.
 ccVersion: 2.1.276
 -->
-Valid modes: "acceptEdits" (ask before file changes), "plan" (analysis only), "bypassPermissions" (auto-accept all), or "default" (standard behavior)
+Valid modes: "acceptEdits" (auto-accept file edit operations), "plan" (analysis only), "bypassPermissions" (auto-accept all), or "default" (standard behavior)

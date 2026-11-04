@@ -5,6 +5,3 @@ description: >-
   description read by the model.
 ccVersion: 2.1.207
 -->
-## The reason field
-
-One short sentence on what you chose and why. Goes to telemetry and is shown back to the user. "watching CI run" beats "waiting."

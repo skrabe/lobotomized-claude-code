@@ -5,10 +5,5 @@ description: >-
   voice for bash commands
 ccVersion: 2.1.267
 -->
-Clear, concise description of what this command does in active voice. Never use words like "complex" or "risk" in the description - just describe what it does.
 
-Say what the command does in plain words: do not echo the command's text, its flags, or file paths - the user reads this description, often without seeing the command.
-
-For simple commands (git, npm, standard CLI tools), keep it brief (5-10 words):
-
-For commands that are harder to parse at a glance (piped commands, obscure flags, etc.), add enough context to clarify what it does:
+Describe the command's action in plain words and active voice, without echoing command text, flags, or file paths: the user may see only this description. Use 5–10 words for simple commands; add context for harder commands.

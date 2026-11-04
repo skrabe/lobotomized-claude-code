@@ -7,3 +7,4 @@ description: >-
 ccVersion: 2.1.224
 -->
 
+Cross-machine messaging is unavailable: it sends the message through Anthropic servers, which is not allowed on a third-party provider or with nonessential traffic disabled. Messages to sessions on this machine still work.

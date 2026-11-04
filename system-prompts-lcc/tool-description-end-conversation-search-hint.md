@@ -5,4 +5,5 @@ description: >-
   searching tools.
 ccVersion: 2.1.206
 -->
-end the conversation — only for sustained user abuse, or when the user explicitly asks to see it demonstrated
+
+end the conversation — only when the user explicitly asks to end it or see the tool demonstrated

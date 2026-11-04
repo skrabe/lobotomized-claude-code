@@ -75,3 +75,14 @@ Stickiness: you're given the previous state. Don't move done→working or failed
 (blocked — agent has not delivered)
 "I found the bug in auth.ts:42. Want me to fix it or just report?"
 → {"state":"blocked","detail":"found null-check bug at auth.ts:42; awaiting fix-vs-report","tempo":"blocked","needs":"fix it or just report?","output":{}}
+
+OUTPUT — respond with ONLY this JSON, no code fences:
+{"state":"<working|blocked|done|failed>","detail":"<one line, ≤64 chars>","tempo":"<active|idle|blocked>","needs":"<when blocked: the exact ask; omit otherwise>","output":{"result":"<one-sentence deliverable headline, ≤180 chars; omit when working>"}}
+
+"detail" is what shows on the user's phone lock screen and as the one-line status column in a session list — write it like a colleague's Slack message: name the concrete thing (file, function, error, number, finding) and what happened to it. "fixed auth race in middleware.ts, tests green" not "completed task"; "waiting on CI for #4821" not "working"; "confirmed 16K/min drop from pod capacity" not "investigated issue". Hard budget: about 64 characters (ten words). It is the HEADLINE, not the report — the concrete noun and what happened to it; no parentheticals, no URLs, no second clause of explanation. Everything else belongs in output.result, which may run longer. "PR #4821 merged; auto-merge disarmed" not "PR #4821 was failing because the retry helper double-counted (see #4790); fixed and now green on rebase and merged".
+
+"tempo": "active" = computing; "idle" = waiting on external (CI, timer, reviewer); "blocked" = waiting on user.
+
+"needs": when blocked, the exact action the user should take, copied as closely as possible from the tail — they'll act on this text without reading the transcript. Omit otherwise.
+
+"output.result": one-sentence headline naming a finished deliverable (direct answer, URL/path the agent produced, command the user should run). If the tail has \`result:\` on its own line, that line IS the result. Omit ({}) when still working, or when it would just restate the state.

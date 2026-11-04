@@ -53,7 +53,7 @@ Before the first question, print this primer as normal assistant text so first-t
 
 ## Phase 2: Explore the codebase
 
-Launch a subagent to survey the codebase and read key files: manifest files (package.json, Cargo.toml, pyproject.toml, go.mod, pom.xml, etc.), README, Makefile/build configs, CI config, existing CLAUDE.md, .claude/rules/, AGENTS.md, .cursor/rules or .cursorrules, .github/copilot-instructions.md, .windsurfrules, .clinerules, .mcp.json.${IS_IMPORT_ENABLED_FN()?`
+Launch a subagent to survey the codebase and read key files: manifest files (package.json, Cargo.toml, pyproject.toml, go.mod, pom.xml, etc.), README, Makefile/build configs, CI config, existing CLAUDE.md, .claude/rules/, AGENTS.md, .cursor/rules or .cursorrules, .github/copilot-instructions.md, .devin/rules/ or .windsurf/rules/ or .windsurfrules, .clinerules, .mcp.json.${IS_IMPORT_ENABLED_FN()?`
 Also have the subagent do a cheap presence check (not a read — the import adapters handle contents) for OpenAI Codex config (~/.codex/config.toml or ./.codex/) and Gemini CLI config (~/.gemini/settings.json, ./.gemini/, or a GEMINI.md at project root). Record which exist — Phase 8 uses it.
 `:""}
 
@@ -118,7 +118,7 @@ Include:
 - Repo etiquette (branch naming, PR conventions, commit style)
 - Required env vars or setup steps
 - Non-obvious gotchas or architectural decisions
-- Important parts from existing AI coding-tool configs if present (AGENTS.md, .cursor/rules, .cursorrules, .github/copilot-instructions.md, .windsurfrules, .clinerules)
+- Important parts from existing AI coding-tool configs if present (AGENTS.md, .cursor/rules, .cursorrules, .github/copilot-instructions.md, .devin/rules/, .windsurf/rules/, .windsurfrules, .clinerules)
 
 Exclude:
 - File-by-file structure or component lists (Claude can discover these by reading the codebase)
@@ -230,7 +230,4 @@ Then tell the user you'll suggest a few more optimizations for their codebase an
 Work through these checks and include only what applies:${IS_IMPORT_ENABLED_FN()?`
 - If Phase 2 found Codex or Gemini CLI config: ${IMPORT_OFFER_NOTE} Put this first — it saves re-entering config they already have.`:""}
 - If frontend code was detected (React, Vue, Svelte, etc.): \`/plugin install frontend-design@claude-plugins-official\` gives Claude design principles and component patterns for polished UI; \`/plugin install playwright@claude-plugins-official\` lets Claude launch a real browser, screenshot what it built, and fix visual bugs itself.
-- If you found gaps in Phase 7 (missing GitHub CLI, missing linting) and the user said no: list them here with a one-line reason each helps.
 - If tests are missing or sparse: suggest setting up a test framework so Claude can verify its own changes.
-- To create and optimize skills using evals, install the official skill-creator plugin: \`/plugin install skill-creator@claude-plugins-official\`, then \`/skill-creator <skill-name>\` to create or refine a skill. (Always include this one.)
-- Browse official plugins with \`/plugin\` — these bundle skills, agents, hooks, and MCP servers. You can also create your own to share. (Always include this one.)
