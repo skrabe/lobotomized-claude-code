@@ -1,0 +1,10 @@
+<!--
+name: 'Poll status: eval running detached'
+description: Per-eval status fragment for a detached eval running beside later evals.
+ccVersion: 2.1.318
+variables:
+  - TOOL_RESULT_POLL_STATUS_EVAL_RUNNING_DETACHED_VAR_0
+  - TOOL_RESULT_POLL_STATUS_EVAL_RUNNING_DETACHED_VAR_1
+  - TOOL_RESULT_POLL_STATUS_EVAL_RUNNING_DETACHED_VAR_2
+-->
+#${TOOL_RESULT_POLL_STATUS_EVAL_RUNNING_DETACHED_VAR_0.id} running for ${TOOL_RESULT_POLL_STATUS_EVAL_RUNNING_DETACHED_VAR_1(TOOL_RESULT_POLL_STATUS_EVAL_RUNNING_DETACHED_VAR_0.runningMs)} (detached: later evals run beside it)${TOOL_RESULT_POLL_STATUS_EVAL_RUNNING_DETACHED_VAR_2}

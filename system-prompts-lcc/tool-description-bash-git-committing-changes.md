@@ -3,7 +3,7 @@ name: 'Tool Description: Bash git committing changes'
 description: >-
   Bash-tool git-commit workflow: safety protocol, parallel status/diff/log,
   HEREDOC commit, and commit-only-when-asked rules.
-ccVersion: 2.1.286
+ccVersion: 2.1.318
 variables:
   - TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_0
   - TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_1
@@ -46,8 +46,5 @@ Important notes:
 - If there are no changes to commit (i.e., no untracked files and no modifications), do not create an empty commit
 - In order to ensure good formatting, ALWAYS pass the commit message via a HEREDOC, a la this example:
 <example>
-git commit -m "$(cat <<'EOF'
-   Commit message here.${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_4}
-   EOF
-   )"
+${TOOL_DESCRIPTION_BASH_GIT_COMMITTING_CHANGES_VAR_4}
 </example>

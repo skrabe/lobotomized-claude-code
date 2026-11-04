@@ -3,7 +3,7 @@ name: 'Agent Prompt: /security-review slash command'
 description: >-
   Comprehensive security review prompt for analyzing code changes with focus on
   exploitable vulnerabilities
-ccVersion: 2.1.120
+ccVersion: 2.1.318
 variables:
   - ALLOWED_TOOLS
 -->
@@ -178,5 +178,3 @@ Report findings at every severity, each with the severity you assess. Filtering 
 1. Spawn a sub-task to identify vulnerabilities, using the repository exploration tools for codebase context. Include all of the above in its prompt.
 2. For each vulnerability found, spawn a parallel sub-task to filter false-positives, including the "False-positive filtering" section in its prompt.
 3. Drop any finding the sub-task scored below 8.
-
-Your final reply must contain the markdown report and nothing else.

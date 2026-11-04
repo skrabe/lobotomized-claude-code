@@ -3,8 +3,8 @@ name: 'Send to Project: Typed message refused'
 description: >-
   /send-to-project command result when the typed message fails validation;
   nothing was sent and the message must be changed before running again.
-ccVersion: 2.1.314
+ccVersion: 2.1.318
 variables:
   - SLASH_COMMAND_SEND_TO_PROJECT_MESSAGE_REFUSED_VAR_0
 -->
-The message can’t be sent as typed: ${SLASH_COMMAND_SEND_TO_PROJECT_MESSAGE_REFUSED_VAR_0}. Change it and run /send-to-project again. Nothing was sent.
+The message can’t be sent as typed: ${SLASH_COMMAND_SEND_TO_PROJECT_MESSAGE_REFUSED_VAR_0.problem}. Change it and run /send-to-project again. Nothing was sent.

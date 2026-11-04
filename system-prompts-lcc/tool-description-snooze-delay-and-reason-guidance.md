@@ -7,6 +7,8 @@ description: >-
 ccVersion: 2.1.284
 variables:
   - TOOL_DESCRIPTION_SNOOZE_DELAY_AND_REASON_GUIDANCE_VAR_0
+  - TOOL_DESCRIPTION_SNOOZE_DELAY_AND_REASON_GUIDANCE_VAR_1
+  - TOOL_DESCRIPTION_SNOOZE_DELAY_AND_REASON_GUIDANCE_VAR_2
 -->
 
 Resume work in /loop dynamic mode: the user invoked /loop without an interval.

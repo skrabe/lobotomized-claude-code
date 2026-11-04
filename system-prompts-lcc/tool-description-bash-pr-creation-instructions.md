@@ -4,12 +4,13 @@ description: >-
   Pull request creation workflow for the Bash tool using gh, covering branch
   state analysis, the PR title and body template, and other common GitHub
   operations
-ccVersion: 2.1.310
+ccVersion: 2.1.318
 variables:
   - COMMIT_AND_PR_WRITING_GUIDANCE_BLOCK
   - PR_AT_MENTION_NOTIFICATION_WARNING
   - BASH_TOOL_NAME
   - PR_BODY_ENDING_CLAUSE
+  - SHOULD_USE_STDIN_HEREDOC
   - PR_SUMMARY_TEMPLATE_FN
   - PR_TEST_PLAN_TEMPLATE_FN
   - PR_ATTRIBUTION_TEXT
@@ -38,14 +39,14 @@ When the user asks you to create a pull request:
    - Push to remote with -u flag if needed
    - Create PR using gh pr create with the format below. Use a HEREDOC to pass the body to ensure correct formatting.${PR_BODY_ENDING_CLAUSE}
 <example>
-gh pr create --title "the pr title" --body "$(cat <<'EOF'
+gh pr create --title "the pr title" ${SHOULD_USE_STDIN_HEREDOC?"--body-file - <<'EOF'":`--body "$(cat <<'EOF'`}
 ## Summary
 ${PR_SUMMARY_TEMPLATE_FN()}
 
 ## Test plan
 ${PR_TEST_PLAN_TEMPLATE_FN()}${PR_ATTRIBUTION_TEXT}
-EOF
-)"
+EOF${SHOULD_USE_STDIN_HEREDOC?"":`
+)"`}
 </example>
 
 Important:

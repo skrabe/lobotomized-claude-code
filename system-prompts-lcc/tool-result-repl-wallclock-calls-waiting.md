@@ -1,0 +1,16 @@
+<!--
+name: 'REPL: Wall Clock Exceeded With Calls Waiting'
+description: >-
+  Error when the REPL wall-clock limit passed while calls were waiting to run,
+  possibly on a closed permission prompt.
+ccVersion: 2.1.318
+variables:
+  - TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_0
+  - TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_1
+  - TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_2
+  - TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_3
+  - TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_4
+  - TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_5
+  - TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_6
+-->
+REPL execution exceeded its wall-clock limit of ${TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_0(TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_1,{hideTrailingZeros:!0})} while ${TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_2} ${TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_3?"was":"were"} waiting to run.${TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_4}${TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_5} ${TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_3?"It":"They"} may have been waiting for the user to answer a permission prompt, which is now closed. If so, running ${TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_3?"it":"them"} again will ask the user again.${TOOL_RESULT_REPL_WALLCLOCK_CALLS_WAITING_VAR_6}
