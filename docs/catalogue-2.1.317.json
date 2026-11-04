@@ -1,0 +1,53 @@
+{
+  "version": "2.1.317",
+  "date": "2026-11-04",
+  "lccCommit": "7c35504e77cabaae3660966b846d008ac8bec0f5",
+  "catalogueSha256": "5f2973f52683547997cb8fa7f110fe2da22bb262275f9c25d80a8e167ddd5446",
+  "sites": 16355,
+  "uniqueIds": 15141,
+  "inventory": {
+    "cataloguedFiles": 15136,
+    "nonemptyRewrites": 835,
+    "emptyAgainstNonempty": 202,
+    "normalizedPristineMatches": 14099,
+    "outsideCatalogue": 38
+  },
+  "totals": {
+    "total": {
+      "occurrences": 16355,
+      "stockCharacters": 8642650,
+      "lccCharacters": 8368570
+    },
+    "data": {
+      "occurrences": 2085,
+      "stockCharacters": 3915948,
+      "lccCharacters": 3895766
+    },
+    "system": {
+      "occurrences": 1796,
+      "stockCharacters": 709302,
+      "lccCharacters": 626812
+    },
+    "agent": {
+      "occurrences": 549,
+      "stockCharacters": 393895,
+      "lccCharacters": 327188
+    },
+    "tool": {
+      "occurrences": 9836,
+      "stockCharacters": 2125800,
+      "lccCharacters": 2044444
+    },
+    "other": {
+      "occurrences": 1707,
+      "stockCharacters": 339849,
+      "lccCharacters": 343856
+    },
+    "skill": {
+      "occurrences": 382,
+      "stockCharacters": 1157856,
+      "lccCharacters": 1130504
+    }
+  },
+  "method": "Canonical auditCorpus parseOverrideFile/reconstructPristine/unescapeDeployed. Inventory matches any pristine variant for an ID. Projection counts each catalogue occurrence; symbolic runtime interpolations are unresolved. Unicode characters, not request tokens."
+}

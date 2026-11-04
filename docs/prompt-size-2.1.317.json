@@ -1,0 +1,72 @@
+{
+  "version": "2.1.317",
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "toolCount": 9,
+  "unit": "Unicode code points in decoded strings",
+  "date": "2026-11-04",
+  "method": "Temporary HOME and Claude profile, cwd outside the user home, no CLAUDE.md, private overlay, plugins, MCP servers or real credentials. Native default model routing. Stock binary and shared LCC applied with the main patcher default settings. Localhost SSE fixture; counts measure assembled prompt text, not model tokens.",
+  "syntheticResponse": true,
+  "externalModelRequestsForwarded": 0,
+  "arms": {
+    "stock": {
+      "systemCharacters": 3820,
+      "toolDescriptionCharacters": 8308,
+      "toolNames": [
+        "Agent",
+        "Bash",
+        "Edit",
+        "Glob",
+        "Grep",
+        "Read",
+        "Skill",
+        "DeferredToolPlaceholder",
+        "Write"
+      ],
+      "schemaStructureSha256": "bf13183f2c5c0c4590e8e4c0d37da6788fac7ec76ca9484f320f553ad6978b02",
+      "binarySha256": "09f153b46b5df9e8b3454716d682a91901de020cbca630f61dec1a015b32b5e9",
+      "perToolCharacters": {
+        "Agent": 3177,
+        "Bash": 1624,
+        "Edit": 360,
+        "Glob": 140,
+        "Grep": 477,
+        "Read": 790,
+        "Skill": 1417,
+        "DeferredToolPlaceholder": 83,
+        "Write": 240
+      }
+    },
+    "lcc": {
+      "systemCharacters": 2852,
+      "toolDescriptionCharacters": 6540,
+      "toolNames": [
+        "Agent",
+        "Bash",
+        "Edit",
+        "Glob",
+        "Grep",
+        "Read",
+        "Skill",
+        "DeferredToolPlaceholder",
+        "Write"
+      ],
+      "schemaStructureSha256": "bf13183f2c5c0c4590e8e4c0d37da6788fac7ec76ca9484f320f553ad6978b02",
+      "binarySha256": "c93fd9649079c1245f16fd8e545c8f235ef25a1917e9fd34cbdea68cb333c60f",
+      "perToolCharacters": {
+        "Agent": 1526,
+        "Bash": 1975,
+        "Edit": 360,
+        "Glob": 140,
+        "Grep": 477,
+        "Read": 750,
+        "Skill": 989,
+        "DeferredToolPlaceholder": 83,
+        "Write": 240
+      }
+    }
+  },
+  "tweakccCommit": "13b46f57e1392386db48040808db842a3532e269",
+  "lccCommit": "7c35504e77cabaae3660966b846d008ac8bec0f5",
+  "catalogueSha256": "5f2973f52683547997cb8fa7f110fe2da22bb262275f9c25d80a8e167ddd5446"
+}
