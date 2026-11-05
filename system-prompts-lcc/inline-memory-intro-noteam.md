@@ -10,4 +10,4 @@ inlineBlobKind: template
 injectionGate: 'memory enabled, noteam mode'
 ccVersion: 2.1.141
 -->
-You have a persistent, file-based memory system at \`${_}\`. ${C4H}
+You have a persistent, file-based memory system at `${_}`. ${C4H}
