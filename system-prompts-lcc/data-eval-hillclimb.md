@@ -3,7 +3,7 @@ name: 'Data: eval-hillclimb'
 description: >-
   claude-api skill reference file (eval-hillclimb) inlined as <doc> or extracted
   for the model to Read when the skill's Reading Guide points to it.
-ccVersion: 2.1.296
+ccVersion: 2.1.319
 -->
 # Hill-Climbing on an Eval
 
@@ -104,6 +104,8 @@ This is both the stopping condition and the check-in cadence - the loop runs aut
 Set delta above the noise floor from Step 0.5 - a stopping threshold finer than the eval can resolve never fires honestly.
 
 **If reducing cost is itself the Step 1 goal** - not just a ceiling on this loop - read \`shared/evals/cost-hillclimb.md\` before planning rounds: it narrows this guide's loop to the cost objective, with a lever search order (caching health -> prompt audit -> a model × effort staircase walk -> prompt climb on the frozen model -> a down-left re-probe -> a registered joint confirm), pre-registered adoption gates, and cost-specific stopping rules. (\`shared/cost-optimization.md\` is the no-eval checklist for the same goal; inside this loop, follow \`cost-hillclimb.md\`.)
+
+**If cutting latency is the Step 1 goal**, read \`shared/latency-optimization.md\` before planning rounds, then \`shared/latency-optimization/search.md\`: it measures model, effort and thinking together and then tries the other changes in combination on the best of those, which one change per round can't do. Use this loop for its saved state, and to climb prompt-text changes once that search has fixed the model and effort. That guide's rules win here: the quality bar the user set there rather than this loop's "within noise of baseline" (the two coincide only when the user gave no bar), its tasks set aside and final re-run, a fixed concurrency for timed runs rather than a maxed-out one, and the noise rules (\`shared/latency-optimization/measuring.md\`) this loop's deltas must clear (interleaved configurations, three full passes for the configuration you keep and for the baseline it is compared with, a fixed measuring client and path, and "can't tell" reported as such). In each row's \`latency_s\`, record that task's value on the wait that guide settled on (for time to finish, the whole task's seconds; for a first-token metric, the first call's). Compare configurations at the chosen percentile, computed yourself from results.jsonl, because the report's latency column is a mean. The runner scaffold's \`latency_s\` leaves out retry waits and failed attempts, so record those separately when retries may be part of the slow tail.
 
 **If the user asks what the loop will cost or gives you a budget**, also present the **total loop cost** - baseline plus every planned round - and get a ceiling. Estimate it from real numbers, don't guess:
 

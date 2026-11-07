@@ -1,0 +1,15 @@
+<!--
+name: 'Tool Result: WebFetch answer coverage next offset'
+description: >-
+  Note giving which character range of the page the answer covers and the next
+  offset to fetch
+ccVersion: 2.1.319
+variables:
+  - TOOL_RESULT_WEBFETCH_ANSWER_COVERAGE_NEXT_OFFSET_VAR_0
+  - TOOL_RESULT_WEBFETCH_ANSWER_COVERAGE_NEXT_OFFSET_VAR_1
+  - TOOL_RESULT_WEBFETCH_ANSWER_COVERAGE_NEXT_OFFSET_VAR_2
+  - TOOL_RESULT_WEBFETCH_ANSWER_COVERAGE_NEXT_OFFSET_VAR_3
+-->
+
+
+[${TOOL_RESULT_WEBFETCH_ANSWER_COVERAGE_NEXT_OFFSET_VAR_0} note: the answer above covers characters ${TOOL_RESULT_WEBFETCH_ANSWER_COVERAGE_NEXT_OFFSET_VAR_1} to ${TOOL_RESULT_WEBFETCH_ANSWER_COVERAGE_NEXT_OFFSET_VAR_2} of this page's ${TOOL_RESULT_WEBFETCH_ANSWER_COVERAGE_NEXT_OFFSET_VAR_3.length} characters. Next offset: ${TOOL_RESULT_WEBFETCH_ANSWER_COVERAGE_NEXT_OFFSET_VAR_2}.]

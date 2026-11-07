@@ -1,12 +1,15 @@
 <!--
-name: 'Tool Result: Subagent Handback Already Delivered'
+name: 'Tool Result: Subagent handback already delivered'
 description: >-
-  SubagentHandback call() failure when a report was already delivered, steering
-  further traffic to SendMessage.
-ccVersion: 2.1.295
+  Explains that the agent's single report was already delivered and gives
+  next-step stop guidance.
+ccVersion: 2.1.319
 variables:
   - TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_0
   - TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_1
   - TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_2
+  - TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_3
+  - TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_4
+  - TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_5
 -->
-Nothing was sent: your report was already delivered (${TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_0} delivers one report). ${TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_1()?"Stop now.":`Use ${TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_2} for anything further, then stop.`}
+Nothing was sent: an earlier report of yours was already delivered (${TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_0} delivers one report), so this one did not reach your caller. ${TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_1(TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_2)&&TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_3(TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_4)?`Use ${TOOL_RESULT_SUBAGENT_HANDBACK_ALREADY_DELIVERED_VAR_5} to send anything further, then stop.`:"Stop now."}

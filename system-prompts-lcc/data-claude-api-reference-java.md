@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Claude API reference — Java) inlined as <doc>
   or extracted for the model to Read when the skill's Reading Guide points to
   it.
-ccVersion: 2.1.311
+ccVersion: 2.1.319
 -->
 # Claude API - Java
 
@@ -55,14 +55,14 @@ Maven:
 <dependency>
     <groupId>com.anthropic</groupId>
     <artifactId>anthropic-java</artifactId>
-    <version>3.2.0</version>
+    <version>3.3.0</version>
 </dependency>
 \`\`\`
 
 Gradle:
 
 \`\`\`groovy
-implementation("com.anthropic:anthropic-java:3.2.0")
+implementation("com.anthropic:anthropic-java:3.3.0")
 \`\`\`
 
 ## Client Initialization

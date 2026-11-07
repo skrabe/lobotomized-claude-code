@@ -1,9 +1,0 @@
-<!--
-name: 'Data: sshHostCommands setting description'
-description: >-
-  Description of the `sshHostCommands` setting in Claude Code's settings JSON
-  schema. The model reads it through /update-config and settings validation
-  errors; it is also shown to users in the settings help.
-ccVersion: 2.1.308
--->
-SSH connections in Claude Desktop on macOS and Linux whose host comes from a command. A list of entries, each with `id`, `name` and `command`, and optionally `sshIdentityFile` and `startDirectory`. When you ask Desktop to create or replace an entry's host, it runs `command` on this computer: a program name or absolute path, followed by plain arguments. There is no shell, so quotes, pipes, variables and a leading `~` do not work. The command must print only the host on standard output: `host` or `user@host` on one line, or a JSON object with `sshHost` and, optionally, `sshPort` and `startDirectory`. Desktop reads this key only from user settings and from this computer's managed settings. Claude Code itself does not use it.

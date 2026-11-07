@@ -1,0 +1,16 @@
+<!--
+name: 'Tool Result: MCP connector file not sent and tool not called'
+description: >-
+  Explains no file was sent and the tool was not called, that the path argument
+  is not sent as text, and how to retry without the file arguments
+ccVersion: 2.1.319
+variables:
+  - TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_0
+  - TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_1
+  - TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_2
+  - TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_3
+  - TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_4
+  - TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_5
+  - TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_6
+-->
+No file was sent and ${TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_0} was not called: ${TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_1}. You were asked for ${TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_2?"file paths":"a file's path"} in ${TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_3}, so what you wrote there is not sent to ${TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_0} as text.${TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_4} Tell the user. Do not retry with ${TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_5} set${TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_6==="listed_before_uploads"?" until the connector has been reconnected":""}; you may call ${TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_0} without ${TOOL_RESULT_MCP_CONNECTOR_FILE_NOT_CALLED_REASON_VAR_2?"them":"it"}.

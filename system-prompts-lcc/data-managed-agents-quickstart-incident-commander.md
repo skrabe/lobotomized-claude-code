@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Managed Agents quickstart — Incident
   commander) inlined as <doc> or extracted for the model to Read when the
   skill's Reading Guide points to it.
-ccVersion: 2.1.296
+ccVersion: 2.1.319
 -->
 ---
 title: Incident commander
@@ -39,6 +39,11 @@ mcp_servers:
     url: https://api.githubcopilot.com/mcp/
 tools:
   - type: agent_toolset_20260401
+    configs:
+      - name: web_search
+        enabled: false
+      - name: web_fetch
+        enabled: false
   - type: mcp_toolset
     mcp_server_name: sentry
   - type: mcp_toolset

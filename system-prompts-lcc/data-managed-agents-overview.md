@@ -3,7 +3,7 @@ name: 'Data: managed-agents-overview'
 description: >-
   claude-api skill reference file (managed-agents-overview) inlined as <doc> or
   extracted for the model to Read when the skill's Reading Guide points to it.
-ccVersion: 2.1.314
+ccVersion: 2.1.319
 -->
 # Managed Agents - Overview
 
@@ -75,7 +75,7 @@ Managed Agents is in beta. The SDK sets required beta headers automatically:
 
 ## Common Pitfalls
 
-- **MCP auth goes through vaults** - the agent's \`mcp_servers\` array declares \`{type, name, url}\` only (no auth). Credentials live in vaults (\`client.beta.vaults.credentials.create\`) and attach to sessions via \`vault_ids\`. Anthropic auto-refreshes OAuth tokens using the stored refresh token. Vaults also hold \`environment_variable\` credentials for non-MCP services (CLIs, SDKs, direct API calls) - substituted at egress, never visible in the sandbox.
+- **MCP auth goes through vaults** - the agent's \`mcp_servers\` array declares \`{type, name, url}\` only (no auth). Credentials live in vaults (\`client.beta.vaults.credentials.create\`) and attach to sessions via \`vault_ids\`. Anthropic auto-refreshes OAuth tokens using the stored refresh token. Vaults also hold \`environment_variable\` credentials for non-MCP services (CLIs, SDKs, direct API calls) - substituted at egress, so the sandbox sees only a placeholder unless a service sends the secret back.
 - **Reconcile resources before the first run** - a session with a clear ask but a missing tool, credential, data mount, or context will discover the gap mid-run, then flail and give up. Before creating the session, check that every action in the task maps to a configured tool/MCP server, every MCP server has a vault credential, and every referenced file/host is mounted/reachable. When helping a user set one up, run the reconciliation in \`shared/managed-agents-onboarding.md\` -> §4 silent viability gate.
 - **SSE stream has no replay - reconnect with consolidation** - if the stream drops while a \`agent.tool_use\`, \`agent.mcp_tool_use\`, or \`agent.custom_tool_use\` is pending resolution (\`user.tool_confirmation\` for the first two, \`user.custom_tool_result\` for the last one), the session deadlocks (client disconnects -> session idles -> reconnect happens -> no client resolution happens). On every (re)connect: open stream with \`GET /v1/sessions/{id}/events/stream\` , fetch \`GET /v1/sessions/{id}/events\`, dedupe by event ID, then proceed. See \`shared/managed-agents-events.md\` -> Reconnecting after a dropped stream.
 - **Don't trust HTTP-library timeouts as wall-clock caps** - \`requests\` \`timeout=(c, r)\` and \`httpx.Timeout(n)\` are *per-chunk* read timeouts; they reset every byte, so a trickling connection can block indefinitely. For a hard deadline on raw-HTTP polling, track \`time.monotonic()\` at the loop level and bail explicitly. Prefer the SDK's \`sessions.events.stream()\` / \`sessions.events.list()\` over hand-rolled HTTP. See \`shared/managed-agents-events.md\` -> Receiving Events.

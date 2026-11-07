@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: Worktree isolation registration compare unverifiable'
+description: >-
+  Reason clause: the worktree's git metadata could not be safely compared with
+  its host's registration
+ccVersion: 2.1.319
+variables:
+  - TOOL_RESULT_WORKTREE_ISOLATION_UNVERIFIABLE_REGISTRATION_COMPARE_VAR_0
+  - TOOL_RESULT_WORKTREE_ISOLATION_UNVERIFIABLE_REGISTRATION_COMPARE_VAR_1
+  - TOOL_RESULT_WORKTREE_ISOLATION_UNVERIFIABLE_REGISTRATION_COMPARE_VAR_2
+-->
+its git metadata could not be safely compared with ${TOOL_RESULT_WORKTREE_ISOLATION_UNVERIFIABLE_REGISTRATION_COMPARE_VAR_0.host}'s registration of it (${TOOL_RESULT_WORKTREE_ISOLATION_UNVERIFIABLE_REGISTRATION_COMPARE_VAR_1(TOOL_RESULT_WORKTREE_ISOLATION_UNVERIFIABLE_REGISTRATION_COMPARE_VAR_2)})

@@ -1,0 +1,13 @@
+<!--
+name: No connector files sent before stop
+description: >-
+  Reports the tool was called but none of the call's files were sent before it
+  stopped.
+ccVersion: 2.1.319
+variables:
+  - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_NONE_SENT_BEFORE_STOP_VAR_0
+  - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_NONE_SENT_BEFORE_STOP_VAR_1
+  - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_NONE_SENT_BEFORE_STOP_VAR_2
+  - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_NONE_SENT_BEFORE_STOP_VAR_3
+-->
+${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_NONE_SENT_BEFORE_STOP_VAR_0} was called, and ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_NONE_SENT_BEFORE_STOP_VAR_1===1?TOOL_RESULT_MCP_CONNECTOR_UPLOAD_NONE_SENT_BEFORE_STOP_VAR_2+" had not":"none of "+TOOL_RESULT_MCP_CONNECTOR_UPLOAD_NONE_SENT_BEFORE_STOP_VAR_2+" had"} been sent to the connector when it stopped${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_NONE_SENT_BEFORE_STOP_VAR_3?"; the connector was told that nothing arrived":""}.

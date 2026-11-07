@@ -4,7 +4,7 @@ description: >-
   Claude Code plugin API declarations written as the plugin-authoring skill file
   types/claude-code.d.ts, which SKILL.md points the model to as the API
   reference (also used for type-checking).
-ccVersion: 2.1.318
+ccVersion: 2.1.319
 -->
 // Claude Code function hooks: the plugin API's TypeScript declarations.
 //
@@ -1893,6 +1893,16 @@ declare module 'claude-code' {
        */
       context?: readonly string[];
       /**
+       * Whether \`text\` is for the person alone and \`context\` is all the model
+       * reads: the output row is drawn and kept, and goes in no request.
+       *
+       * Read on a hook's own answer without \`next\`, when every plugin hooking the
+       * command is bundled with Claude Code, whose answer reads as the built-in
+       * command's own, on the queued lanes: a panel answered mid-turn keeps its
+       * text in requests. Any other plugin's text stays in requests.
+       */
+      isTextDisplayOnly?: true;
+      /**
        * What the process exits with when this command was the whole prompt of a
        * headless run (\`claude -p "/lint"\`): a whole number from 0 to 255.
        *
@@ -2585,28 +2595,6 @@ declare module 'claude-code' {
            */
           place: (args: UiPlaceArgs) => Promise<UiPlaceResult>;
           /**
-           * Sets the session's backdrop, drawn behind the conversation by what
-           * \`ui.render\` answers for \`Backdrop\`; \`undefined\` clears this plugin's own.
-           *
-           * One backdrop stands, the latest set. The desktop app draws it full
-           * window and frosts its own panels over it; the mobile app draws it full
-           * screen under one veil, which for now takes \`tint\` and \`opacity\` but not
-           * \`blur\`. \`glass: false\` leaves either as it is; the other surfaces draw
-           * none.
-           * \`colorScheme\` says whether the scene is light or dark, so a surface can
-           * draw its own text to suit. Display only: \`--resume\` brings none back, and
-           * a plugin that unloads takes its own with it, so set it at \`session.start\`.
-           *
-           * @param backdrop \`id\`, \`glass\` (\`blur\`, \`tint\`, \`opacity\`) or \`false\`,
-           *   \`colorScheme\`
-           * @returns \`{ isDrawn: true, requestId }\`, or \`isDrawn: false\` and why
-           * @example
-           * await $.ui.backdrop({ id: "lagoon", glass: { blur: 14, opacity: 0.55 } })
-           * @example
-           * await $.ui.backdrop(undefined) // a preview ends
-           */
-          backdrop: (backdrop: UiBackdropArgs | undefined) => Promise<UiBackdropResult>;
-          /**
            * Scrolls something into view as the DOM's \`scrollIntoView\` would: a
            * render instance by \`requestId\`, an element by \`key\`, a site's edge.
            *
@@ -2682,6 +2670,41 @@ declare module 'claude-code' {
            * onPress: () => $.ui.view({})
            */
           view: (view: SiteView) => Promise<UiViewResult>;
+      };
+      /**
+       * The session's one theme: how the app looks behind and around the
+       * conversation. One theme stands at a time, the latest set, whichever plugin
+       * set it; there is no stack.
+       */
+      theme: {
+          /**
+           * Sets the session's theme from one object of named top-level attributes.
+           * \`backdrop\` is drawn behind the conversation by what \`ui.render\` answers
+           * for \`Backdrop\`: full window on desktop under its frosted panels, full
+           * screen on mobile under one veil (\`tint\` and \`opacity\`, not yet \`blur\`).
+           * Display only: \`--resume\` brings none back and a plugin that unloads
+           * takes its own with it, so set it at \`session.start\`.
+           *
+           * @param attributes \`backdrop\`: \`id\`, \`glass\` (\`blur\`, \`tint\`, \`opacity\`) or
+           *   \`false\`, and \`colorScheme\` (\`light\` or \`dark\`)
+           * @returns \`{ isDrawn: true, requestId }\`, or \`isDrawn: false\` and why
+           * @example
+           * await $.theme.set({ backdrop: { id: "lagoon", glass: { blur: 14, opacity: 0.55 } } })
+           */
+          set: (attributes: ThemeSetArgs) => Promise<ThemeResult>;
+          /**
+           * Clears the session's theme, back to the app's own look.
+           *
+           * IT CLEARS WHATEVER THEME STANDS, WHICHEVER PLUGIN SET IT: there is one
+           * theme, so a clear is the session's and not the caller's own. Clear on a
+           * person's ask (a command, a button), never at \`session.start\` or on a
+           * reload: a plugin that clears there wipes another plugin's theme each time.
+           *
+           * @returns \`isDrawn: false\` and why
+           * @example
+           * await $.theme.clear() // a preview ends with no theme to go back to
+           */
+          clear: () => Promise<ThemeResult>;
       };
       /**
        * Completions through the session's own client and credentials.
@@ -7364,12 +7387,13 @@ declare module 'claude-code' {
        */
       'ui.place': UiPlaceArgs;
       /**
-       * The argument of \`$.ui.backdrop(backdrop)\`; \`backdrop\` undefined clears
-       * the plugin's own.
+       * The argument of \`$.theme.set(attributes)\`: the attributes themselves.
        */
-      'ui.backdrop': {
-          backdrop: UiBackdropArgs | undefined;
-      };
+      'theme.set': ThemeSetArgs;
+      /**
+       * The argument of \`$.theme.clear()\`.
+       */
+      'theme.clear': NoArgs;
       /**
        * The argument of \`$.ui.selection()\`.
        */
@@ -7631,7 +7655,11 @@ declare module 'claude-code' {
       /**
        * The backdrop's request id, or why nothing draws it.
        */
-      'ui.backdrop': UiBackdropResult;
+      'theme.set': ThemeResult;
+      /**
+       * \`isDrawn: false\`, and whether a theme stood to be cleared.
+       */
+      'theme.clear': ThemeResult;
       /**
        * What the person last selected; \`undefined\` when there is nothing.
        */
@@ -9004,9 +9032,10 @@ declare module 'claude-code' {
    * One styled run a surface paints over the prompt draft: \`[start, end)\` of
    * a text, in UTF-16 code units like PromptBox \`cursor\`. Paint only.
    *
-   * A range outside the text is clamped into it, an empty one that carries
-   * no \`virtualText\` dropped, and a boundary inside a grapheme moves back to
-   * its start. Later entries win per style key.
+   * Clamped into the text, an empty range with no \`virtualText\` dropped, and a
+   * boundary moved back to its grapheme's start. Later entries win per key. The
+   * caret's cell keeps its run's style, less a color that would hide the caret:
+   * \`color\` matching its background, or an end matching the terminal's other one.
    *
    * @example { start: 4, end: 8, color: 'warning', bold: true }
    */
@@ -10073,7 +10102,7 @@ declare module 'claude-code' {
    * authorises an action; a plugin adds context with \`$.ui.notice\`. \`Pane\` is
    * a component whose instances a plugin opens (\`$.ui.open\`), \`Placed\`
    * another (\`$.ui.place\`), and \`Backdrop\` the one a plugin sets
-   * (\`$.ui.backdrop\`), drawn behind the conversation by the desktop and mobile
+   * (\`$.theme.set\`), drawn behind the conversation by the desktop and mobile
    * apps alone.
    */
   export type RenderComponent = 'AskUserQuestion' | 'UserMessage' | 'AssistantMessage' | 'ToolUse' | 'ToolResult' | 'ToolGroup' | 'ToolProgress' | 'CommandOutput' | 'Spinner' | 'TurnDuration' | 'InfoNotice' | 'SessionMode' | 'PromptHint' | 'AbovePrompt' | 'Pane' | 'Placed' | 'Backdrop';
@@ -11198,7 +11227,7 @@ declare module 'claude-code' {
           onScreen?: OnScreen | null;
       };
       /**
-       * The session's backdrop (\`$.ui.backdrop\`), drawn behind the conversation by
+       * The session's backdrop (\`$.theme.set\`), drawn behind the conversation by
        * the desktop and mobile apps alone: empty until a hook draws it.
        *
        * Every plugin's hook hears it, so read \`plugin\` beside \`id\`. The surface
@@ -11210,7 +11239,7 @@ declare module 'claude-code' {
        */
       Backdrop: {
           /**
-           * What \`$.ui.backdrop\` was given. Read-only.
+           * What \`$.theme.set\` was given as \`backdrop\`. Read-only.
            */
           id: string;
           /**
@@ -13763,6 +13792,53 @@ declare module 'claude-code' {
   };
 
   /**
+   * The \`backdrop\` attribute of \`$.theme.set\`: what is drawn behind the
+   * conversation, and how the surface frosts its panels over it.
+   */
+  export type ThemeBackdrop = {
+      /**
+       * Names the backdrop among this plugin's: 1 to 64 of letters, digits, \`_\`
+       * and \`-\`, as a pane's id. A \`ui.render\` hook reads it as \`e.props.id\`.
+       */
+      id: string;
+      /**
+       * How the surface frosts its panels over the backdrop: absent, the default
+       * glass; \`false\`, the panels stay as they are.
+       */
+      glass?: ThemeBackdropGlass | false;
+      /**
+       * Whether the scene is \`light\` or \`dark\`, so a surface can draw its own text
+       * to suit. Absent, the surface keeps its colors. The desktop app ignores it
+       * for now.
+       */
+      colorScheme?: 'light' | 'dark';
+  };
+
+  /**
+   * How a surface keeps its text readable over a backdrop: the desktop app
+   * frosts its own panels, and the mobile app lays one veil over the backdrop.
+   * Each key absent takes the surface's default, so \`{}\` is the default glass.
+   */
+  export type ThemeBackdropGlass = {
+      /**
+       * How far the backdrop blurs behind a panel, in CSS pixels: 0 to 64.
+       * Absent, 16.
+       */
+      blur?: number;
+      /**
+       * What colours a panel or veil over the backdrop: a raw color, \`#hex\` or \`rgb()\`,
+       * \`rgba()\`, \`hsl()\` or \`hsla()\` of numbers; a theme key or a name is refused.
+       * Absent, the surface's own panel color.
+       */
+      tint?: string;
+      /**
+       * How opaque the tinted panel or veil is over the backdrop: 0 to 1. Absent,
+       * 0.6.
+       */
+      opacity?: number;
+  };
+
+  /**
    * The theme keys named for what a color means: text, status, the prompt box
    * and its modes, and diffs, as the custom theme reference lists them.
    *
@@ -13770,6 +13846,58 @@ declare module 'claude-code' {
    * holds resolves too, typed as any string is (Color).
    */
   export type ThemeKey = 'text' | 'inverseText' | 'inactive' | 'subtle' | 'suggestion' | 'remember' | 'success' | 'error' | 'warning' | 'merged' | 'claude' | 'permission' | 'planMode' | 'autoAccept' | 'promptBorder' | 'bashBorder' | 'ide' | 'diffAdded' | 'diffRemoved' | 'diffAddedDimmed' | 'diffRemovedDimmed' | 'diffAddedWord' | 'diffRemovedWord';
+
+  /**
+   * What \`$.theme.set\` and \`$.theme.clear\` resolve to, and what a \`theme.set\` or
+   * \`theme.clear\` hook's \`{ value }\` holds.
+   *
+   * A theme that was set stands for the session either way, so a surface that
+   * attaches later draws it; a clear resolves \`isDrawn: false\` with its reason.
+   *
+   * @example
+   * const set = await $.theme.set({ backdrop: { id: "lagoon" } })
+   */
+  export type ThemeResult = {
+      /**
+       * True: a surface is attached that draws backdrops.
+       */
+      isDrawn: true;
+      /**
+       * The backdrop's \`e.requestId\` at \`ui.render\`: \`backdrop\`, the same for
+       * every backdrop; \`e.props.id\` and \`e.props.plugin\` say which it is.
+       */
+      requestId: string;
+  } | {
+      /**
+       * False: nothing draws the backdrop now, for the \`reason\` given.
+       */
+      isDrawn: false;
+      /**
+       * The backdrop's id when it stands for a surface yet to attach.
+       */
+      requestId?: string;
+      /**
+       * Why nothing draws it, one line to show or log.
+       */
+      reason: string;
+  };
+
+  /**
+   * The argument of \`$.theme.set\`: one object of named attributes, so a later
+   * attribute is an addition and never a change of the call.
+   *
+   * \`backdrop\` is the one attribute this build knows; a palette is to follow as
+   * a member of its own. An attribute the build does not know is refused by
+   * name, never dropped.
+   */
+  export type ThemeSetArgs = {
+      /**
+       * What is drawn behind the conversation by what \`ui.render\` answers for
+       * \`Backdrop\`, the glass a surface frosts its panels with, and whether its
+       * scene is light or dark.
+       */
+      backdrop: ThemeBackdrop;
+  };
 
   /**
    * One of the chain's five tiers (TIERS), outermost first; on every
@@ -14580,11 +14708,14 @@ declare module 'claude-code' {
    * \`{ text }\`; a text other than a main-loop answer's is shown beneath it.
    *
    * Core fills \`usage\` from \`e.usage\` when the turn had one; a hook above reads
-   * it, and one that answers its own may leave it out.
+   * it, and one that answers its own may leave it out. \`by\` is the engine's: the
+   * plugins that wrote the text or rewrote the answer they passed down, which
+   * head its note. What a hook puts there is replaced.
    */
   export type TurnCompleteResult = {
       text: string;
       usage?: TurnUsage;
+      by?: readonly string[];
   };
 
   /**
@@ -14917,88 +15048,6 @@ declare module 'claude-code' {
        * Which model answered, by the id the API reports.
        */
       model: string;
-  };
-
-  /**
-   * The argument of \`$.ui.backdrop\`; \`undefined\` in its place clears the
-   * plugin's own backdrop.
-   */
-  export type UiBackdropArgs = {
-      /**
-       * Names the backdrop among this plugin's: 1 to 64 of letters, digits, \`_\`
-       * and \`-\`, as a pane's id. A \`ui.render\` hook reads it as \`e.props.id\`.
-       */
-      id: string;
-      /**
-       * How the surface frosts its panels over the backdrop: absent, the default
-       * glass; \`false\`, the panels stay as they are.
-       */
-      glass?: UiBackdropGlass | false;
-      /**
-       * Whether the scene is \`light\` or \`dark\`, so a surface can draw its own text
-       * to suit. Absent, the surface keeps its colors. The desktop app ignores it
-       * for now.
-       */
-      colorScheme?: 'light' | 'dark';
-  };
-
-  /**
-   * How a surface keeps its text readable over a backdrop: the desktop app
-   * frosts its own panels, and the mobile app lays one veil over the backdrop.
-   * Each key absent takes the surface's default, so \`{}\` is the default glass.
-   */
-  export type UiBackdropGlass = {
-      /**
-       * How far the backdrop blurs behind a panel, in CSS pixels: 0 to 64.
-       * Absent, 16.
-       */
-      blur?: number;
-      /**
-       * What colours a panel or veil over the backdrop: a raw color, \`#hex\` or \`rgb()\`,
-       * \`rgba()\`, \`hsl()\` or \`hsla()\` of numbers; a theme key or a name is refused.
-       * Absent, the surface's own panel color.
-       */
-      tint?: string;
-      /**
-       * How opaque the tinted panel or veil is over the backdrop: 0 to 1. Absent,
-       * 0.6.
-       */
-      opacity?: number;
-  };
-
-  /**
-   * What \`$.ui.backdrop\` resolves to and what a \`ui.backdrop\` hook's \`{ value }\`
-   * holds.
-   *
-   * The backdrop stands for the session either way, so a surface that attaches
-   * later draws it; a cleared one resolves \`isDrawn: false\` with its reason.
-   *
-   * @example
-   * const set = await $.ui.backdrop({ id: "lagoon" })
-   */
-  export type UiBackdropResult = {
-      /**
-       * True: a surface is attached that draws backdrops.
-       */
-      isDrawn: true;
-      /**
-       * The backdrop's \`e.requestId\` at \`ui.render\`: \`backdrop\`, the same for
-       * every backdrop; \`e.props.id\` and \`e.props.plugin\` say which it is.
-       */
-      requestId: string;
-  } | {
-      /**
-       * False: nothing draws the backdrop now, for the \`reason\` given.
-       */
-      isDrawn: false;
-      /**
-       * The backdrop's id when it stands for a surface yet to attach.
-       */
-      requestId?: string;
-      /**
-       * Why nothing draws it, one line to show or log.
-       */
-      reason: string;
   };
 
   /**

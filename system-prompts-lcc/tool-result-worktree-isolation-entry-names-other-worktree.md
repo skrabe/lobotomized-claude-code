@@ -1,0 +1,14 @@
+<!--
+name: 'Tool Result: Worktree isolation entry names other worktree'
+description: >-
+  Refusal when the worktree's .git entry names a different worktree, noting git
+  worktree repair can re-point such entries
+ccVersion: 2.1.319
+variables:
+  - TOOL_RESULT_WORKTREE_ISOLATION_ENTRY_NAMES_OTHER_WORKTREE_VAR_0
+  - TOOL_RESULT_WORKTREE_ISOLATION_ENTRY_NAMES_OTHER_WORKTREE_VAR_1
+  - TOOL_RESULT_WORKTREE_ISOLATION_ENTRY_NAMES_OTHER_WORKTREE_VAR_2
+  - TOOL_RESULT_WORKTREE_ISOLATION_ENTRY_NAMES_OTHER_WORKTREE_VAR_3
+  - TOOL_RESULT_WORKTREE_ISOLATION_ENTRY_NAMES_OTHER_WORKTREE_VAR_4
+-->
+Refusing to use ${TOOL_RESULT_WORKTREE_ISOLATION_ENTRY_NAMES_OTHER_WORKTREE_VAR_0} as an isolation worktree: its .git leads to ${TOOL_RESULT_WORKTREE_ISOLATION_ENTRY_NAMES_OTHER_WORKTREE_VAR_1} that names ${TOOL_RESULT_WORKTREE_ISOLATION_ENTRY_NAMES_OTHER_WORKTREE_VAR_2}, not this worktree (git worktree repair run inside any worktree can re-point an entry like that).${TOOL_RESULT_WORKTREE_ISOLATION_ENTRY_NAMES_OTHER_WORKTREE_VAR_3} ${TOOL_RESULT_WORKTREE_ISOLATION_ENTRY_NAMES_OTHER_WORKTREE_VAR_4}

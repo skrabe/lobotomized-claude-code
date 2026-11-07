@@ -4,25 +4,25 @@ description: >-
   claude-api skill reference file (Managed Agents quickstart — Explainer video
   maker) inlined as <doc> or extracted for the model to Read when the skill's
   Reading Guide points to it.
-ccVersion: 2.1.296
+ccVersion: 2.1.319
 -->
 ---
-title: Explainer video maker
-description: Turns a topic and your source material into a short captioned video with music, with an agent per scene.
+title: Video explainer maker
+description: Turns a topic into a short captioned video with music.
 console_key: explainer-video
 order: 12
 ---
 
-# Explainer video maker
+# Video explainer maker
 
-Turns a topic and your source material into a short captioned video with music, with an agent per scene.
+Turns a topic into a short captioned video with music.
 
 ## agent.md
 
 \`\`\`\`markdown
 ---
-name: Explainer video maker
-description: Turns a topic and your source material into a short captioned video with music, with an agent per scene.
+name: Video explainer maker
+description: Turns a topic into a short captioned video with music.
 model:
   id: {{OPUS_ID}}
   effort: low
