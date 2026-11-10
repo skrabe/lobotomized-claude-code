@@ -1,9 +1,8 @@
 <!--
-name: 'Data: Auto mode hook-rewrote-input review reason'
+name: 'Data: Auto mode call changed after review reason'
 description: >-
-  Reason constant (HOOK_REWROTE_INPUT_REVIEW_REASON) passed to Jhn @12843645
-  when a hook or plugin changed a call after auto mode reviewed it; becomes the
-  deny/ask message returned to the model
-ccVersion: 2.1.312
+  Reason auto mode gives when a call changed after its review so it could not
+  check what would run
+ccVersion: 2.1.322
 -->
-A hook or plugin changed (or may have changed) a call in this response after auto mode reviewed it, so auto mode could not check what would run
+A call in this response changed (or may have changed) after auto mode reviewed it, so auto mode could not check what would run

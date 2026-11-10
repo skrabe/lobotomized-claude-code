@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Managed Agents events and steering) inlined
   as <doc> or extracted for the model to Read when the skill's Reading Guide
   points to it.
-ccVersion: 2.1.300
+ccVersion: 2.1.322
 -->
 # Managed Agents - Events & Steering
 
@@ -43,7 +43,7 @@ client.beta.sessions.events.send(
 
 Constraints:
 
-- **Model-gated: {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{PREV_FABLE_NAME}}, {{PREV_MYTHOS_NAME}}, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Claude Opus 4.8, {{SONNET_NAME}}, and {{HAIKU_NAME}} (not {{PREV_SONNET_NAME}}).** Only the agent's **primary** model is checked - \`system.message\` lands on the primary thread only, so subagent models are not considered. On an unsupported primary model the event is rejected with a \`model_does_not_support_mid_conversation_system\` validation error.
+- **Model-gated: {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{PREV_FABLE_NAME}}, {{PREV_MYTHOS_NAME}}, Claude Fable 5, Claude Mythos 5, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Claude Opus 4.8, {{SONNET_NAME}}, and {{HAIKU_NAME}} (not {{PREV_SONNET_NAME}}).** Only the agent's **primary** model is checked - \`system.message\` lands on the primary thread only, so subagent models are not considered. On an unsupported primary model the event is rejected with a \`model_does_not_support_mid_conversation_system\` validation error.
 - **While the session is idle with \`stop_reason: requires_action\`** (blocked on \`user.custom_tool_result\` / \`user.tool_confirmation\`), a \`system.message\` is accepted **only when it trails a tool result event in the same request**. Sent on its own - or alongside a \`user.message\` - it is rejected until the pending tool events are resolved.
 - \`content\` accepts 1-1000 text items.
 

@@ -1,8 +1,6 @@
 <!--
-name: 'Connector download refusal: too large stated'
-description: >-
-  Reason fragment in a connector download note saying a file was not downloaded
-  because the stated size exceeds the 100 MB limit.
-ccVersion: 2.1.319
+name: 'System Reminder: Connector download refusal too large (stated)'
+description: Refusal reason when an offered file's stated size exceeds the download cap.
+ccVersion: 2.1.322
 -->
-its stated size is over 100 MB, the most Claude Code downloads
+its stated size is over 500 MB, the most Claude Code downloads

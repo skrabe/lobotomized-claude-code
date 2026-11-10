@@ -1,10 +1,10 @@
 <!--
-name: 'Tool Result: Design cannot delete reserved paths'
+name: 'Tool result: design delete reserved paths'
 description: >-
-  Claude Design delete_files error listing reserved paths that cannot be
-  deleted.
-ccVersion: 2.1.291
+  Error when delete_files targets reserved paths (CLAUDE.md, CLAUDE.local.md,
+  .claude/).
+ccVersion: 2.1.322
 variables:
   - TOOL_RESULT_DESIGN_DELETE_RESERVED_PATHS_VAR_0
 -->
-Cannot delete reserved paths: ${TOOL_RESULT_DESIGN_DELETE_RESERVED_PATHS_VAR_0.join(", ")}. CLAUDE.md and .claude/ carry instructions to the design agent and are blocked regardless of the plan.
+Cannot delete reserved paths: ${TOOL_RESULT_DESIGN_DELETE_RESERVED_PATHS_VAR_0.join(", ")}. CLAUDE.md, CLAUDE.local.md and .claude/ carry agent instructions and are blocked regardless of the plan.

@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Message Batches API — TypeScript) inlined as
   <doc> or extracted for the model to Read when the skill's Reading Guide points
   to it.
-ccVersion: 2.1.296
+ccVersion: 2.1.322
 -->
 # Message Batches API - TypeScript
 
@@ -16,7 +16,7 @@ The Batches API (\`POST /v1/messages/batches\`) processes Messages API requests 
 - Most batches complete within 1 hour; maximum 24 hours
 - Results available for 29 days after creation
 - 50% cost reduction on all token usage
-- All Messages API features supported (vision, tools, caching, etc.)
+- Most Messages API features supported (vision, tools, caching, etc.); a batch request can't set \`stream\`, \`speed\`, \`fallbacks\` or \`max_tokens: 0\`
 
 ---
 

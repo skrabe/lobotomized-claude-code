@@ -1,9 +1,0 @@
-<!--
-name: Worktree guard reason pattern
-description: Guard reason naming a pattern
-ccVersion: 2.1.310
-variables:
-  - TOOL_RESULT_BASH_WORKTREE_GUARD_REASON_PATTERN_VAR_0
-  - TOOL_RESULT_BASH_WORKTREE_GUARD_REASON_PATTERN_VAR_1
--->
-the pattern ${TOOL_RESULT_BASH_WORKTREE_GUARD_REASON_PATTERN_VAR_0(TOOL_RESULT_BASH_WORKTREE_GUARD_REASON_PATTERN_VAR_1.text)}

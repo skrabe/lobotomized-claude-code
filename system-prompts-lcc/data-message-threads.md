@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (shared/message-threads.md) on Messages API
   message threads, which the skill tells the model to Read before writing thread
   code.
-ccVersion: 2.1.317
+ccVersion: 2.1.322
 -->
 # Message Threads (beta)
 
@@ -38,7 +38,7 @@ Your application stays the source of truth: keep every message yourself and buil
 
 The API does not store MCP server URLs or tokens, or the container \`id\`: send \`mcp_servers\` and \`container\` on every request that uses them.
 
-To change \`system\` or \`tools\`, start a new thread: send the full conversation in a create request with the new values. On {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{OPUS_NAME}}, {{SONNET_NAME}}, and {{HAIKU_NAME}}, that change makes the \`thinking\` and \`redacted_thinking\` blocks already in the conversation invalid, and the create request can return a 400. To avoid it, leave every \`thinking\` and \`redacted_thinking\` block out of the conversation you send. The model then answers without that earlier reasoning. See the Preserved thinking page: \`https://platform.claude.com/docs/en/build-with-claude/preserved-thinking.md\`.
+To change \`system\` or \`tools\`, start a new thread: send the full conversation in a create request with the new values. On {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{PREV_FABLE_NAME}}, {{PREV_MYTHOS_NAME}}, {{OPUS_NAME}}, {{SONNET_NAME}}, and {{HAIKU_NAME}}, that change makes the \`thinking\` and \`redacted_thinking\` blocks already in the conversation invalid, and the create request can return a 400. To avoid it, leave every \`thinking\` and \`redacted_thinking\` block out of the conversation you send. The model then answers without that earlier reasoning. See the Preserved thinking page: \`https://platform.claude.com/docs/en/build-with-claude/preserved-thinking.md\`.
 
 ## Use the SDK thread helper
 

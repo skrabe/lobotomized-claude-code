@@ -1,9 +1,0 @@
-<!--
-name: 'Worktree guard operand: host text'
-description: Operand detail for a worktree-guard refusal (host text).
-ccVersion: 2.1.296
-variables:
-  - TOOL_RESULT_BASH_WORKTREE_GUARD_OPERAND_QUOTED_HOST_TEXT_VAR_0
-  - TOOL_RESULT_BASH_WORKTREE_GUARD_OPERAND_QUOTED_HOST_TEXT_VAR_1
--->
-with ${TOOL_RESULT_BASH_WORKTREE_GUARD_OPERAND_QUOTED_HOST_TEXT_VAR_0(TOOL_RESULT_BASH_WORKTREE_GUARD_OPERAND_QUOTED_HOST_TEXT_VAR_1)}

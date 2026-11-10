@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Tool use reference — TypeScript) inlined as
   <doc> or extracted for the model to Read when the skill's Reading Guide points
   to it.
-ccVersion: 2.1.311
+ccVersion: 2.1.322
 -->
 # Tool Use - TypeScript
 
@@ -285,7 +285,7 @@ for (const block of response.content) {
 
 ## Tool Choice
 
-\`tool_choice\` is \`{ type: "auto" }\` by default. Forcing a call (\`{ type: "any" }\` or \`{ type: "tool", name: ... }\`) returns a 400 on {{OPUS_NAME}}, {{SONNET_NAME}}, {{FABLE_NAME}}, and {{MYTHOS_NAME}}; {{PREV_OPUS_NAME}}, {{PREV_SONNET_NAME}}, and older models accept it. Steer with the prompt instead, and keep the schema guarantee with \`strict: true\`:
+\`tool_choice\` is \`{ type: "auto" }\` by default. Forcing a call (\`{ type: "any" }\` or \`{ type: "tool", name: ... }\`) returns a 400 on {{OPUS_NAME}}, {{SONNET_NAME}}, {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{PREV_FABLE_NAME}}, and {{PREV_MYTHOS_NAME}}; {{PREV_OPUS_NAME}}, {{PREV_SONNET_NAME}}, and older models accept it. Steer with the prompt instead, and keep the schema guarantee with \`strict: true\`:
 
 \`\`\`typescript
 const response = await client.messages.create({

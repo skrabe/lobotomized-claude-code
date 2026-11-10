@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Streaming reference — Python) inlined as
   <doc> or extracted for the model to Read when the skill's Reading Guide points
   to it.
-ccVersion: 2.1.311
+ccVersion: 2.1.322
 -->
 # Streaming - Python
 
@@ -54,13 +54,13 @@ No final-message accumulation is done for you in this form.
 
 Claude may return text, thinking blocks, or tool use. Handle each appropriately:
 
-> **Fable 5 / {{OPUS_NAME}} / {{PREV_OPUS_NAME}} / Opus 4.8 / Opus 4.7 / Opus 4.6:** Use \`thinking: {type: "adaptive"}\`. On {{OPUS_NAME}} and {{PREV_OPUS_NAME}} adaptive is also what you get by omitting \`thinking\` entirely ({{OPUS_NAME}} accepts no other setting - \`disabled\` and \`budget_tokens\` both 400). On older models, use \`thinking: {type: "enabled", budget_tokens: N}\` instead.
+> **Fable / Mythos 5/5.1/5.2 / {{OPUS_NAME}} / {{PREV_OPUS_NAME}} / Opus 4.8 / Opus 4.7 / Opus 4.6:** Use \`thinking: {type: "adaptive"}\`. On {{OPUS_NAME}} and {{PREV_OPUS_NAME}} adaptive is also what you get by omitting \`thinking\` entirely ({{OPUS_NAME}} accepts no other setting - \`disabled\` and \`budget_tokens\` both 400). On older models, use \`thinking: {type: "enabled", budget_tokens: N}\` instead.
 
 \`\`\`python
 with client.messages.stream(
     model="{{OPUS_ID}}",
     max_tokens=64000,
-    thinking={"type": "adaptive", "display": "summarized"},  # display opt-in: default is omitted (empty thinking text) on Fable 5/5.1, Mythos 5/5.1, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8/4.7, {{SONNET_NAME}}, and {{PREV_SONNET_NAME}}
+    thinking={"type": "adaptive", "display": "summarized"},  # display opt-in: default is omitted (empty thinking text) on Fable 5/5.1/5.2, Mythos 5/5.1/5.2, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8/4.7, {{SONNET_NAME}}, and {{PREV_SONNET_NAME}}
     messages=[{"role": "user", "content": "Analyze this problem"}]
 ) as stream:
     for event in stream:

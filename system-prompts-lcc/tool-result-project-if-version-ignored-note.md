@@ -1,6 +1,8 @@
 <!--
-name: 'Tool Result: Project if_version ignored note'
-description: Note that if_version was ignored so the call did not check for changes
-ccVersion: 2.1.299
+name: 'Tool result: project if_version ignored note'
+description: >-
+  Note added to the project tool result that if_version is unavailable in this
+  session and was ignored
+ccVersion: 2.1.322
 -->
-Note: `if_version` is not available in this session and was ignored: this call did not check whether the doc had changed.
+Note: `if_version` is not available in this session and was ignored.

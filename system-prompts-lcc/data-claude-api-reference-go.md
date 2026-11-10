@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Claude API reference — Go) inlined as <doc>
   or extracted for the model to Read when the skill's Reading Guide points to
   it.
-ccVersion: 2.1.311
+ccVersion: 2.1.322
 -->
 # Claude API - Go
 
@@ -77,7 +77,7 @@ Derived from \`anthropic-sdk-go/message.go\` (\`ThinkingConfigParamUnion\`, \`Th
 \`\`\`go
 // There is no ThinkingConfigParamOfAdaptive helper - construct the union
 // struct-literal directly and take the address of the variant.
-// display opt-in: default is omitted (empty thinking text) on Fable 5/5.1, Mythos 5/5.1, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8/4.7, {{SONNET_NAME}}, and {{PREV_SONNET_NAME}}
+// display opt-in: default is omitted (empty thinking text) on Fable 5/5.1/5.2, Mythos 5/5.1/5.2, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8/4.7, {{SONNET_NAME}}, and {{PREV_SONNET_NAME}}
 adaptive := anthropic.ThinkingConfigAdaptiveParam{Display: anthropic.ThinkingConfigAdaptiveDisplaySummarized}
 params := anthropic.MessageNewParams{
     Model:     "{{OPUS_ID}}",
@@ -104,7 +104,7 @@ for _, block := range resp.Content {
 }
 \`\`\`
 
-> **Fable 5, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6:** Use adaptive thinking (above). \`ThinkingConfigParamOfEnabled(budgetTokens)\` is removed on Fable 5, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8, and 4.7 (400 if sent); deprecated on Opus 4.6 and Sonnet 4.6.
+> **Fable / Mythos 5/5.1/5.2, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6:** Use adaptive thinking (above). \`ThinkingConfigParamOfEnabled(budgetTokens)\` is removed on Fable / Mythos 5/5.1/5.2, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8, and 4.7 (400 if sent); deprecated on Opus 4.6 and Sonnet 4.6.
 > **{{OPUS_NAME}}:** thinking is always on - leave \`Thinking\` unset (or send the adaptive union, which is equivalent); \`OfDisabled\` returns a 400 at every effort, as does \`ThinkingConfigParamOfEnabled\`. Control depth with \`Effort\` under \`OutputConfig\` instead - the default is \`medium\` on this model, where {{PREV_OPUS_NAME}} defaults to \`high\`.
 > **{{PREV_OPUS_NAME}}:** thinking is on by default - leaving \`Thinking\` unset runs adaptive (the adaptive union is equivalent), unlike Opus 4.8/4.7 where leaving it unset meant no thinking.
 > **Older models:** Use \`anthropic.ThinkingConfigParamOfEnabled(N)\` (budget must be < \`MaxTokens\`, min 1024).
@@ -141,7 +141,7 @@ if resp.StopReason == anthropic.StopReasonRefusal {
 }
 \`\`\`
 
-**Refusal fallbacks ({{FABLE_NAME}}) - opt in by default.** Fallbacks are opt-in: without them a refused request simply stops. In \`{{FABLE_ID}}\` code, include \`Fallbacks: []anthropic.BetaFallbackParam{{Model: "claude-opus-4-8"}}\` plus the \`anthropic.AnthropicBetaServerSideFallback2026_06_01\` beta on \`client.Beta.Messages.New\` by default - a policy decline is re-served by the fallback model inside the same call. Not available on Amazon Bedrock, Vertex AI, or Microsoft Foundry - register the client-side middleware there: \`option.WithMiddleware(betafallback.BetaRefusalFallbackMiddleware(...))\` from \`lib/betafallback\`, with per-conversation state via \`betafallback.WithBetaFallbackState(&betafallback.BetaFallbackState{})\`. Full semantics (billing, sticky routing, streaming) and a runnable example: \`shared/model-migration.md\` -> Migrating to {{FABLE_NAME}} -> \`refusal\` stop reason, and the Go SDK repo's \`examples/\` (fetch it from \`shared/live-sources.md\`).
+**Refusal fallbacks ({{FABLE_NAME}}) - opt in by default.** Fallbacks are opt-in: without them a refused request simply stops. In \`{{FABLE_ID}}\` code, include \`Fallbacks: anthropic.BetaFallbacksParamUnion{OfBetaFallbackArray: []anthropic.BetaFallbackParam{{Model: anthropic.ModelClaudeOpus4_8}}}\` plus the \`anthropic.AnthropicBetaServerSideFallback2026_07_01\` beta on \`client.Beta.Messages.New\` by default - a policy decline is re-served by the fallback model inside the same call. Not available on Amazon Bedrock, Vertex AI, or Microsoft Foundry - register the client-side middleware there: \`option.WithMiddleware(betafallback.BetaRefusalFallbackMiddleware(...))\` from \`lib/betafallback\`, with per-conversation state via \`betafallback.WithBetaFallbackState(&betafallback.BetaFallbackState{})\`. Full semantics (billing, sticky routing, streaming) and a runnable example: \`shared/model-migration.md\` -> Migrating to {{PREV_FABLE_NAME}} -> \`refusal\` stop reason, and the Go SDK repo's \`examples/\` (fetch it from \`shared/live-sources.md\`).
 
 ---
 

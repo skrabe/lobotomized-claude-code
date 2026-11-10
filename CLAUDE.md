@@ -6,13 +6,13 @@ You're a coding agent invoked in this repo. Read this first. It explains what we
 
 `lobotomized-claude-code` is a set of system-prompt overrides for [Claude Code](https://claude.com/claude-code). Each `.md` replaces one of CC's built-in prompt fragments. A separate tool ([`tweakcc-fixed`](https://github.com/skrabe/tweakcc-fixed), see below) reads these files and patches the user's installed CC binary in place.
 
-One set is maintained: `system-prompts-lcc`, which `~/.tweakcc/system-prompts` symlinks to. It serves every model in the install — Fable 5.1 plans and Opus 5.5 executes against the same patched text in one fable-plan session, and subagents share it too. Claude Code already routes model-specific sections itself (e.g. `delivering-work-at-full-scope` and `writing-for-the-user` render for Fable 5.1 only; see the wire capture before trimming a section, since a section a model never receives is not evidence for or against a cut). The per-model `opus-5` and `fable-5-1` sets were merged on 2026-09-22 (git history keeps them). `system-reminders/` is the shared reminder folder. Resolve the set with `readlink ~/.tweakcc/system-prompts` rather than naming it in a procedure.
+One set is maintained: `system-prompts-lcc`, which `~/.tweakcc/system-prompts` symlinks to. It serves every model in the install — Fable 5.2 plans and Opus 5.5 executes against the same patched text in one fable-plan session, and subagents share it too. Claude Code already routes model-specific sections itself (e.g. `delivering-work-at-full-scope` and `writing-for-the-user` render for Fable 5.1 only; see the wire capture before trimming a section, since a section a model never receives is not evidence for or against a cut). The per-model `opus-5` and `fable-5-1` sets were merged on 2026-09-22 (git history keeps them). `system-reminders/` is the shared reminder folder. Resolve the set with `readlink ~/.tweakcc/system-prompts` rather than naming it in a procedure.
 
 ## What we're trying to achieve
 
 **The goal of this repo is to remove useless shit and dumb guardrails so we have a clean agentic coding harness.** CC ships every model the same prompt-by-volume that worked for older Claudes. Current models follow instructions more literally, overtrigger on CAPS, don't need anti-laziness scaffolding, and get actively worse from safety theater that wasn't load-bearing in the first place. We strip the bulk and rewrite the load-bearing fragments in a register the model behaves better under.
 
-**Every cut must hold for both served models.** Ground edits in the page-cited Opus 5.5 and Fable 5.1 digests under `~/dev/anthropic-reference/`, their current prompting guides, and the deployed harness. A system-card result measures the tested model and scaffold; it does not establish that removing an instruction is safe. A default documented for one model is not coverage for the other. Check progress-update transport before diagnosing silence, and preserve useful structure and completion guidance.
+**Every cut must hold for both served models.** Ground edits in the page-cited Opus 5.5 and Fable 5.2 digests under `~/dev/anthropic-reference/` (the Fable 5.1 digest stays for the 5.1 branch), their current prompting guides, and the deployed harness. A system-card result measures the tested model and scaffold; it does not establish that removing an instruction is safe. A default documented for one model is not coverage for the other. Check progress-update transport before diagnosing silence, and preserve useful structure and completion guidance.
 
 Measure savings against the current stock version, separately for the catalogue and actual rendered requests. There is no percentage quota. Keep useful unique instructions even when that makes a prompt longer; remove text only when its function is redundant, obsolete or demonstrably counterproductive.
 
@@ -67,7 +67,7 @@ model emit a call that fails at runtime.
 ### Candidates for removal (check their function first)
 
 - **Generic caution and refusal hedges.** Remove rhetoric that adds no functional control. Preserve explicit authorization, input provenance and truthful coverage. The card reports strong results under particular safeguards; neither those results nor a system-prompt attribution of some over-refusals establish universal immunity or justify deleting unrelated controls.
-- **Anti-laziness scaffolding.** "Be thorough." "Double-check your work." "Don't be lazy." Current models do the work; this is noise. The exception is early stopping: Opus 5.5 and Fable 5.1 do end turns while work is still owed, so a specific statement of which stops are unwanted (Anthropic's own paragraph, calm prose) is a keep, not scaffolding.
+- **Anti-laziness scaffolding.** "Be thorough." "Double-check your work." "Don't be lazy." Current models do the work; this is noise. The exception is early stopping: Opus 5.5, Fable 5.1 and Fable 5.2 do end turns while work is still owed (Fable 5.2 more often than 5.1: card pp. 34–35), so a specific statement of which stops are unwanted (Anthropic's own paragraph, calm prose) is a keep, not scaffolding.
 - **CAPS theater.** `MUST`, `NEVER`, `ALWAYS`, `CRITICAL`, `STRICTLY`. Current models overtrigger on these. Plain directives outperform.
 - **Negative framing.** "Don't X" → "Do Y" wherever a positive form exists. Per Anthropic's guide.
 - **Always-on CTAs.** "End every reply with /schedule." "Always offer to commit." Current models follow literal CTAs and they become spam.
@@ -95,11 +95,11 @@ After cutting, ask: did I lose information the model couldn't otherwise infer? I
 **The single canonical source for prompting principles in this repo:**
 [`platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices`](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
 
-Fetch it fresh with `kindly-fetch` at the start of every session that touches prompt overrides, and read the model-specific Opus 5.5 and Fable 5.1 pages it links. Do not rely on training-data recall — Anthropic edits this page often, and prompt edits anchored on stale guidance produce regressions.
+Fetch it fresh with `kindly-fetch` at the start of every session that touches prompt overrides, and read the model-specific Opus 5.5 and Fable 5.2 pages it links. Do not rely on training-data recall — Anthropic edits this page often, and prompt edits anchored on stale guidance produce regressions.
 
 The digest below is a checklist, not a substitute. Read the URL.
 
-**Editing checklist for Opus 5.5 + Fable 5.1** (the full cited list is §6 of `~/dev/anthropic-reference/Opus-5.5-Card-Digest.md`; read it):
+**Editing checklist for Opus 5.5 + Fable 5.2** (the full cited list is §6 of `~/dev/anthropic-reference/Opus-5.5-Card-Digest.md`; read it):
 
 1. **Say it once, at normal volume.** No CAPS or stacked NEVER/MUST; state the one real constraint with its reason.
 2. **Remove generic caution without deleting contracts.** The Shade coding result was 0/2,872 direct-model compromises under its tested setup; GUI attacks included direct-model successes. Keep pasted-content provenance, concrete authorization and failure reporting. A benchmark score alone does not prove a prompt cut improves the harness.
@@ -111,6 +111,8 @@ The digest below is a checklist, not a substitute. Read the URL.
 8. **Delegation text is about the brief and relay accuracy, not volume.** Plans handed to another model are self-contained.
 9. **Leave harness mechanics alone**: the `<pasted_content>` marker, system-reminder tags, output-format sentinels, scan needles.
 10. **Tool descriptions are contracts.** Keep parameters, limits and failure modes; move steering and worked examples out.
+11. **Fable 5.2 applies approval and "never" rules as written.** Name the exact actions a rule covers and write its exception into the rule; unscoped cautions make it hold back routine work (Fable 5.2 prompting page, "Keep caution from piling up").
+12. **Never ask for reasoning in the reply.** On Fable 5.2 a prompt that asks the model to write its reasoning into the response can trip the `reasoning_extraction` safeguard and return a refusal; rely on thinking instead.
 
 For migrating prompts when Anthropic releases a new model (Opus 4.6 → 4.7, etc.), the [migration guide](https://docs.claude.com/en/docs/about-claude/models/migration-guide) is canonical. It documents breaking changes (`budget_tokens` → adaptive thinking, prefilled responses removed, sampling params removed on 4.7), silent default changes, and prompt-behavior shifts.
 

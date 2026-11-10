@@ -4,7 +4,7 @@ description: >-
   Example plugin test file (pane.test.tsx) shipped in the plugin-authoring
   skill's examples folder, showing how a mod's Pane is mounted and checked on
   every surface with claude-code/testing.
-ccVersion: 2.1.310
+ccVersion: 2.1.322
 -->
 import { expect, test } from 'claude-code/testing'
 
@@ -56,7 +56,7 @@ test('a value an earlier version stored is declined', async ($, on) => {
 })
 
 test('a drawing the mod leaves goes to the engine', async ($, on) => {
-  // Nothing draws beneath the plugin either: this hook stands for the engine,
+  // A hook here stands for the engine, in place of the node it draws by itself,
   // and like any \`ui.render\` hook it answers with an element.
   on('ui.render', ($, e) => {
     const { Text } = $.ui.resolve(e)

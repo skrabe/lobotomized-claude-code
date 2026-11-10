@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Claude API reference — Java) inlined as <doc>
   or extracted for the model to Read when the skill's Reading Guide points to
   it.
-ccVersion: 2.1.319
+ccVersion: 2.1.322
 -->
 # Claude API - Java
 
@@ -41,7 +41,7 @@ Write from this table instead of \`javap\`/jar inspection. Endpoint column tells
 | Strict tool use | non-beta | \`Tool\`, \`Tool.InputSchema\` |
 | Task budgets | beta | \`.outputConfig(BetaOutputConfig.builder().taskBudget(BetaTokenTaskBudget.builder()...))\` |
 | Tool search | non-beta | \`.addTool(ToolSearchToolRegex20251119.builder()...)\` from \`com.anthropic.models.messages\` |
-| Web search | non-beta | \`WebSearchTool20260209\` from \`com.anthropic.models.messages\` - the latest variant with dynamic filtering ({{FABLE_NAME}} + {{OPUS_NAME}} + {{PREV_OPUS_NAME}} + Opus 4.8/4.7/4.6 + {{SONNET_NAME}} + {{PREV_SONNET_NAME}} + Sonnet 4.6). For older models or Vertex, use \`WebSearchTool20250305\` |
+| Web search | non-beta | \`WebSearchTool20260209\` from \`com.anthropic.models.messages\` - a variant with dynamic filtering ({{FABLE_NAME}} / {{MYTHOS_NAME}} + {{PREV_FABLE_NAME}} / {{PREV_MYTHOS_NAME}} + {{OPUS_NAME}} + {{PREV_OPUS_NAME}} + Opus 4.8/4.7/4.6 + {{SONNET_NAME}} + {{PREV_SONNET_NAME}} + Sonnet 4.6). For older models or Vertex, use \`WebSearchTool20250305\` |
 
 ### Discovering type and member names
 
@@ -106,7 +106,7 @@ response.content().stream()
 
 **Adaptive thinking is the recommended mode for Claude 4.6+ models.** Claude decides dynamically when and how much to think. The builder has a direct \`.thinking(ThinkingConfigAdaptive)\` overload - no manual union wrapping.
 
-> **Fable 5, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6:** Use adaptive thinking (below). \`ThinkingConfigEnabled.builder().budgetTokens(N)\` is removed on Fable 5, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8, and 4.7 (400 if sent); deprecated on Opus 4.6 and Sonnet 4.6.
+> **Fable / Mythos 5/5.1/5.2, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8, Opus 4.7, Opus 4.6, and Sonnet 4.6:** Use adaptive thinking (below). \`ThinkingConfigEnabled.builder().budgetTokens(N)\` is removed on Fable / Mythos 5/5.1/5.2, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8, and 4.7 (400 if sent); deprecated on Opus 4.6 and Sonnet 4.6.
 > **{{OPUS_NAME}}:** thinking is always on - omit \`.thinking(...)\` (or send \`ThinkingConfigAdaptive\`, which is equivalent); \`ThinkingConfigDisabled\` returns a 400 at every effort, as does a thinking budget. Control depth with \`.outputConfig(OutputConfig.builder().effort(...))\` instead - the default is \`medium\` on this model, where {{PREV_OPUS_NAME}} defaults to \`high\`.
 > **{{PREV_OPUS_NAME}}:** thinking is on by default - omitting \`.thinking(...)\` runs adaptive (\`ThinkingConfigAdaptive\` is equivalent), unlike Opus 4.8/4.7 where omitting it meant no thinking. \`ThinkingConfigDisabled\` is accepted only at effort \`HIGH\` or lower; pairing it with \`XHIGH\`/\`MAX\` returns a 400.
 > **Older models:** Use \`.thinking(ThinkingConfigEnabled.builder().budgetTokens(N).build())\` (budget must be < \`maxTokens\`, min 1024).
@@ -119,7 +119,7 @@ import com.anthropic.models.messages.ThinkingConfigAdaptive;
 MessageCreateParams params = MessageCreateParams.builder()
     .model("{{OPUS_ID}}")
     .maxTokens(16000L)
-    // display opt-in: default is omitted (empty thinking text) on Fable 5/5.1, Mythos 5/5.1, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8/4.7, {{SONNET_NAME}}, and {{PREV_SONNET_NAME}}
+    // display opt-in: default is omitted (empty thinking text) on Fable 5/5.1/5.2, Mythos 5/5.1/5.2, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Opus 4.8/4.7, {{SONNET_NAME}}, and {{PREV_SONNET_NAME}}
     .thinking(ThinkingConfigAdaptive.builder().display(ThinkingConfigAdaptive.Display.SUMMARIZED).build())
     .addUserMessage("Solve this step by step: 27 * 453")
     .build();
@@ -225,7 +225,7 @@ response.stopDetails().ifPresent(details -> {
 });
 \`\`\`
 
-**Refusal fallbacks ({{FABLE_NAME}}) - opt in by default.** Fallbacks are opt-in: without them a refused request simply stops. New \`{{FABLE_ID}}\` code should include the server-side \`fallbacks\` parameter (beta header \`server-side-fallback-2026-06-01\`, fallback model \`claude-opus-4-8\`, on the beta messages call) by default. The exact Java builder methods (and the client-side middleware for providers without server-side support) are not documented here - fetch the Java SDK repo's \`examples/\` from \`shared/live-sources.md\`; full semantics in \`shared/model-migration.md\` -> Migrating to {{FABLE_NAME}} -> \`refusal\` stop reason.
+**Refusal fallbacks ({{FABLE_NAME}}) - opt in by default.** Fallbacks are opt-in: without them a refused request simply stops. New \`{{FABLE_ID}}\` code should include the server-side \`fallbacks\` parameter (beta header \`server-side-fallback-2026-07-01\`, fallback model \`claude-opus-4-8\`, on the beta messages call) by default. The exact Java builder methods (and the client-side middleware for providers without server-side support) are not documented here - fetch the Java SDK repo's \`examples/\` from \`shared/live-sources.md\`; full semantics in \`shared/model-migration.md\` -> Migrating to {{PREV_FABLE_NAME}} -> \`refusal\` stop reason.
 
 ---
 

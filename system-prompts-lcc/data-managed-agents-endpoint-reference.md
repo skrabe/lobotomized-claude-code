@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Managed Agents endpoint reference) inlined as
   <doc> or extracted for the model to Read when the skill's Reading Guide points
   to it.
-ccVersion: 2.1.311
+ccVersion: 2.1.322
 -->
 # Managed Agents - Endpoint Reference
 
@@ -52,7 +52,7 @@ All resources are under the \`beta\` namespace. Python and TypeScript share iden
 
 **Agent shorthand:** \`agent\` on session create accepts three forms - a bare string (\`agent="agent_abc123"\`, latest version), a pinned reference \`{type: "agent", id, version}\`, or \`{type: "agent_with_overrides", id, version?, model?, system?, tools?, mcp_servers?, skills?}\` to override those fields for this session only (see \`shared/managed-agents-core.md\` -> Override agent configuration for a session).
 
-**Model shorthand:** \`model\` on agent create accepts either a bare string (\`model="{{OPUS_ID}}"\` - uses \`standard\` speed) or the full config object, which takes \`speed\`, \`effort\`, and \`inference_geo\` alongside \`id\`: \`{id: "{{OPUS_ID}}", speed: "fast"}\`, \`{id: "{{OPUS_ID}}", effort: "high"}\`, \`{id: "{{OPUS_ID}}", inference_geo: "us"}\`. \`effort\` accepts a level string (\`low\`/\`medium\`/\`high\`/\`xhigh\`/\`max\`) or \`{type: "<level>"}\`, and in a per-session \`model\` override it sets the session's effort level (the agent's own \`effort\` isn't carried over, and a \`model\` override without \`effort\` runs at that model's default effort level). \`inference_geo\` (\`"us"\` | \`"global"\`) pins the geography serving the agent's model requests, and is also applied in a per-session \`model\` override. See \`shared/managed-agents-core.md\` -> Effort on the agent model / Pinning inference geography. Note: \`speed: "fast"\` is supported on {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, and Opus 4.8 - on the Claude API only, which includes Managed Agents but not Amazon Bedrock, Google Cloud, or Microsoft Foundry. Opus 4.7 fast mode has been removed; \`speed: "fast"\` on Opus 4.7 returns an error.
+**Model shorthand:** \`model\` on agent create accepts either a bare string (\`model="{{OPUS_ID}}"\` - uses \`standard\` speed) or the full config object, which takes \`speed\`, \`effort\`, and \`inference_geo\` alongside \`id\`: \`{id: "{{OPUS_ID}}", speed: "fast"}\`, \`{id: "{{OPUS_ID}}", effort: "high"}\`, \`{id: "{{OPUS_ID}}", inference_geo: "us"}\`. \`effort\` accepts a level string (\`low\`/\`medium\`/\`high\`/\`xhigh\`/\`max\`) or \`{type: "<level>"}\`, and in a per-session \`model\` override it sets the session's effort level (the agent's own \`effort\` isn't carried over, and a \`model\` override without \`effort\` runs at that model's default effort level). \`inference_geo\` (\`"us"\` | \`"global"\`) pins the geography serving the agent's model requests, and is also applied in a per-session \`model\` override. See \`shared/managed-agents-core.md\` -> Effort on the agent model / Pinning inference geography. Note: in Managed Agents, \`speed: "fast"\` works only on the Claude API, on {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, and Opus 4.8; for Messages API requests and other platforms, see SKILL.md -> Fast Mode. Opus 4.7 fast mode has been removed; \`speed: "fast"\` on Opus 4.7 returns an error.
 
 ---
 
@@ -380,7 +380,7 @@ Immutable per-mutation snapshots (\`memver_...\`) - the audit and rollback surfa
 }
 \`\`\`
 
-> \`system.message\` events (append system-level context for this turn and later ones) use the same envelope with \`type: "system.message"\` - supported on {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{PREV_FABLE_NAME}}, {{PREV_MYTHOS_NAME}}, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Claude Opus 4.8, {{SONNET_NAME}}, and {{HAIKU_NAME}} (not {{PREV_SONNET_NAME}}), checked against the agent's *primary* model only; see \`shared/managed-agents-events.md\` § Adding system context mid-session.
+> \`system.message\` events (append system-level context for this turn and later ones) use the same envelope with \`type: "system.message"\` - supported on {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{PREV_FABLE_NAME}}, {{PREV_MYTHOS_NAME}}, Claude Fable 5, Claude Mythos 5, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, Claude Opus 4.8, {{SONNET_NAME}}, and {{HAIKU_NAME}} (not {{PREV_SONNET_NAME}}), checked against the agent's *primary* model only; see \`shared/managed-agents-events.md\` § Adding system context mid-session.
 
 ### Define Outcome Event
 

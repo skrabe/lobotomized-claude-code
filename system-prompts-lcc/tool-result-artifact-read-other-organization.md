@@ -1,8 +1,8 @@
 <!--
-name: Artifact Read Other Organization
+name: 'Tool Result: Artifact in other organization'
 description: >-
-  Artifact-read error clause when the artifact belongs to another of the user's
-  organizations than the signed-in session.
-ccVersion: 2.1.246
+  Explains the Artifact belongs to another (or former) organization of the user,
+  not the signed-in one
+ccVersion: 2.1.322
 -->
-this Artifact is in another of the user's organizations, not the one this session is signed in to
+this Artifact is in another of the user's organizations, or one they are no longer part of, not the one this session is signed in to
