@@ -1,8 +1,9 @@
 <!--
 name: 'Tool Result: MCP connector file background-job remedy'
 description: >-
-  Remedy in the background-job connector file refusal telling the user to ask
-  from a session without a background job or attach the file in claude.ai
-ccVersion: 2.1.319
+  Remedy in the background-job connector file refusal telling the user to run
+  Claude Code in a terminal with no background job, or attach the file in
+  claude.ai.
+ccVersion: 2.1.325
 -->
-To send this file, the user can ask in a session that runs no background job, which can send a file that is in the folder it was started in or in a folder added for it (--add-dir, or /add-dir with "Yes, for this session", or a folder allowed on a prompt), if that session may read it; or, if this chat is open in claude.ai, attach the file to it there.
+To send this file, the user can run Claude Code in a terminal, with no background job, and ask there. Or, if this chat is open in claude.ai, the user can attach the file to it there.

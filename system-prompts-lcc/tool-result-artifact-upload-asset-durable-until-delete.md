@@ -1,9 +1,11 @@
 <!--
-name: Artifact Upload Asset Durable Until Delete
+name: 'Tool Result: Artifact upload asset durable until delete'
 description: >-
-  upload_asset tool_result closer that stored files are loadable by anyone who
-  can open the artifact until delete_asset.
-ccVersion: 2.1.276
+  Note that stored assets are loadable by anyone who can open the artifact and
+  durable until deleted.
+ccVersion: 2.1.325
+variables:
+  - TOOL_RESULT_ARTIFACT_UPLOAD_ASSET_DURABLE_UNTIL_DELETE_VAR_0
 -->
 
-Everyone who can open the artifact can load the stored files; each is durable until deleted with action "delete_asset".
+Everyone who can open the artifact can load the stored files; each is durable until deleted with ${TOOL_RESULT_ARTIFACT_UPLOAD_ASSET_DURABLE_UNTIL_DELETE_VAR_0('action "delete_asset"',()=>'action "delete" and its id as `path`')}.

@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Result: Connector upload malformed path'
-description: >-
-  Reason in the connector-upload error when a params.files path is not text,
-  empty or over 4,096 characters
-ccVersion: 2.1.322
+name: 'Tool result: connector upload malformed path'
+description: 'Reason: an upload entry''s path is not text, empty or over 4,096 characters'
+ccVersion: 2.1.325
 -->
-an entry in params.files has a path that is not text, is empty, or is longer than 4,096 characters
+an entry in uploads has a path that is not text, is empty, or is longer than 4,096 characters

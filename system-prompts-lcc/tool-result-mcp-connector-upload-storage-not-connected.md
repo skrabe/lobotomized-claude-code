@@ -1,11 +1,12 @@
 <!--
-name: 'Tool Result: MCP connector upload storage not connected'
+name: 'Tool result: MCP connector upload storage not connected'
 description: >-
-  Upload refusal when the connection to the connector's storage ended before
-  setup, so no file data went.
-ccVersion: 2.1.322
+  Connector upload error: the upload service could not complete a connection to
+  the connector's storage; nothing sent.
+ccVersion: 2.1.325
 variables:
   - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_STORAGE_NOT_CONNECTED_VAR_0
   - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_STORAGE_NOT_CONNECTED_VAR_1
+  - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_STORAGE_NOT_CONNECTED_VAR_2
 -->
-${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_STORAGE_NOT_CONNECTED_VAR_0} was not sent: the connection to the connector's storage ended before it was set up, so none of the file went. ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_STORAGE_NOT_CONNECTED_VAR_1} Ask the user before trying again. If this keeps happening, the connector's storage may not be set up to receive files yet. Only the connector's maker can change that.
+Claude's upload service began to connect to the connector's storage to send ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_STORAGE_NOT_CONNECTED_VAR_0} there, but could not complete the connection. The service says it sent none of the file on. ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_STORAGE_NOT_CONNECTED_VAR_1}${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_STORAGE_NOT_CONNECTED_VAR_2} If this keeps happening, the connector's storage may not be set up to receive files from Claude yet. The connector's maker can look into that.

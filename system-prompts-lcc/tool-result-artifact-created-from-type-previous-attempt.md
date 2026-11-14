@@ -1,9 +1,9 @@
 <!--
-name: Artifact Already Created By Previous Attempt
+name: 'Tool Result: Artifact created from type in previous attempt'
 description: >-
-  Reports that a retried call reuses the artifact created by its earlier
-  attempt.
-ccVersion: 2.1.294
+  Result saying an earlier attempt of the call already created the artifact from
+  the type, and nothing new was created.
+ccVersion: 2.1.325
 variables:
   - TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_0
   - TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_1
@@ -11,4 +11,4 @@ variables:
   - TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_3
   - TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_4
 -->
-An earlier attempt of this call already created the Artifact at ${TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_0} (version ${TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_1(TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_2.version)}) from ${TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_3}, so nothing new was created${TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_2.path!==void 0?`; ${TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_4(TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_2.path)} and any \`files\` were published to it now`:""}.
+Created a new Artifact at ${TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_0} (version ${TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_1(TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_2.version)}) from ${TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_3} in an earlier attempt of this call. This attempt created nothing new${TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_2.path!==void 0?`, and published ${TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_4(TOOL_RESULT_ARTIFACT_CREATED_FROM_TYPE_PREVIOUS_ATTEMPT_VAR_2.path)} and any \`files\` to it`:""}.

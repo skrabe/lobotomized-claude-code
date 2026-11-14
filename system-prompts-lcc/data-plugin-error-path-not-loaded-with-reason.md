@@ -1,0 +1,12 @@
+<!--
+name: 'Plugin error: path not loaded with reason'
+description: >-
+  Plugin error for a path-traversal entry not loaded, naming path, component and
+  reason
+ccVersion: 2.1.325
+variables:
+  - DATA_PLUGIN_ERROR_PATH_NOT_LOADED_WITH_REASON_VAR_0
+  - DATA_PLUGIN_ERROR_PATH_NOT_LOADED_WITH_REASON_VAR_1
+  - DATA_PLUGIN_ERROR_PATH_NOT_LOADED_WITH_REASON_VAR_2
+-->
+Path not loaded: ${DATA_PLUGIN_ERROR_PATH_NOT_LOADED_WITH_REASON_VAR_0(DATA_PLUGIN_ERROR_PATH_NOT_LOADED_WITH_REASON_VAR_1.path)} (${DATA_PLUGIN_ERROR_PATH_NOT_LOADED_WITH_REASON_VAR_2(DATA_PLUGIN_ERROR_PATH_NOT_LOADED_WITH_REASON_VAR_1.component)}) — ${DATA_PLUGIN_ERROR_PATH_NOT_LOADED_WITH_REASON_VAR_1.reason}

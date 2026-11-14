@@ -3,7 +3,7 @@ name: 'Workflow Script: deep-research'
 description: >-
   Bundled deep-research workflow — a multi-round scoped search pipeline with URL
   dedup, fetch/extract, vote-based verification, and a gap critic between rounds
-ccVersion: 2.1.281
+ccVersion: 2.1.325
 variables:
   - WORKFLOW_NAME
   - WORKFLOW_DESCRIPTION
@@ -140,19 +140,24 @@ log("Decomposed into " + scope.angles.length + " angles: " + scope.angles.map(a 
 
 // ─── Dedup state — accumulates across searchers and rounds as they complete ───
 // The workflow sandbox is a bare ECMAScript realm — no URL global — so
-// hostname/path come from a regex: captures (1) hostname (userinfo, www.,
-// and port stripped) and (2) pathname. Neither userinfo nor host admits
-// \\: WHATWG URL treats \\ as a path separator for http(s), so a laxer
-// class would label evil.com\\@trusted.com as trusted.com while WebFetch
+// hostname/path/query come from a regex: captures (1) hostname (userinfo,
+// www., and port stripped), (2) pathname and (3) query. Neither userinfo nor
+// host admits \\: WHATWG URL treats \\ as a path separator for http(s), so a
+// laxer class would label evil.com\\@trusted.com as trusted.com while WebFetch
 // actually goes to evil.com. Userinfo DOES admit @ — WHATWG splits the
 // authority at the LAST @ before the host, so greedy matching must too;
 // stopping at the first @ would label x@trusted.com@evil.com as
 // trusted.com while the fetch contacts evil.com. The host class still
 // excludes @, so the userinfo group consumes every @ up to the last one.
-const URL_HOST_PATTERN = /^[a-z][a-z0-9+.-]*:\\/\\/(?:[^/?#\\\\]*@)?(?:www\\.)?([^/:?#@\\\\]+)(?::\\d+)?([^?#]*)/i
+const URL_HOST_PATTERN = /^[a-z][a-z0-9+.-]*:\\/\\/(?:[^/?#\\\\]*@)?(?:www\\.)?([^/:?#@\\\\]+)(?::\\d+)?([^?#]*)(?:\\?([^#]*))?/i
+const TRACKING_PARAM = /^(?:utm_[^=]*|gclid|fbclid|msclkid)(?:=|$)/i
+// When the pattern matches, the dedup key keeps the query's case, because
+// ?v=a and ?v=A can be different pages.
 const normURL = u => {
   const m = String(u).match(URL_HOST_PATTERN)
-  return m ? (m[1] + m[2].replace(/\\/$/, "")).toLowerCase() : String(u).toLowerCase()
+  if (!m) return String(u).toLowerCase()
+  const query = (m[3] ?? "").split("&").filter(p => p && !TRACKING_PARAM.test(p)).join("&")
+  return (m[1] + m[2].replace(/\\/$/, "")).toLowerCase() + (query ? "?" + query : "")
 }
 // Host and title both come from web content and reach the terminal via the
 // progress label. Two hazards: forging a trusted hostname, and smuggling
@@ -164,9 +169,9 @@ const normURL = u => {
 // U+201C-201F, U+2033, U+2036, U+275D, U+275E, U+301D, U+301E, U+FF02 — any of
 // which would visually close the quoted fallback early and forge host-shaped
 // text after it). STRICT_HOST is the strict registrable-hostname charset a
-// bare label must match (dot-separated LDH labels). normURL keeps the raw
-// capture: dedup keys are never rendered, and stripping there could collide
-// distinct URLs.
+// bare label must match (dot-separated LDH labels). normURL does not apply
+// LABEL_STRIP: dedup keys never reach a label, and stripping there could
+// collide distinct URLs.
 const LABEL_CAP = 40
 const LABEL_STRIP = /[\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\u2028\\u2029\\u0022\\u201c-\\u201f\\u2033\\u2036\\u275d\\u275e\\u301d\\u301e\\uff02]/gu
 const STRICT_HOST = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/

@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Result: Connector upload repeated file'
-description: >-
-  Reason in the connector-upload error when one fileId has more than one
-  params.files entry
-ccVersion: 2.1.322
+name: 'Tool result: connector upload repeated file'
+description: 'Reason: one fileId has more than one upload entry'
+ccVersion: 2.1.325
 -->
-it gives one fileId more than one entry in params.files; the files extension allows one
+it gives one fileId more than one entry in uploads; the files extension allows one

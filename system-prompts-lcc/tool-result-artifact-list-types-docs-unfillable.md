@@ -1,8 +1,12 @@
 <!--
-name: Artifact List Types Docs Unfillable
+name: 'Tool Result: Artifact list types docs unfillable'
 description: >-
-  list_types tool_result line that the Docs type cannot be filled without the
-  first-party Claude Docs connector, so make a page instead.
-ccVersion: 2.1.276
+  Note that a type is filled only through the unattached Claude Docs connector
+  and what to make instead.
+ccVersion: 2.1.325
+variables:
+  - TOOL_RESULT_ARTIFACT_LIST_TYPES_DOCS_UNFILLABLE_VAR_0
+  - TOOL_RESULT_ARTIFACT_LIST_TYPES_DOCS_UNFILLABLE_VAR_1
+  - TOOL_RESULT_ARTIFACT_LIST_TYPES_DOCS_UNFILLABLE_VAR_2
 -->
-The Docs type is filled only through the first-party Claude Docs connector, which is not attached in this session: for a document, make a page instead of starting from that type.
+The ${TOOL_RESULT_ARTIFACT_LIST_TYPES_DOCS_UNFILLABLE_VAR_0[0]} type is filled only through the first-party Claude Docs connector, which is not attached in this session: for ${TOOL_RESULT_ARTIFACT_LIST_TYPES_DOCS_UNFILLABLE_VAR_1}, make ${TOOL_RESULT_ARTIFACT_LIST_TYPES_DOCS_UNFILLABLE_VAR_2} instead of starting from that type.

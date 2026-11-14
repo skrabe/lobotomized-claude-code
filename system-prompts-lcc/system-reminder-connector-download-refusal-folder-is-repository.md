@@ -1,8 +1,6 @@
 <!--
-name: 'Connector download refusal: folder is repository'
-description: >-
-  Reason fragment in a connector download note saying a file was not downloaded
-  because the connector-downloads folder is its own git repository.
-ccVersion: 2.1.319
+name: 'System Reminder: Connector download refusal - folder is repository'
+description: 'Refusal reason: the connector-downloads folder is its own git repository.'
+ccVersion: 2.1.325
 -->
-the connector-downloads folder (at the top of this git repository, or where Claude Code was started outside one) is a git repository of its own, so a saved file could be committed there; the person can move it aside, then run the tool again
+the connector-downloads folder is a git repository of its own, so a saved file could be committed there; the person can move it aside, then run the tool again

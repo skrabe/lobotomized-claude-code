@@ -1,8 +1,8 @@
 <!--
-name: 'Auto mode recon: sibling docs traffic disabled'
+name: 'Data: auto mode recon sibling docs traffic disabled'
 description: >-
-  Recon sibling-docs placeholder when nonessential traffic is disabled or
-  policy-restricted.
-ccVersion: 2.1.296
+  Auto-mode recon placeholder when sibling docs can't be queried (traffic
+  disabled, policy-restricted, or policy not loaded).
+ccVersion: 2.1.325
 -->
-_Not queryable here (nonessential traffic disabled or policy-restricted)._
+_Not queryable here (nonessential traffic disabled, policy-restricted, or the organization's policy not loaded)._

@@ -3,7 +3,7 @@ name: 'Data: Data visualization marks and anatomy'
 description: >-
   data-visualization reference (references/marks-and-anatomy.md) the skill tells
   the model to Read.
-ccVersion: 2.1.314
+ccVersion: 2.1.325
 -->
 # Marks & anatomy
 
@@ -89,9 +89,10 @@ one swatch restates the title and costs space.
   **Thin:** 8px, or 4px in dense rows; fully rounded ends; no text. **Tall:** 28px and never
   more; each part its own block, 4px corners, its share (46%) or rounded amount (413M)
   printed inside at the leading edge, in white or near-black (*Labels & legend* says which).
-  A block too narrow for its label prints none: that value stays in the table view.
+  A block too narrow for its label prints none: that value stays in the table view or, in a
+  static image (no hover, no table view), goes beside the part's name in the legend.
   Hover, keyboard focus, and the bar's accessible name give every part's name, amount, and
-  share. The legend lists the names in block order and repeats no numbers. The tall bar is
+  share. The legend lists the names in block order and repeats no number a block prints. The tall bar is
   exempt from four chart rules: the 24px bar cap, the ban on large saturated blocks, the ban
   on a number on every point, and direct name labels (its legend names the parts). It keeps
   its legend and its table view.

@@ -5,9 +5,11 @@ name: >-
 description: >-
   Guidelines for avoiding unnecessary sleep commands in PowerShell scripts,
   including alternatives for waiting and notification
-ccVersion: 2.1.314
+ccVersion: 2.1.325
 variables:
   - IS_BACKGROUND_COMPLETION_NOTICE_ENABLED
   - DOES_SESSION_STOP_AFTER_REPLY
+  - CAN_YIELD
+  - WAIT_ON_BACKGROUND_WORK_INSTRUCTION
 -->
 

@@ -1,6 +1,10 @@
 <!--
-name: Resume container disk behind again
-description: Clause that the disk has been behind before and changes may be lost again
-ccVersion: 2.1.310
+name: 'System Reminder: Resume container disk behind again'
+description: >-
+  Notes the disk has been behind before in this conversation, followed by the
+  changes-may-be-lost note
+ccVersion: 2.1.325
+variables:
+  - SYSTEM_REMINDER_RESUME_CONTAINER_DISK_BEHIND_AGAIN_VAR_0
 -->
- The disk has been behind like this before in this conversation. Changes that you make on this disk may be lost again. Tell the user this.
+ The disk has been behind like this before in this conversation. ${SYSTEM_REMINDER_RESUME_CONTAINER_DISK_BEHIND_AGAIN_VAR_0}

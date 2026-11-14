@@ -5,6 +5,6 @@ description: >-
   in Claude Code's settings JSON schema. The model reads it through
   /update-config and settings validation errors; it is also shown to users in
   the settings help.
-ccVersion: 2.1.314
+ccVersion: 2.1.325
 -->
-Refuse file-tool reads (Read, Grep, Glob, LSP) outside the working directories in every permission mode; true in any settings source wins. No allow rule lifts it. Also set when the user picks "block" on the one-time auto-mode prompt for a read outside the working directories.
+Refuse file-tool reads (Read, Grep, Glob, LSP) outside the working directories in every permission mode; true in any settings source wins. No allow rule lifts it. Also binds shell commands: one that names a path outside them is asked about in every mode, and the sandbox, where it is on, denies such reads. Also set when the user picks "block" on the one-time auto-mode prompt for a read outside the working directories.

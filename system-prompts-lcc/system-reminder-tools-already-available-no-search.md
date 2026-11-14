@@ -1,10 +1,12 @@
 <!--
-name: 'System reminder: tools already available, no search needed'
+name: 'System Reminder: Tools already available, no search'
 description: >-
-  Meta message after a ToolSearch telling the model the requested tools are
-  already loaded and can be called directly.
-ccVersion: 2.1.302
+  ToolSearch meta note listing matched tools already in the conversation and
+  telling the model to call them directly without searching.
+ccVersion: 2.1.325
 variables:
   - SYSTEM_REMINDER_TOOLS_ALREADY_AVAILABLE_NO_SEARCH_VAR_0
+  - SYSTEM_REMINDER_TOOLS_ALREADY_AVAILABLE_NO_SEARCH_VAR_1
+  - SYSTEM_REMINDER_TOOLS_ALREADY_AVAILABLE_NO_SEARCH_VAR_2
 -->
-Already available in this conversation: ${SYSTEM_REMINDER_TOOLS_ALREADY_AVAILABLE_NO_SEARCH_VAR_0.join(", ")}. Call ${SYSTEM_REMINDER_TOOLS_ALREADY_AVAILABLE_NO_SEARCH_VAR_0.length===1?"it":"them"} directly; no search is needed.
+Already available in this conversation: ${SYSTEM_REMINDER_TOOLS_ALREADY_AVAILABLE_NO_SEARCH_VAR_0(SYSTEM_REMINDER_TOOLS_ALREADY_AVAILABLE_NO_SEARCH_VAR_1)}. ${SYSTEM_REMINDER_TOOLS_ALREADY_AVAILABLE_NO_SEARCH_VAR_2(SYSTEM_REMINDER_TOOLS_ALREADY_AVAILABLE_NO_SEARCH_VAR_1,`Call ${SYSTEM_REMINDER_TOOLS_ALREADY_AVAILABLE_NO_SEARCH_VAR_1.length===1?"it":"them"} directly; no search is needed.`)}

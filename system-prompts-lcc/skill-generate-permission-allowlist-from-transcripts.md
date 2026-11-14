@@ -4,7 +4,7 @@ description: >-
   Analyzes session transcripts to extract frequently used read-only tool-call
   patterns and adds them to the project's .claude/settings.json permission
   allowlist to reduce permission prompts
-ccVersion: 2.1.319
+ccVersion: 2.1.325
 -->
 # Fewer Permission Prompts
 
@@ -37,20 +37,20 @@ Then add these to the project \`.claude/settings.json\` under \`permissions.allo
    - Tools that start an interpreter in the working directory: \`pyright\` in any form (it runs \`python3\` there, which imports from that directory first), and similar
    - \`gh api *\`, \`docker run\`/\`exec\`, \`kubectl exec\`, \`sudo\`, and similar
 
-4. **Drop commands Claude Code already auto-allows.** These never prompt and need no allowlist entry. If you see them in transcripts, skip them; don't suggest them.
+4. **Drop commands Claude Code already auto-allows.** These need no allowlist entry — they never prompt, except the git ones (see their line). If you see them in transcripts, skip them; don't suggest them.
 
    - **Always auto-allowed (any args):** \`cal\`, \`uptime\`, \`cat\`, \`head\`, \`tail\`, \`wc\`, \`stat\`, \`strings\`, \`hexdump\`, \`od\`, \`nl\`, \`id\`, \`uname\`, \`free\`, \`df\`, \`du\`, \`locale\`, \`groups\`, \`nproc\`, \`basename\`, \`dirname\`, \`realpath\`, \`cut\`, \`paste\`, \`tr\`, \`column\`, \`tac\`, \`rev\`, \`fold\`, \`expand\`, \`unexpand\`, \`fmt\`, \`comm\`, \`cmp\`, \`numfmt\`, \`readlink\`, \`diff\`, \`true\`, \`false\`, \`sleep\`, \`type\`, \`expr\`, \`seq\`, \`tsort\`, \`pr\`, \`echo\`, \`ls\`, \`cd\`.
    - **Auto-allowed with zero args only:** \`pwd\`, \`whoami\`, \`alias\`.
    - **Auto-allowed exact forms:** \`claude -h\`, \`claude --help\`, \`node -v\`, \`node --version\`, \`python --version\`, \`python3 --version\`, \`ip addr\`.
    - **Auto-allowed with safe flags only (validated):** \`xargs\`, \`file\`, \`sed\` (read-only expressions), \`sort\`, \`man\`, \`help\`, \`netstat\`, \`ps\`, \`base64\`, \`grep\`, \`egrep\`, \`fgrep\`, \`sha256sum\`, \`sha1sum\`, \`md5sum\`, \`tree\`, \`date\`, \`hostname\`, \`which\`, \`lsof\`, \`pgrep\`, \`tput\`, \`ss\`, \`fd\`, \`fdfind\`, \`aki\`, \`rg\`, \`jq\`, \`uniq\`, \`history\`, \`arch\`, \`ifconfig\`, \`find\` (blocks \`-delete\`/\`-exec\`/\`-execdir\`/\`-ok\`/\`-okdir\`/\`-fprint*\`/\`-fls\`/\`-files0-from\`), \`printf\` (blocks any \`-flag\`), \`test\` (blocks \`-v\`/\`-R\`/\`-a\`/\`-o\`).
-   - **All git read-only subcommands:** \`git status\`, \`git log\`, \`git diff\`, \`git show\`, \`git blame\`, \`git branch\`, \`git tag\`, \`git remote\`, \`git ls-files\`, \`git ls-remote\`, \`git config --get\`, \`git rev-parse\`, \`git describe\`, \`git stash list\`, \`git reflog\`, \`git shortlog\`, \`git cat-file\`, \`git for-each-ref\`, \`git worktree list\`, etc.
+   - **All git read-only subcommands** (they ask in some repositories, such as one the user has not trusted; a rule would allow them in every repository, so add none): \`git status\`, \`git log\`, \`git diff\`, \`git show\`, \`git blame\`, \`git branch\`, \`git tag\`, \`git remote\`, \`git ls-files\`, \`git ls-remote\`, \`git config --get\`, \`git rev-parse\`, \`git describe\`, \`git stash list\`, \`git reflog\`, \`git shortlog\`, \`git cat-file\`, \`git for-each-ref\`, \`git worktree list\`, etc.
    - **All gh read-only subcommands:** \`gh pr view\`, \`gh pr list\`, \`gh pr diff\`, \`gh pr checks\`, \`gh pr status\`, \`gh issue view\`, \`gh issue list\`, \`gh issue status\`, \`gh run view\`, \`gh run list\`, \`gh workflow list\`, \`gh workflow view\`, \`gh repo view\`, \`gh release view\`, \`gh release list\`, \`gh api\` (GET), \`gh auth status\`, etc.
    - **Docker read-only subcommands:** \`docker ps\`, \`docker images\`, \`docker logs\`, \`docker inspect\`.
 
    Source of truth: \`src/tools/BashTool/readOnlyValidation.ts\` (\`READONLY_COMMANDS\`, \`READONLY_NOARGS\`, \`READONLY_EXACT\`, \`COMMAND_ALLOWLIST\`) and \`src/utils/shell/readOnlyCommandValidation.ts\` (\`GIT_READ_ONLY_COMMANDS\`, \`GH_READ_ONLY_COMMANDS\`, \`DOCKER_READ_ONLY_COMMANDS\`, \`RIPGREP_READ_ONLY_COMMANDS\`). If you're in this repo and unsure whether a command is covered, grep these files rather than guessing.
 
 5. **Pick the pattern form.** Use the narrowest pattern that covers the observed usage:
-   - Many variants (\`git log\`, \`git log --oneline\`, \`git log main..HEAD\`) → \`Bash(git log *)\` — note the space before \`*\`, required for prefix matching.
+   - Many variants (\`brew list\`, \`brew list --versions\`) → \`Bash(brew list *)\` — note the space before \`*\`, required for prefix matching.
    - A single common exact invocation → \`Bash(foo)\` with no wildcard.
    - MCP → the full tool name verbatim (no wildcard needed).
    - Never widen a pattern to where it conflicts with the rules above (no arbitrary code execution, no mutation/side effects).
@@ -61,12 +61,12 @@ Then add these to the project \`.claude/settings.json\` under \`permissions.allo
 
    | # | Pattern | Count | Notes |
    |---|---------|-------|-------|
-   | 1 | \`Bash(git status *)\` | 142 | repo status checks |
-   | 2 | \`Bash(gh pr view *)\` | 87 | PR inspection |
+   | 1 | \`Bash(brew list *)\` | 142 | installed packages |
+   | 2 | \`Bash(gh pr list)\` | 87 | open PRs |
    | 3 | \`mcp__slack__slack_read_thread\` | 54 | Slack thread reads |
 
 8. **Merge into \`.claude/settings.json\`** in the current project (not \`~/.claude/settings.json\`, not \`.claude/settings.local.json\`). Create the file if it doesn't exist. Preserve existing keys and existing \`permissions.allow\` entries; de-duplicate against what's there; don't remove anything; don't reorder unrelated fields.
 
-9. **Report back.** Tell the user what you added (count + a few examples), what was already in the allowlist, and what you skipped and why (e.g. "dropped \`rm\` and \`git push\` — not read-only; dropped \`cat\`/\`ls\`/\`git status\` — already auto-allowed").
+9. **Report back.** Tell the user what you added (count + a few examples), what was already in the allowlist, and what you skipped and why (e.g. "dropped \`rm\` and \`git push\` — not read-only; dropped \`cat\`/\`ls\` — already auto-allowed").
 
 Do not add anything to \`permissions.deny\` or \`permissions.ask\`. Do not touch any other settings field.

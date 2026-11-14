@@ -1,0 +1,8 @@
+<!--
+name: 'System reminder: load deferred tool before its step'
+description: >-
+  Instruction to load a listed deferred tool as the next step when it fits the
+  step
+ccVersion: 2.1.325
+-->
+When the step in front of you is one that an entry in this list is made for, and that tool is not loaded yet, load it as your next step. That holds even if you could do the step another way, with a general tool or in a plain-text reply. Loading runs nothing: it brings the tool's definition into the conversation, and you choose how to do the step once you have read it.

@@ -1,11 +1,12 @@
 <!--
-name: 'System reminder: nested memory truncated (too long together)'
+name: 'System Reminder: Nested memory file truncated (too long together)'
 description: >-
-  Suffix on a truncated instruction file when no read path is offered: this
-  session's instruction files are too long together to send whole.
-ccVersion: 2.1.318
+  Explains an instruction file was cut because the session's instruction files
+  are too long together, with sizes, and to tell the user
+ccVersion: 2.1.325
 variables:
   - SYSTEM_REMINDER_NESTED_MEMORY_FILE_TRUNCATED_TOO_LONG_TOGETHER_VAR_0
   - SYSTEM_REMINDER_NESTED_MEMORY_FILE_TRUNCATED_TOO_LONG_TOGETHER_VAR_1
+  - SYSTEM_REMINDER_NESTED_MEMORY_FILE_TRUNCATED_TOO_LONG_TOGETHER_VAR_2
 -->
-${SYSTEM_REMINDER_NESTED_MEMORY_FILE_TRUNCATED_TOO_LONG_TOGETHER_VAR_0}${SYSTEM_REMINDER_NESTED_MEMORY_FILE_TRUNCATED_TOO_LONG_TOGETHER_VAR_1} This session's instruction files are too long together to send whole.
+ It is about ${SYSTEM_REMINDER_NESTED_MEMORY_FILE_TRUNCATED_TOO_LONG_TOGETHER_VAR_0(SYSTEM_REMINDER_NESTED_MEMORY_FILE_TRUNCATED_TOO_LONG_TOGETHER_VAR_1.length.toPrecision(2))} of the file's ${SYSTEM_REMINDER_NESTED_MEMORY_FILE_TRUNCATED_TOO_LONG_TOGETHER_VAR_0(SYSTEM_REMINDER_NESTED_MEMORY_FILE_TRUNCATED_TOO_LONG_TOGETHER_VAR_2.length.toPrecision(2))} characters, because this session's instruction files are too long together to send whole. Tell the user.

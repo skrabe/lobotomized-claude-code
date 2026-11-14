@@ -1,8 +1,8 @@
 <!--
-name: Keybindings errors-vs-warnings note
+name: 'Skill: Keybindings errors vs warnings'
 description: >-
-  Keybindings skill fragment explaining the difference between blocking errors
-  and non-blocking warnings.
-ccVersion: 2.1.206
+  Keybindings skill note that errors mean bindings are ignored or broken and
+  must be fixed, while warnings flag possible conflicts.
+ccVersion: 2.1.325
 -->
-**Errors** prevent bindings from working and must be fixed. **Warnings** indicate potential conflicts but the binding may still work.
+**Errors** mean some or all of your bindings are ignored or don't work as written, and must be fixed. **Warnings** indicate potential conflicts but the binding may still work.

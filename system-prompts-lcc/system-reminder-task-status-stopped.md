@@ -1,0 +1,10 @@
+<!--
+name: 'System reminder: task stopped'
+description: Task_status reminder that a task was stopped
+ccVersion: 2.1.325
+variables:
+  - SYSTEM_REMINDER_TASK_STATUS_STOPPED_VAR_0
+  - SYSTEM_REMINDER_TASK_STATUS_STOPPED_VAR_1
+  - SYSTEM_REMINDER_TASK_STATUS_STOPPED_VAR_2
+-->
+${SYSTEM_REMINDER_TASK_STATUS_STOPPED_VAR_0}Task "${SYSTEM_REMINDER_TASK_STATUS_STOPPED_VAR_1}" (${SYSTEM_REMINDER_TASK_STATUS_STOPPED_VAR_2}) was stopped.

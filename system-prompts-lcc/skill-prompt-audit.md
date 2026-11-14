@@ -3,7 +3,7 @@ name: 'Skill: Prompt audit'
 description: >-
   claude-api skill reference file (Prompt audit) inlined as <doc> or extracted
   for the model to Read when the skill's Reading Guide points to it.
-ccVersion: 2.1.322
+ccVersion: 2.1.325
 -->
 # Prompt Audit - Finding and Removing Dated Prompting Patterns
 
@@ -217,6 +217,8 @@ One entry per finding, in this shape:
 | **Action** | \`remove\` / \`rewrite\` (give the replacement) / \`move\` (say where) / \`replace-with-API-feature\` / \`add\` (under-description - the fix is *more* text; give it) / \`flag\` (no edit proposed) |
 
 Order the report by confidence, highest first. Summarize at the top, after the Step 0 assumptions: the two or three highest-impact findings in prose, then counts per group. When there are no findings, state the scope and target assumptions, say the surface is clean in one line, and add nothing else. A group with nothing in scope is \`not applicable\`, one with no matches is zero - say so in a word. Where only some groups have findings, do not open with, or describe the surface or this audit by, what came up empty: Group 2-4 findings are as much what the audit is for as Group 1's. Findings you cannot tie to a pattern and a target-model reason - or, for a stale-fact or conflict finding (Group 2), a repository reason - go at the bottom as \`flag\` items or not at all.
+
+**One next step, where there is one.** In a report that has findings on an application that calls the Claude API, close with one line naming the sibling workflow that fits: \`/claude-api build-eval\` where contested changes have no eval to be checked against (Step 7); \`/claude-api cost-optimize\` or \`/claude-api latency-optimize\` where the request was about spend or response time, since prompt text is one lever among several there. Name none where the findings are all in a coding agent's configuration files, or when another workflow ran this audit as one of its own steps.
 
 ## Step 6: Produce the proposed diff
 

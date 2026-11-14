@@ -3,7 +3,7 @@ name: 'Data: Live documentation sources'
 description: >-
   claude-api skill list of platform.claude.com doc URLs and SDK repositories to
   WebFetch, with fallback strategy
-ccVersion: 2.1.322
+ccVersion: 2.1.325
 -->
 # Live Documentation Sources
 
@@ -11,7 +11,8 @@ This file lists the URLs of the current docs on platform.claude.com and of the S
 
 ## How to fetch
 
-Use a web fetch tool or \`curl\` (docs URLs ending in \`.md\` return Markdown). Try the fetch rather than assuming it's blocked.
+- The recommended way is the Claude Platform docs MCP server. If its tools \`search_docs\` and \`get_doc\` are available in this session, use them; it also has \`get_navigation\` and \`get_api_endpoint\`. A tool is this server's only if its server's name contains \`claude-platform\`; in Claude Code the full name starts with \`mcp__\` and that server name, such as \`mcp__claude-platform-docs__search_docs\`. A \`search_docs\` tool of any other server is not this server's.
+- If the docs MCP server's tools are not available, or a call to one of them fails, use a web fetch tool or \`curl\` (docs URLs ending in \`.md\` return Markdown). Try the fetch rather than assuming it's blocked.
 
 ## Claude API Documentation URLs
 
@@ -37,7 +38,8 @@ Use a web fetch tool or \`curl\` (docs URLs ending in \`.md\` return Markdown). 
 | Extended Thinking | \`https://platform.claude.com/docs/en/build-with-claude/extended-thinking.md\` | "Extract extended thinking parameters, budget_tokens requirements, and usage examples" |
 | Adaptive Thinking | \`https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking.md\` | "Extract adaptive thinking setup, effort levels, and {{OPUS_NAME}} usage examples" |
 | Thinking | \`https://platform.claude.com/docs/en/build-with-claude/thinking.md\` | "Extract the thinking configuration per model, which models can run without thinking and how to check it through the Models API, the display options with their beta headers and streaming behavior, which models write progress updates, and how thinking relates to effort" |
-| Effort Parameter | \`https://platform.claude.com/docs/en/build-with-claude/effort.md\` | "Extract effort levels, cost-quality tradeoffs, interaction with thinking, and per-message effort changes mid-conversation (request shape, when a change takes effect, models, beta header, restrictions)" |
+| Effort Parameter | \`https://platform.claude.com/docs/en/build-with-claude/effort.md\` | "Extract effort levels, cost-quality tradeoffs, interaction with thinking, and the two ways to change effort mid-conversation" |
+| Per-message Effort | \`https://platform.claude.com/docs/en/build-with-claude/effort-per-message.md\` | "Extract the per-message effort request shape (system message and beta header), where the message must go, when a change takes effect and how long it holds, its errors and restrictions, and the platforms and models that support it" |
 | Tool Use | \`https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview.md\` | "Extract tool definition schema, tool_choice options, and handling tool results" |
 | Streaming | \`https://platform.claude.com/docs/en/build-with-claude/streaming.md\` | "Extract streaming event types, SDK examples, and best practices" |
 | Prompt Caching | \`https://platform.claude.com/docs/en/build-with-claude/prompt-caching.md\` | "Extract cache_control usage, cache durations, pre-warming and what it rejects, what invalidates the cache, concurrent-request timing, pricing benefits, and implementation examples" |
@@ -63,7 +65,7 @@ Use a web fetch tool or \`curl\` (docs URLs ending in \`.md\` return Markdown). 
 | Files API | \`https://platform.claude.com/docs/en/build-with-claude/files.md\` | "Extract file upload, download, referencing in messages, supported types, and the migration steps from files-api-2025-04-14" |
 | Token Counting | \`https://platform.claude.com/docs/en/build-with-claude/token-counting.md\` | "Extract token counting API usage and examples" |
 | Rate Limits | \`https://platform.claude.com/docs/en/api/rate-limits.md\` | "Extract current rate limits by tier and model" |
-| Usage and Cost Admin API | \`https://platform.claude.com/docs/en/manage-claude/usage-cost-api.md\` | "Extract the usage_report and cost_report endpoints, Admin API key requirements, filter and group_by dimensions, token fields, and granularity limits" |
+| Usage and Cost Analytics API | \`https://platform.claude.com/docs/en/manage-claude/usage-cost-analytics-api.md\` | "Extract the usage and cost endpoints, the beta header, credentials for each organization type and platform, dimensions and filters, date-range and time-bucket limits, data freshness, and the migration table from the legacy reports" |
 | API versions | \`https://platform.claude.com/docs/en/api/versioning.md\` | "Extract each version's migration guide URL" |
 | Errors | \`https://platform.claude.com/docs/en/api/errors.md\` | "Extract HTTP error codes, meanings, and retry guidance" |
 | Amazon Bedrock | \`https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock.md\` | "Extract the AnthropicBedrockMantle client per language, \`anthropic.\`-prefixed model IDs, auth paths, feature availability, and regions" |
@@ -92,7 +94,7 @@ If a fetch fails, use \`shared/opentelemetry.md\`.
 | Workspaces | \`https://platform.claude.com/docs/en/manage-claude/workspaces.md\` | "Extract workspace create/list/archive and member management via API" |
 | Rate Limits API | \`https://platform.claude.com/docs/en/manage-claude/rate-limits-api.md\` | "Extract org and workspace rate limit report endpoints and filters" |
 | WIF Admin | \`https://platform.claude.com/docs/en/manage-claude/wif-admin-api.md\` | "Extract service account, federation issuer, and federation rule management" |
-| Usage & Cost Reports | \`https://platform.claude.com/docs/en/manage-claude/usage-cost-api.md\` | "Extract usage and cost report endpoints (curl-only, not in the SDKs)" |
+| Usage & Cost Reports (legacy) | \`https://platform.claude.com/docs/en/manage-claude/usage-cost-api.md\` | "Extract the legacy usage_report and cost_report endpoints (curl-only, not in the SDKs) and which platforms offer them" |
 
 ### Tools
 

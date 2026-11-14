@@ -3,7 +3,7 @@ name: 'Data: platform-availability'
 description: >-
   claude-api skill reference file (platform-availability) inlined as <doc> or
   extracted for the model to Read when the skill's Reading Guide points to it.
-ccVersion: 2.1.322
+ccVersion: 2.1.325
 -->
 # Platform Availability
 
@@ -56,7 +56,7 @@ Columns: **1P** = first-party Claude API, **P-AWS** = Claude Platform on AWS (An
 | &nbsp;&nbsp;Mid-conversation system messages | Yes | Yes | Yes | Yes | No | {{PREV_OPUS_NAME}}, {{OPUS_NAME}}, Claude Opus 4.8, Claude Fable 5, {{PREV_FABLE_NAME}}, {{FABLE_NAME}}, Claude Mythos 5, {{PREV_MYTHOS_NAME}}, {{MYTHOS_NAME}}, {{SONNET_NAME}}, {{HAIKU_NAME}}; not {{PREV_SONNET_NAME}}. Bedrock's InvokeModel API takes them on fewer models: no ARN-versioned models, no older Mythos models, and {{FABLE_NAME}} and {{MYTHOS_NAME}} only where offered |
 | &nbsp;&nbsp;Mid-conversation tool changes | beta | beta | beta | beta | No | Same models as mid-conversation system messages. By reference: beta \`mid-conversation-tool-changes-2026-07-01\`. By value or by reference, on the Claude API, Claude Platform on AWS and Claude Models on Google Cloud (Anthropic managed): beta \`inline-tools-2026-09-15\`. Bedrock: not through the InvokeModel API, per the docs |
 | &nbsp;&nbsp;Turn-scoped (\`clear_at\`) system messages | beta | beta | beta | beta | No | Same models as mid-conversation system messages; beta \`mid-conversation-system-clear-at-2026-08-21\` (on Bedrock/Vertex pass the value as a beta) |
-| &nbsp;&nbsp;Per-message \`effort\` (system message \`output_config\`) | beta | beta | beta | beta | unconfirmed | {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{PREV_FABLE_NAME}}, {{PREV_MYTHOS_NAME}}, {{PREV_OPUS_NAME}}, {{OPUS_NAME}}, {{SONNET_NAME}} and {{HAIKU_NAME}} (thinking on only - a 400 with \`between_tools\` on the first, \`disabled\` on the second); beta \`mid-conversation-output-config-2026-07-01\`; on the Claude API and Google Cloud ({{FABLE_NAME}} and {{MYTHOS_NAME}} where offered), open to any organization that sends the header. Claude Platform on AWS: not the Mythos models. Bedrock: {{FABLE_NAME}} and {{MYTHOS_NAME}} (where offered), {{PREV_FABLE_NAME}}, {{PREV_MYTHOS_NAME}} and {{OPUS_NAME}}; through the InvokeModel API, only {{FABLE_NAME}} and {{MYTHOS_NAME}} (where offered), {{PREV_FABLE_NAME}} and {{OPUS_NAME}}, with the value in the request body's \`anthropic_beta\` array. Foundry unconfirmed |
+| &nbsp;&nbsp;Per-message \`effort\` (system message \`output_config\`) | beta | beta | beta | beta | beta | {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{PREV_FABLE_NAME}}, {{PREV_MYTHOS_NAME}}, {{PREV_OPUS_NAME}}, {{OPUS_NAME}}, {{SONNET_NAME}} and {{HAIKU_NAME}} (thinking on only - a 400 with \`between_tools\` on the first, \`disabled\` on the second); beta \`mid-conversation-output-config-2026-07-01\`; on the Claude API and Google Cloud ({{FABLE_NAME}} and {{MYTHOS_NAME}} where offered), open to any organization that sends the header. Claude Platform on AWS: not the Mythos models. Claude in Amazon Bedrock: {{PREV_FABLE_NAME}}, {{PREV_MYTHOS_NAME}} and {{OPUS_NAME}}; through the Bedrock InvokeModel API, {{FABLE_NAME}} and {{MYTHOS_NAME}} (where offered), {{PREV_FABLE_NAME}} and {{OPUS_NAME}}, with the value in the request body's \`anthropic_beta\` array. Foundry: all the models above, with the Mythos models on Hosted on Anthropic deployments only |
 | &nbsp;&nbsp;\`thinking.display: "updates"\` | beta | beta | beta | beta | beta | {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{PREV_FABLE_NAME}}, {{PREV_MYTHOS_NAME}}, Claude Fable 5, {{OPUS_NAME}}, {{SONNET_NAME}} (with adaptive thinking); beta \`thinking-display-updates-2026-08-18\` (pass the beta value per platform); without it \`"updates"\` is rejected as an unknown \`display\` value |
 | &nbsp;&nbsp;Thinking block-binding controls | beta | beta | beta | beta | unconfirmed | \`thinking.block_binding\` + \`input_transformations\`; beta \`thinking-binding-controls-2026-08-01\` (the same beta name on the Claude API, Claude Platform on AWS, Bedrock, and Vertex - Bedrock: the \`anthropic-beta\` header on Claude in Amazon Bedrock, the \`anthropic_beta\` body field on InvokeModel; Vertex: the \`anthropic-beta\` HTTP header); Foundry unconfirmed; wherever the header is rejected, use strip-and-retry; the history-editing enforcement itself follows the rule in \`shared/model-migration.md\` -> Migrating to {{PREV_FABLE_NAME}} from Claude Fable 5 (on {{FABLE_NAME}} and {{MYTHOS_NAME}} it is enforced for every account) |
 | &nbsp;&nbsp;Server-side \`fallbacks\` | beta | beta | No | No | No | \`"default"\` -> beta \`server-side-fallback-2026-07-01\`; array form -> either that or beta \`server-side-fallback-2026-06-01\` |
@@ -77,7 +77,7 @@ Before relying on a feature marked unconfirmed, check its page in \`shared/live-
 | Cache diagnostics | unconfirmed |
 | Task budgets | unconfirmed: the docs don't name this platform |
 | Thinking block-binding controls | unconfirmed |
-| Per-message \`effort\` (system message \`output_config\`) | beta on {{FABLE_NAME}}, {{PREV_FABLE_NAME}}, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, {{SONNET_NAME}} and {{HAIKU_NAME}}; unconfirmed for {{MYTHOS_NAME}}, which the effort page doesn't list here |
+| Per-message \`effort\` (system message \`output_config\`) | beta on {{FABLE_NAME}}, {{MYTHOS_NAME}}, {{PREV_FABLE_NAME}}, {{OPUS_NAME}}, {{PREV_OPUS_NAME}}, {{SONNET_NAME}} and {{HAIKU_NAME}}; the per-message effort page doesn't list {{PREV_MYTHOS_NAME}} here |
 | Managed Agents webhooks | unconfirmed |
 | MCP tunnels | No |
 | Computer use | beta; which tool versions it accepts is unconfirmed, except that {{FABLE_NAME}} and {{MYTHOS_NAME}} reject \`computer_20251124\` here, as they do everywhere but Amazon Bedrock |
@@ -186,7 +186,7 @@ azureAi->Foundry; *Beta suffix->beta; prop absent->No). Per-row citations:
   Self-hosted sandboxes    build-with-claude/claude-platform-on-aws.mdx:525,547
   Mid-convo system msgs    build-with-claude/mid-conversation-system-messages.mdx:15
   Mid-convo tool changes   live page build-with-claude/mid-conversation-system-messages (2026-09-19)
-  Per-message effort       build-with-claude/effort.mdx:465; it doesn't name Foundry, so the row leaves Foundry unconfirmed
+  Per-message effort       live page build-with-claude/effort-per-message, section Availability (2026-11-12)
   Fast mode                build-with-claude/fast-mode, section Availability; its Fable 5.2 and Mythos 5.2 lines are hidden until each model's docs flag is on
   Cache diagnostics        build-with-claude/cache-diagnostics.mdx:15,1379
   Task budgets             build-with-claude/task-budgets.mdx:15

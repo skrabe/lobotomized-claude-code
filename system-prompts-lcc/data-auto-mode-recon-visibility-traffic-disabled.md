@@ -1,11 +1,10 @@
 <!--
-name: 'Recon: visibility not queryable (traffic disabled)'
+name: 'Data: auto mode recon visibility traffic disabled'
 description: >-
-  Repo-visibility placeholder in the auto-mode pre-gathered recon document
-  (nonessential traffic disabled/policy-restricted), sent as the recon user
-  message to the proposer model.
-ccVersion: 2.1.210
+  Auto-mode recon placeholder when repo visibility can't be queried (traffic
+  disabled, policy-restricted, or policy not loaded).
+ccVersion: 2.1.325
 variables:
   - DATA_AUTO_MODE_RECON_VISIBILITY_TRAFFIC_DISABLED_VAR_0
 -->
-_Not queryable here (nonessential traffic disabled or policy-restricted). ${DATA_AUTO_MODE_RECON_VISIBILITY_TRAFFIC_DISABLED_VAR_0}_
+_Not queryable here (nonessential traffic disabled, policy-restricted, or the organization's policy not loaded). ${DATA_AUTO_MODE_RECON_VISIBILITY_TRAFFIC_DISABLED_VAR_0}_

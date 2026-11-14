@@ -1,11 +1,12 @@
 <!--
-name: Connector call failed after upload
+name: 'Tool result: MCP connector upload repeat failed'
 description: >-
-  Says the call failed after its files were sent, so whether the tool ran is
-  unknown.
-ccVersion: 2.1.319
+  Connector upload error: the call failed when repeated or after its files had
+  been sent.
+ccVersion: 2.1.325
 variables:
   - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REPEAT_FAILED_VAR_0
   - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REPEAT_FAILED_VAR_1
+  - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REPEAT_FAILED_VAR_2
 -->
-The call to ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REPEAT_FAILED_VAR_0} failed after its files had been sent, so it is not known whether ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REPEAT_FAILED_VAR_0} ran. ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REPEAT_FAILED_VAR_1}
+The call to ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REPEAT_FAILED_VAR_0} failed ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REPEAT_FAILED_VAR_1.length===0?"when it was repeated":"after its files had been sent"}. ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REPEAT_FAILED_VAR_2}

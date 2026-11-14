@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Result: Connector upload malformed file id'
-description: >-
-  Reason in the connector-upload error when a params.files entry has a missing,
-  empty or non-text fileId
-ccVersion: 2.1.322
+name: 'Tool result: connector upload malformed fileId'
+description: 'Reason: an upload entry''s fileId is missing, not text or empty'
+ccVersion: 2.1.325
 -->
-an entry in params.files has a fileId that is missing, not text, or empty
+an entry in uploads has a fileId that is missing, not text, or empty

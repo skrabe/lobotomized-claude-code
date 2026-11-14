@@ -3,6 +3,11 @@ name: Block Reads Outside Working Directories
 description: >-
   Deny/ask suffix when permissions.blockReadsOutsideWorkingDirectories blocks a
   path outside the working directories.
-ccVersion: 2.1.257
+ccVersion: 2.1.325
+variables:
+  - TOOL_RESULT_BLOCK_READS_OUTSIDE_WORKING_DIRECTORIES_VAR_0
+  - TOOL_RESULT_BLOCK_READS_OUTSIDE_WORKING_DIRECTORIES_VAR_1
+  - TOOL_RESULT_BLOCK_READS_OUTSIDE_WORKING_DIRECTORIES_VAR_2
+  - TOOL_RESULT_BLOCK_READS_OUTSIDE_WORKING_DIRECTORIES_VAR_3
 -->
-the permissions.blockReadsOutsideWorkingDirectories setting blocks reads outside the working directories. Ask the user to add the directory with /add-dir, or to remove that setting.
+the ${TOOL_RESULT_BLOCK_READS_OUTSIDE_WORKING_DIRECTORIES_VAR_0(TOOL_RESULT_BLOCK_READS_OUTSIDE_WORKING_DIRECTORIES_VAR_1)} ${TOOL_RESULT_BLOCK_READS_OUTSIDE_WORKING_DIRECTORIES_VAR_2?"settings block":"setting blocks"} reads outside the working directories.${TOOL_RESULT_BLOCK_READS_OUTSIDE_WORKING_DIRECTORIES_VAR_3}
