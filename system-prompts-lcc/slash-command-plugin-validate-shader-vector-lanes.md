@@ -1,0 +1,9 @@
+<!--
+name: 'Shader refusal: vector lanes'
+description: Shader refusal when a vecN gets the wrong number of lanes.
+ccVersion: 2.1.326
+variables:
+  - SLASH_COMMAND_PLUGIN_VALIDATE_SHADER_VECTOR_LANES_VAR_0
+  - SLASH_COMMAND_PLUGIN_VALIDATE_SHADER_VECTOR_LANES_VAR_1
+-->
+vec${SLASH_COMMAND_PLUGIN_VALIDATE_SHADER_VECTOR_LANES_VAR_0} is given ${SLASH_COMMAND_PLUGIN_VALIDATE_SHADER_VECTOR_LANES_VAR_1} lanes: give it ${SLASH_COMMAND_PLUGIN_VALIDATE_SHADER_VECTOR_LANES_VAR_0}, or one number

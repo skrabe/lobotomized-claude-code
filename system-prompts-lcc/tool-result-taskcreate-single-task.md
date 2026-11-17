@@ -1,8 +1,8 @@
 <!--
-name: TaskCreate single-task guidance
+name: 'Tool Result: TaskCreate single task per call'
 description: >-
-  TaskCreate misuse error returned to the model explaining it creates one task
-  per call.
-ccVersion: 2.1.206
+  Validation steer that tells the model TaskCreate creates one task per call and
+  has no tasks or todos parameter
+ccVersion: 2.1.326
 -->
-TaskCreate creates ONE task per call and has no `tasks` or `todos` parameter. Call TaskCreate once per task, passing `subject` (a brief title) and `description` (what needs to be done) as top-level string parameters.
+TaskCreate creates ONE task per call and has no `tasks` or `todos` parameter. 

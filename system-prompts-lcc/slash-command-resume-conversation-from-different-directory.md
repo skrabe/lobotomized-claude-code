@@ -1,8 +1,8 @@
 <!--
-name: 'Slash Command: /resume — conversation is from a different directory'
+name: '/resume: session from a different directory'
 description: >-
-  Warns that the conversation being resumed was recorded in a different working
-  directory.
-ccVersion: 2.1.233
+  Line in /resume output telling the user the selected session is from a
+  different directory.
+ccVersion: 2.1.326
 -->
-This conversation is from a different directory.
+This session is from a different directory.

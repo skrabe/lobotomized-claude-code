@@ -1,8 +1,8 @@
 <!--
-name: 'Slash Command: /mcp — no servers configured'
+name: /mcp no servers configured
 description: >-
-  Tells the model no MCP servers are configured and points at claude doctor for
-  config files that failed validation.
-ccVersion: 2.1.233
+  Told the model when /mcp finds no MCP servers configured, with pointers to
+  claude doctor and docs.
+ccVersion: 2.1.326
 -->
-No MCP servers configured. Run `claude doctor` if this is unexpected — it lists MCP config files that failed validation. Otherwise, run `claude mcp --help` or visit https://code.claude.com/docs/en/mcp to learn more.
+No MCP servers configured. If you expected some, run `claude doctor` to find MCP config files with problems. To add one, run `claude mcp --help` or see https://code.claude.com/docs/en/mcp

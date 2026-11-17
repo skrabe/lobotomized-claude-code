@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Bash Read Block Env Prefix Unsafe'
+name: 'Tool Result: Bash read block unsafe env prefix'
 description: >-
-  Bash permission ask when an env-variable command prefix outside the safe list
-  prevents read-block checking.
-ccVersion: 2.1.296
+  Reason when a command's environment-variable prefix is not known to be safe
+  and so cannot be checked against the read block.
+ccVersion: 2.1.326
 -->
-an environment variable prefix outside the safe list cannot be checked against the read block
+an environment variable prefix that is not known to be safe cannot be checked against the read block

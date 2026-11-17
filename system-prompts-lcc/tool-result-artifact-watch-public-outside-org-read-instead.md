@@ -1,8 +1,8 @@
 <!--
-name: Artifact Watch Public Outside Org Read Instead
+name: 'Tool result: artifact watch public outside org read instead'
 description: >-
-  Advice that a public extra-org artifact cannot be re-watched and should be
-  read instead.
-ccVersion: 2.1.274
+  Tells the model there is nothing to retry for a public outside-org artifact
+  and to read it instead.
+ccVersion: 2.1.326
 -->
-there is nothing to retry: read it with the read action instead
+there is nothing to retry: read it instead

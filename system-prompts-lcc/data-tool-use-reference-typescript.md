@@ -4,14 +4,14 @@ description: >-
   claude-api skill reference file (Tool use reference — TypeScript) inlined as
   <doc> or extracted for the model to Read when the skill's Reading Guide points
   to it.
-ccVersion: 2.1.322
+ccVersion: 2.1.326
 -->
 # Tool Use - TypeScript
 
 For conceptual overview (tool definitions, tool choice, tips), see [shared/tool-use-concepts.md](../../shared/tool-use-concepts.md).
 
 
-## Tool Runner (Recommended)
+## Tool Runner (Recommended over the manual loop)
 
 **Beta:** The tool runner is in beta in the TypeScript SDK.
 
@@ -74,7 +74,7 @@ Each resume counts toward \`max_iterations\`, so a capped run can still end paus
 
 ## Manual Agentic Loop
 
-Prefer the tool runner above. Drop to a manual loop only when you need control the runner does not expose (e.g., a custom transport, request shapes the SDK cannot build, or avoiding a beta dependency - the runner is beta, and it supports per-token streaming via \`stream: true\`). Human-in-the-loop approval does *not* require a manual loop - gate inside the tool's \`run()\` function (return a "user declined" result) or inspect pending \`tool_use\` blocks and call \`setMessagesParams()\` between iterations.
+Prefer the tool runner above to a manual loop. Drop to a manual loop only when you need control the runner does not expose (e.g., a custom transport, request shapes the SDK cannot build, or avoiding a beta dependency - the runner is beta, and it supports per-token streaming via \`stream: true\`). Human-in-the-loop approval does *not* require a manual loop - gate inside the tool's \`run()\` function (return a "user declined" result) or inspect pending \`tool_use\` blocks and call \`setMessagesParams()\` between iterations.
 
 If you do need a manual loop:
 
@@ -123,7 +123,7 @@ while (true) {
 
 ### Streaming Manual Loop
 
-Use \`client.messages.stream()\` + \`finalMessage()\` instead of \`.create()\` when you need streaming within a manual loop. Text deltas are streamed on each iteration; \`finalMessage()\` collects the complete \`Message\` so you can inspect \`stop_reason\` and extract tool-use blocks. Set \`eager_input_streaming: true\` on each tool so large inputs stream as generated; the server then no longer validates them, so validate each parsed input against the tool's schema before running it, stop on \`max_tokens\` / \`refusal\`, and catch only the SDK's JSON error (\`shared/tool-use-concepts.md\` -> Eager input streaming). Schema validation is not path validation: the model-supplied \`path\` is untrusted output, so confine it to a project root before writing (the text-editor security note in the same file):
+Use \`client.messages.stream()\` + \`finalMessage()\` instead of \`.create()\` when you need streaming within a manual loop. Text deltas are streamed on each iteration; \`finalMessage()\` collects the complete \`Message\` so you can inspect \`stop_reason\` and extract tool-use blocks. Set \`eager_input_streaming: true\` on each tool so large inputs stream as generated; the server then no longer validates them, so validate each parsed input against the tool's schema before running it, stop on \`max_tokens\` / \`refusal\`, and retry the SDK's JSON error, rethrowing API errors (\`shared/tool-use-concepts.md\` -> Eager input streaming). Schema validation is not path validation: the model-supplied \`path\` is untrusted output, so confine it to a project root before writing (the text-editor security note in the same file):
 
 \`\`\`typescript
 import Anthropic from "@anthropic-ai/sdk";
@@ -164,14 +164,15 @@ while (true) {
   // finalMessage() resolves with the complete Message - no need to
   // manually wire up .on("message") / .on("error") / .on("abort").
   // With eager input streaming it rejects if a tool input could not be
-  // parsed at all. Only that case is retried; API errors are rethrown.
+  // parsed at all. That case is retried, and so is a connection dropped mid-stream,
+  // which isn't an APIError either; API errors are rethrown.
   let message: Anthropic.Message;
   try {
     message = await stream.finalMessage();
     jsonRetries = 0; // the cap is on consecutive failures of one turn
   } catch (err) {
     if (err instanceof Anthropic.APIError || jsonRetries++ >= 2) throw err;
-    console.error("tool input was not parseable JSON, re-issuing the turn");
+    console.error("tool input unparseable or connection dropped, re-issuing the turn");
     continue;
   }
 

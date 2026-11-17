@@ -4,14 +4,14 @@ description: >-
   claude-api skill reference file (Tool use reference — Python) inlined as <doc>
   or extracted for the model to Read when the skill's Reading Guide points to
   it.
-ccVersion: 2.1.322
+ccVersion: 2.1.326
 -->
 # Tool Use - Python
 
 For conceptual overview (tool definitions, tool choice, tips), see [shared/tool-use-concepts.md](../../shared/tool-use-concepts.md).
 
 
-## Tool Runner (Recommended)
+## Tool Runner (Recommended over the manual loop)
 
 **Beta:** The tool runner is in beta in the Python SDK.
 
@@ -138,7 +138,7 @@ Conversion functions raise \`UnsupportedMCPValueError\` if an MCP value cannot b
 
 ## Manual Agentic Loop
 
-Prefer the tool runner above. Drop to a manual loop only when you need control the runner does not expose (e.g., a custom transport, request shapes the SDK cannot build, or avoiding a beta dependency - the runner is beta). Human-in-the-loop approval does *not* require a manual loop - gate inside the tool function (return a "user declined" result) or inspect pending \`tool_use\` blocks in the \`for message in runner:\` body and call \`runner.set_messages_params()\`.
+Prefer the tool runner above to a manual loop. Drop to a manual loop only when you need control the runner does not expose (e.g., a custom transport, request shapes the SDK cannot build, or avoiding a beta dependency - the runner is beta). Human-in-the-loop approval does *not* require a manual loop - gate inside the tool function (return a "user declined" result) or inspect pending \`tool_use\` blocks in the \`for message in runner:\` body and call \`runner.set_messages_params()\`.
 
 If you do need a manual loop:
 

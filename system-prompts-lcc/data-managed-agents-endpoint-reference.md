@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Managed Agents endpoint reference) inlined as
   <doc> or extracted for the model to Read when the skill's Reading Guide points
   to it.
-ccVersion: 2.1.322
+ccVersion: 2.1.326
 -->
 # Managed Agents - Endpoint Reference
 
@@ -140,7 +140,7 @@ Scheduled deployments (\`depl_\` IDs) run an agent on a recurring cron schedule 
 
 ## Deployment Runs
 
-Each trigger attempt (scheduled or manual) writes a \`deployment_run\` record (\`drun_\` IDs) carrying either the created \`session_id\` or an \`error.type\` (\`environment_archived\`, \`agent_archived\`, \`vault_not_found\`, \`session_rate_limited\`, \`service_unavailable\`).
+Each trigger attempt (scheduled or manual) writes a \`deployment_run\` record (\`drun_\` IDs) carrying either the created \`session_id\` or an \`error.type\` (for example \`environment_archived_error\`, \`agent_archived_error\`, \`vault_not_found_error\`, \`session_rate_limited_error\`).
 
 | Method   | Path                                             | Operation        | Description                              |
 | -------- | ------------------------------------------------ | ---------------- | ---------------------------------------- |
@@ -185,7 +185,7 @@ Workspace-scoped persistent memory that survives across sessions. Attach to a se
 | \`GET\`    | \`/v1/memory_stores/{memory_store_id}\`            | GetMemoryStore     | Get store details                        |
 | \`POST\`   | \`/v1/memory_stores/{memory_store_id}\`            | UpdateMemoryStore  | Update store                             |
 | \`DELETE\` | \`/v1/memory_stores/{memory_store_id}\`            | DeleteMemoryStore  | Delete store                             |
-| \`POST\`   | \`/v1/memory_stores/{memory_store_id}/archive\`    | ArchiveMemoryStore | Archive store. Makes it **read-only**; existing sessions continue, new sessions cannot reference it. No unarchive. |
+| \`POST\`   | \`/v1/memory_stores/{memory_store_id}/archive\`    | ArchiveMemoryStore | Archive store. An archived store can't be attached to new sessions or written to; API reads, deletes, and redaction still work. No unarchive. See \`shared/managed-agents-memory.md\`. |
 
 ## Memories
 

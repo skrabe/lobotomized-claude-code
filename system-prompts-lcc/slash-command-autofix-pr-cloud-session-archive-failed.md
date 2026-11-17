@@ -1,11 +1,11 @@
 <!--
-name: 'Autofix PR: cloud session archive failed'
+name: /autofix-pr cloud session couldn't be stopped
 description: >-
-  Tells the model the earlier cloud session couldn't be archived and may still
-  be working the PR, with a link to stop it
-ccVersion: 2.1.284
+  Told the model that a started cloud session couldn't be stopped and may still
+  work on the PR, with how to stop it.
+ccVersion: 2.1.326
 variables:
   - SLASH_COMMAND_AUTOFIX_PR_CLOUD_SESSION_ARCHIVE_FAILED_VAR_0
   - SLASH_COMMAND_AUTOFIX_PR_CLOUD_SESSION_ARCHIVE_FAILED_VAR_1
 -->
-The cloud session started for it couldn't be archived and may still work on the PR. Stop it here: ${SLASH_COMMAND_AUTOFIX_PR_CLOUD_SESSION_ARCHIVE_FAILED_VAR_0(SLASH_COMMAND_AUTOFIX_PR_CLOUD_SESSION_ARCHIVE_FAILED_VAR_1.id,void 0,{from:"cli"})}
+A cloud session had already started and Claude Code couldn't stop it, so it may still work on the PR. Stop it here: ${SLASH_COMMAND_AUTOFIX_PR_CLOUD_SESSION_ARCHIVE_FAILED_VAR_0(SLASH_COMMAND_AUTOFIX_PR_CLOUD_SESSION_ARCHIVE_FAILED_VAR_1.id,void 0,{from:"cli"})}

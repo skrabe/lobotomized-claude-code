@@ -3,7 +3,7 @@ name: 'Data: Live documentation sources'
 description: >-
   claude-api skill list of platform.claude.com doc URLs and SDK repositories to
   WebFetch, with fallback strategy
-ccVersion: 2.1.325
+ccVersion: 2.1.326
 -->
 # Live Documentation Sources
 
@@ -23,7 +23,7 @@ This file lists the URLs of the current docs on platform.claude.com and of the S
 | Models Overview | \`https://platform.claude.com/docs/en/about-claude/models/overview.md\` | "Extract current model IDs, context windows, pricing, and comparative latency for all Claude models" |
 | Migration Guide | \`https://platform.claude.com/docs/en/about-claude/models/migration-guide.md\` | "List the per-model migration guides, so the one for the target model can be fetched next" |
 | What's New in Claude Fable 5.2 | \`https://platform.claude.com/docs/en/models/fable-5-2/whats-new-fable-5-2.md\` | "Extract capabilities, API changes, and availability for Claude Fable 5.2 and Claude Mythos 5.2" |
-| Prompting Claude Fable 5.2 | \`https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2.md\` | "Extract prompt text and advice on effort, early stopping, approvals, code ownership, progress updates, subagents, built-up caution, reports and refusals for Claude Fable 5.2 and Claude Mythos 5.2" |
+| Prompting Claude Fable 5.2 | \`https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2.md\` | "Extract prompt text and advice on effort, early stopping, approvals, code ownership, progress updates, subagents, built-up caution, instructions and harnesses written for earlier models, reports and refusals, and the order to apply that advice, for Claude Fable 5.2 and Claude Mythos 5.2" |
 | Introducing Claude Fable 5 | \`https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5.md\` | "Extract capabilities, API changes, and availability stages for Claude Fable 5 and Claude Mythos 5" |
 | Pricing | \`https://platform.claude.com/docs/en/about-claude/pricing.md\` | "Extract current pricing per million tokens for input and output" |
 | Cost Optimization | \`https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence.md\` | "Extract measured cost levers, cache and batch savings, effort and model cost-per-task comparisons, budget controls, multi-model guidance, and how to tell the model that time matters and show it the elapsed time" |

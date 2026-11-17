@@ -3,7 +3,7 @@ name: 'Data: SKILL (Claude Test — the conversation side)'
 description: >-
   Prompt body of the claude-test "run" skill (conversation side), loaded as
   skill text by we().
-ccVersion: 2.1.310
+ccVersion: 2.1.326
 -->
 ---
 description: "Local, on this machine: tests your app here in a browser on this computer (not the claude.ai Claude Test connector)"
@@ -440,7 +440,9 @@ the skip line out, since its count still includes that spec.
      \`status.signIn.howTo.skill\` lists several, name each one and give each command. Ask the same question before any other
      time you run it, too; outside a run, leave out "Before the tests run".
      - "Run it" → run \`status.signIn.howTo.skill\` exactly; \`ok: false\` → specs behind sign-in will come back BLOCKED with its
-       error (say so in the briefing); \`ok: true\` with a \`browserSandbox\` line → say that line to the person once, as it is written.
+       error (say so in the briefing); \`ok: true\` with a \`browserSandbox\` line → say that line to the person once, as it is written; whether \`ok\`
+       is true or false, if the output has \`scratchFoldersLeft\` → say its \`scratchFoldersLeftNote\` to the person once, as it is written,
+       and list each \`folder\` after it.
      - "It has finished" → go on.
      - "Run the tests without signing in" → specs behind sign-in will come back BLOCKED (say so in the briefing).
      - "Stop here", or no answer (as above) → the run ends (below).

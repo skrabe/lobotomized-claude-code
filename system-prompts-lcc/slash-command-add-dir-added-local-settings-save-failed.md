@@ -1,13 +1,13 @@
 <!--
-name: 'Slash Command: /add-dir — added but persisting failed'
+name: 'Slash command: add-dir added local settings save failed'
 description: >-
-  Tells the model the directory works for now but the settings write failed,
-  with the error text, so it knows the grant will not survive a restart.
-ccVersion: 2.1.233
+  /add-dir reply when the directory was added but saving to local settings
+  failed.
+ccVersion: 2.1.326
 variables:
   - SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_0
   - SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_1
   - SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_2
   - SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_3
 -->
-Added ${SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_0.bold(SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_1)} as a working directory. Failed to save to local settings: ${SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_2 instanceof SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_3?SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_2.message:"Unknown error"}
+Added ${SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_0.bold(SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_1)} as a working directory. Couldn't save it to local settings: ${SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_2 instanceof SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_3?SLASH_COMMAND_ADD_DIR_ADDED_LOCAL_SETTINGS_SAVE_FAILED_VAR_2.message:"Unknown error"}

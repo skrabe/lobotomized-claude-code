@@ -2,9 +2,7 @@
 name: 'Slash Command: /bug description'
 description: >-
   Slash-command registration description; reaches the model through the
-  "**Available commands (N in this build):**" listing built by PoS() for the
-  claude-code-guide skill (local-jsx commands pass the f.type!=="prompt"
-  filter).
-ccVersion: 2.1.214
+  Available commands listing of the claude-code-help skill.
+ccVersion: 2.1.326
 -->
-Report a bug or share your conversation
+Report a bug or share your session

@@ -1,11 +1,11 @@
 <!--
 name: 'Data: shell.prelude.js'
 description: Text asset shell.prelude.js that Claude Code loads by path from its bundle.
-ccVersion: 2.1.318
+ccVersion: 2.1.326
 -->
 // Generated from src/tools/EvalTool/env/shell.ts by bun scripts/generate-script-globals.ts: edit that file and run the script.
 'use strict';
-(rawSh, textKey, shellKind, notePartialOutput) => {
+(rawSh, textKey, shellKind, notePartialOutput, mayLeaveUnquoted) => {
 const PREVIEW_DEFAULT_CHARS = 200;
 const PREVIEW_SIZE_BYTES = 2000;
 const UNSANDBOXED_RETRY_TAG = '[retried outside the sandbox]';
@@ -250,9 +250,11 @@ const parse = (text, whole) => {
         throw new BuiltinSyntaxError(e.message + (whole ? jsonStderrNote : jsonCutNote));
     }
 };
+const ABSENT_ADVICE = ".\\nFind out why first: an earlier script may have stopped before assigning the variable, or a field or regex group is missing. If the argument is optional, write \${x ?? []} to omit it or \${x ?? ''} for an empty one. Inside a word such as \${x}/build both leave /build, so check x instead.";
+const UNWRITTEN_RAW = 'an object with a raw field, but not a one-key {raw: ...} literal written in a script and unchanged since.\\nIt may be outside data, such as parsed JSON, where a string was expected, or a literal whose raw field was set again, so check the value first. \${x.raw} passes its text as one quoted argument. The {raw: ...} form is only for shell text that the script wrote itself: build that string first, then wrap it once.';
 const piece = (v) => {
     if (v === undefined || v === null) {
-        return { value: v, path: '' };
+        return { why: v + ABSENT_ADVICE, path: '' };
     }
     if (typeof v === 'number' ||
         typeof v === 'bigint' ||
@@ -265,7 +267,7 @@ const piece = (v) => {
         for (let i = 0; i < items.length; i++) {
             const word = piece(items[i]);
             if (typeof word !== 'string') {
-                return { value: word.value, path: '[' + i + ']' + word.path };
+                return { why: word.why, path: '[' + i + ']' + word.path };
             }
             words += (i === 0 ? '' : ' ') + word;
         }
@@ -277,7 +279,7 @@ const piece = (v) => {
     if (typeof v === 'object' && hasOwn(v, 'raw')) {
         const { raw } = v;
         if (typeof raw === 'string') {
-            return raw;
+            return mayLeaveUnquoted(v) ? raw : { why: UNWRITTEN_RAW, path: '' };
         }
     }
     return quote(v);
@@ -329,8 +331,7 @@ const render = (strings, values) => {
                     apply(stringSlice, after, [0, SHOWN_EACH_SIDE]) +
                     (after.length > SHOWN_EACH_SIDE ? '...' : '')) +
                 ') is ' +
-                word.value +
-                ".\\nFind out why first: an earlier script may have stopped before assigning the variable, or a field or regex group is missing. If the argument is optional, write \${x ?? []} to omit it or \${x ?? ''} for an empty one. Inside a word such as \${x}/build both leave /build, so check x instead.");
+                word.why);
         }
         cmd += word + text(i + 1);
     }

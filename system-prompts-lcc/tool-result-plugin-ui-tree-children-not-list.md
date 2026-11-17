@@ -1,0 +1,10 @@
+<!--
+name: 'Tool Result: Plugin UI Tree Children Not A List'
+description: UI-tree validation problem saying an element's children value is not a list.
+ccVersion: 2.1.326
+variables:
+  - TOOL_RESULT_PLUGIN_UI_TREE_CHILDREN_NOT_LIST_VAR_0
+  - TOOL_RESULT_PLUGIN_UI_TREE_CHILDREN_NOT_LIST_VAR_1
+  - TOOL_RESULT_PLUGIN_UI_TREE_CHILDREN_NOT_LIST_VAR_2
+-->
+${TOOL_RESULT_PLUGIN_UI_TREE_CHILDREN_NOT_LIST_VAR_0.type} children is ${TOOL_RESULT_PLUGIN_UI_TREE_CHILDREN_NOT_LIST_VAR_1(TOOL_RESULT_PLUGIN_UI_TREE_CHILDREN_NOT_LIST_VAR_2)}

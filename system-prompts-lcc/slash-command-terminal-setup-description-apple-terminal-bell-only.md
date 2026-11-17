@@ -1,8 +1,8 @@
 <!--
-name: 'Slash Command: /terminal-setup Description (Apple Terminal, bell only)'
+name: 'Slash Command: /terminal-setup description (Apple Terminal, bell only)'
 description: >-
-  The /terminal-setup description on Apple Terminal when Option-as-Meta is not
-  offered: only disable the audible bell.
-ccVersion: 2.1.325
+  Description of /terminal-setup in Apple Terminal when Option-as-Meta is
+  already on: turn off the audible bell
+ccVersion: 2.1.326
 -->
-Disable the audible bell (it stays on in screen-reader mode)
+Turn off the audible bell (it stays on in screen-reader mode)

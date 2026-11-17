@@ -4,7 +4,7 @@ description: >-
   The claude-api skill's model-migration reference (shared/model-migration.md),
   read by `/claude-api migrate`: per-model breaking changes, behavioral shifts
   and migration checklists.
-ccVersion: 2.1.325
+ccVersion: 2.1.326
 -->
 # Model Migration Guide
 
@@ -2526,7 +2526,7 @@ Most of these change behavior without failing requests; the exceptions are a req
 - [ ] **[TUNE]** Keep passing \`thinking\` blocks back unchanged, empty ones included. If a router or fallback can move a conversation to a model released earlier, {{PREV_FABLE_NAME}} included, expect that model to run without {{FABLE_NAME}}'s blocks; replay stored conversations through the account that produced them.
 - [ ] **[TUNE]** Check the rate limits before moving production traffic: {{FABLE_NAME}} has its own limit, separate from the one {{PREV_FABLE_NAME}} and Claude Fable 5 share.
 - [ ] **[TUNE]** Set \`effort\` explicitly (\`high\` is the default; a Claude Opus 5.5 request that omitted it ran at \`medium\`), re-run the effort sweep, and re-baseline cost and latency at the new prices.
-- [ ] **[TUNE]** Prompts, in new conversations: remove lines telling the model to think less and lower effort instead; review delegation lines, token budgets shown to the model, the "treat that answer as done" lines, hard style rules, and cautions that have built up in memory, notes and instruction files; add the finish-the-task text, the ownership sentence, the progress-update pieces and the report text, and rewrite the subagent tool's description as § Behavioral shifts says, only where the matching behavior shows up (the finish-the-task text also for agentic work at \`low\` or \`medium\`); keep the application's own confirmation step for risky or irreversible actions.
+- [ ] **[TUNE]** Prompts, in new conversations: remove lines telling the model to think less and lower effort instead, and lines asking it to write out its reasoning in the response; review delegation lines, token budgets shown to the model, the "treat that answer as done" lines, hard style rules, approval rules that don't name the exact actions they cover, and cautions that have built up in memory, notes and instruction files; add the finish-the-task text, the ownership sentence, the progress-update pieces and the report text, and rewrite the subagent tool's description as § Behavioral shifts says, only where the matching behavior shows up (the finish-the-task text also for agentic work at \`low\` or \`medium\`); keep the application's own confirmation step for risky or irreversible actions.
 
 ---
 

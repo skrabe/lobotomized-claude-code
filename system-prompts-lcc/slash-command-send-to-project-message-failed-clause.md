@@ -1,0 +1,10 @@
+<!--
+name: 'Slash command: /send-to-project message failed clause'
+description: Sentence stating the message was not sent or may not have arrived.
+ccVersion: 2.1.326
+variables:
+  - SLASH_COMMAND_SEND_TO_PROJECT_MESSAGE_FAILED_CLAUSE_VAR_0
+  - SLASH_COMMAND_SEND_TO_PROJECT_MESSAGE_FAILED_CLAUSE_VAR_1
+  - SLASH_COMMAND_SEND_TO_PROJECT_MESSAGE_FAILED_CLAUSE_VAR_2
+-->
+The message ${SLASH_COMMAND_SEND_TO_PROJECT_MESSAGE_FAILED_CLAUSE_VAR_0.outcome==="uncertain"?"may not have arrived":"wasn't sent"}${SLASH_COMMAND_SEND_TO_PROJECT_MESSAGE_FAILED_CLAUSE_VAR_1.aborted||SLASH_COMMAND_SEND_TO_PROJECT_MESSAGE_FAILED_CLAUSE_VAR_0.failure===null?"":` (${SLASH_COMMAND_SEND_TO_PROJECT_MESSAGE_FAILED_CLAUSE_VAR_2(SLASH_COMMAND_SEND_TO_PROJECT_MESSAGE_FAILED_CLAUSE_VAR_0.failure)})`}.

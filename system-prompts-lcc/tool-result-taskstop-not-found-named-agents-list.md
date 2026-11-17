@@ -1,0 +1,10 @@
+<!--
+name: 'Tool Result: TaskStop not found, named agents list'
+description: Suffix listing named agents running or waiting when a TaskStop id is not found
+ccVersion: 2.1.326
+variables:
+  - TOOL_RESULT_TASKSTOP_NOT_FOUND_NAMED_AGENTS_LIST_VAR_0
+  - TOOL_RESULT_TASKSTOP_NOT_FOUND_NAMED_AGENTS_LIST_VAR_1
+  - TOOL_RESULT_TASKSTOP_NOT_FOUND_NAMED_AGENTS_LIST_VAR_2
+-->
+. Named agents running or waiting: ${TOOL_RESULT_TASKSTOP_NOT_FOUND_NAMED_AGENTS_LIST_VAR_0.map((TOOL_RESULT_TASKSTOP_NOT_FOUND_NAMED_AGENTS_LIST_VAR_1)=>TOOL_RESULT_TASKSTOP_NOT_FOUND_NAMED_AGENTS_LIST_VAR_2(TOOL_RESULT_TASKSTOP_NOT_FOUND_NAMED_AGENTS_LIST_VAR_1)).join(", ")}

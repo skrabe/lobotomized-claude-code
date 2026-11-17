@@ -3,6 +3,6 @@ name: 'Slash Command: /resume — failed to load conversations'
 description: >-
   Tells the model the session list could not be read, so the picker showed
   nothing and the failure is on the storage side rather than the query.
-ccVersion: 2.1.233
+ccVersion: 2.1.326
 -->
-Failed to load conversations
+Couldn't load sessions. Run /resume to try again

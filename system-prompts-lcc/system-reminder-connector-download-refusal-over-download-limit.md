@@ -1,6 +1,8 @@
 <!--
-name: 'System Reminder: Connector download refusal over download limit'
-description: Refusal reason when a downloaded file grew past the download cap.
-ccVersion: 2.1.322
+name: 'Connector download refusal: over download limit'
+description: >-
+  Refusal reason when the downloaded file exceeded Claude Code's 5 GB download
+  limit.
+ccVersion: 2.1.326
 -->
-it was over 500 MB, the most Claude Code downloads
+it was over 5 GB, the most Claude Code downloads

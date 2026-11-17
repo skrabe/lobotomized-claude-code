@@ -1,8 +1,8 @@
 <!--
-name: Plugin card rendered result
+name: Plugin card rendered
 description: >-
-  Tool result telling the model a plugin card was rendered and to call
-  ListPlugins on follow-up.
-ccVersion: 2.1.206
+  Tool result note that the user enables the plugin out of band and ListPlugins
+  should be called on follow-up.
+ccVersion: 2.1.326
 -->
-Plugin card rendered. The user enables the plugin out of band — call ListPlugins on follow-up to discover what was actually installed.
+The user enables the plugin out of band — call ListPlugins on follow-up to discover what was actually installed.

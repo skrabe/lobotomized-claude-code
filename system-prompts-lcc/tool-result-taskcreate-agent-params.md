@@ -1,8 +1,8 @@
 <!--
-name: TaskCreate Agent-params guidance
+name: 'Tool Result: TaskCreate called with Agent parameters'
 description: >-
-  TaskCreate misuse error returned to the model when Agent-tool parameters were
-  passed instead.
-ccVersion: 2.1.206
+  Validation steer that tells the model a TaskCreate call used Agent-tool
+  parameters (prompt/subagent_type)
+ccVersion: 2.1.326
 -->
-This call used Agent-tool parameters (`prompt`/`subagent_type`). TaskCreate adds an item to the task list and takes `subject` and `description` string parameters. To delegate work to a subagent, use the Agent tool instead.
+This call used Agent-tool parameters (`prompt`/`subagent_type`). 

@@ -3,7 +3,7 @@ name: 'Data: Managed Agents webhooks'
 description: >-
   claude-api skill reference file (Managed Agents webhooks) inlined as <doc> or
   extracted for the model to Read when the skill's Reading Guide points to it.
-ccVersion: 2.1.296
+ccVersion: 2.1.326
 -->
 # Managed Agents - Webhooks
 
@@ -115,7 +115,7 @@ The top-level \`id\` is the same value as the \`webhook-id\` header, and it is p
 | \`agent.deleted\` | Agent permanently deleted - no object left to fetch; treat the event itself as final |
 | \`deployment.created\` | Scheduled deployment created |
 | \`deployment.updated\` | Deployment properties changed (e.g. schedule edited) |
-| \`deployment.paused\` | Deployment paused - by request, or automatically when a scheduled run fails with a **non-recoverable** error (archived agent, missing environment). Recoverable failures, including rate limits, do **not** auto-pause. |
+| \`deployment.paused\` | Deployment paused - by request, or automatically when a scheduled run fails with a **non-recoverable** error (archived subagent, archived or missing environment). Recoverable failures, including rate limits, do **not** auto-pause. |
 | \`deployment.unpaused\` | Deployment unpaused; schedule resumes |
 | \`deployment.archived\` | Deployment archived - directly, or as a result of agent archival/deletion |
 | \`deployment.deleted\` | Deployment permanently deleted - no object left to fetch; treat the event itself as final |

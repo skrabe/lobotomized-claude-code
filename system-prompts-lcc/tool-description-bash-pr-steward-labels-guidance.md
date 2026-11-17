@@ -1,11 +1,11 @@
 <!--
 name: 'Tool Description: Bash (PR Steward labels)'
 description: >-
-  Guidance appended to the Bash tool's description explaining the PR Steward
-  labels, telling Claude to check a PR's labels before pushing or starting a
-  babysit/monitor loop, and what options to offer the user if PR Steward already
-  has the PR
-ccVersion: 2.1.284
+  PR Steward labels guidance (NBt) appended to the /loop autonomous preamble,
+  the /loop skill prompt and the autofix-pr session prompt: check a PR's labels
+  before pushing or starting a babysit/monitor loop, and what options to offer
+  the user if PR Steward already has the PR
+ccVersion: 2.1.326
 variables:
   - TOOL_DESCRIPTION_BASH_PR_STEWARD_LABELS_GUIDANCE_VAR_0
   - TOOL_DESCRIPTION_BASH_PR_STEWARD_LABELS_GUIDANCE_VAR_1
@@ -13,7 +13,7 @@ variables:
 -->
 ## PR Steward
 
-PR Steward is a Claude agent that can watch a GitHub pull request, fix its CI and merge it. It puts the \`${TOOL_DESCRIPTION_BASH_PR_STEWARD_LABELS_GUIDANCE_VAR_0}\` label on a PR it is watching, and adds \`${TOOL_DESCRIPTION_BASH_PR_STEWARD_LABELS_GUIDANCE_VAR_1}\` while it is making a change. A second agent pushing to the same PR races it: Steward merges, then the other agent rebases over it.
+PR Steward is a Claude agent that can watch a GitHub pull request, fix its CI and work through its review comments. It puts the \`${TOOL_DESCRIPTION_BASH_PR_STEWARD_LABELS_GUIDANCE_VAR_0}\` label on a PR it is watching, and adds \`${TOOL_DESCRIPTION_BASH_PR_STEWARD_LABELS_GUIDANCE_VAR_1}\` while it is making a change. A second agent pushing to the same PR races it: one pushes, then the other rebases over it.
 
 Before you push to a PR, or start babysitting or monitoring one, check its labels (\`gh pr view <number> -R <owner>/<repo> --json labels\`). If either label is on the PR, do not push and do not start a babysit or monitor loop for it, even one you were asked to start, until the user picks one of these choices. Tell the user PR Steward has this PR and offer:
 

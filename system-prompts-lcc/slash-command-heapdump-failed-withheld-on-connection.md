@@ -1,8 +1,6 @@
 <!--
-name: Heapdump Failed Withheld On Connection
-description: >-
-  /heapdump type:local {type:text} result when the dump fails on a connection
-  that must not receive the error detail.
-ccVersion: 2.1.251
+name: 'Slash command: /heapdump failed (detail withheld)'
+description: /heapdump failure text when error detail is withheld on this connection.
+ccVersion: 2.1.326
 -->
-Failed to create heap dump (detail withheld on this connection)
+Couldn't create heap dump (detail withheld on this connection)

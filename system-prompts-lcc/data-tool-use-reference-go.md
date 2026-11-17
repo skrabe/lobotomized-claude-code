@@ -3,7 +3,7 @@ name: 'Data: Tool use reference — Go'
 description: >-
   claude-api skill reference file (Tool use reference — Go) inlined as <doc> or
   extracted for the model to Read when the skill's Reading Guide points to it.
-ccVersion: 2.1.311
+ccVersion: 2.1.326
 -->
 # Tool Use - Go
 
@@ -12,7 +12,7 @@ For conceptual overview (tool definitions, tool choice, tips), see [shared/tool-
 
 ## Tool Use
 
-### Tool Runner (Beta - Recommended)
+### Tool Runner (Beta - Recommended over the manual loop)
 
 **Beta:** The Go SDK provides \`BetaToolRunner\` for automatic tool use loops via the \`toolrunner\` package.
 
@@ -89,7 +89,7 @@ for _, block := range message.Content {
 
 ### Manual Loop
 
-Prefer the tool runner above. For interception, validation, logging, or human-in-the-loop approval, gate inside the tool's run function or step the runner with \`NextMessage()\`/\`All()\` and inspect each message (the runner's public \`Params\` field lets you adjust the next request) - a manual loop is not required. Drop to a manual loop only when you need control the runner does not expose: define tools with \`ToolParam\`, check \`StopReason\`, execute tools yourself, and feed \`tool_result\` blocks back.
+Prefer the tool runner above to a manual loop. For interception, validation, logging, or human-in-the-loop approval, gate inside the tool's run function or step the runner with \`NextMessage()\`/\`All()\` and inspect each message (the runner's public \`Params\` field lets you adjust the next request) - a manual loop is not required. Drop to a manual loop only when you need control the runner does not expose: define tools with \`ToolParam\`, check \`StopReason\`, execute tools yourself, and feed \`tool_result\` blocks back.
 
 Derived from \`anthropic-sdk-go/examples/tools/main.go\`.
 

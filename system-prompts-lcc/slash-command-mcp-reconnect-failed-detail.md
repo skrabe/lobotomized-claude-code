@@ -1,13 +1,11 @@
 <!--
-name: 'Slash Command: MCP Reconnect Failed Detail'
-description: >-
-  /mcp reconnect failure result that includes the sanitized error detail when
-  the session is allowed to show it.
-ccVersion: 2.1.251
+name: '/mcp: reconnect failed with detail'
+description: 'MCP reconnect result when reconnecting failed, followed by the error detail.'
+ccVersion: 2.1.326
 variables:
   - SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_0
   - SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_1
   - SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_2
   - SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_3
 -->
-Failed to reconnect to ${SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_0(SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_1)}: ${SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_2(SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_3)}
+Couldn't reconnect to ${SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_0(SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_1)}: ${SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_2(SLASH_COMMAND_MCP_RECONNECT_FAILED_DETAIL_VAR_3)}

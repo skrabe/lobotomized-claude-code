@@ -1,8 +1,8 @@
 <!--
-name: 'Tool result: connector upload asks for state-only retry'
+name: 'Tool Result: connector upload state-only reply'
 description: >-
-  Reason the connector's answer is refused: it asks for a retry with
-  requestState and no input in a file-sending call
-ccVersion: 2.1.325
+  Reason a connector's upload reply is refused: it only asks to be called again
+  with its requestState, repeatedly
+ccVersion: 2.1.326
 -->
-it asks for the call to be made again with its requestState and asks for no input (resultType "input_required" with no input request in it), which Claude Code does not do in a call that sends files; the files extension asks for uploads with resultType "upload_required"
+it asks only for the call to be made again with its requestState (resultType "input_required" with no input request in it), and asked again after Claude Code had called it again ten times

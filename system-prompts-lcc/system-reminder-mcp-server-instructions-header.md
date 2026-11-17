@@ -5,13 +5,14 @@ description: >-
   in the mcp_instructions_delta reminder ("# MCP Server Instructions\n\nThe
   following MCP servers have provided instructions..."); conditional on at least
   one connected MCP server providing instructions.
-ccVersion: 2.1.191
+ccVersion: 2.1.326
 variables:
+  - SYSTEM_REMINDER_MCP_SERVER_INSTRUCTIONS_HEADER_VAR_2
   - SYSTEM_REMINDER_MCP_SERVER_INSTRUCTIONS_HEADER_VAR_0
 -->
 # MCP Server Instructions
 
-The following MCP servers have provided instructions for how to use their tools and resources:
+The following MCP servers have provided instructions for how to use their tools and resources${SYSTEM_REMINDER_MCP_SERVER_INSTRUCTIONS_HEADER_VAR_2.shortened===!0?". To save room, some are cut, and [cut short] marks where a server's text stops":""}:
 
 ${SYSTEM_REMINDER_MCP_SERVER_INSTRUCTIONS_HEADER_VAR_0.join(`
 

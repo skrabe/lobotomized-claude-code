@@ -4,10 +4,12 @@ description: >-
   Describes the background monitor tool that streams stdout events from
   long-running scripts as chat notifications, with guidelines on script quality,
   output volume, and selective filtering
-ccVersion: 2.1.325
+ccVersion: 2.1.326
 variables:
   - IS_DISKLESS_SESSION_FN
   - DISKLESS_MONITOR_LIFETIME_NOTE
+  - DOES_MONITOR_OUTLIVE_REPLY_FN
+  - OUTLIVING_MONITOR_LIFETIME_NOTE
   - DOES_SESSION_STOP_AFTER_REPLY_FN
   - STOPPING_SESSION_MONITOR_LIFETIME_NOTE
   - CAN_BACKGROUND_AGENT_KEEP_SESSION_ALIVE_FN
@@ -21,7 +23,7 @@ variables:
   - MONITOR_TIMEOUT_GUIDANCE_FN
 -->
 
-Start a background monitor that streams stdout events from a long-running script. Each stdout line is an event that arrives as a chat notification while you keep working; events arrive on their own schedule and are not user replies, even if one lands while you await an answer.${IS_DISKLESS_SESSION_FN()?` ${DISKLESS_MONITOR_LIFETIME_NOTE}`:DOES_SESSION_STOP_AFTER_REPLY_FN()?` ${STOPPING_SESSION_MONITOR_LIFETIME_NOTE} ${CAN_BACKGROUND_AGENT_KEEP_SESSION_ALIVE_FN()?`To wait past your reply, have a background agent wait with foreground ${BASH_TOOL_NAME} commands, or tell the user what to check and when.`:"For anything longer, tell the user what to check and when."}`:""} Exit ends the watch.${CAN_YIELD?` ${MONITOR_TOOL_NAME} tells you when something happens; ${YIELD_TOOL_NAME} is how you wait for it.`:""}
+Start a background monitor that streams stdout events from a long-running script. Each stdout line is an event that arrives as a chat notification while you keep working; events arrive on their own schedule and are not user replies, even if one lands while you await an answer.${IS_DISKLESS_SESSION_FN()?` ${DISKLESS_MONITOR_LIFETIME_NOTE}`:DOES_MONITOR_OUTLIVE_REPLY_FN()?` ${OUTLIVING_MONITOR_LIFETIME_NOTE}`:DOES_SESSION_STOP_AFTER_REPLY_FN()?` ${STOPPING_SESSION_MONITOR_LIFETIME_NOTE} ${CAN_BACKGROUND_AGENT_KEEP_SESSION_ALIVE_FN()?`To wait past your reply, have a background agent wait with foreground ${BASH_TOOL_NAME} commands, or tell the user what to check and when.`:"For anything longer, tell the user what to check and when."}`:""} Exit ends the watch.${CAN_YIELD?` ${MONITOR_TOOL_NAME} tells you when something happens; ${YIELD_TOOL_NAME} is how you wait for it.`:""}
 
 Pick by how many notifications you need:
 ${SINGLE_NOTIFICATION_GUIDANCE_BLOCK}
@@ -33,7 +35,7 @@ ${IS_DISKLESS_SESSION_FN()||DOES_SESSION_STOP_AFTER_REPLY_FN()?`- **One per occu
   tail -f /var/log/app.log | grep --line-buffered "ERROR"
 
   # Each file change is an event
-  inotifywait -m --format '%e %f' /watched/dir
+  inotifywait -m -q --format '%e %f' /watched/dir
 
   # Poll GitHub for new PR comments, one line per new comment
   last=$(date -u +%Y-%m-%dT%H:%M:%SZ)

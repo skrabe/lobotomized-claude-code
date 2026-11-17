@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Files API reference — TypeScript) inlined as
   <doc> or extracted for the model to Read when the skill's Reading Guide points
   to it.
-ccVersion: 2.1.296
+ccVersion: 2.1.326
 -->
 # Files API - TypeScript
 
@@ -68,7 +68,9 @@ const response = await client.beta.messages.create({
   betas: ["files-api-2025-04-14"],
 });
 
-console.log(response.content[0].text);
+for (const block of response.content) {
+  if (block.type === "text") console.log(block.text);
+}
 \`\`\`
 
 ---

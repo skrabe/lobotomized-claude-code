@@ -5,9 +5,10 @@ name: >-
 description: >-
   Tells the model to add, when no failed MCP server is being retried, that the
   user can fix or retry the server.
-ccVersion: 2.1.325
+ccVersion: 2.1.326
 variables:
   - SYSTEM_REMINDER_MCP_SERVERS_FAILED_TO_CONNECT_FIX_OR_RETRY_GUIDANCE_2_VAR_0
   - SYSTEM_REMINDER_MCP_SERVERS_FAILED_TO_CONNECT_FIX_OR_RETRY_GUIDANCE_2_VAR_1
+  - SYSTEM_REMINDER_MCP_SERVERS_FAILED_TO_CONNECT_FIX_OR_RETRY_GUIDANCE_2_VAR_2
 -->
-so they can fix or retry it${SYSTEM_REMINDER_MCP_SERVERS_FAILED_TO_CONNECT_FIX_OR_RETRY_GUIDANCE_2_VAR_0.some((SYSTEM_REMINDER_MCP_SERVERS_FAILED_TO_CONNECT_FIX_OR_RETRY_GUIDANCE_2_VAR_1)=>SYSTEM_REMINDER_MCP_SERVERS_FAILED_TO_CONNECT_FIX_OR_RETRY_GUIDANCE_2_VAR_1.willRetry===!0)?" (for a server that the session retries in the background: that it may work if they ask again in a minute)":""}; for a server that a search connects to again, do so only after a search that names it finds none of its tools
+so they can fix or retry it${SYSTEM_REMINDER_MCP_SERVERS_FAILED_TO_CONNECT_FIX_OR_RETRY_GUIDANCE_2_VAR_0.some((SYSTEM_REMINDER_MCP_SERVERS_FAILED_TO_CONNECT_FIX_OR_RETRY_GUIDANCE_2_VAR_1)=>SYSTEM_REMINDER_MCP_SERVERS_FAILED_TO_CONNECT_FIX_OR_RETRY_GUIDANCE_2_VAR_1.willRetry===!0)?" (for a server that the session retries in the background: that it may work if they ask again in a minute)":""}; ${SYSTEM_REMINDER_MCP_SERVERS_FAILED_TO_CONNECT_FIX_OR_RETRY_GUIDANCE_2_VAR_2.length>0?"for a server that can be connected to again, do so only after that fails":"for a server that a search connects to again, do so only after a search that names it finds none of its tools"}

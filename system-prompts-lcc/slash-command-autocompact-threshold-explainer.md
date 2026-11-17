@@ -1,8 +1,6 @@
 <!--
-name: 'Slash Command: /autocompact — Threshold Explainer'
-description: >-
-  Line in the /autocompact status output explaining that the effective threshold
-  is the minimum of the setting and the model's context window.
-ccVersion: 2.1.288
+name: 'Slash command: autocompact threshold explainer'
+description: /autocompact explainer of when auto-compact summarizes the conversation.
+ccVersion: 2.1.326
 -->
-Auto-compact summarizes the conversation when context usage approaches this limit. The actual threshold is the minimum of this setting and your model's maximum context window.
+Auto-compact summarizes the conversation as the context nears this size, or your model's maximum context window if that is smaller.

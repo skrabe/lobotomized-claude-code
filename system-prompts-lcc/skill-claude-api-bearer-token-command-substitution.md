@@ -1,8 +1,8 @@
 <!--
-name: 'Skill: Claude API bearer token via command substitution'
+name: 'Skill: Claude API bearer token command substitution'
 description: >-
-  Claude API skill line sending the ant access token inline via $(...) or
-  ANTHROPIC_AUTH_TOKEN as the Authorization bearer
-ccVersion: 2.1.319
+  Tells raw curl/HTTP calls to send a Bearer token via ant auth
+  print-credentials command substitution, or $ANTHROPIC_AUTH_TOKEN
+ccVersion: 2.1.326
 -->
-send `Authorization: Bearer $(ant auth print-credentials --access-token)` (short-lived, and never printed this way; if the active row is `ANTHROPIC_AUTH_TOKEN`, send `$ANTHROPIC_AUTH_TOKEN`) **plus**
+**Raw `curl` / HTTP (`Profile` or `ANTHROPIC_AUTH_TOKEN` row):** send `Authorization: Bearer $(ant auth print-credentials --access-token)` (short-lived, and never printed this way; on an `ANTHROPIC_AUTH_TOKEN` row, send `$ANTHROPIC_AUTH_TOKEN`) **plus**

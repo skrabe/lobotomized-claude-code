@@ -1,8 +1,6 @@
 <!--
-name: 'Slash command: voice held by managed settings'
-description: >-
-  Clause naming enterprise managed settings as what sets voice mode, slotted
-  into the /voice result.
-ccVersion: 2.1.325
+name: 'Slash command: voice held by policy settings'
+description: /voice clause naming enterprise managed settings as what holds voice mode.
+ccVersion: 2.1.326
 -->
-enterprise managed settings. Contact your organization admin to change this.
+enterprise managed settings. Ask your admin to change this.

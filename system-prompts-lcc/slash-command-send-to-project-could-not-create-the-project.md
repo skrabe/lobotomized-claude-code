@@ -1,0 +1,10 @@
+<!--
+name: 'Slash Command: /send-to-project failure: could not create the project'
+description: 'Failure line of /send-to-project: "Couldn’t create the project (${()}).${}"'
+ccVersion: 2.1.326
+variables:
+  - SLASH_COMMAND_SEND_TO_PROJECT_COULD_NOT_CREATE_THE_PROJECT_VAR_0
+  - SLASH_COMMAND_SEND_TO_PROJECT_COULD_NOT_CREATE_THE_PROJECT_VAR_1
+  - SLASH_COMMAND_SEND_TO_PROJECT_COULD_NOT_CREATE_THE_PROJECT_VAR_2
+-->
+Couldn’t create the project (${SLASH_COMMAND_SEND_TO_PROJECT_COULD_NOT_CREATE_THE_PROJECT_VAR_0(SLASH_COMMAND_SEND_TO_PROJECT_COULD_NOT_CREATE_THE_PROJECT_VAR_1)}).${SLASH_COMMAND_SEND_TO_PROJECT_COULD_NOT_CREATE_THE_PROJECT_VAR_2}

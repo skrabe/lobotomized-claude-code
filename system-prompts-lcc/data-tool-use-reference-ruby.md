@@ -4,7 +4,7 @@ description: >-
   claude-api skill reference file (Tool use reference — Ruby) inlined as <doc>
   or extracted for the model to Read when the skill's Reading Guide points to
   it.
-ccVersion: 2.1.310
+ccVersion: 2.1.326
 -->
 # Tool Use - Ruby
 

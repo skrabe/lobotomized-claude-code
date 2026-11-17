@@ -1,14 +1,16 @@
 <!--
 name: 'Tool Result: Worktree-isolated git redirect blocked'
 description: >-
-  Bash-tool refusal returned to the model when a worktree-isolated agent's
-  command would redirect git into the shared checkout.
-ccVersion: 2.1.238
+  Bash tool result emitted when a worktree-isolated session/agent runs a git
+  command that redirects out of its worktree; reworded from the 2.1.221 id
+  (noun/possessive now parameterised for sessions vs agents).
+ccVersion: 2.1.326
 variables:
   - TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_0
   - TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_1
   - TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_2
   - TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_3
   - TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_4
+  - TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_5
 -->
-${TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_0} is isolated in the worktree ${TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_1}, but this command ${TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_2}. Refusing to run it — ${TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_3} git operations must target its own worktree. ${TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_4}
+${TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_0} is isolated in the worktree ${TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_1}, but this command ${TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_2}. Refusing to run it — ${TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_3} git ${TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_4==="command_redirect"?"operations must target its own worktree":"commands must not rewrite what its worktree shares with the user's own checkout, so this one is refused in every repository"}. ${TOOL_RESULT_WORKTREE_ISOLATED_GIT_REDIRECT_BLOCKED_VAR_5}

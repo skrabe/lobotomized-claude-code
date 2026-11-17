@@ -1,8 +1,6 @@
 <!--
-name: 'Slash Command: config save failed'
-description: >-
-  Message when /config cannot save a setting to the config file, so nothing
-  changed.
-ccVersion: 2.1.291
+name: 'Slash command: config save to config file failed'
+description: /config error when a setting could not be saved to the config file.
+ccVersion: 2.1.326
 -->
-Could not save this to the config file, so nothing changed.
+Couldn't save this to the config file, so nothing changed.

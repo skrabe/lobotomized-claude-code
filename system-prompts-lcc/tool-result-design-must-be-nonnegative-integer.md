@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: Design argument must be an index integer'
+description: >-
+  ClaudeDesign validation error: argument must be an integer from 0 to
+  Number.MAX_SAFE_INTEGER
+ccVersion: 2.1.326
+variables:
+  - TOOL_RESULT_DESIGN_MUST_BE_NONNEGATIVE_INTEGER_VAR_0
+  - TOOL_RESULT_DESIGN_MUST_BE_NONNEGATIVE_INTEGER_VAR_1
+  - TOOL_RESULT_DESIGN_MUST_BE_NONNEGATIVE_INTEGER_VAR_2
+-->
+${TOOL_RESULT_DESIGN_MUST_BE_NONNEGATIVE_INTEGER_VAR_0}.${TOOL_RESULT_DESIGN_MUST_BE_NONNEGATIVE_INTEGER_VAR_1}: must be an integer from 0 to ${TOOL_RESULT_DESIGN_MUST_BE_NONNEGATIVE_INTEGER_VAR_2.MAX_SAFE_INTEGER}.

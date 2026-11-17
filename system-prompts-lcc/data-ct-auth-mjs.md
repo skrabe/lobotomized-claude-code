@@ -4,7 +4,7 @@ description: >-
   claude-test sign-in helper script (skills/run/scripts/ct-auth.mjs: login,
   logout, sign-in, scaffold-sign-in) whose JSON stdout (errors, notes, next
   steps) the model reads when it runs the sign-in for the person.
-ccVersion: 2.1.308
+ccVersion: 2.1.326
 -->
 #!/usr/bin/env node
 
@@ -24,7 +24,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { shownDeep, loadConfig, resolveProjectDir, reallyInsideDir, envPathOutsideProject, insideProjectReally, sanitizeBrowserEnv, RC_FILE } from './lib/config.mjs';
 import { toolsDir, mcpCliPath, installedBrowserPath, importPlaywright, cacheDir, useOwnBrowsersIfPresent, toolsProblem, sandboxFailureLine } from './lib/tools.mjs';
-import { secretsMergeTarget, savedSessionCheckable, listSkills, runSkillScript, readSkillState, skillStateShapeProblem, filterStateToLoopback, writeAuthState, authFileInfo, parseCredsLine, mergeEnvFile, readEnvFile, scrub, rmScratch, defaultBrowsersPath, CT_ENV_NAME_RE, STATE_FILE_NAME, EMPTY_STATE } from './lib/signin.mjs';
+import { secretsMergeTarget, savedSessionCheckable, listSkills, runSkillScript, readSkillState, skillStateShapeProblem, filterStateToLoopback, writeAuthState, authFileInfo, parseCredsLine, mergeEnvFile, readEnvFile, scrub, rmScratch, scratchLeftWarning, defaultBrowsersPath, CT_ENV_NAME_RE, STATE_FILE_NAME, EMPTY_STATE } from './lib/signin.mjs';
 
 const projectDir = resolveProjectDir();
 sanitizeBrowserEnv();
@@ -134,6 +134,12 @@ function logoutCmd() {
 }
 
 
+function scratchFoldersLeftFields(removals) {
+  const left = removals.filter((removal) => !removal.removed);
+  return left.length ? { scratchFoldersLeft: left.map((removal) => ({ folder: removal.folder, why: removal.why })), scratchFoldersLeftNote: 'Sign-in could not delete each temporary folder listed here. Each can hold a signed-in browser session or test credentials. Close any sign-in browser that is still open, then delete each folder that is still there.' } : {};
+}
+
+
 
 
 
@@ -159,37 +165,41 @@ async function signInCmd() {
   if (!browserExecutable) {
     try { const found = await importPlaywright(); const p = found && found.pw.chromium.executablePath(); if (p && fs.existsSync(p) && !insideProjectReally(p)) browserExecutable = p; } catch {                                            }
   }
+  const removals = [];
 
   if (skill.check && savedSessionCheckable(authPathOf(cfg))) {
     const chk = await runSkillScript({ skill, phase: 'check', cfg, toolsDir: toolsDir(), browserExecutable, ctVars, scratchRoot: path.join(cacheDir(), 'scratch'), prepare: (outDir) => fs.copyFileSync(authPathOf(cfg), path.join(outDir, STATE_FILE_NAME)) });
-    rmScratch(chk.scratch);
-    if (chk.exitCode === 0 && !chk.timedOut) { out({ ok: true, skill: skill.name, reused: true, note: 'the check script says the saved session is still signed in; nothing re-run', session: savedSessionFacts(authPathOf(cfg)) }); return; }
+    const checkRemoval = rmScratch(chk.scratch);
+    removals.push(checkRemoval);
+    if (!checkRemoval.removed) process.stderr.write(scratchLeftWarning(chk.scratch));
+    if (chk.exitCode === 0 && !chk.timedOut) { out({ ok: true, skill: skill.name, reused: true, note: 'the check script says the saved session is still signed in; nothing re-run', session: savedSessionFacts(authPathOf(cfg)), ...scratchFoldersLeftFields(removals) }); return; }
   }
   if (!browserExecutable && !fs.existsSync(defaultBrowsersPath())) process.stderr.write('[claude-test] no browser for the sign-in skill was found (no Chrome, nothing under ' + defaultBrowsersPath() + '): if it fails to launch, run "node ' + ctRel(cfg) + ' install chromium" or set CLAUDE_TEST_BROWSER_EXECUTABLE\\n');
   process.stderr.write('[claude-test] running sign-in skill "' + printable(skill.name, 64) + '" (' + printable(path.relative(cfg.projectDir, skill.run.path)) + ', timeout ' + skill.timeoutS + ' s, ' + Object.keys(ctVars).length + ' CT_* variable(s))\\n');
-  process.on('exit', () => { try { if (r && r.scratch) rmScratch(r.scratch); } catch {            } });
+  process.on('exit', () => { if (r && !rmScratch(r.scratch).removed) process.stderr.write(scratchLeftWarning(r.scratch)); });
   var r = null;
   r = await runSkillScript({ skill, phase: 'run', cfg, toolsDir: toolsDir(), browserExecutable, ctVars, scratchRoot: path.join(cacheDir(), 'scratch') });
   const ended = r.spawnError ? 'could not start: ' + r.spawnError : r.timedOut ? 'timed out after ' + skill.timeoutS + ' s' : r.signal ? 'killed by ' + r.signal : 'exit ' + r.exitCode;
   const credsParsed = parseCredsLine(r.stdout);
   const credVals = credsParsed.creds ? Object.values(credsParsed.creds) : credsParsed.salvage || [];
   const tail = scrub(r.stderrTail, [...secretValues, ...credVals]).trim().split('\\n').slice(-6).join(' | ').slice(-400);
-  if (r.exitCode !== 0 || r.timedOut || r.spawnError) { rmScratch(r.scratch); out({ ok: false, skill: skill.name, error: 'sign-in unavailable: ' + ended + (tail ? ' — ' + tail : ''), durationMs: r.durationMs }); process.exit(1); }
+  if (r.exitCode !== 0 || r.timedOut || r.spawnError) { removals.push(rmScratch(r.scratch)); out({ ok: false, skill: skill.name, error: 'sign-in unavailable: ' + ended + (tail ? ' — ' + tail : ''), durationMs: r.durationMs, ...scratchFoldersLeftFields(removals) }); process.exit(1); }
   const result = { ok: true, skill: skill.name, ended, durationMs: r.durationMs };
 
   if (/^claude-test-note: no-chrome-sandbox$/m.test(r.stderrTail)) result.browserSandbox = 'The sign-in browser ran without Chrome\\'s own sandbox, because Chrome could not start with it here; a page that breaks Chrome could then run programs as you. Use only a test account for sign-in.';
   const st = readSkillState(r.outDir);
-  if (st.problem) { rmScratch(r.scratch); out({ ok: false, skill: skill.name, error: 'sign-in unavailable: ' + st.problem }); process.exit(1); }
+  if (st.problem) { removals.push(rmScratch(r.scratch)); out({ ok: false, skill: skill.name, error: 'sign-in unavailable: ' + st.problem, ...scratchFoldersLeftFields(removals) }); process.exit(1); }
   if (st.state) {
-    if (!st.state || typeof st.state !== 'object' || !Array.isArray(st.state.cookies) || !Array.isArray(st.state.origins)) { rmScratch(r.scratch); out({ ok: false, skill: skill.name, error: 'sign-in unavailable: storageState.json is not a Playwright storage state (need cookies[] and origins[])' }); process.exit(1); }
+    if (!st.state || typeof st.state !== 'object' || !Array.isArray(st.state.cookies) || !Array.isArray(st.state.origins)) { removals.push(rmScratch(r.scratch)); out({ ok: false, skill: skill.name, error: 'sign-in unavailable: storageState.json is not a Playwright storage state (need cookies[] and origins[])', ...scratchFoldersLeftFields(removals) }); process.exit(1); }
     const f = filterStateToLoopback(st.state, cfg.baseUrl);
     const shape = skillStateShapeProblem(f.state);
-    if (shape) { rmScratch(r.scratch); out({ ok: false, skill: skill.name, error: 'sign-in unavailable: storageState.json ' + shape }); process.exit(1); }
-    if (f.kept.cookies === 0 && f.kept.origins === 0 && (f.dropped.cookies || f.dropped.origins)) { rmScratch(r.scratch); out({ ok: false, skill: skill.name, error: 'sign-in unavailable: the state the skill wrote has nothing for this machine after filtering (' + f.dropped.cookies + ' cookies, ' + f.dropped.origins + ' origins dropped)' }); process.exit(1); }
+    if (shape) { removals.push(rmScratch(r.scratch)); out({ ok: false, skill: skill.name, error: 'sign-in unavailable: storageState.json ' + shape, ...scratchFoldersLeftFields(removals) }); process.exit(1); }
+    if (f.kept.cookies === 0 && f.kept.origins === 0 && (f.dropped.cookies || f.dropped.origins)) { removals.push(rmScratch(r.scratch)); out({ ok: false, skill: skill.name, error: 'sign-in unavailable: the state the skill wrote has nothing for this machine after filtering (' + f.dropped.cookies + ' cookies, ' + f.dropped.origins + ' origins dropped)', ...scratchFoldersLeftFields(removals) }); process.exit(1); }
     if (f.kept.cookies === 0 && f.kept.origins === 0) result.session = null;
     else { writeAuthState(authTarget, f.state, { privateFolder: true, projectDir: cfg.projectDir }); result.session = { savedTo: authPathOf(cfg), kept: f.kept, dropped: f.dropped, ...(f.otherLoopbackPorts.length ? { otherLocalServices: 'cookies set by other local services (ports ' + f.otherLoopbackPorts.join(', ') + ') are kept too and will reach the dev server; their storage was dropped' } : {}), ...savedSessionFacts(authPathOf(cfg)) }; }
   } else result.session = null;
-  rmScratch(r.scratch);
+  removals.push(rmScratch(r.scratch));
+  Object.assign(result, scratchFoldersLeftFields(removals));
   if (credsParsed.problem) result.credentials = { problem: credsParsed.problem };
   else if (Object.keys(credsParsed.creds).length) {
     const refused = Object.keys(credsParsed.creds).filter((k) => /^(CT_|CLAUDE_TEST)/i.test(k)); for (const k of refused) delete credsParsed.creds[k];

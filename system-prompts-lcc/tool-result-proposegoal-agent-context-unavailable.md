@@ -1,6 +1,6 @@
 <!--
 name: 'Tool result: ProposeGoal unavailable in agent contexts'
-description: Error when ProposeGoal is called from an agent context.
-ccVersion: 2.1.291
+description: Error when SetGoal (formerly ProposeGoal) is called from an agent context.
+ccVersion: 2.1.326
 -->
-ProposeGoal cannot be used in agent contexts
+SetGoal cannot be used in agent contexts

@@ -1,10 +1,8 @@
 <!--
-name: 'Slash Command: /terminal-setup Description (Apple Terminal)'
+name: 'Slash Command: /terminal-setup description (Apple Terminal)'
 description: >-
-  The /terminal-setup command description shown on macOS Apple Terminal when the
-  Option-as-Meta setup applies; injected into the model's context as a line of
-  the 'Available commands' block in the claude-code skill/guide-agent system
-  prompt.
-ccVersion: 2.1.325
+  Description of /terminal-setup in Apple Terminal when Option-as-Meta is off:
+  turn it on for Option+Enter newlines and turn off the audible bell
+ccVersion: 2.1.326
 -->
-Turn on "Use Option as Meta key" for Option+Enter newlines and disable the audible bell (the bell stays on in screen-reader mode)
+Turn on "Use Option as Meta key" for Option+Enter newlines and turn off the audible bell (stays on in screen-reader mode)

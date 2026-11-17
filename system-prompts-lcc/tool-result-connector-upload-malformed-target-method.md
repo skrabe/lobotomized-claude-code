@@ -1,6 +1,8 @@
 <!--
-name: 'Tool result: connector upload target method'
-description: 'Reason: an upload entry asks for a method other than PUT or a form upload'
-ccVersion: 2.1.325
+name: 'Tool Result: connector upload malformed target method'
+description: >-
+  Reason a connector's upload entry is refused: it asks for an HTTP method other
+  than PUT or POST
+ccVersion: 2.1.326
 -->
-an entry in uploads asks for a method other than PUT, or for a form upload; Claude Code sends a file by PUT only
+an entry in uploads asks for a method other than PUT or POST (in capitals)

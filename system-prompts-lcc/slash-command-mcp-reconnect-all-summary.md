@@ -1,9 +1,10 @@
 <!--
-name: '/mcp: reconnect all summary'
-description: /mcp reconnect all result counting reconnected servers.
-ccVersion: 2.1.296
+name: 'Slash command: MCP reconnect all summary'
+description: /mcp reconnect all summary of how many servers reconnected.
+ccVersion: 2.1.326
 variables:
   - SLASH_COMMAND_MCP_RECONNECT_ALL_SUMMARY_VAR_0
   - SLASH_COMMAND_MCP_RECONNECT_ALL_SUMMARY_VAR_1
+  - SLASH_COMMAND_MCP_RECONNECT_ALL_SUMMARY_VAR_2
 -->
-Reconnected ${SLASH_COMMAND_MCP_RECONNECT_ALL_SUMMARY_VAR_0} of ${SLASH_COMMAND_MCP_RECONNECT_ALL_SUMMARY_VAR_1.length} MCP server(s).
+Reconnected ${SLASH_COMMAND_MCP_RECONNECT_ALL_SUMMARY_VAR_0} of ${SLASH_COMMAND_MCP_RECONNECT_ALL_SUMMARY_VAR_1.length} MCP ${SLASH_COMMAND_MCP_RECONNECT_ALL_SUMMARY_VAR_2(SLASH_COMMAND_MCP_RECONNECT_ALL_SUMMARY_VAR_1.length,"server")}.

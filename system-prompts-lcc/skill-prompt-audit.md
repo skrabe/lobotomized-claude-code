@@ -3,7 +3,7 @@ name: 'Skill: Prompt audit'
 description: >-
   claude-api skill reference file (Prompt audit) inlined as <doc> or extracted
   for the model to Read when the skill's Reading Guide points to it.
-ccVersion: 2.1.325
+ccVersion: 2.1.326
 -->
 # Prompt Audit - Finding and Removing Dated Prompting Patterns
 
@@ -135,6 +135,21 @@ A run of unconditional "never / don't / must not" lines is audited by asking, fo
 
 **One exception to "restate positively": frontend design direction on {{OPUS_NAME}}.** Asked for frontend work without direction, it falls back on a few default styles, and a general "avoid a generic AI look" mostly swaps one default for another - that vague line is the finding. A list that names the specific defaults to avoid (a cream background, italic accent words in headlines, numbered "01/02/03" section labels, monospace labels, pill-shaped buttons) is the form that works: keep it, and extend it from the styles the first result used instead. Propose rewriting the vague line into named patterns, never deleting the list.
 
+#### 1g. Who owns the code - targeting {{FABLE_NAME}} or {{MYTHOS_NAME}}
+
+Run this only on a prompt for an agent that edits code. These models act on what the prompt says about who owns the code. With nothing said, or with the code framed as someone else's, they tend to add to the existing structure, even repeating code. A line saying the code is the model's own often leads it to restructure as it works, and to make changes nobody asked for. So compare what the prompt and every file that loads with it say against what is wanted for the code the agent edits. That code may not be this repository. The sentence to add, called the ownership sentence here, and its measured costs are in \`shared/model-migration.md\` -> Migrating to {{FABLE_NAME}} -> Behavioral shifts -> Say who owns the code: take them from there, not from memory.
+
+The first row that fits applies.
+
+| The prompt | What is wanted for the code the agent edits | Finding |
+|---|---|---|
+| Has the ownership sentence, or a line like it | The user owns the code and wants it changed as little as possible, and something besides a scope rule shows this | \`remove\` the line |
+| Has the ownership sentence, or a line like it, and a rule limiting scope, such as "no drive-by refactors" | Anything else | \`flag\` both, quoted, as a conflict whose fix would weaken a prohibition: the model can still restructure with the rule in place, and keep-list item 11 keeps the sentence unless the row above fits. Say that the user decides which goes, by whether the structure should improve |
+| Says nothing on ownership, or frames the code as someone else's | Instructions or notes show the agent adding repeated code where a restructure was wanted | \`add\` the ownership sentence, or \`rewrite\` the framing as that sentence, and give its cost in the finding. If a rule limiting scope is there too, \`flag\` the rule and the notes instead, as the same kind of conflict. Where the code really is someone else's, as in a customer's repository, leave it either way |
+| Anything else | | Not a finding: leave it |
+
+**Signals:** \`(code|code ?base|repo\\w*|project) is (yours|your own)|you own|owner (and|of)|maintainer of|someone else.s|(user|customer|client)s?.?s? (code|repo|project)|drive-by|(minimal|small|smallest)( possible)? (diff|change|edit)|(changes?|diffs?) (small|minimal)|only (change|touch) what|refactor\`; in instructions and notes, \`duplicat|repeated code|copy-paste\`.
+
 ### Group 2 - Brittle skill and configuration files
 
 Agent configuration files (Step 1) inherit everything in Group 1, plus failure modes of their own; on a repository that is mostly such files, all the findings may fall here. They load at different moments - some every session, some only when triggered - so size is a tax paid on every load, and two files can rule on the same thing without ever being read side by side.
@@ -223,6 +238,7 @@ Order the report by confidence, highest first. Summarize at the top, after the S
 ## Step 6: Produce the proposed diff
 
 - Include only findings with action \`remove\`/\`rewrite\`/\`move\`/\`replace-with-API-feature\`/\`add\` at **high or medium confidence**. \`flag\` and low-confidence items appear in the report only.
+- Where the application's own code sends the conversation history and the target model runs the history-editing check (Group 4, "History-editing harness"), an edit to \`system\` or \`tools\` can make a stored conversation return a 400 when it resumes. Say above the diff to roll these edits out in new conversations and, to change instructions inside a conversation, to put them in the newest turn or, where mid-conversation system messages are available, to append a system message.
 - One finding per hunk, so effects attribute and the user can take hunks selectively.
 - Rewrites beat bare deletions where the instruction has a live purpose: re-express it simply ("look before you delete") rather than keeping the verbose original or dropping the concern.
 - A removal is complete only when everything referencing it goes too: tests asserting the old behavior, call sites and helper functions, docs, and every model-ID pin (READMEs and rule files included). Grep the project for the removed symbols and the old model ID before calling the diff done - a prompt fixed while its smoke test still asserts the old behavior is a broken app, not an audit win.

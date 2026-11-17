@@ -4,6 +4,6 @@ description: >-
   Description of the `httpHookAllowedEnvVars` setting in Claude Code's settings
   JSON schema. The model reads it through /update-config and settings validation
   errors; it is also shown to users in the settings help.
-ccVersion: 2.1.276
+ccVersion: 2.1.326
 -->
-Allowlist of environment variable names HTTP hooks may interpolate into headers. When set, each hook's effective allowedEnvVars is the intersection with this list. If undefined, no restriction is applied. Arrays merge across settings sources (same semantics as allowedMcpServers).
+Allowlist of environment variable names HTTP hooks may interpolate into headers. When set, each hook's effective allowedEnvVars is the intersection with this list. If undefined, no restriction is applied. Arrays merge across settings sources (same semantics as allowedMcpServers). Where managed settings do not set this list, a list in any other settings file does not apply to hooks that managed settings define, or that come from a plugin they enable from a local folder they name.

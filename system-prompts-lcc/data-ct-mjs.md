@@ -4,7 +4,7 @@ description: >-
   claude-test helper script (skills/run/scripts/ct.mjs) that the run skill has
   the model execute; its JSON output (status notes, needsInput questions,
   forClaude remedies, write-spec/file/finish errors) is read by the model.
-ccVersion: 2.1.310
+ccVersion: 2.1.326
 -->
 #!/usr/bin/env node
 
@@ -934,7 +934,7 @@ function pastRuns(cfg) {
     const judged = r.counts && Number.isInteger(r.counts.passed) && Number.isInteger(r.counts.failed) ? r.counts.passed + r.counts.failed : 0;
     rows.push({ runId: d, at: t, judged, outcome: ['passed', 'failed', 'blocked'].includes(r.outcome) ? r.outcome : null, finishedAt: typeof r.finishedAt === 'string' && /^\\d{4}-\\d{2}-\\d{2}T[\\d:.]+Z$/.test(r.finishedAt) ? r.finishedAt : null, specs, secondsPerSpec: Number.isFinite(r.secondsPerSpec) && r.secondsPerSpec >= 1 && r.secondsPerSpec <= 3600 ? Math.round(r.secondsPerSpec) : null, head: r.git && typeof r.git.head === 'string' && /^[0-9a-f]{40}$/.test(r.git.head) ? r.git.head : null, dirty: r.git && typeof r.git.dirty === 'boolean' ? r.git.dirty : null, changed: changedOf(r.git), secretChanged: !!(r.git && r.git.secretChanged === true), full: r.full === true });
   }
-  return rows.sort((a, b) => b.at - a.at);
+  return rows.reverse();
 }
 
 

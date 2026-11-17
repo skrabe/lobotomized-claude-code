@@ -1,8 +1,6 @@
 <!--
-name: 'Slash Command: /config — cloud settings forwarding unavailable'
-description: >-
-  Refusal when turning off cloud-session settings forwarding is refused and
-  nothing changed.
-ccVersion: 2.1.296
+name: 'Slash command: config cloud settings forwarding unavailable'
+description: /config error when cloud settings forwarding was refused and nothing changed.
+ccVersion: 2.1.326
 -->
-Cloud settings forwarding is not available right now; nothing was changed
+Cloud settings forwarding isn't available right now, so nothing changed

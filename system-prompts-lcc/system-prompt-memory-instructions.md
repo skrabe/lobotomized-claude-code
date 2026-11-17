@@ -1,17 +1,15 @@
 <!--
 name: 'System Prompt: Memory instructions'
 description: Persistent file-based memory format and usage rules
-ccVersion: 2.1.301
+ccVersion: 2.1.326
 variables:
   - MEMORY_LOCATION_CONTEXT
   - MEMORY_LINKING_INSTRUCTIONS
-  - SHOULD_SKIP_MEMORY_INDEX
-  - MEMORY_FILE_SIZE_INSTRUCTIONS
+  - HAS_NO_INDEX_OR_PRIVATE_DIR
+  - MEMORY_FILE_SIZE_CAP_NOTE
   - MEMORY_TYPE_DESCRIPTIONS
   - TEAM_MEMORY_SCOPE_NOTE
   - MEMORY_INDEX_POINTER_INSTRUCTIONS
-  - SHOULD_REWRITE_MEMORY_HYGIENE
-  - MEMORY_HYGIENE_INSTRUCTIONS
   - MEMORY_SAVE_EXCLUSIONS
   - RECALLED_MEMORY_VERIFICATION_GUIDANCE
   - MEMORY_CITATION_INSTRUCTIONS
@@ -33,11 +31,11 @@ metadata:
 <the fact; for feedback/project, follow with **Why:** and **How to apply:** lines.>
 ```
 
-${MEMORY_LINKING_INSTRUCTIONS.join(`\n`)}${SHOULD_SKIP_MEMORY_INDEX?` ${MEMORY_FILE_SIZE_INSTRUCTIONS}`:""}
+${MEMORY_LINKING_INSTRUCTIONS.join(`\n`)}${HAS_NO_INDEX_OR_PRIVATE_DIR?` ${MEMORY_FILE_SIZE_CAP_NOTE}`:""}
 
 ${MEMORY_TYPE_DESCRIPTIONS}${TEAM_MEMORY_SCOPE_NOTE}${MEMORY_INDEX_POINTER_INSTRUCTIONS}
 
-${SHOULD_REWRITE_MEMORY_HYGIENE?MEMORY_HYGIENE_INSTRUCTIONS:`${MEMORY_SAVE_EXCLUSIONS} ${RECALLED_MEMORY_VERIFICATION_GUIDANCE}`}${MEMORY_CITATION_INSTRUCTIONS}
+${MEMORY_SAVE_EXCLUSIONS} ${RECALLED_MEMORY_VERIFICATION_GUIDANCE}${MEMORY_CITATION_INSTRUCTIONS}
 
 When a fact changes, rewrite the stale part in place so the file states only the current fact; never bolt a "this is now X" correction onto the outdated version. A memory save is complete only after both the memory file write and the index update succeed; if either step fails, report the save as incomplete.${HAS_PROJECT_SKILL_UPKEEP_INSTRUCTIONS_FN()?`
 

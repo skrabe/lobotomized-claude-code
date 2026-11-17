@@ -5,7 +5,7 @@ description: >-
   interface or behaviour, such as a live pane or panel, a band above the prompt,
   a status line, a toast, a slash command, or a hook on tool calls or prompts.
   Use to make, change or debug a mod or its hooks module.
-ccVersion: 2.1.325
+ccVersion: 2.1.326
 -->
 ---
 name: plugin-authoring
@@ -43,6 +43,7 @@ Each example, in \`\${CLAUDE_SKILL_DIR}/examples/\`, is one complete hooks modul
 | a pane, panel, sidebar, live view | \`$.ui.open({ id, title })\`, drawn by a \`ui.render\` hook on \`{ component: 'Pane', requestId: id }\`; it resolves \`{ isPlaced }\`, whether a surface draws it now | \`pane.tsx\`, its contract \`pane-state.d.ts\` |
 | a band or row above the prompt | a \`ui.render\` hook on \`{ component: 'AbovePrompt' }\` returning its row, or \`next(e)\` for none; \`AbovePromptList\` hides or orders rows | \`band.tsx\`, its contract \`band-state.d.ts\` |
 | something on or under a tool call's row | a \`ui.render\` hook on \`{ component: 'ToolUse' }\` with \`await next(e)\` in its tree to keep the row. Mobile apps draw it as one quiet line, or as a card under the row when \`borderStyle\` or \`backgroundColor\` is on the Box that holds the row and your content. Use a card for what a person should see without a tap, such as a chart, a list or a report | its doc in the types |
+| a row in the desktop app's right-click menu | a \`ui.render\` hook on \`{ component: 'ContextMenu' }\` returning a \`Button\` or \`Link\` for each row, or \`next(e)\` for none; \`e.props\` says what was clicked | \`menu.tsx\`, its test \`menu.test.tsx\` |
 | a status line entry | \`$.ui.status(text)\` from any hook; \`undefined\` clears it | \`tool-call.ts\` |
 | a theme or a look | \`$.theme.set({ colors, backdrop })\` at \`session.start\`: read \`\${CLAUDE_SKILL_DIR}/look.md\` first | \`look.ts\` |
 | a toast | \`$.ui.toast(text)\` from any hook | \`band.tsx\` |

@@ -1,8 +1,8 @@
 <!--
-name: 'System Reminder: Connector download refusal ran out of time'
+name: 'Connector download refusal: ran out of time'
 description: >-
-  Refusal reason when a download did not finish within the time limit,
-  explaining when rerunning helps.
-ccVersion: 2.1.322
+  Refusal reason when the download did not finish within the time allowed for
+  its size.
+ccVersion: 2.1.326
 -->
-the download did not finish within 5 minutes; Claude Code allows one file at most that long, so running the tool again works only on a connection fast enough to fetch the whole file in that time
+the download did not finish in the time Claude Code allows for a file of its size (5 minutes for most); running the tool again works only on a faster connection

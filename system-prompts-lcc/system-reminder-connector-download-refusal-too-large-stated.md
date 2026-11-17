@@ -1,6 +1,8 @@
 <!--
-name: 'System Reminder: Connector download refusal too large (stated)'
-description: Refusal reason when an offered file's stated size exceeds the download cap.
-ccVersion: 2.1.322
+name: 'Connector download refusal: stated size too large'
+description: >-
+  Refusal reason when the file's stated size exceeds Claude Code's download cap
+  (5 GB, or 500 MB for single-piece files).
+ccVersion: 2.1.326
 -->
-its stated size is over 500 MB, the most Claude Code downloads
+its stated size is over 5 GB, or 500 MB where a file comes in one piece, the most Claude Code downloads
