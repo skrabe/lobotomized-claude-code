@@ -4,7 +4,8 @@ description: >-
   Trimmed 2026-09-02: the meta/script-API paragraph and the example script are
   carried by the workflow-authoring skill, which the description tells the model
   to load before writing a script. The opt-in gate is kept via the
-  WORKFLOW_OPT_IN_GUIDANCE_FN slot (its text is tool-description-workflow-lean-rewrite).
+  WORKFLOW_OPT_IN_GUIDANCE_FN slot (its text is
+  tool-description-workflow-lean-rewrite).
 ccVersion: 2.1.328
 variables:
   - WORKFLOW_OPT_IN_GUIDANCE_FN
