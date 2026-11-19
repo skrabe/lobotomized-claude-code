@@ -1,9 +1,8 @@
 <!--
-name: SendMessage Delivery Unconfirmed — Older Version
+name: 'Tool Result: SendMessage delivery unconfirmed, older version'
 description: >-
-  Clause appended to the SendMessage success `message` (via lNt().message and
-  identityNote) when the Remote Control peer has not reported it can receive
-  cross-session replies.
-ccVersion: 2.1.247
+  SendMessage result clause that the server accepted the message but delivery is
+  unconfirmed since the session may not support cross-session messages
+ccVersion: 2.1.328
 -->
-; accepted by the server for that session, but delivery is not confirmed: it has not reported that it can receive cross-session messages and may be on an older version that cannot
+; accepted by the server for that session, but delivery is not confirmed: no recent listing here shows that it can receive cross-session messages, and an older version cannot

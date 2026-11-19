@@ -1,8 +1,8 @@
 <!--
-name: 'Bash Read-Block: Git After Directory Change'
+name: 'Tool Result: Bash read block git after directory change'
 description: >-
-  Permission-ask reason when git after a directory change or writes to files git
-  reads cannot be checked against the working-directory read block.
-ccVersion: 2.1.273
+  Says git after a directory change or after writes to git-read files cannot be
+  checked against the read block
+ccVersion: 2.1.328
 -->
-git after a directory change, or after writes to files git reads (HEAD, config, hooks), cannot be checked against the read block
+Git after a directory change, or after writes to files git reads (HEAD, config, hooks), cannot be checked against the read block

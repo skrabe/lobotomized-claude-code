@@ -1,10 +1,10 @@
 <!--
-name: '/web-setup: log in with the GitHub App'
+name: 'Slash Command: /web-setup — couldn''t sign in, use GitHub App'
 description: >-
-  /web-setup result when the token check finds no signed-in account, directing
-  the user to log in with the GitHub App at the given URL.
-ccVersion: 2.1.326
+  Returned when /web-setup could not sign in; tells the model the user should go
+  to the given URL and sign in with the GitHub App.
+ccVersion: 2.1.328
 variables:
   - SLASH_COMMAND_WEB_SETUP_NOT_SIGNED_IN_GITHUB_APP_VAR_0
 -->
-Couldn't log in. Go to ${SLASH_COMMAND_WEB_SETUP_NOT_SIGNED_IN_GITHUB_APP_VAR_0} and log in with the GitHub App
+Couldn't sign in. Go to ${SLASH_COMMAND_WEB_SETUP_NOT_SIGNED_IN_GITHUB_APP_VAR_0} and sign in with the GitHub App

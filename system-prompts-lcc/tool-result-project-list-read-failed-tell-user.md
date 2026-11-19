@@ -1,0 +1,10 @@
+<!--
+name: 'Tool Result: Project list read failed tell user'
+description: Non-retryable variant telling the user the operation did not go through
+ccVersion: 2.1.328
+variables:
+  - TOOL_RESULT_PROJECT_LIST_READ_FAILED_TELL_USER_VAR_0
+  - TOOL_RESULT_PROJECT_LIST_READ_FAILED_TELL_USER_VAR_1
+  - TOOL_RESULT_PROJECT_LIST_READ_FAILED_TELL_USER_VAR_2
+-->
+${TOOL_RESULT_PROJECT_LIST_READ_FAILED_TELL_USER_VAR_0} Tell the user that ${TOOL_RESULT_PROJECT_LIST_READ_FAILED_TELL_USER_VAR_1}${TOOL_RESULT_PROJECT_LIST_READ_FAILED_TELL_USER_VAR_2}

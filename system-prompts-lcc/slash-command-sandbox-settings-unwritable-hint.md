@@ -1,8 +1,8 @@
 <!--
-name: 'Slash Command: /sandbox settings unwritable hint'
+name: 'Slash command: sandbox settings unwritable hint'
 description: >-
-  Hint to start Claude Code in a writable project folder when local settings
-  can't be updated
-ccVersion: 2.1.299
+  Hint appended to /sandbox settings-write failure telling the user to start in
+  a writable project directory.
+ccVersion: 2.1.328
 -->
- Start Claude Code in a project folder you can write to.
+ Start Claude Code in a project directory you can write to.

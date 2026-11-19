@@ -1,12 +1,12 @@
 <!--
-name: 'Tool Result: Quickstart Read Token Cards (Files)'
-description: >-
-  Files-backed branch telling the model to read the design system's token cards
-  via read/read_file paths in the same message.
-ccVersion: 2.1.273
+name: 'Tool Result: Artifact quickstart read token cards'
+description: Asks to read the design system token cards in the same message
+ccVersion: 2.1.328
 variables:
   - TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_0
   - TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_1
   - TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_2
+  - TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_3
+  - TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_4
 -->
- In the same message, read that design system's token cards — ${TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_0('action "read_file"',()=>'action "read"')}, \`url\`: ${TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_1}, once with \`path\`: "${TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_2}api/tokens.md" and once with \`path\`: "${TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_2}tokens.json" — since the type's instructions will ask for them.
+ In the same message, read that design system's token ${TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_0?"card":"cards"} — ${TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_1('action "read_file"',()=>'action "read"')}, \`url\`: ${TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_2}, ${TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_3.map((TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_4)=>`${TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_0?"":"once with "}\`path\`: "${TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_4.path}"`).join(" and ")} — since the type's instructions will ask for ${TOOL_RESULT_ARTIFACT_QUICKSTART_READ_TOKEN_CARDS_FILES_VAR_0?"it":"them"}.

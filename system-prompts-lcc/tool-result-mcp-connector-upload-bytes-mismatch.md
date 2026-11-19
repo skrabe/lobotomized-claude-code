@@ -1,12 +1,12 @@
 <!--
-name: Uploaded bytes mismatch
+name: 'Tool result: MCP connector upload bytes mismatch'
 description: >-
-  Says the upload service did not receive the approved file's bytes; ask the
-  user before retrying.
-ccVersion: 2.1.325
+  Error returned when the upload service did not receive the bytes of the file
+  that was checked.
+ccVersion: 2.1.328
 variables:
   - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_BYTES_MISMATCH_VAR_0
   - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_BYTES_MISMATCH_VAR_1
   - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_BYTES_MISMATCH_VAR_2
 -->
-${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_BYTES_MISMATCH_VAR_0} was not passed on: Claude's upload service did not receive the bytes of the file the user approved. ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_BYTES_MISMATCH_VAR_1}${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_BYTES_MISMATCH_VAR_2}
+${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_BYTES_MISMATCH_VAR_0} was not passed on: Claude's upload service did not receive the bytes of the file that was checked. ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_BYTES_MISMATCH_VAR_1}${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_BYTES_MISMATCH_VAR_2}

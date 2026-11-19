@@ -4,18 +4,20 @@ description: >-
   Effort-tier prompt for the inline xhigh code review — 10 angles run in-context
   with no subagents, dedup only (no verify), sweep, up to 15 findings. Reshaped
   in 2.1.214; the fan-out variant now lives in skill-code-review-effort-max-3.
-ccVersion: 2.1.288
+ccVersion: 2.1.328
 variables:
   - FORMAT_FINDINGS_LIMIT_LABEL_FN
   - MAX_FINDINGS
   - PHASE_0_GATHER_DIFF
   - CORRECTNESS_ANGLES
+  - EXTRA_CORRECTNESS_ANGLES
   - ANGLE_REUSE
   - ANGLE_SIMPLIFICATION
   - ANGLE_EFFICIENCY
   - ANGLE_ALTITUDE
   - ANGLE_CONVENTIONS
   - CLEANUP_AND_ALTITUDE_CANDIDATES_NOTE
+  - INLINE_GAP_SWEEP_PHASE
   - FORMAT_REVIEW_OUTPUT_WITH_MINIMUM_FINDINGS_FN
   - OUTPUT_FORMAT_FN
 -->
@@ -34,22 +36,7 @@ suppress another's — if two angles flag the same line for different reasons,
 record both.
 
 ${CORRECTNESS_ANGLES}
-### Angle D — language-pitfall specialist
-
-Scan for the classic pitfalls of the diff's language/framework — for example:
-JS falsy-zero, \`==\` coercion, closure-captured loop var; Python mutable default
-args, late-binding closures; Go nil-map write, range-var capture; SQL injection;
-timezone/DST drift; float equality. Flag any instance the diff introduces.
-
-### Angle E — wrapper/proxy correctness
-
-When the PR adds or modifies a type that wraps another (cache, proxy, decorator,
-adapter): check that every method routes to the wrapped instance and not back
-through a registry/session/global — e.g. a caching provider holding a
-\`delegate\` field that resolves IDs via \`session.get(...)\` instead of
-\`delegate.get(...)\` will re-enter the cache or recurse. Also check that the
-wrapper forwards all the methods the callers actually use.
-
+${EXTRA_CORRECTNESS_ANGLES}
 ${ANGLE_REUSE}
 ${ANGLE_SIMPLIFICATION}
 ${ANGLE_EFFICIENCY}
@@ -62,15 +49,5 @@ Pool all candidates. Dedup near-duplicates only (same defect, same location, sam
 
 ## Phase 3 — Sweep for gaps
 
-Take one more pass (same context — no subagent) as a fresh reviewer who has the deduplicated list. Re-read
-the diff and enclosing functions looking only for defects not already listed —
-the job is gaps, so leave what's already there alone. Focus
-on what the first pass tends to miss: moved/extracted code that dropped a guard
-or anchor; second-tier footguns (dataclass default evaluated once, \`hash()\`
-non-determinism, lock-scope shrink, predicate methods with side effects);
-setup/teardown asymmetry in tests; config defaults flipped.
-
-Surface **up to 8 additional candidates**, each naming a defect not already on
-the list. If nothing new, return nothing from this phase.
-
+${INLINE_GAP_SWEEP_PHASE}
 ${FORMAT_REVIEW_OUTPUT_WITH_MINIMUM_FINDINGS_FN(OUTPUT_FORMAT_FN,15)(MAX_FINDINGS)}

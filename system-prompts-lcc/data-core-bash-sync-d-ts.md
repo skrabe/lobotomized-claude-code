@@ -1,9 +1,9 @@
 <!--
 name: 'Data: core.bash.sync.d.ts'
 description: Text asset core.bash.sync.d.ts that Claude Code loads by path from its bundle.
-ccVersion: 2.1.318
+ccVersion: 2.1.328
 -->
-/** The shell. The template text goes to the shell as written, except that \\\` and \\\${ lose their backslash, so a backtick or \${ the shell should see literally goes in as a \${} value. $ single-quotes each string \${} value itself as one argument (an array: one per item; \${{raw: s}} splices s unquoted), so write \${x} bare: inside quote marks of your own, the quotes $ added no longer protect the value, and shell syntax in it can run. $(cmd, ms) runs a command given as a plain string, with an optional timeout in ms. Resolves to a ShellOutput; .nothrow() hands it back whatever the exit code. A non-zero exit throws a ShellError. An exit 1 from a line whose last command is grep (also rg, egrep, fgrep), find, diff, test or \`[\`, git diff or git grep is read as that command's outcome (no match, an unreadable directory, files differ, a false test) and does not throw: exitCode is 1 and note gives the reading. The whole output of a command that would not throw even without .nothrow() is yours even when large: file names the spill file, which holds the first 64 MiB, and truncated means stdout holds only the start of the output, the rest being in that file. A failing command's output (with or without .nothrow()) has no file and can come back with its middle cut out; the end of a very long failing output can be missing too. Timeouts cap at 600000 ms: past that the command keeps running in the background, and running names the task and the file its output streams to, so that file can be read instead of running the command again. */
+/** The shell. The template text goes to the shell as written, except that \\\` and \\\${ lose their backslash, so a backtick or \${ the shell should see literally goes in as a \${} value. $ single-quotes each string \${} value itself as one argument (an array: one per item; \${{raw: s}} splices s unquoted), so write \${x} bare: inside quote marks of your own, the quotes $ added no longer protect the value, and shell syntax in it can run. $(cmd, ms) runs a command given as a plain string, with an optional timeout in ms. Resolves to a ShellOutput; .nothrow() hands it back whatever the exit code. A non-zero exit throws a ShellError. An exit 1 from a line whose last command is grep (also rg, egrep, fgrep), find, diff, test or \`[\`, git diff or git grep is read as that command's outcome (no match, an unreadable directory, files differ, a false test) and does not throw: exitCode is 1 and note gives the reading. The whole output of a command that would not throw even without .nothrow() is yours even when large: file names the spill file, which holds the first 64 MiB, and truncated means stdout holds only the start of the output, the rest being in that file. A failing command's output (with or without .nothrow()) has no file and can come back with its middle cut out; the end of a very long failing output can be missing too. Then truncated is true, on the ShellError too, and a line on this REPL call's stderr (not in .stderr) says what is missing. Timeouts cap at 600000 ms: past that the command keeps running in the background, and running names the task and the file its output streams to, so that file can be read instead of running the command again. */
 declare function $(strings: TemplateStringsArray, ...values: unknown[]): ShellPromise;
 declare function $(cmd: string, timeoutMs?: number): ShellPromise;
 declare namespace $ {
@@ -36,7 +36,7 @@ interface ShellOutput {
     json(): unknown;
     /** the text the result shows: stdout, then [stderr], [error] and [exit N] when there are any */
     output: string;
-    /** file: the spill file; truncated: stdout holds only the start of the output; whole: none of Claude Code's checks found that the readers return less than the command printed */
+    /** file: the spill file; truncated: stdout holds only part of the output; whole: none of Claude Code's checks found that the readers return less than the command printed */
     truncated: boolean;
     whole: boolean;
     file?: string;
@@ -67,6 +67,8 @@ interface ShellError extends Error {
     unsandboxedRetry?: {
         violation: string;
     };
+    /** stdout holds only part of the command's output */
+    truncated?: boolean;
 }
 /** An exact-string edit (next inserted literally; a replacement string given to String.prototype.replace is not, since it expands $&, $\`, $', $$ and $1, so s.replace(a, () => b) passes a function, which inserts b as it is); throws on zero or several matches, {all} replaces every match, {soft} resolves {ok: false, error} instead. The batch form checks every anchor, in order, before it writes, so an anchor not found, or found more than once without {all}, leaves the file untouched; a failure after that (a permission denial, say) leaves the edits before it applied. */
 declare function edit(path: string, old: string, next: string, opts?: {
@@ -99,15 +101,14 @@ declare function file(path: string): {
 };
 /** Resolves after ms. */
 declare function sleep(ms: number): Promise<void>;
-/** The first n chars (200 by default) of the value turned into text with String(), with a …[+N chars] marker when it cuts, so a ShellOutput gives its output field; null and undefined give ''. A $ result whose output the shell tool saved to a file (file and bytes are set) gives that tool's line with the output's size (or the 64 MB limit, when the output reached it) and the file's path instead, then at most n chars from the start of stdout (then ... if cut), then any [stderr], [error] and [exit N] lines. @example preview(await $\`bun test\`.nothrow(), 2000) @example preview(await file('build.log').text(), 500) */
-/** an awaited $ result, or await file(path).text() */
+/** The first n chars (200 by default) of String(value), with a marker when it cuts; for a $ result that was saved to a file, its size and path first. */
 declare function preview(output: ShellOutput | string, n?: number): string;
 declare function preview(value: unknown, n?: number): string;
 /** The output channel: each call is a line delivered with the result. */
 declare function log(...args: unknown[]): void;
 /** globalThis, so self.log is log. */
 declare const self: typeof globalThis;
-/** A bounded ring, not delivered with the result; tail(n) reads its last n lines back. */
+/** Not delivered with the result; tail(n) reads the last n lines back. */
 declare var console: {
     log(...args: unknown[]): void;
     info(...args: unknown[]): void;
@@ -118,17 +119,12 @@ declare var console: {
     buffer(): string;
     dropped(): number;
 };
-/** A timer; its callback runs as part of the script that set it, and the timer is cleared when that script ends, so one due after that never fires. */
+/** Timers are cleared when the script that set them ends. */
 declare function setTimeout(fn: () => void, ms?: number): number;
-/** Cancels a timer. */
 declare function clearTimeout(id: number): void;
-/** As setTimeout, repeating. */
 declare function setInterval(fn: () => void, ms?: number): number;
-/** Cancels an interval. */
 declare function clearInterval(id: number): void;
-/** Base64 to a binary string, one character per byte. */
 declare function atob(data: string): string;
-/** A binary string to base64; throws on a character above U+00FF. */
 declare function btoa(data: string): string;
 type JSONSchema = Record<string, unknown>;
 /** The tools a script can call, by words from their name or description; input is the tool's parameters written as a TypeScript type, such as {query: string, limit?: number}. Resolves {error} for an empty query. */

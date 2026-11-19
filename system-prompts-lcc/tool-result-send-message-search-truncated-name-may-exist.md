@@ -1,10 +1,9 @@
 <!--
-name: Session list truncated — name may exist
+name: 'Tool Result: SendMessage search truncated, name may exist'
 description: >-
-  Note appended to the SendMessage and SendFile unreachable-recipient tool
-  results warning Claude the session list was truncated so a session by that
-  name may exist beyond what was searched.
-ccVersion: 2.1.234
+  Notes the session list could not be fully checked so a session with that name
+  may exist beyond the search
+ccVersion: 2.1.328
 -->
 
-Your session list was too long to check completely, so a session by that name may exist beyond what was searched.
+Your session list could not be checked completely, so a session by that name may exist beyond what was searched.

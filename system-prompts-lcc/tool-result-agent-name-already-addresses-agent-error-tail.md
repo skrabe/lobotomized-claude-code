@@ -1,8 +1,9 @@
 <!--
 name: 'Agent name validation: reserved direct-address tail'
 description: >-
-  Agent name input-validation failure: those already address an agent directly.
-  Emitted through the verified route recorded below.
-ccVersion: 2.1.296
+  Tail literal of the Agent tool name field's reserved/id-shaped Zod refine
+  message (session id — those already address a recipient directly), returned to
+  the model as an InputValidationError.
+ccVersion: 2.1.328
 -->
-those already address an agent directly
+session id — those already address a recipient directly

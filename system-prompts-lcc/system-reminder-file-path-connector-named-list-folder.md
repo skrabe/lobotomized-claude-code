@@ -1,11 +1,11 @@
 <!--
-name: 'System Reminder: Connector-named file path'
+name: 'System Reminder: File path connector-named list folder'
 description: >-
-  Path rendering for a file a connector named, giving its folder and telling
-  Claude to list the folder to find it
-ccVersion: 2.1.326
+  Placeholder for a file whose name a connector chose, telling Claude to take
+  its path from the message or call that gave it, or list the folder
+ccVersion: 2.1.328
 variables:
   - SYSTEM_REMINDER_FILE_PATH_CONNECTOR_NAMED_LIST_FOLDER_VAR_0
   - SYSTEM_REMINDER_FILE_PATH_CONNECTOR_NAMED_LIST_FOLDER_VAR_1
 -->
-${SYSTEM_REMINDER_FILE_PATH_CONNECTOR_NAMED_LIST_FOLDER_VAR_0(SYSTEM_REMINDER_FILE_PATH_CONNECTOR_NAMED_LIST_FOLDER_VAR_1)}/(a file that a connector named: list the folder to find it)
+${SYSTEM_REMINDER_FILE_PATH_CONNECTOR_NAMED_LIST_FOLDER_VAR_0(SYSTEM_REMINDER_FILE_PATH_CONNECTOR_NAMED_LIST_FOLDER_VAR_1)}/(a file that a connector named: take its path from the message or the call that gave it, or list the folder)

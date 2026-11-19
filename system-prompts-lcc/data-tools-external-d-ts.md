@@ -1,7 +1,7 @@
 <!--
 name: 'Data: tools-external.d.ts'
 description: Text asset tools-external.d.ts that Claude Code loads by path from its bundle.
-ccVersion: 2.1.326
+ccVersion: 2.1.328
 -->
 // The inputs of the built-in tools this build has, from each tool's
 // input schema. Merges into ToolCallInput (BuiltinToolInputs) so
@@ -263,6 +263,7 @@ declare module 'claude-code' {
     ListAgents: {
       channel?: string
       q?: string
+      cursor?: string
     }
     ListConnectors: {
       keywords?: string[]
@@ -282,6 +283,9 @@ declare module 'claude-code' {
       line: number
       character: number
       query?: string
+    }
+    McpTaskResumePolling: {
+      task_id: string
     }
     memory_list: {
       store?: string
@@ -444,6 +448,7 @@ declare module 'claude-code' {
         short_summary?: string
         failure_scenario: string
         category?: string
+        severity?: "important" | "pre_existing" | "nit"
         verdict?: "CONFIRMED" | "PLAUSIBLE"
         outcome?: "fixed" | "skipped" | "no_change_needed"
       }>
@@ -686,6 +691,7 @@ declare module 'claude-code' {
       handbackReport?: {
         text: string
         warning?: string
+        toolUseId?: string
       }
       content: Array<{
         type: "text"
@@ -751,6 +757,7 @@ declare module 'claude-code' {
       outputFile: string
       canReadOutputFile?: boolean
       canContinueAgent?: boolean
+      waitsAtPermissionPrompt?: boolean
       sharesCwd?: boolean
     } | {
       status: "remote_launched"
@@ -862,6 +869,7 @@ declare module 'claude-code' {
           chars: number
           clipped?: boolean
         }[]
+        token_files?: string[]
         unavailable?: string
       }
     } | {
@@ -1110,6 +1118,7 @@ declare module 'claude-code' {
             chars: number
             clipped?: boolean
           }[]
+          token_files?: string[]
           unavailable?: string
         }
         design_guidance?: boolean
@@ -1493,6 +1502,9 @@ declare module 'claude-code' {
           sha256: string
           live?: true
         }[]
+        can_publish?: boolean
+        owned?: boolean
+        audience?: "owner" | "users" | "org" | "public" | "agent_scoped" | "unknown"
         cowritten?: true
         outside_writer?: true
         public_read?: true
@@ -1737,6 +1749,7 @@ declare module 'claude-code' {
           chars: number
           clipped?: boolean
         }[]
+        token_files?: string[]
         unavailable?: string
       }
     } | {
@@ -1985,6 +1998,7 @@ declare module 'claude-code' {
             chars: number
             clipped?: boolean
           }[]
+          token_files?: string[]
           unavailable?: string
         }
         design_guidance?: boolean
@@ -2368,6 +2382,9 @@ declare module 'claude-code' {
           sha256: string
           live?: true
         }[]
+        can_publish?: boolean
+        owned?: boolean
+        audience?: "owner" | "users" | "org" | "public" | "agent_scoped" | "unknown"
         cowritten?: true
         outside_writer?: true
         public_read?: true
@@ -2612,6 +2629,7 @@ declare module 'claude-code' {
           chars: number
           clipped?: boolean
         }[]
+        token_files?: string[]
         unavailable?: string
       }
     } | {
@@ -2860,6 +2878,7 @@ declare module 'claude-code' {
             chars: number
             clipped?: boolean
           }[]
+          token_files?: string[]
           unavailable?: string
         }
         design_guidance?: boolean
@@ -3243,6 +3262,9 @@ declare module 'claude-code' {
           sha256: string
           live?: true
         }[]
+        can_publish?: boolean
+        owned?: boolean
+        audience?: "owner" | "users" | "org" | "public" | "agent_scoped" | "unknown"
         cowritten?: true
         outside_writer?: true
         public_read?: true
@@ -3487,6 +3509,7 @@ declare module 'claude-code' {
           chars: number
           clipped?: boolean
         }[]
+        token_files?: string[]
         unavailable?: string
       }
     } | {
@@ -3735,6 +3758,7 @@ declare module 'claude-code' {
             chars: number
             clipped?: boolean
           }[]
+          token_files?: string[]
           unavailable?: string
         }
         design_guidance?: boolean
@@ -4118,6 +4142,9 @@ declare module 'claude-code' {
           sha256: string
           live?: true
         }[]
+        can_publish?: boolean
+        owned?: boolean
+        audience?: "owner" | "users" | "org" | "public" | "agent_scoped" | "unknown"
         cowritten?: true
         outside_writer?: true
         public_read?: true
@@ -4311,6 +4338,7 @@ declare module 'claude-code' {
       backgroundedByUser?: boolean
       backgroundedByTurnAbort?: boolean
       backgroundedToDeliverMessage?: boolean
+      backgroundedForAgentReport?: true
       timedOutAfterMs?: number
       subagentCapApplied?: true
       backgroundCwdHint?: string
@@ -4323,8 +4351,6 @@ declare module 'claude-code' {
       persistedOutputPath?: string
       persistedOutputSize?: number
       stdoutHoldsOutputEnd?: boolean
-      tailInputPath?: string
-      tailInputNote?: string
       memoryLimitNote?: string
       triggeredNote?: string
       staleReadFileStateHint?: string
@@ -4367,6 +4393,7 @@ declare module 'claude-code' {
         skipped?: true
         shared?: true
       }
+      viewedImagePaths?: string[]
     }
     ClaudeDesign: {
       operation: string
@@ -4675,6 +4702,10 @@ declare module 'claude-code' {
       resultCount?: number
       fileCount?: number
     }
+    McpTaskResumePolling: {
+      message: string
+      isError: boolean
+    }
     memory_list: {
       outcome: "ok" | "refused" | "failed"
       store_kind?: "personal" | "project"
@@ -4720,6 +4751,7 @@ declare module 'claude-code' {
       taskId: string
       timeoutMs: number
       persistent?: boolean
+      keptInSandboxByCheck?: boolean
     }
     NotebookEdit: {
       new_source: string
@@ -4782,6 +4814,7 @@ declare module 'claude-code' {
       backgroundedByUser?: boolean
       backgroundedByTurnAbort?: boolean
       backgroundedToDeliverMessage?: boolean
+      backgroundedForAgentReport?: true
       timedOutAfterMs?: number
       subagentCapApplied?: true
       backgroundEndsWithFinalResponse?: true
@@ -5028,6 +5061,7 @@ declare module 'claude-code' {
         short_summary?: string
         failure_scenario: string
         category?: string
+        severity?: "important" | "pre_existing" | "nit"
         verdict?: "CONFIRMED" | "PLAUSIBLE"
         outcome?: "fixed" | "skipped" | "no_change_needed"
       }>
@@ -5268,6 +5302,8 @@ declare module 'claude-code' {
       }[]
       note: string
       trigger?: "user_asked" | "proactive"
+      answer?: "added" | "not_added" | "not_now"
+      added?: string[]
     }
     SuggestSkills: {
       results: Array<{
@@ -5287,6 +5323,7 @@ declare module 'claude-code' {
         subject: string
         description?: string
       }
+      appKeepsStatuses?: true
     }
     TaskGet: {
       task: {
@@ -5383,6 +5420,7 @@ declare module 'claude-code' {
       } | string>
       durationSeconds: number
       searchCount?: number
+      plainPageText?: true
     }
     Workflow: {
       status: "async_launched" | "remote_launched"

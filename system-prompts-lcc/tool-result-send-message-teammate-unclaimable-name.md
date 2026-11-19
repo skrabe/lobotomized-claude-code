@@ -1,8 +1,8 @@
 <!--
-name: SendMessage Teammate Unclaimable Name
+name: 'Tool Result: SendMessage teammate unclaimable name'
 description: >-
-  Resume-teammate tool error when the recorded name is reserved,
-  agent-id-shaped, or otherwise not a valid name.
-ccVersion: 2.1.269
+  Error when a teammate cannot be resumed because its recorded name is reserved,
+  id-shaped or invalid
+ccVersion: 2.1.328
 -->
-Cannot resume teammate: its recorded name is reserved, looks like an agent id, or is not a valid name
+Cannot resume teammate: its recorded name is reserved, looks like an agent id or a session id, or is not a valid name

@@ -1,11 +1,12 @@
 <!--
-name: Artifact URL-Only Actions Extra-Params Error
+name: 'Tool Result: Artifact action takes only listed fields'
 description: >-
-  validateInput rejection when a URL-only Artifact action (watch, unwatch,
-  status, verify, ...) is passed extra fields.
-ccVersion: 2.1.325
+  Shared Artifact validateInput error: the action takes only the listed fields;
+  remove the extra ones.
+ccVersion: 2.1.328
 variables:
   - TOOL_RESULT_ARTIFACT_URL_ONLY_ACTIONS_EXTRA_PARAMS_ERROR_VAR_0
   - TOOL_RESULT_ARTIFACT_URL_ONLY_ACTIONS_EXTRA_PARAMS_ERROR_VAR_1
+  - TOOL_RESULT_ARTIFACT_URL_ONLY_ACTIONS_EXTRA_PARAMS_ERROR_VAR_2
 -->
-action "${TOOL_RESULT_ARTIFACT_URL_ONLY_ACTIONS_EXTRA_PARAMS_ERROR_VAR_0}" takes only \`url\` — remove ${TOOL_RESULT_ARTIFACT_URL_ONLY_ACTIONS_EXTRA_PARAMS_ERROR_VAR_1.join(", ")}.
+action "${TOOL_RESULT_ARTIFACT_URL_ONLY_ACTIONS_EXTRA_PARAMS_ERROR_VAR_0}" takes only ${TOOL_RESULT_ARTIFACT_URL_ONLY_ACTIONS_EXTRA_PARAMS_ERROR_VAR_1} — remove ${TOOL_RESULT_ARTIFACT_URL_ONLY_ACTIONS_EXTRA_PARAMS_ERROR_VAR_2.join(", ")}.

@@ -1,6 +1,6 @@
 <!--
-name: 'Slash Command: /sandbox — unsupported platform'
-description: 'Tells the model sandboxing is only supported on macOS, Linux and WSL2.'
-ccVersion: 2.1.233
+name: 'Slash command: sandbox unsupported platform'
+description: '/sandbox error when the platform is not macOS, Linux or WSL2.'
+ccVersion: 2.1.328
 -->
-Error: Sandboxing is currently only supported on macOS, Linux, and WSL2.
+Sandboxing only works on macOS, Linux, and WSL2.

@@ -3,7 +3,7 @@ name: 'Data: Live documentation sources'
 description: >-
   claude-api skill list of platform.claude.com doc URLs and SDK repositories to
   WebFetch, with fallback strategy
-ccVersion: 2.1.326
+ccVersion: 2.1.328
 -->
 # Live Documentation Sources
 
@@ -80,7 +80,7 @@ This file lists the URLs of the current docs on platform.claude.com and of the S
 | OpenTelemetry overview | \`https://platform.claude.com/docs/en/manage-claude/opentelemetry.md\` | "Extract SDK vs API tracing coverage, content modes and limits, example traces, and token counting rules" |
 | SDK tracing | \`https://platform.claude.com/docs/en/manage-claude/opentelemetry/sdk.md\` | "Extract the install command for my language, tracer provider setup, SDK options and environment variables" |
 | API tracing | \`https://platform.claude.com/docs/en/manage-claude/opentelemetry/api.md\` | "Extract how to add a destination through the Admin API or the Console, workspace selection, traceparent propagation, delivery rules, limits and delivery errors" |
-| Telemetry destinations API reference | \`https://platform.claude.com/docs/en/api/beta/organization/telemetry_destinations.md\` | "Extract the create, list, update and delete requests for telemetry destinations and their workspaces, every request field, and the response fields including state and delivery_health" |
+| Telemetry destinations API reference | \`https://platform.claude.com/docs/en/api/beta/organization/telemetry_destinations.md\` | "Extract the create, list, update, delete and test requests for telemetry destinations and their workspaces, every request field, and the response fields including state and delivery_health" |
 | Span reference | \`https://platform.claude.com/docs/en/api/opentelemetry/spans.md\` | "Extract span names, parents and children, and the attributes of the span I ask about" |
 
 If a fetch fails, use \`shared/opentelemetry.md\`.

@@ -1,12 +1,12 @@
 <!--
-name: 'Slash Command: MCP OAuth reconnect failed restart opaque'
+name: 'Slash Command: /mcp — OAuth reconnect failed, detail withheld'
 description: >-
-  OnComplete message after MCP OAuth reconnect failed when detail is withheld on
-  this connection.
-ccVersion: 2.1.251
+  Result after MCP OAuth got new credentials but reconnect failed on a
+  connection whose detail is withheld; suggests restarting Claude Code.
+ccVersion: 2.1.328
 variables:
   - SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_RESTART_OPAQUE_VAR_0
   - SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_RESTART_OPAQUE_VAR_1
   - SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_RESTART_OPAQUE_VAR_2
 -->
-Got new credentials, but reconnecting to ${SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_RESTART_OPAQUE_VAR_0(SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_RESTART_OPAQUE_VAR_1.name)} failed${SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_RESTART_OPAQUE_VAR_2?" (detail withheld on this connection)":""}. Restart Claude Code to retry.
+Got new credentials, but couldn't reconnect to ${SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_RESTART_OPAQUE_VAR_0(SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_RESTART_OPAQUE_VAR_1.name)}${SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_RESTART_OPAQUE_VAR_2?" (detail withheld on this connection)":""}. Restart Claude Code to try again.

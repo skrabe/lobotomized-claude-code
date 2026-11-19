@@ -1,6 +1,8 @@
 <!--
 name: 'Slash Command: /ide — selection cancelled'
-description: Tells the model the IDE picker was cancelled and nothing was connected.
-ccVersion: 2.1.296
+description: >-
+  Tells the model the IDE picker was dismissed and the current IDE selection was
+  kept.
+ccVersion: 2.1.328
 -->
-IDE selection cancelled
+Kept IDE selection

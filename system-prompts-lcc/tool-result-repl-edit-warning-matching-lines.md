@@ -1,0 +1,10 @@
+<!--
+name: 'Tool Result: REPL edit warning matching lines'
+description: REPL edit() warning listing the lines where old_string matches more than once
+ccVersion: 2.1.328
+variables:
+  - TOOL_RESULT_REPL_EDIT_WARNING_MATCHING_LINES_VAR_0
+  - TOOL_RESULT_REPL_EDIT_WARNING_MATCHING_LINES_VAR_1
+  - TOOL_RESULT_REPL_EDIT_WARNING_MATCHING_LINES_VAR_2
+-->
+lines with a match: ${TOOL_RESULT_REPL_EDIT_WARNING_MATCHING_LINES_VAR_0(TOOL_RESULT_REPL_EDIT_WARNING_MATCHING_LINES_VAR_1).join(", ")}${TOOL_RESULT_REPL_EDIT_WARNING_MATCHING_LINES_VAR_2>0?`, and ${TOOL_RESULT_REPL_EDIT_WARNING_MATCHING_LINES_VAR_2} more matches`:""}

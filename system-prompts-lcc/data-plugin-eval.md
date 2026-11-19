@@ -3,7 +3,7 @@ name: 'Data: plugin-eval'
 description: >-
   claude-code-docs skill reference file (plugin-eval) under references/, read by
   the model on demand.
-ccVersion: 2.1.325
+ccVersion: 2.1.328
 -->
 # Plugin eval (\`claude plugin eval\`) and \`/skill-doctor\`
 
@@ -340,7 +340,7 @@ Document:
 | \`partial\`, \`partialReason?\` | \`true\` with \`"cost_ceiling"\`, \`"interrupted"\`, or \`"auth_failed"\` when the suite did not finish. Do not trend partial results. |
 | \`suite\` | \`root\` (absolute discovery root), \`ablation\` (\`"none"\`/\`"with-without"\`), \`threshold\`, \`plugins\` (the plugins under test, deduped: \`[{name, path, version?, problem?}]\` - \`name\` is the manifest name (folder basename when there is none), \`version\` the manifest version when present, and \`problem\` a closed code, absent for a healthy directory plugin: \`manifest_invalid\` / \`disabled_by_default\` / \`will_not_load\` mean the with-arm runs WITHOUT that plugin; \`identity_unverified\` means the identity could not be confirmed here and asserts nothing about whether the child loads it; \`archive_not_probed\` marks a plugin archive whose identity is simply not inspected by the parent - the child extracts and loads it normally), and when given: \`modelOverride\`, \`judgeModel\`, \`caseFilter\`, \`tagFilters\`, \`pluginId\` (the \`name@marketplace\` you targeted). |
 | \`cases[]\` | One per case, below. |
-| \`aggregates\` | \`casesTotal\`, \`casesPassed\` (with-arm score >= threshold), \`overallScore\` (mean case score), \`overallPassRate\` (mean case pass rate), \`meanDelta?\` (mean of defined case deltas). |
+| \`aggregates\` | \`casesTotal\`, \`casesPassed\` (with-arm score >= threshold), \`overallScore\` (mean case score), \`overallPassRate\` (mean case pass rate), \`meanDelta?\` (mean of defined case deltas), \`pluginHookApprovalRuns?\` (\`approved\` and \`refused\`: how many runs have a non-empty list of each in \`pluginHookApprovals\`). |
 
 Case (\`cases[]\`):
 
@@ -367,6 +367,7 @@ Run (\`arms.with[]\` / \`arms.without[]\`):
 | \`error\` | \`null\`, or why the run ended abnormally. A setup failure (\`scaffold failed (exit N): ...\`, a rejected \`execution.env\` key, a path escaping the case dir) yields no graders and score 0. So does a run that ended on an API error - the API answered its last request with an HTTP error, such as a refusal (\`API Error: 400 ...\`), or a rate limit or server error that outlasted the retries - and that run also makes the suite exit non-zero. A terminal error with no HTTP status, such as a connection failure, does not count as one. A run that started but ended badly any other way (\`timed out after Ns\`, turn cap / non-zero exit, output overflow, \`interrupted\`) is **still graded on what it produced**, with \`error\` recording the reason - so \`error\` non-null does not imply score 0. |
 | \`tracePath\` | Where \`trace.jsonl\` lived; a correlation id unless the sandbox was kept. |
 | \`skippedPaidGraders\` | Paid graders were skipped at the cost ceiling - score not comparable. |
+| \`pluginHookApprovals?\` | Calls that a plugin's permission hook allowed and the eval's own permission check did not, one tool name per call. A permission hook here is the \`tool.check\` hook in a plugin's hooks module; a hook in a plugin built into Claude Code is not counted. \`approved\`: calls that ran only because the hook allowed them. \`refused\`: calls a deny rule blocked anyway, such as reading or editing the paths the eval protects, and calls a tool refused because it could not check them against the deny rules, such as a shell command with a value too long to read. A shell command listed under \`approved\` may still read or write protected paths, because a deny rule can only match what the permission check could read of the command. A call with no record of the decision is in neither list: one still unfinished when a run ended (a timeout, an interrupt, the output cap or a crash of the child), and one whose result a \`tool.call\` hook replaced. A call refused because its permission check crashed or did not finish is in neither list either, unless the check's answer named a deny rule. Each non-empty list also prints a notice at the end and, without \`--json\`, a warning line under the run, and \`aggregates.pluginHookApprovalRuns\` counts the runs with each; none of these changes the exit code. Absent when both lists are empty. |
 | \`graders[]\` | Grader **results**: \`name\`, \`passed\`, \`weight\`, \`explanation\` (mechanical description or \`judge votes: PASS FAIL PASS\` - \` (image)\`-suffixed for an image - with an optional \` - note: ...\`, or the reason the judge could not be asked), \`withOnly\` (excluded-from-score indicator), \`scored\` (= not \`withOnly\`; a \`passed: false\` with \`scored: false\` under a run scoring 1.0 is expected), \`judgeVotes?\`, \`evidence?\` (llm only: what the judge saw - for an image, a description of what was sent). |
 
 Trimmed example (one case, one run per arm, a with-only Skill indicator):

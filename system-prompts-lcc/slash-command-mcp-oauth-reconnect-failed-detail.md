@@ -1,10 +1,12 @@
 <!--
-name: MCP OAuth reconnect failed with detail
-description: 'Message when reconnect after new credentials fails, with detail.'
-ccVersion: 2.1.296
+name: 'Slash Command: /mcp — OAuth reconnect failed with detail'
+description: >-
+  Result after MCP OAuth got new credentials but reconnect failed, with the
+  failure detail appended.
+ccVersion: 2.1.328
 variables:
   - SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_DETAIL_VAR_0
   - SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_DETAIL_VAR_1
   - SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_DETAIL_VAR_2
 -->
-Got new credentials, but reconnecting to ${SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_DETAIL_VAR_0(SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_DETAIL_VAR_1.name)} failed: ${SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_DETAIL_VAR_2}
+Got new credentials, but couldn't reconnect to ${SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_DETAIL_VAR_0(SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_DETAIL_VAR_1.name)}: ${SLASH_COMMAND_MCP_OAUTH_RECONNECT_FAILED_DETAIL_VAR_2}

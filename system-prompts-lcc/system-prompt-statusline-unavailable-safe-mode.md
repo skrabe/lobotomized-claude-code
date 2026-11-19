@@ -3,7 +3,7 @@ name: 'System Prompt: /statusline unavailable in safe mode'
 description: >-
   statusline slash-command prompt returned in safe mode, instructing the model
   to inform the user without editing settings
-ccVersion: 2.1.299
+ccVersion: 2.1.328
 variables:
   - SYSTEM_PROMPT_STATUSLINE_UNAVAILABLE_SAFE_MODE_VAR_0
 -->

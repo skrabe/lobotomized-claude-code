@@ -1,12 +1,12 @@
 <!--
-name: /plugin options save failed
+name: 'Slash Command: /plugin options — couldn''t save options'
 description: >-
-  Plugin install/configure result when the plugin was installed but its options
-  could not be saved, optionally noting the plugin failed to load.
-ccVersion: 2.1.326
+  Options result when saving plugin options failed, with the error and an
+  optional couldn't-load suffix.
+ccVersion: 2.1.328
 variables:
   - SLASH_COMMAND_PLUGIN_OPTIONS_SAVE_FAILED_VAR_0
   - SLASH_COMMAND_PLUGIN_OPTIONS_SAVE_FAILED_VAR_1
   - SLASH_COMMAND_PLUGIN_OPTIONS_SAVE_FAILED_VAR_2
 -->
-${SLASH_COMMAND_PLUGIN_OPTIONS_SAVE_FAILED_VAR_0} but couldn't save config: ${SLASH_COMMAND_PLUGIN_OPTIONS_SAVE_FAILED_VAR_1}${SLASH_COMMAND_PLUGIN_OPTIONS_SAVE_FAILED_VAR_2?" The plugin couldn't be loaded — see /plugin for details.":""}
+${SLASH_COMMAND_PLUGIN_OPTIONS_SAVE_FAILED_VAR_0} but couldn't save options: ${SLASH_COMMAND_PLUGIN_OPTIONS_SAVE_FAILED_VAR_1}${SLASH_COMMAND_PLUGIN_OPTIONS_SAVE_FAILED_VAR_2?" The plugin couldn't load. See /plugin for details.":""}

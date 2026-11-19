@@ -1,0 +1,10 @@
+<!--
+name: 'Tool Result: REPL edit warning yours line'
+description: Line of the REPL edit() mismatch warning showing Claude's old_string excerpt
+ccVersion: 2.1.328
+variables:
+  - TOOL_RESULT_REPL_EDIT_WARNING_YOURS_LINE_VAR_0
+  - TOOL_RESULT_REPL_EDIT_WARNING_YOURS_LINE_VAR_1
+  - TOOL_RESULT_REPL_EDIT_WARNING_YOURS_LINE_VAR_2
+-->
+  yours: ${TOOL_RESULT_REPL_EDIT_WARNING_YOURS_LINE_VAR_0(TOOL_RESULT_REPL_EDIT_WARNING_YOURS_LINE_VAR_1,TOOL_RESULT_REPL_EDIT_WARNING_YOURS_LINE_VAR_2)}

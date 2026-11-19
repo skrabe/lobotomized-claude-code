@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Result: Bash Read Block Subshell'
-description: >-
-  Bash permission ask when a subshell prevents checking reads against the read
-  block.
-ccVersion: 2.1.296
+name: 'Tool Result: Bash read block subshell'
+description: Says a subshell cannot be checked against the read block
+ccVersion: 2.1.328
 -->
-a subshell cannot be checked against the read block
+A subshell cannot be checked against the read block

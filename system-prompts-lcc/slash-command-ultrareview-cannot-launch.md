@@ -1,11 +1,9 @@
 <!--
 name: 'Slash Command: /ultrareview cannot launch'
 description: >-
-  Reports that /ultrareview cannot launch, followed by the ineligibility
-  reasons.
-ccVersion: 2.1.322
-variables:
-  - SLASH_COMMAND_ULTRAREVIEW_CANNOT_LAUNCH_VAR_0
+  Prefix stating /ultrareview cannot launch; the ineligibility reasons follow it
+  in the same text block (also matched by startsWith in the CLI launch-failure
+  path).
+ccVersion: 2.1.328
 -->
 Ultrareview cannot launch:
-${SLASH_COMMAND_ULTRAREVIEW_CANNOT_LAUNCH_VAR_0}

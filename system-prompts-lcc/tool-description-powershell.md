@@ -4,11 +4,12 @@ description: >-
   Describes the PowerShell command execution tool with syntax guidance, timeout
   settings, and instructions to prefer specialized tools over PowerShell for
   file operations
-ccVersion: 2.1.326
+ccVersion: 2.1.328
 variables:
   - RENDER_POWERSHELL_EDITION_GUIDANCE_FN
   - POWERSHELL_EDITION
   - DETECTED_DEVELOPER_TOOLS_NOTE
+  - POWERSHELL_HELPER_NAMING_GUIDANCE
   - MAX_TIMEOUT_MS_FN
   - DEFAULT_TIMEOUT_MS_FN
   - MAX_OUTPUT_CHARS_FN
@@ -32,7 +33,7 @@ PowerShell Syntax Notes:
    - Escape character is backtick (\`), not backslash
    - Use Verb-Noun cmdlet naming: Get-ChildItem, Set-Location, New-Item, Remove-Item
    - Common aliases: ls (Get-ChildItem), cd (Set-Location), cat (Get-Content), rm (Remove-Item)
-   - Give helper functions a new Verb-Noun name such as Read-Doc, also in script files. A built-in alias (rd, rm, del, ri, sc, mv and others) runs instead of a function with the same name, with no warning.
+   - ${POWERSHELL_HELPER_NAMING_GUIDANCE}
    - Pipe operator | works similarly to bash but passes objects, not text
    - Use Select-Object, Where-Object, ForEach-Object for filtering and transformation
    - String interpolation: "Hello $name" or "Hello $($obj.Property)"
@@ -94,3 +95,4 @@ ${BACKGROUND_EXECUTION_NOTE?BACKGROUND_EXECUTION_NOTE+`
     - Prefer to create a new commit rather than amending an existing commit.
     - Before running destructive operations (e.g., git reset --hard, git push --force, git checkout --), consider whether there is a safer alternative that achieves the same goal. Only use destructive operations when they are truly the best approach.
     - Never skip hooks (--no-verify) or bypass signing (--no-gpg-sign, -c commit.gpgsign=false) unless the user has explicitly asked for it. If a hook fails, investigate and fix the underlying issue.
+    - Do not commit files that likely contain secrets (.env, credentials.json, .claude/settings.local.json, etc). Warn the user if they specifically request to commit those files.

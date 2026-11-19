@@ -1,10 +1,10 @@
 <!--
-name: 'ListAgents: cloud session active ago'
-description: Cloud session row field showing time since last activity.
-ccVersion: 2.1.296
+name: 'Tool result: ListAgents cloud session active ago'
+description: Row field showing how long ago a cloud or Remote Control session was active.
+ccVersion: 2.1.328
 variables:
   - TOOL_RESULT_LISTAGENTS_CLOUD_SESSION_ACTIVE_AGO_VAR_0
   - TOOL_RESULT_LISTAGENTS_CLOUD_SESSION_ACTIVE_AGO_VAR_1
   - TOOL_RESULT_LISTAGENTS_CLOUD_SESSION_ACTIVE_AGO_VAR_2
 -->
-active ${TOOL_RESULT_LISTAGENTS_CLOUD_SESSION_ACTIVE_AGO_VAR_0(TOOL_RESULT_LISTAGENTS_CLOUD_SESSION_ACTIVE_AGO_VAR_1-TOOL_RESULT_LISTAGENTS_CLOUD_SESSION_ACTIVE_AGO_VAR_2.lastActive)} ago
+active ${TOOL_RESULT_LISTAGENTS_CLOUD_SESSION_ACTIVE_AGO_VAR_0(TOOL_RESULT_LISTAGENTS_CLOUD_SESSION_ACTIVE_AGO_VAR_1.now()-TOOL_RESULT_LISTAGENTS_CLOUD_SESSION_ACTIVE_AGO_VAR_2.lastActive)} ago

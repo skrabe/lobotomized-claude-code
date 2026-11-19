@@ -1,0 +1,12 @@
+<!--
+name: 'Tool result: ListAgents desktop session started/active ago'
+description: >-
+  Row field showing how long ago a desktop or cloud session started or was
+  active.
+ccVersion: 2.1.328
+variables:
+  - TOOL_RESULT_LISTAGENTS_DESKTOP_SESSION_ACTIVE_AGO_VAR_0
+  - TOOL_RESULT_LISTAGENTS_DESKTOP_SESSION_ACTIVE_AGO_VAR_1
+  - TOOL_RESULT_LISTAGENTS_DESKTOP_SESSION_ACTIVE_AGO_VAR_2
+-->
+${TOOL_RESULT_LISTAGENTS_DESKTOP_SESSION_ACTIVE_AGO_VAR_0.cloud?"started":"active"} ${TOOL_RESULT_LISTAGENTS_DESKTOP_SESSION_ACTIVE_AGO_VAR_1(TOOL_RESULT_LISTAGENTS_DESKTOP_SESSION_ACTIVE_AGO_VAR_2.now()-TOOL_RESULT_LISTAGENTS_DESKTOP_SESSION_ACTIVE_AGO_VAR_0.lastActive)} ago

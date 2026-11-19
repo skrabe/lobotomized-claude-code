@@ -1,11 +1,11 @@
 <!--
-name: 'Slash Command: /plugin — installed, plugin could not be loaded'
+name: 'Slash Command: /plugin install — plugin couldn''t load'
 description: >-
-  Appended to a /plugin install result when the plugin failed to load after
-  install: the plugin couldn't be loaded, see /plugin.
-ccVersion: 2.1.325
+  Install result when the newly installed plugin failed to load, pointing to
+  /plugin for details.
+ccVersion: 2.1.328
 variables:
   - SLASH_COMMAND_PLUGIN_INSTALL_LOAD_FAILED_SEE_PLUGIN_VAR_0
   - SLASH_COMMAND_PLUGIN_INSTALL_LOAD_FAILED_SEE_PLUGIN_VAR_1
 -->
-${SLASH_COMMAND_PLUGIN_INSTALL_LOAD_FAILED_SEE_PLUGIN_VAR_0.message}${SLASH_COMMAND_PLUGIN_INSTALL_LOAD_FAILED_SEE_PLUGIN_VAR_1} The plugin couldn't be loaded — see /plugin for details.
+${SLASH_COMMAND_PLUGIN_INSTALL_LOAD_FAILED_SEE_PLUGIN_VAR_0.message}${SLASH_COMMAND_PLUGIN_INSTALL_LOAD_FAILED_SEE_PLUGIN_VAR_1} The plugin couldn't load. See /plugin for details.

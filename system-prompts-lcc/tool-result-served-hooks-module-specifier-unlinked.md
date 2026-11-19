@@ -1,0 +1,12 @@
+<!--
+name: 'Tool result: served hooks module import did not link'
+description: >-
+  Served plugin-load error when an import specifier of a hooks module file did
+  not link.
+ccVersion: 2.1.328
+variables:
+  - TOOL_RESULT_SERVED_HOOKS_MODULE_SPECIFIER_UNLINKED_VAR_0
+  - TOOL_RESULT_SERVED_HOOKS_MODULE_SPECIFIER_UNLINKED_VAR_1
+  - TOOL_RESULT_SERVED_HOOKS_MODULE_SPECIFIER_UNLINKED_VAR_2
+-->
+${TOOL_RESULT_SERVED_HOOKS_MODULE_SPECIFIER_UNLINKED_VAR_0.file}: ${TOOL_RESULT_SERVED_HOOKS_MODULE_SPECIFIER_UNLINKED_VAR_1(TOOL_RESULT_SERVED_HOOKS_MODULE_SPECIFIER_UNLINKED_VAR_2)} did not link

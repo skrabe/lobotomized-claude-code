@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: TaskCreate call once per task (subject only)'
+name: 'Tool Result: TaskCreate single task call once subject only'
 description: >-
-  Validation steer that tells the model to call TaskCreate once per task,
-  passing subject as a top-level string parameter
-ccVersion: 2.1.326
+  Validation steer telling the model to call TaskCreate once per task passing
+  only subject as a top-level string
+ccVersion: 2.1.328
 -->
-Call TaskCreate once per task, passing `subject` (a brief title) as a top-level string parameter.
+Call TaskCreate once per task, passing `subject` (a short title) as a top-level string parameter.

@@ -1,12 +1,13 @@
 <!--
-name: Design System File Cards Guidance
-description: >-
-  Explains how to read additional design system cards by their published file
-  paths.
-ccVersion: 2.1.294
+name: 'Tool Result: Artifact design system file cards guidance'
+description: Tells how to read a design system's unattached cards by path
+ccVersion: 2.1.328
 variables:
   - TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_0
   - TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_1
   - TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_2
+  - TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_3
+  - TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_4
+  - TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_5
 -->
-Its other cards are not attached: read one when you need it with ${TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_0('action "read_file"',()=>'action "read"')}, \`url\`: ${TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_1(TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_2)}, and a \`path\`: "api/tokens.md" (palette, type, fonts); "tokens.json" (exact token values); or, where the README's index is shown, a card it names, by its path there.
+Its other cards are not attached: read one when you need it with ${TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_0}, and a \`path\`: ${TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_1.map((TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_2)=>`"${TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_2.path}" (${TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_2.holds}); `).join("")}or, where the README's index is shown, a card it names, ${TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_3?'at "project/" followed by the path the index gives':"by its path there"}.${TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_4.length===0?"":` ${TOOL_RESULT_ARTIFACT_DESIGN_SYSTEM_FILE_CARDS_GUIDANCE_VAR_5}`}

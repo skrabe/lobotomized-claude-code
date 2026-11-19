@@ -1,0 +1,13 @@
+<!--
+name: 'Plugin URL refused: http or https only'
+description: >-
+  Error thrown to plugin code when a URL argument uses a scheme other than
+  http/https.
+ccVersion: 2.1.328
+variables:
+  - TOOL_RESULT_PLUGIN_URL_HTTP_OR_HTTPS_ONLY_VAR_0
+  - TOOL_RESULT_PLUGIN_URL_HTTP_OR_HTTPS_ONLY_VAR_1
+  - TOOL_RESULT_PLUGIN_URL_HTTP_OR_HTTPS_ONLY_VAR_2
+  - TOOL_RESULT_PLUGIN_URL_HTTP_OR_HTTPS_ONLY_VAR_3
+-->
+${TOOL_RESULT_PLUGIN_URL_HTTP_OR_HTTPS_ONLY_VAR_0}: ${TOOL_RESULT_PLUGIN_URL_HTTP_OR_HTTPS_ONLY_VAR_1}: ${TOOL_RESULT_PLUGIN_URL_HTTP_OR_HTTPS_ONLY_VAR_2(TOOL_RESULT_PLUGIN_URL_HTTP_OR_HTTPS_ONLY_VAR_3)} refused: http or https only

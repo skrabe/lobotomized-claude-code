@@ -1,10 +1,10 @@
 <!--
-name: 'Slash Command: /web-setup — add repo scope and retry'
+name: 'Slash Command: /web-setup — invalid token, add repo scope'
 description: >-
-  Tells the model the GitHub token was rejected with a server message and to add
-  the repo scope to the GitHub CLI login, then run /web-setup again.
-ccVersion: 2.1.273
+  Returned when GitHub rejected the token with a message; tells the model to add
+  the repo scope to the GitHub CLI sign-in and rerun /web-setup.
+ccVersion: 2.1.328
 variables:
   - SLASH_COMMAND_WEB_SETUP_INVALID_TOKEN_ADD_REPO_SCOPE_VAR_0
 -->
-${SLASH_COMMAND_WEB_SETUP_INVALID_TOKEN_ADD_REPO_SCOPE_VAR_0.message} Add the repo scope to your GitHub CLI login, then run /web-setup again.
+${SLASH_COMMAND_WEB_SETUP_INVALID_TOKEN_ADD_REPO_SCOPE_VAR_0.message} Add the repo scope to your GitHub CLI sign-in, then run /web-setup again.

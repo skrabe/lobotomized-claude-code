@@ -1,14 +1,15 @@
 <!--
 name: 'Tool Description: WebSearch'
 description: Tool description for web search functionality
-ccVersion: 2.1.295
+ccVersion: 2.1.328
 variables:
   - IS_WEBSEARCH_CITATIONS_ENABLED
+  - WEB_SEARCH_QUOTING_GUIDANCE_BLOCK
   - UNTRUSTED_SEARCH_RESULT_CONTENT_NOTE
   - CURRENT_MONTH_YEAR
 -->
 
-Searches the web for up-to-date information beyond Claude's knowledge cutoff. Returns search result information formatted as search result blocks${IS_WEBSEARCH_CITATIONS_ENABLED?"":", including links as markdown hyperlinks"}. Searches run automatically within a single API call.
+Searches the web for up-to-date information beyond Claude's knowledge cutoff. Returns search result information formatted as search result blocks${IS_WEBSEARCH_CITATIONS_ENABLED?"":", including links as markdown hyperlinks"}. Searches run automatically within a single API call.${WEB_SEARCH_QUOTING_GUIDANCE_BLOCK}
 
 ${IS_WEBSEARCH_CITATIONS_ENABLED?UNTRUSTED_SEARCH_RESULT_CONTENT_NOTE:"After answering, end your response with a `Sources:` section listing the relevant URLs you used as markdown hyperlinks (`[Title](URL)`)."}
 

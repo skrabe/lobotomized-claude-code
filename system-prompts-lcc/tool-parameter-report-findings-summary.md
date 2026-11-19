@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Parameter: ReportFindings finding summary'
-description: >-
-  Describe() for the per-finding summary field in the ReportFindings tool input
-  schema (one-sentence statement of the defect)
-ccVersion: 2.1.196
+name: 'Tool Parameter: Report findings summary'
+description: Describes the summary field of a reported finding as a statement of the defect
+ccVersion: 2.1.328
 -->
-One-sentence statement of the defect
+Statement of the defect

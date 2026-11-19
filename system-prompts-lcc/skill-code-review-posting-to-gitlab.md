@@ -3,11 +3,13 @@ name: 'Skill: Code Review Posting To GitLab'
 description: >-
   Code-review skill block telling the model how to post findings to a GitLab MR
   when --comment is set.
-ccVersion: 2.1.257
+ccVersion: 2.1.328
 variables:
   - SKILL_CODE_REVIEW_POSTING_TO_GITLAB_VAR_0
   - SKILL_CODE_REVIEW_POSTING_TO_GITLAB_VAR_1
   - SKILL_CODE_REVIEW_POSTING_TO_GITLAB_VAR_2
+  - SKILL_CODE_REVIEW_POSTING_TO_GITLAB_VAR_3
+  - SKILL_CODE_REVIEW_POSTING_TO_GITLAB_VAR_4
 -->
 
 
@@ -16,7 +18,7 @@ variables:
 The \`--comment\` flag was passed. After producing the findings list, if the
 review target is a GitLab merge request, post the findings as one general MR
 note via \`${`glab mr note${SKILL_CODE_REVIEW_POSTING_TO_GITLAB_VAR_0?` ${SKILL_CODE_REVIEW_POSTING_TO_GITLAB_VAR_0}`:""}${SKILL_CODE_REVIEW_POSTING_TO_GITLAB_VAR_1} -m "<body>"`}\`${SKILL_CODE_REVIEW_POSTING_TO_GITLAB_VAR_2?"":" from inside that project's checkout"}
-(every finding with its file:line, the issue, and the suggested fix). glab has no single verb for line-anchored
+(every finding with its file:line, the issue, and the suggested fix).${SKILL_CODE_REVIEW_POSTING_TO_GITLAB_VAR_3?` ${SKILL_CODE_REVIEW_POSTING_TO_GITLAB_VAR_4}`:""} glab has no single verb for line-anchored
 comments; those require \`glab api projects/:id/merge_requests/:iid/discussions\`,
 so post the general note unless the user asks for inline threads. If glab is
 not available in this session, print the findings instead. If the target is

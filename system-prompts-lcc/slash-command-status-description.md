@@ -3,6 +3,6 @@ name: 'Slash Command: /status description'
 description: >-
   Slash-command registration description; reaches the model through the
   Available commands listing of the claude-code-help skill.
-ccVersion: 2.1.326
+ccVersion: 2.1.328
 -->
-Show version, account, model, MCP servers and setup warnings
+Show version, account, model, MCP servers, and setup warnings

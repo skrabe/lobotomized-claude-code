@@ -1,12 +1,12 @@
 <!--
-name: 'Slash Command: /mcp — reconnect after auth failed, with reason'
+name: 'Slash Command: /mcp — claude.ai auth reconnect failed with detail'
 description: >-
-  Reports that the post-authentication reconnect failed and carries the
-  sanitized failure reason so the model can tell the user what went wrong.
-ccVersion: 2.1.251
+  Result after claude.ai MCP auth when reconnecting failed, with the failure
+  detail appended.
+ccVersion: 2.1.328
 variables:
   - SLASH_COMMAND_MCP_CLAUDEAI_AUTH_RECONNECT_FAILED_DETAIL_VAR_0
   - SLASH_COMMAND_MCP_CLAUDEAI_AUTH_RECONNECT_FAILED_DETAIL_VAR_1
   - SLASH_COMMAND_MCP_CLAUDEAI_AUTH_RECONNECT_FAILED_DETAIL_VAR_2
 -->
-Tried reconnecting to ${SLASH_COMMAND_MCP_CLAUDEAI_AUTH_RECONNECT_FAILED_DETAIL_VAR_0(SLASH_COMMAND_MCP_CLAUDEAI_AUTH_RECONNECT_FAILED_DETAIL_VAR_1.name)}, but the connection failed: ${SLASH_COMMAND_MCP_CLAUDEAI_AUTH_RECONNECT_FAILED_DETAIL_VAR_2}
+Couldn't reconnect to ${SLASH_COMMAND_MCP_CLAUDEAI_AUTH_RECONNECT_FAILED_DETAIL_VAR_0(SLASH_COMMAND_MCP_CLAUDEAI_AUTH_RECONNECT_FAILED_DETAIL_VAR_1.name)}: ${SLASH_COMMAND_MCP_CLAUDEAI_AUTH_RECONNECT_FAILED_DETAIL_VAR_2}

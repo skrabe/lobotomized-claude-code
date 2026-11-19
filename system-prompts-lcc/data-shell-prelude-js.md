@@ -1,7 +1,7 @@
 <!--
 name: 'Data: shell.prelude.js'
 description: Text asset shell.prelude.js that Claude Code loads by path from its bundle.
-ccVersion: 2.1.326
+ccVersion: 2.1.328
 -->
 // Generated from src/tools/EvalTool/env/shell.ts by bun scripts/generate-script-globals.ts: edit that file and run the script.
 'use strict';
@@ -46,7 +46,7 @@ const psQuote = (s) => {
 };
 const powershell = shellKind === 'powershell';
 const quote = powershell ? psQuote : posixQuote;
-const jsonCutNote = "\\n(json() parsed a text that is not all of the command's output. A line on stderr says what it read.)";
+const jsonCutNote = "\\n(json() parsed a text that is not all of the command's output. A line on this REPL call's stderr says more.)";
 const jsonStderrNote = "\\n(\`$\` captures a command's stdout and stderr as one stream, so \`.json()\` parses both. If the command also prints warnings to stderr, send them away first: \`\` $\`cmd " +
     (powershell ? '2>$null' : '2>/dev/null') +
     '\`.json() \`\`.)';
@@ -220,6 +220,9 @@ class ShellError extends BuiltinError {
         if (out.running !== undefined) {
             this.running = out.running;
         }
+        if (out.truncated) {
+            this.truncated = true;
+        }
     }
 }
 const stdoutOf = (out, reader, onCommand) => {
@@ -252,20 +255,38 @@ const parse = (text, whole) => {
 };
 const ABSENT_ADVICE = ".\\nFind out why first: an earlier script may have stopped before assigning the variable, or a field or regex group is missing. If the argument is optional, write \${x ?? []} to omit it or \${x ?? ''} for an empty one. Inside a word such as \${x}/build both leave /build, so check x instead.";
 const UNWRITTEN_RAW = 'an object with a raw field, but not a one-key {raw: ...} literal written in a script and unchanged since.\\nIt may be outside data, such as parsed JSON, where a string was expected, or a literal whose raw field was set again, so check the value first. \${x.raw} passes its text as one quoted argument. The {raw: ...} form is only for shell text that the script wrote itself: build that string first, then wrap it once.';
-const piece = (v) => {
+const NOT_ONE_WORD = "an array, in a place that seems to take one word: it continues a word, as after NAME= or a quote mark, or it follows a redirect such as > or <.\\nThe other items could run as the command or become its arguments. The value may be outside data, such as parsed JSON, where a string was expected, so check it first. With no quotes of your own around them, \${x} after a space passes one argument per item, \${x.join(' ')} passes one word, and \${x.map(s => 'dir/' + s)} puts a prefix on each item. For a file's text, use write() in place of a here-document.";
+const NO_TARGET = 'an empty array, so the redirect before it has no file or takes the next word.\\nCheck the value first.';
+const beforeWords = powershell
+    ? /(?:^|(?:^|[^\\x60])[ \\t\\n;&|(])(?:-[\\w.-]*=?)?(?:\\x60\\r?\\n)*$/
+    : /(?:^|(?:^|[^\\\\])[ \\t\\n;&|(])(?:-[\\w.-]*=?)?(?:\\\\\\n)*$/;
+const beforeTarget = powershell
+    ? /[<>](?:[ \\t]|\\x60\\r?\\n)*(?:-[\\w.-]*=?(?:\\x60\\r?\\n)*)?$/
+    : /(?:^|[^\\\\])(?:\\\\\\\\)*(?:<<-|[<>]&?[|!]?)(?:[ \\t]|\\\\\\n)*(?:-[\\w.-]*=?(?:\\\\\\n)*)?$/;
+const piece = (v, soFar) => {
     if (v === undefined || v === null) {
         return { why: v + ABSENT_ADVICE, path: '' };
     }
     if (typeof v === 'number' ||
         typeof v === 'bigint' ||
         typeof v === 'boolean') {
+        soFar.shape = '%';
         return BuiltinString(v);
     }
     if (isArray(v)) {
         const items = apply(arraySlice, v, []);
+        if (items.length !== 1 &&
+            apply(regExpExec, beforeTarget, [soFar.shape]) !== null) {
+            return { why: items.length > 1 ? NOT_ONE_WORD : NO_TARGET, path: '' };
+        }
+        if (items.length > 1 &&
+            apply(regExpExec, beforeWords, [soFar.shape]) === null) {
+            return { why: NOT_ONE_WORD, path: '' };
+        }
         let words = '';
         for (let i = 0; i < items.length; i++) {
-            const word = piece(items[i]);
+            soFar.shape += i === 0 ? '' : ' ';
+            const word = piece(items[i], soFar);
             if (typeof word !== 'string') {
                 return { why: word.why, path: '[' + i + ']' + word.path };
             }
@@ -274,14 +295,17 @@ const piece = (v) => {
         return words;
     }
     if (v instanceof ShellOutput) {
+        soFar.shape = '%';
         return quote(apply(replace, v.stdout, [/\\n$/, '']));
     }
     if (typeof v === 'object' && hasOwn(v, 'raw')) {
         const { raw } = v;
         if (typeof raw === 'string') {
+            soFar.shape += raw;
             return mayLeaveUnquoted(v) ? raw : { why: UNWRITTEN_RAW, path: '' };
         }
     }
+    soFar.shape = '%';
     return quote(v);
 };
 const lift = (s) => apply(replace, BuiltinString(s), [
@@ -307,8 +331,9 @@ const render = (strings, values) => {
     const raw = rawOf(strings);
     const text = (i) => raw === undefined ? BuiltinString(strings[i]) : lift(raw[i]);
     let cmd = text(0);
+    const soFar = { shape: cmd };
     for (let i = 0; i < values.length; i++) {
-        const word = piece(values[i]);
+        const word = piece(values[i], soFar);
         if (typeof word !== 'string') {
             let before = text(0);
             for (let j = 1; j <= i; j++) {
@@ -333,7 +358,9 @@ const render = (strings, values) => {
                 ') is ' +
                 word.why);
         }
-        cmd += word + text(i + 1);
+        const next = text(i + 1);
+        cmd += word + next;
+        soFar.shape += next;
     }
     return cmd;
 };

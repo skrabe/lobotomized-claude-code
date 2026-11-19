@@ -1,17 +1,19 @@
 <!--
-name: 'Skill: Code Review (low effort)'
+name: 'Agent Prompt: /code-review part 2 low effort mode'
 description: >-
-  Effort-tier prompt for low code review — single diff pass, no verify, up to 4
-  findings
-ccVersion: 2.1.288
+  Low-effort /code-review prompt that reads the diff once and returns up to four
+  hunk-visible runtime correctness findings
+ccVersion: 2.1.328
 variables:
-  - FORMAT_FINDINGS_LIMIT_LABEL_FN
-  - MAX_FINDINGS
-  - HAS_REPORT_FINDINGS_TOOL
-  - FORMAT_FINDINGS_LIMIT_PHRASE_FN
-  - REPORT_FINDINGS_TOOL_NAME
+  - SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0
+  - SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_1
+  - SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_2
+  - SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_3
+  - SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_4
+  - SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_5
+  - SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_6
 -->
-\`low effort → 1 diff pass → no verify → ${FORMAT_FINDINGS_LIMIT_LABEL_FN(MAX_FINDINGS)}\`
+\`low effort → 1 diff pass${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0?" (bugs)":""} → no verify → ${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_1(SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_2)}\`
 
 ## Turn 1 — read
 
@@ -27,20 +29,20 @@ No subagents, no full-file reads.
 Flag runtime-correctness bugs visible from the hunk alone: inverted/wrong
 condition, off-by-one, null/undefined deref where adjacent lines show the value
 can be absent, removed guard, falsy-zero check, missing \`await\`,
-wrong-variable copy-paste, error swallowed in a catch that should propagate.
+wrong-variable copy-paste, error swallowed in a catch that should propagate.${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0?"":`
 Also flag — still from the hunk alone — new code that duplicates an existing
-helper visible in the diff context, and dead code the diff leaves behind.
+helper visible in the diff context, and dead code the diff leaves behind.`}
 
 Do **not** flag style, naming, perf, missing tests, or anything outside the
 hunk.
 
-${HAS_REPORT_FINDINGS_TOOL?`Report ${FORMAT_FINDINGS_LIMIT_PHRASE_FN(MAX_FINDINGS)}, most-severe first, in one
-${REPORT_FINDINGS_TOOL_NAME} call with \`{level, findings}\` — each entry has
-\`file\`, \`line\`, \`summary\`, \`short_summary\` (≤60 characters), and
-\`failure_scenario\`. If nothing qualifies, call it with an empty findings
+${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_3?`Report ${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_4(SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_2)}, most-severe first, in one
+${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_5} call with \`{level, findings}\` — each entry has
+\`file\`, \`line\`, \`summary\`, \`short_summary\` (≤60 characters), ${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0?"`severity`, ":""}and
+\`failure_scenario\`.${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0?` Every entry's \`severity\` is one of ${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_6} End each \`summary\` with "Fix:" and the change to make, or what to check if you are not sure.`:""} If nothing qualifies, call it with an empty findings
 array. Do not also print the findings as text.
-`:`Output ${FORMAT_FINDINGS_LIMIT_PHRASE_FN(MAX_FINDINGS)}, most-severe first, one line each:
-\`path/to/file.ext:123 — what's wrong and the concrete failure\`. If nothing
+`:`Output ${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_4(SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_2)}, most-severe first, one line each:
+\`path/to/file.ext:123 — ${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0?"important|pre_existing|nit — ":""}what's wrong and the concrete failure${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0?". Fix: the change to make, or what to check if you are not sure":""}\`.${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0?` Every line carries one of those three words: ${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_6}`:""} If nothing
 qualifies, output exactly \`(none)\`. Do not call the
-${REPORT_FINDINGS_TOOL_NAME} tool even if it is available.
+${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_5} tool even if it is available.
 `}

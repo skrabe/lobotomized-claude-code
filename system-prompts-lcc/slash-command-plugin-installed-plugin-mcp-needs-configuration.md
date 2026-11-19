@@ -1,9 +1,8 @@
 <!--
-name: 'Slash Command: Plugin Installed Plugin MCP Needs Configuration'
+name: 'Slash Command: /plugin — bundled MCP server needs setup'
 description: >-
-  Note appended to a /plugin install result when the plugin is active but its
-  bundled MCP server needs configuration: select the plugin in the Installed tab
-  and choose Configure.
-ccVersion: 2.1.285
+  Suffix telling the model the installed plugin's bundled MCP server needs setup
+  via /plugin's Installed tab Configure before it starts.
+ccVersion: 2.1.328
 -->
- Its bundled MCP server needs configuration before it can start — select the plugin in /plugin's Installed tab and choose Configure.
+ Its bundled MCP server needs setup before it can start. Select the plugin in /plugin's Installed tab and choose Configure.

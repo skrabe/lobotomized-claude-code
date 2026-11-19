@@ -1,9 +1,7 @@
 <!--
-name: Artifact File List Empty
-description: >-
-  Tells the model a version has no separately listed published files, including
-  the single-page case.
-ccVersion: 2.1.280
+name: 'Tool result: artifact file list empty'
+description: File list result for an artifact version with no separately published files.
+ccVersion: 2.1.328
 variables:
   - TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_0
   - TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_1
@@ -11,5 +9,6 @@ variables:
   - TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_3
   - TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_4
   - TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_5
+  - TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_6
 -->
-${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_0(TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_1.foreign===!0&&TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_2!=="",TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_3(TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_1.outside_writer,TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_1.public_read))}Published files of ${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_4} (version ${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_1.ver})${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_5}: ${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_1.single_page===!0?"none — this version is a single page with no separately published files; read the page itself with its `url`":"none listed"}.${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_2}
+${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_0(TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_1.foreign===!0&&TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_2!=="",TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_3(TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_1.outside_writer,TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_1.public_read))}Published files of ${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_4} (version ${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_1.ver})${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_5}${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_6}: ${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_1.single_page===!0?"none — this version is a single page with no separately published files; read the page itself with its `url`":"none listed"}.${TOOL_RESULT_ARTIFACT_FILE_LIST_EMPTY_VAR_2}

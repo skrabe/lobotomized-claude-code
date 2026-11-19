@@ -1,0 +1,10 @@
+<!--
+name: 'Plugin ui.press: press not plain data'
+description: Rejection of a plugin ui.press whose press payload is not plain data.
+ccVersion: 2.1.328
+variables:
+  - TOOL_RESULT_PLUGIN_UI_PRESS_NOT_PLAIN_DATA_VAR_0
+  - TOOL_RESULT_PLUGIN_UI_PRESS_NOT_PLAIN_DATA_VAR_1
+  - TOOL_RESULT_PLUGIN_UI_PRESS_NOT_PLAIN_DATA_VAR_2
+-->
+ui.press: the press is not plain data: ${TOOL_RESULT_PLUGIN_UI_PRESS_NOT_PLAIN_DATA_VAR_0(TOOL_RESULT_PLUGIN_UI_PRESS_NOT_PLAIN_DATA_VAR_1,TOOL_RESULT_PLUGIN_UI_PRESS_NOT_PLAIN_DATA_VAR_2)}
