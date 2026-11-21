@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: App User Actively Typing'
+name: 'App action: user actively typing'
 description: >-
-  Reason-code text interpolated into app_* error tool_results when the user is
-  typing and the action was skipped.
-ccVersion: 2.1.246
+  Opening of refusal: user pressing keys/dragging; action NOT performed; wait a
+  moment.
+ccVersion: 2.1.330
 -->
-was NOT performed. Wait a moment and retry — a natural pause in 
+the user is pressing keys or holding a modifier key right now (or dragging a window), and a background action could combine with their input. The action was NOT performed. Wait a moment 

@@ -4,7 +4,7 @@ description: >-
   design-sync non-storybook (package) source-shape sub-skill (SKILL_FILES
   non-storybook/SKILL.md) that the main design-sync SKILL.md tells the model to
   Read.
-ccVersion: 2.1.296
+ccVersion: 2.1.330
 -->
 # Package source shape
 
@@ -73,7 +73,7 @@ In a monorepo, point \`--node-modules\` at the DS package's own \`node_modules\`
 
 \`@types/react\` is required for prop extraction - without it \`React.ComponentPropsWithoutRef<...>\` and similar utility types resolve to \`any\` and the emitted \`<Name>.d.ts\` loses inherited props (converter prints \`[DTS_REACT]\`).
 
-If building the monorepo is complex, \`npm install <your-pkg>@latest react react-dom\` into a scratch dir and pass \`--node-modules <scratch>/node_modules\` - uses your published dist with flattened deps.
+If building the monorepo is complex and the package is published, its published dist can stand in - with the user's yes, asked naming the package, the version (its \`package.json\`'s, or one they pick from \`npm view <your-pkg> versions\`) and the address \`npm view <your-pkg>@<version> dist.tarball\` prints at the repo root (so the repo's \`.npmrc\` applies); say plainly if that address is on the public npm registry, and with \`publishConfig.registry\` set it must be on that host. \`"private": true\` in its \`package.json\`, \`E404\` or no output: don't use this alternative, and don't install a package of that name from anywhere else. On their yes, in a scratch dir with its own \`package.json\` and a copy of the repo's \`.npmrc\` if any: \`npm install --ignore-scripts <your-pkg>@<version> react react-dom\`, then pass \`--node-modules <scratch>/node_modules\` - uses your published dist with flattened deps.
 
 ## What the converter emits
 
@@ -92,7 +92,7 @@ Per component, under \`components/<group>/<Name>/\`: \`<Name>.jsx\` (one-line re
 | Tag | Symptom | Fix |
 |---|---|---|
 | \`[NO_DIST]\` | \`entry <path> doesn't exist\` | The DS package isn't built. Run its build script (\`npm run build\` / \`turbo run build\`), or use the published-dist alternative above. |
-| \`[WORKSPACE_SIBLING]\` | \`Could not resolve "<sibling>"\` during bundle | A workspace sibling package isn't built. Build it (\`turbo build\`), or \`npm install\` the published versions into a scratch dir. |
+| \`[WORKSPACE_SIBLING]\` | \`Could not resolve "<sibling>"\` during bundle | A workspace sibling package isn't built. Build it (\`turbo build\`), or take the published-dist alternative above for them (one question can name them all). |
 | \`[PNPM_SELF_PROVISION]\` (environment, not a converter tag - recognize it from the install tool's output) | \`packageManager: pnpm@X\` tries to auto-install and fails | Corepack: set \`COREPACK_ENABLE_STRICT=0\` (use system pnpm). npm's own provisioning: \`npm_config_manage_package_manager_versions=false\`. Retry. |
 | \`[CONFIG]\` | \`<path>: <json error>\` | \`.design-sync/config.json\` is missing or malformed JSON. Fix the syntax. |
 | \`[ZERO_MATCH]\` | no components discovered | No PascalCase \`.d.ts\` exports and \`componentSrcMap\` empty. |
@@ -225,7 +225,7 @@ Which of the two paths applies was decided by the base skill §1 router (pinned-
 \`DesignSync(finalize_plan)\` with \`localDir: "./ds-bundle"\`.
 
 - **Writes - everything, always** (full re-verifies and re-syncs alike): \`writes: ["components/**", "tokens/**", "fonts/**", "_vendor/**", "_preview/**", "guidelines/**", "_ds_bundle.js", "_ds_bundle.css", "styles.css", "README.md", "_ds_sync.json", "_ds_needs_recompile"]\`. Re-uploading unchanged files is idempotent and cheap. An under-scoped writes list silently and permanently desyncs the project - full writes are the safe default.
-- **Deletes.** The field is required even when empty. Anchored re-syncs: verbatim from the diff - copy \`.sync-diff.json\`'s \`upload.deletePaths\` exactly (removed components and regrouped old paths); never hand-derive the list, never pass \`[]\` when the diff lists paths. No anchor (a re-adopted or recovered non-empty project being fully re-verified): the diff can't see the project's history, so review its \`list_files\` NOW - before \`finalize_plan\` - for files this build doesn't produce, and put those reviewed paths in the plan's \`deletes\` (a delete not named in the plan is rejected); \`[]\` only when that review found nothing.
+- **Deletes.** The field is required even when empty. Anchored re-syncs: verbatim from the diff - copy \`.sync-diff.json\`'s \`upload.deletePaths\` exactly (removed components and regrouped old paths); never hand-derive the list, never pass \`[]\` when the diff lists paths. No anchor (a re-adopted or recovered non-empty project being fully re-verified): the diff can't see the project's history, so review its \`list_files\` NOW - before \`finalize_plan\` - for files this build doesn't produce (by stored name: a listed \`guidelines/c-guide.md\` IS this build's \`guidelines/c#-guide.md\`; the \`DesignSync\` tool's description gives the rule), and put those reviewed paths in the plan's \`deletes\` (a delete not named in the plan is rejected); \`[]\` only when that review found nothing.
 - **Make the session's FINAL build a driver run** (the "Re-syncs are one command" block below). Every \`package-build.mjs\` run wipes \`.sync-diff.json\`; the driver's diff stage regenerates it, so \`deletePaths\` and \`upload.any\` describe the exact bytes you upload.
 - **\`upload.any === false\` -> skip the upload entirely** - the project already matches this build. (The handoff audit below still applies.)
 - **\`_ds_sync.json\` is the absolute final write** - after all content writes, all deletes, and the sentinel re-arm, in its own \`write_files\` call. It is the anchor that vouches for the rest: uploaded first, a mid-plan failure leaves it vouching for files the project doesn't have, and the next sync's diff would never repair them.
@@ -269,7 +269,7 @@ The converter does NOT emit the adherence config, the \`ds_manifest\`, a version
 
 **Scope**: React design systems. Both \`_ds_bundle.js\` and the previews render via React - a non-React DS has nothing for the claude.ai/design agent to build with.
 
-**To inspect**: \`npx serve ds-bundle\` and open any \`<Name>.html\`.
+**To inspect**: \`node .ds-sync/storybook/http-serve.mjs ./ds-bundle\` (it stays running) and open \`.review.html\` at the address it prints.
 
 ## Troubleshooting
 

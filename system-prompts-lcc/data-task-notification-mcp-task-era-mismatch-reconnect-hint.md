@@ -1,8 +1,8 @@
 <!--
-name: 'Data: MCP task era mismatch reconnect hint'
+name: 'Data: MCP task era-mismatch reconnect hint'
 description: >-
-  Interactive-only hint for a protocol-era mismatch that the user can reconnect
-  the server with /mcp
-ccVersion: 2.1.319
+  Task-notification hint for an era mismatch that the user can reconnect the
+  server with /mcp and Claude Code may also reconnect it
+ccVersion: 2.1.330
 -->
- Claude Code does not reconnect the server by itself; the user can, with /mcp.
+ The user can reconnect the server with /mcp; Claude Code may also reconnect it by itself.

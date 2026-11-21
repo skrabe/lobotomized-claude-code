@@ -1,8 +1,8 @@
 <!--
 name: Computer-use App Scroll Horizontal Unsupported Cont
 description: >-
-  Final fragment of the app_scroll horizontal-dx refusal, pointing at
-  display-scope scroll.
-ccVersion: 2.1.246
+  app_scroll refusal for horizontal scroll: only vertical (dy) is supported in
+  the background; scroll vertically and rely on auto-scroll.
+ccVersion: 2.1.330
 -->
-display-scope `scroll`, or scroll vertically and rely on the app's auto-scroll.
+app_scroll only supports vertical (dy). Horizontal scroll is not implemented for the background AX path. Scroll vertically and rely on the app's auto-scroll. 

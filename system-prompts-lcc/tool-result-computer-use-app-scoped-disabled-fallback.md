@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Result: Computer Use App-Scoped Disabled Fallback'
-description: >-
-  Tail of the feature_disabled tool_result telling the model to fall back to
-  display-scope screenshot/click/type tools.
-ccVersion: 2.1.246
+name: 'Tool result: app-scoped disabled fallback'
+description: Fragment pointing to full-screen tools after app_* tools are disabled.
+ccVersion: 2.1.330
 -->
-use the display-scope tools (screenshot, left_click, type, …); 
+use the full-screen tools (screenshot, left_click, type, …); 

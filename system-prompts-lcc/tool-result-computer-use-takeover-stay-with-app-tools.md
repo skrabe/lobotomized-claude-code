@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Computer-use takeover stay with app_* tools'
+name: 'Tool Result: Computer Use Stay With App Tools'
 description: >-
-  Closing fragment of the takeover_unavailable tool_result: stay on app_* tools
-  until full-screen control is approved.
-ccVersion: 2.1.246
+  Suffix appended to the takeover-card timeout result telling the model to keep
+  using the app_* tools on already-running granted apps meanwhile.
+ccVersion: 2.1.330
 -->
-session), the display-scope tools proceed. Until then, stay with the app_* tools for the granted background apps.
+ Meanwhile, stay with the app_* tools on already-running granted apps.

@@ -1,11 +1,9 @@
 <!--
-name: Computer Services menu grant boundary
-description: >-
-  Explanation that invoking another application would exceed the current app
-  grant.
-ccVersion: 2.1.296
+name: 'Computer use: exceeds grant'
+description: Tail of the app_menu refusal saying the items exceed the app grant.
+ccVersion: 2.1.330
 variables:
   - TOOL_RESULT_COMPUTER_APPLICATIONS_WHICH_EXCEEDS_GRANT_VAR_0
   - TOOL_RESULT_COMPUTER_APPLICATIONS_WHICH_EXCEEDS_GRANT_VAR_1
 -->
-applications, which exceeds the ${TOOL_RESULT_COMPUTER_APPLICATIONS_WHICH_EXCEEDS_GRANT_VAR_0(TOOL_RESULT_COMPUTER_APPLICATIONS_WHICH_EXCEEDS_GRANT_VAR_1)} grant.
+selection to other applications, which exceeds the ${TOOL_RESULT_COMPUTER_APPLICATIONS_WHICH_EXCEEDS_GRANT_VAR_0(TOOL_RESULT_COMPUTER_APPLICATIONS_WHICH_EXCEEDS_GRANT_VAR_1)} grant.

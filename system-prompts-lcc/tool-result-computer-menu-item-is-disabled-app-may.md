@@ -1,11 +1,9 @@
 <!--
-name: Computer disabled menu-item prefix
-description: >-
-  Prefix identifying a disabled menu item and introducing its possible
-  preconditions.
-ccVersion: 2.1.296
+name: 'Tool Result: Computer use menu item disabled (lead)'
+description: Lead of app_menu tool result when the menu item is disabled.
+ccVersion: 2.1.330
 variables:
   - TOOL_RESULT_COMPUTER_MENU_ITEM_IS_DISABLED_APP_MAY_VAR_0
   - TOOL_RESULT_COMPUTER_MENU_ITEM_IS_DISABLED_APP_MAY_VAR_1
 -->
-Menu item ${TOOL_RESULT_COMPUTER_MENU_ITEM_IS_DISABLED_APP_MAY_VAR_0.stringify(TOOL_RESULT_COMPUTER_MENU_ITEM_IS_DISABLED_APP_MAY_VAR_1)} is disabled — the app may 
+Menu item ${TOOL_RESULT_COMPUTER_MENU_ITEM_IS_DISABLED_APP_MAY_VAR_0(TOOL_RESULT_COMPUTER_MENU_ITEM_IS_DISABLED_APP_MAY_VAR_1)} is disabled — the app may 

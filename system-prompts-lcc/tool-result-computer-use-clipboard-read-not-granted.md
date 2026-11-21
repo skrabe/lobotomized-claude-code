@@ -1,6 +1,11 @@
 <!--
 name: Computer-use clipboard-read not granted
-description: Tool-result telling the model clipboard read is not granted.
-ccVersion: 2.1.206
+description: >-
+  Clipboard read/write refusal when the clipboardRead/clipboardWrite grant flag
+  is missing: request it via request_access.
+ccVersion: 2.1.330
+variables:
+  - TOOL_RESULT_COMPUTER_USE_CLIPBOARD_READ_NOT_GRANTED_VAR_0
+  - TOOL_RESULT_COMPUTER_USE_CLIPBOARD_READ_NOT_GRANTED_VAR_1
 -->
-Clipboard read is not granted. Request `clipboardRead` via request_access.
+Clipboard ${TOOL_RESULT_COMPUTER_USE_CLIPBOARD_READ_NOT_GRANTED_VAR_0} is not granted. Request \`${TOOL_RESULT_COMPUTER_USE_CLIPBOARD_READ_NOT_GRANTED_VAR_1}\` via request_access.

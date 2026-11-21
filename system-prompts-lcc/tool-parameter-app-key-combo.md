@@ -1,8 +1,6 @@
 <!--
 name: 'Tool Parameter: app_key combo'
-description: >-
-  inputSchema description of app_key's combo string listing the
-  background-supported keys.
-ccVersion: 2.1.246
+description: app_key combo parameter examples (macOS non-raw arm).
+ccVersion: 2.1.330
 -->
-e.g. "return", "escape", "backspace", "delete", "cmd+a".
+e.g. "return", "escape", "backspace", "delete", "cmd+a". 

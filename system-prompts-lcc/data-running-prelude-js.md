@@ -1,11 +1,11 @@
 <!--
 name: 'Data: running.prelude.js'
 description: Text asset running.prelude.js that Claude Code loads by path from its bundle.
-ccVersion: 2.1.318
+ccVersion: 2.1.330
 -->
 // Generated from src/tools/EvalTool/env/running.ts by bun scripts/generate-script-globals.ts: edit that file and run the script.
 'use strict';
-(list, abort, names) => {
+(list, abort, names, hasTool) => {
 function running() {
     return list().map(e => Object.freeze({
         id: e.id,
@@ -32,19 +32,19 @@ const tools = new Proxy(Object.create(null), {
         if (typeof key !== 'string') {
             return undefined;
         }
-        const fn = names().includes(key)
+        const fn = hasTool(key)
             ? globalThis[key]
             : undefined;
         return typeof fn === 'function' ? fn : undefined;
     },
     has(_, key) {
-        return key === 'list' || (typeof key === 'string' && names().includes(key));
+        return key === 'list' || (typeof key === 'string' && hasTool(key));
     },
     ownKeys() {
         return ['list', ...names()];
     },
     getOwnPropertyDescriptor(_, key) {
-        if (key !== 'list' && !(typeof key === 'string' && names().includes(key))) {
+        if (key !== 'list' && !(typeof key === 'string' && hasTool(key))) {
             return undefined;
         }
         return {

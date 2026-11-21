@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Description: App Key Background Shortcuts'
+name: 'Tool Description: app_key background shortcuts'
 description: >-
-  Fragment of the app_key tool description listing which shortcuts work in the
-  background versus requiring the menu bar.
-ccVersion: 2.1.246
+  app_key macOS arm: delete and cmd+a supported in the background; arbitrary
+  shortcuts are not.
+ccVersion: 2.1.330
 -->
-cmd+a are supported in the background — arbitrary ⌘-shortcuts 
+delete, and cmd+a are supported in the background — arbitrary 

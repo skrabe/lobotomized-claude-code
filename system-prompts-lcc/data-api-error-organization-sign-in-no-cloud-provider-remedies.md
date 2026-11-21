@@ -1,0 +1,8 @@
+<!--
+name: 'Data: Organization sign-in no cloud provider remedies'
+description: >-
+  Remedies for an organization sign-in that names no cloud provider: ask the
+  administrator, /login with a subscription account, or claude auth logout
+ccVersion: 2.1.330
+-->
+Ask your administrator to set up a cloud provider, then start Claude Code again. Or, in an interactive session, run /login and choose the account or organization that has your Claude subscription. That login replaces the organization sign-in. Then exit and start Claude Code again. Or, at your shell prompt, run `claude auth logout` to sign out of all accounts. Then start Claude Code and sign in with the account or organization that has your Claude subscription

@@ -1,8 +1,11 @@
 <!--
 name: Computer-Use App Action Screen Locked Accessibility Mid
 description: >-
-  Middle fragment of the locked-screen action refusal: macOS blocks window-level
-  Accessibility until unlocked.
-ccVersion: 2.1.246
+  Tail of the locked-screen action refusal (default arm): actions need the
+  screen unlocked — <platform reason>. Screenshot to observe; act once the user
+  returns.
+ccVersion: 2.1.330
+variables:
+  - TOOL_RESULT_COMPUTER_USE_APP_ACTION_SCREEN_LOCKED_ACCESSIBILITY_MID_VAR_0
 -->
-need the screen unlocked — macOS blocks window-level 
+need the screen unlocked — ${TOOL_RESULT_COMPUTER_USE_APP_ACTION_SCREEN_LOCKED_ACCESSIBILITY_MID_VAR_0}. Screenshot to observe; act once the user returns.

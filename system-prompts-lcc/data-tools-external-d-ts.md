@@ -1,7 +1,7 @@
 <!--
 name: 'Data: tools-external.d.ts'
 description: Text asset tools-external.d.ts that Claude Code loads by path from its bundle.
-ccVersion: 2.1.328
+ccVersion: 2.1.330
 -->
 // The inputs of the built-in tools this build has, from each tool's
 // input schema. Merges into ToolCallInput (BuiltinToolInputs) so
@@ -740,6 +740,10 @@ declare module 'claude-code' {
       prompt: string
       worktreePath?: string
       worktreeBranch?: string
+      inPlace?: {
+        vcs: string
+        branch?: string
+      }
       canContinueAgent?: boolean
       taskCalls?: Array<{
         name: "TaskCreate" | "TaskUpdate"
@@ -819,6 +823,7 @@ declare module 'claude-code' {
       instructions_chars?: number
       instructions_clipped?: boolean
       instructions_unavailable?: string
+      viewer_note?: string
       init_references?: {
         docs: {
           path: string
@@ -983,6 +988,7 @@ declare module 'claude-code' {
         type_url: string
         description?: string
         tier?: string
+        third_party?: boolean
       }[]
       query?: string
       more?: boolean
@@ -995,6 +1001,7 @@ declare module 'claude-code' {
         type_url: string
         description?: string
         tier?: string
+        third_party?: boolean
         release?: string
         files: string[]
         files_omitted?: number
@@ -1003,6 +1010,7 @@ declare module 'claude-code' {
         instructions_chars?: number
         instructions_clipped?: boolean
         instructions_unavailable?: string
+        viewer_note?: string
         capabilities: string[]
         creatable?: boolean
       }
@@ -1051,6 +1059,7 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         match_of?: number
         ask_first?: boolean
@@ -1059,6 +1068,7 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }[]
         types_more?: boolean
         dashboard_type?: {
@@ -1066,18 +1076,21 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         motion_type?: {
           title: string
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         whiteboard_type?: {
           title: string
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         types_unavailable?: boolean
         types_ruled?: boolean
@@ -1699,6 +1712,7 @@ declare module 'claude-code' {
       instructions_chars?: number
       instructions_clipped?: boolean
       instructions_unavailable?: string
+      viewer_note?: string
       init_references?: {
         docs: {
           path: string
@@ -1863,6 +1877,7 @@ declare module 'claude-code' {
         type_url: string
         description?: string
         tier?: string
+        third_party?: boolean
       }[]
       query?: string
       more?: boolean
@@ -1875,6 +1890,7 @@ declare module 'claude-code' {
         type_url: string
         description?: string
         tier?: string
+        third_party?: boolean
         release?: string
         files: string[]
         files_omitted?: number
@@ -1883,6 +1899,7 @@ declare module 'claude-code' {
         instructions_chars?: number
         instructions_clipped?: boolean
         instructions_unavailable?: string
+        viewer_note?: string
         capabilities: string[]
         creatable?: boolean
       }
@@ -1931,6 +1948,7 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         match_of?: number
         ask_first?: boolean
@@ -1939,6 +1957,7 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }[]
         types_more?: boolean
         dashboard_type?: {
@@ -1946,18 +1965,21 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         motion_type?: {
           title: string
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         whiteboard_type?: {
           title: string
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         types_unavailable?: boolean
         types_ruled?: boolean
@@ -2579,6 +2601,7 @@ declare module 'claude-code' {
       instructions_chars?: number
       instructions_clipped?: boolean
       instructions_unavailable?: string
+      viewer_note?: string
       init_references?: {
         docs: {
           path: string
@@ -2743,6 +2766,7 @@ declare module 'claude-code' {
         type_url: string
         description?: string
         tier?: string
+        third_party?: boolean
       }[]
       query?: string
       more?: boolean
@@ -2755,6 +2779,7 @@ declare module 'claude-code' {
         type_url: string
         description?: string
         tier?: string
+        third_party?: boolean
         release?: string
         files: string[]
         files_omitted?: number
@@ -2763,6 +2788,7 @@ declare module 'claude-code' {
         instructions_chars?: number
         instructions_clipped?: boolean
         instructions_unavailable?: string
+        viewer_note?: string
         capabilities: string[]
         creatable?: boolean
       }
@@ -2811,6 +2837,7 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         match_of?: number
         ask_first?: boolean
@@ -2819,6 +2846,7 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }[]
         types_more?: boolean
         dashboard_type?: {
@@ -2826,18 +2854,21 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         motion_type?: {
           title: string
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         whiteboard_type?: {
           title: string
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         types_unavailable?: boolean
         types_ruled?: boolean
@@ -3459,6 +3490,7 @@ declare module 'claude-code' {
       instructions_chars?: number
       instructions_clipped?: boolean
       instructions_unavailable?: string
+      viewer_note?: string
       init_references?: {
         docs: {
           path: string
@@ -3623,6 +3655,7 @@ declare module 'claude-code' {
         type_url: string
         description?: string
         tier?: string
+        third_party?: boolean
       }[]
       query?: string
       more?: boolean
@@ -3635,6 +3668,7 @@ declare module 'claude-code' {
         type_url: string
         description?: string
         tier?: string
+        third_party?: boolean
         release?: string
         files: string[]
         files_omitted?: number
@@ -3643,6 +3677,7 @@ declare module 'claude-code' {
         instructions_chars?: number
         instructions_clipped?: boolean
         instructions_unavailable?: string
+        viewer_note?: string
         capabilities: string[]
         creatable?: boolean
       }
@@ -3691,6 +3726,7 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         match_of?: number
         ask_first?: boolean
@@ -3699,6 +3735,7 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }[]
         types_more?: boolean
         dashboard_type?: {
@@ -3706,18 +3743,21 @@ declare module 'claude-code' {
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         motion_type?: {
           title: string
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         whiteboard_type?: {
           title: string
           type_url: string
           description?: string
           tier?: string
+          third_party?: boolean
         }
         types_unavailable?: boolean
         types_ruled?: boolean
@@ -4406,6 +4446,12 @@ declare module 'claude-code' {
       recurring: boolean
       durable?: boolean
       nextFireAt?: number
+      maxAgeMs?: number
+      otherOneShots?: {
+        id: string
+        humanSchedule: string
+        prompt: string
+      }[]
     }
     CronDelete: {
       id: string
@@ -4442,6 +4488,8 @@ declare module 'claude-code' {
       isOwned?: boolean
       canEdit?: boolean
       moveState?: "moving" | "moved"
+      movedTo?: string
+      movedToHeldBy?: "you" | "owner" | "someone_else"
     } | {
       method: "list_files"
       notice?: string
@@ -4553,6 +4601,7 @@ declare module 'claude-code' {
       restoredCwd?: string
       originalCwdMissing?: boolean
       message: string
+      releaseNote?: string
       sandboxNote?: string
     }
     FetchInboxMessage: {
@@ -4801,6 +4850,7 @@ declare module 'claude-code' {
         at: string
         fields: {}
       } | null>
+      rows?: Array<string | null>
     }
     PowerShell: {
       stdout: string
@@ -5093,6 +5143,7 @@ declare module 'claude-code' {
         presents_as?: string | null
         installation_preference?: string | null
       }>
+      note?: string
     }
     SearchSkills: {
       results: Array<{
@@ -5104,6 +5155,7 @@ declare module 'claude-code' {
         presents_as?: string | null
         installation_preference?: string | null
       }>
+      note?: string
     }
     self_hosted_runner_get_pool: {
       pool: {}
@@ -5503,6 +5555,7 @@ declare module 'claude-code' {
         at: string
         fields: {}
       } | null>
+      rows?: Array<string | null>
     }
   }
 }

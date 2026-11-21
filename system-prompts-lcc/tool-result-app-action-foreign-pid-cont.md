@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: App Action Foreign PID Continued'
+name: 'App action: foreign pid cont'
 description: >-
-  Continuation of the foreign_pid reason: drive the panel with display-scope
-  tools after app_release, or ask the user.
-ccVersion: 2.1.246
+  Continuation of system-panel refusal: window blocked; user must complete or
+  dismiss.
+ccVersion: 2.1.330
 -->
-is blocked while that panel is up, and it can't be driven from the background. Call app_release and use the display-scope tools to work the panel, or ask the user to complete or dismiss it
+is blocked while that panel is up, and it can't be driven from the background. It has to be completed or dismissed by the user

@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Computer-use save-panel no tab/newline'
+name: 'Tool result: computer use save panel no control characters'
 description: >-
-  Error tool_result refusing tab/newline in typed text while a save sheet is
-  open, because Return would confirm the save.
-ccVersion: 2.1.246
+  Opening of the refusal for typed text with control characters while a save
+  sheet is open.
+ccVersion: 2.1.330
 -->
-Text may not contain tab or newline characters while a save sheet 
+Text may not contain tab, newline or other control characters while a save sheet 

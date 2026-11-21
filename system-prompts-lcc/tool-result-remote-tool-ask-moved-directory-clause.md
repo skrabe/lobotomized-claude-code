@@ -1,0 +1,12 @@
+<!--
+name: 'Tool Result: Remote tool ask moved directory clause'
+description: >-
+  Notes in the approval ask which folder a remote call moved to instead of the
+  working directory
+ccVersion: 2.1.330
+variables:
+  - TOOL_RESULT_REMOTE_TOOL_ASK_MOVED_DIRECTORY_CLAUSE_VAR_0
+  - TOOL_RESULT_REMOTE_TOOL_ASK_MOVED_DIRECTORY_CLAUSE_VAR_1
+  - TOOL_RESULT_REMOTE_TOOL_ASK_MOVED_DIRECTORY_CLAUSE_VAR_2
+-->
+${TOOL_RESULT_REMOTE_TOOL_ASK_MOVED_DIRECTORY_CLAUSE_VAR_0===""?"":`, not in ${TOOL_RESULT_REMOTE_TOOL_ASK_MOVED_DIRECTORY_CLAUSE_VAR_0} but`} in ${TOOL_RESULT_REMOTE_TOOL_ASK_MOVED_DIRECTORY_CLAUSE_VAR_1(TOOL_RESULT_REMOTE_TOOL_ASK_MOVED_DIRECTORY_CLAUSE_VAR_2.movedTo)}

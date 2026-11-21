@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Result: App Action Popup Menu Mid'
-description: >-
-  Middle of the popup_menu reason: opening the control would bring the app to
-  the front.
-ccVersion: 2.1.246
+name: 'App action: popup menu mid'
+description: Mid fragment of popup-menu refusal.
+ccVersion: 2.1.330
 -->
-toolbar action-gear menu) — opening it would bring the app to 
+toolbar action-gear menu) — opening it in the background would 

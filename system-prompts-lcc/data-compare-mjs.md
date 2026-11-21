@@ -3,7 +3,7 @@ name: 'Data: compare.mjs'
 description: >-
   design-sync skill script storybook/compare.mjs (capture harness), extracted
   with the skill for the model to run and read.
-ccVersion: 2.1.317
+ccVersion: 2.1.330
 -->
 #!/usr/bin/env node
 // Capture harness for matching self-contained previews (<Name>.html rendering
@@ -122,7 +122,7 @@ if (!comps.length) {
 let pw;
 try { pw = await import('playwright'); }
 catch {
-  console.error('[NO_CHROMIUM] compare requires playwright \\u2014 npm i playwright && npx playwright install chromium');
+  console.error('[NO_CHROMIUM] compare requires playwright \\u2014 install playwright and chromium in .ds-sync as the setup steps in SKILL.md say');
   process.exit(2);
 }
 

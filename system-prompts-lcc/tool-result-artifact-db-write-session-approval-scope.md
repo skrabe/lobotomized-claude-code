@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Artifact DB Session Approval Scope'
+name: 'Tool result: artifact DB write session approval scope'
 description: >-
-  Explains in the database-write permission message that approval covers
-  artifact database writes for the session.
-ccVersion: 2.1.228
+  Permission ask clause stating what approving covers for artifact database
+  writes this session.
+ccVersion: 2.1.330
 -->
-; approving covers database writes to any artifact for the rest of this session.
+; approving covers database writes this session to artifacts that aren't public or known to reach people outside your organization.

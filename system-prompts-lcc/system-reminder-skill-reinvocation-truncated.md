@@ -1,10 +1,12 @@
 <!--
-name: Skill re-invocation (truncated) note
+name: 'System reminder: skill re-invocation truncated'
 description: >-
-  Note injected into context when a skill is re-invoked after its previously
-  loaded copy was truncated by compaction.
-ccVersion: 2.1.206
+  Meta note on re-invoking a skill whose loaded copy compaction truncated; the
+  instructions follow (full or abbreviated).
+ccVersion: 2.1.330
 variables:
   - SYSTEM_REMINDER_SKILL_REINVOCATION_TRUNCATED_VAR_0
+  - SYSTEM_REMINDER_SKILL_REINVOCATION_TRUNCATED_VAR_1
+  - SYSTEM_REMINDER_SKILL_REINVOCATION_TRUNCATED_VAR_2
 -->
-(Re-invocation of /${SYSTEM_REMINDER_SKILL_REINVOCATION_TRUNCATED_VAR_0} — the previously loaded copy was truncated by compaction; the full instructions follow.)
+(Re-invocation of /${SYSTEM_REMINDER_SKILL_REINVOCATION_TRUNCATED_VAR_0} — the previously loaded copy was truncated by compaction; ${SYSTEM_REMINDER_SKILL_REINVOCATION_TRUNCATED_VAR_1.endsWith(SYSTEM_REMINDER_SKILL_REINVOCATION_TRUNCATED_VAR_2)?"the instructions follow, abbreviated":"the full instructions follow"}.)

@@ -1,10 +1,8 @@
 <!--
-name: Artifact Read Provenance Public Anyone
+name: 'Tool Result: Artifact read provenance public anyone'
 description: >-
-  Provenance arm stating a public artifact's author may be anyone on the
-  internet, not necessarily in the user's organization.
-ccVersion: 2.1.265
-variables:
-  - TOOL_RESULT_ARTIFACT_READ_PROVENANCE_PUBLIC_ANYONE_VAR_0
+  Provenance phrase saying a public artifact's author may be anyone on the
+  internet
+ccVersion: 2.1.330
 -->
-${TOOL_RESULT_ARTIFACT_READ_PROVENANCE_PUBLIC_ANYONE_VAR_0} of a public artifact whose author may be anyone on the internet, not necessarily anyone in the user's organization
+of a public artifact whose author may be anyone on the internet, not necessarily anyone in the user's organization

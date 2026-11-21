@@ -5,4 +5,4 @@ description: >-
   wait
 ccVersion: 2.1.178
 -->
-The user rejected this tool use (eg. for a file edit, the new_string was NOT written). Stop and wait for the user to say how to proceed.
+The user doesn't want to proceed with this tool use. The tool use was rejected (eg. if it was a file edit, the new_string was NOT written to the file). Stop and wait for the user to say how to proceed.

@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Computer Use Partial Delivery Unsupported'
+name: 'Tool result: partial delivery before refusal'
 description: >-
-  Warns that part of a type already landed before an unsupported background
-  action, so the model must not retype the whole string.
-ccVersion: 2.1.246
+  Continuation of the unsupported-action partial-delivery note: characters were
+  already typed before this refusal; take a fresh screenshot.
+ccVersion: 2.1.330
 -->
- Part of the text was already typed before this refusal — take 
+were already typed before this refusal — take a fresh 

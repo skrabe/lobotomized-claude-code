@@ -4,7 +4,7 @@ description: >-
   design-sync skill script storybook/http-serve.mjs (localhost static file
   server shared by probe/compare/package-capture), extracted with the skill for
   the model to run and read.
-ccVersion: 2.1.328
+ccVersion: 2.1.330
 -->
 // Shared by probe.mjs, compare.mjs, and package-capture.mjs. Kept standalone
 // (node builtins only) so serving files never drags in the build toolchain
@@ -19,7 +19,7 @@ import { pathToFileURL } from 'node:url';
 
 // Without a charset, chromium decodes pages and the scripts they load as
 // windows-1252, so raw UTF-8 in a bundle turns into a SyntaxError.
-const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png' };
+const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml' };
 
 // Browsers send the host name from the address bar as Host. A site that points its own
 // domain at 127.0.0.1 (DNS rebinding) still sends its own domain, so only these names pass.

@@ -1,6 +1,8 @@
 <!--
-name: Computer-use no-workaround warning cont
-description: Continuation forbidding AppleScript/System Events to send input.
-ccVersion: 2.1.206
+name: 'Tool Result: no workaround 2'
+description: >-
+  Refusal suffix L tail: no automation or shell commands to send input to this
+  app.
+ccVersion: 2.1.330
 -->
-System Events, shell commands, or any other method to send clicks or keystrokes to this app.
+automation tools, shell commands, or any other method to send clicks or keystrokes to this app.

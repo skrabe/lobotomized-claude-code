@@ -1,0 +1,10 @@
+<!--
+name: 'Slash command: ultrareview usage credits remaining'
+description: Note of remaining usage credits versus typical review cost.
+ccVersion: 2.1.330
+variables:
+  - SLASH_COMMAND_ULTRAREVIEW_USAGE_CREDITS_REMAINING_NOTE_VAR_0
+  - SLASH_COMMAND_ULTRAREVIEW_USAGE_CREDITS_REMAINING_NOTE_VAR_1
+  - SLASH_COMMAND_ULTRAREVIEW_USAGE_CREDITS_REMAINING_NOTE_VAR_2
+-->
+${SLASH_COMMAND_ULTRAREVIEW_USAGE_CREDITS_REMAINING_NOTE_VAR_0(SLASH_COMMAND_ULTRAREVIEW_USAGE_CREDITS_REMAINING_NOTE_VAR_1,"USD")} of usage credits left. A review usually uses about ${SLASH_COMMAND_ULTRAREVIEW_USAGE_CREDITS_REMAINING_NOTE_VAR_2} and stops if credits run out.

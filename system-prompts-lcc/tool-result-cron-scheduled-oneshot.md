@@ -1,12 +1,11 @@
 <!--
-name: 'Tool Result: Cron scheduled one-shot'
-description: >-
-  Confirms a one-shot scheduled task, its schedule and that it auto-deletes
-  after firing
-ccVersion: 2.1.299
+name: 'Tool result: cron scheduled one-shot'
+description: CronCreate result for a scheduled one-shot task.
+ccVersion: 2.1.330
 variables:
   - TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_0
   - TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_1
   - TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_2
+  - TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_3
 -->
-Scheduled one-shot task ${TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_0.id} (${TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_0.humanSchedule}).${TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_1} ${TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_2}. It will fire once then auto-delete.
+Scheduled one-shot task ${TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_0.id} (${TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_0.humanSchedule}).${TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_1} ${TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_2}. It will fire once then auto-delete.${TOOL_RESULT_CRON_SCHEDULED_ONESHOT_VAR_3}

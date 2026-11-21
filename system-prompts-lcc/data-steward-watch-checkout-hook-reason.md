@@ -1,0 +1,14 @@
+<!--
+name: 'Data: Steward watch checkout hook reason'
+description: >-
+  Why a /steward watch is limited: a checkout settings file sets a hook that can
+  allow calls
+ccVersion: 2.1.330
+variables:
+  - DATA_STEWARD_WATCH_CHECKOUT_HOOK_REASON_VAR_0
+  - DATA_STEWARD_WATCH_CHECKOUT_HOOK_REASON_VAR_1
+  - DATA_STEWARD_WATCH_CHECKOUT_HOOK_REASON_VAR_2
+  - DATA_STEWARD_WATCH_CHECKOUT_HOOK_REASON_VAR_3
+  - DATA_STEWARD_WATCH_CHECKOUT_HOOK_REASON_VAR_4
+-->
+${DATA_STEWARD_WATCH_CHECKOUT_HOOK_REASON_VAR_0===void 0?"a settings file of this checkout":`this checkout's ${DATA_STEWARD_WATCH_CHECKOUT_HOOK_REASON_VAR_0.file}`} sets ${DATA_STEWARD_WATCH_CHECKOUT_HOOK_REASON_VAR_1}${DATA_STEWARD_WATCH_CHECKOUT_HOOK_REASON_VAR_2}. ${DATA_STEWARD_WATCH_CHECKOUT_HOOK_REASON_VAR_3}${DATA_STEWARD_WATCH_CHECKOUT_HOOK_REASON_VAR_4?", and a merge could change the file":""}

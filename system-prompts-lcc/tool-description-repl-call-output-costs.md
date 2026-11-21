@@ -1,0 +1,8 @@
+<!--
+name: 'Tool Description: REPL call output costs'
+description: >-
+  Explains REPL call cost is mainly the output kept in context and advises
+  printing less while still testing
+ccVersion: 2.1.330
+-->
+What a `REPL` call costs: mostly what it returns, which stays in your context for every later step. About 150 lines of output cost as much as one more call. So search first and print ranges of long files, summarise data files and logs inside the script (counts, shapes, the odd rows), and after an edit return the failing tests and `git diff --stat` unless you mean to review the diff. This is about how much you print, not how much you check: write and run tests as you otherwise would.

@@ -3,7 +3,7 @@ name: 'Skill: /design-sync Storybook source shape'
 description: >-
   design-sync skill reference shown when .storybook/ is found: the component
   list and story args come from storybook-static/index.json
-ccVersion: 2.1.317
+ccVersion: 2.1.330
 -->
 # Storybook source shape
 
@@ -23,7 +23,7 @@ Requires React 18+. Playwright + chromium are **required** for this shape (the c
    npx --no-install storybook build -c <storybookConfigDir> -o .design-sync/sb-reference
    \`\`\`
 
-   Run it from the directory whose \`package.json\` has the storybook devDependencies - usually the one containing \`.storybook/\`; monorepos often have several storybooks, so pick the one covering the package you're syncing. **Make \`-o\` the repo-root path** (e.g. \`-o "$(git rev-parse --show-toplevel)/.design-sync/sb-reference"\`): the converter and compare resolve \`.design-sync/\` from the repo root, so a cwd-relative \`-o\` in a subpackage puts the reference where nothing will find it. Use \`npx --no-install storybook build\` directly, **not** the repo's \`npm run build-storybook\` script (wrong output dir); \`--no-install\` stops npx from installing anything: it runs a storybook that is already installed, normally the repo's own, or ends in an error. If it stops because storybook is missing ("npx canceled due to missing packages"), you are in the wrong directory or the repo's dependencies are not installed: install those with the repo's own package manager, and never add \`--yes\` or install storybook by itself. Then check \`.design-sync/sb-reference/iframe.html\` exists and is >10KB - \`index.json\` alone can exist with a failed build.
+   Run it from the directory whose \`package.json\` has the storybook devDependencies - usually the one containing \`.storybook/\`; monorepos often have several storybooks, so pick the one covering the package you're syncing. **Make \`-o\` the repo-root path** (e.g. \`-o "$(git rev-parse --show-toplevel)/.design-sync/sb-reference"\`): the converter and compare resolve \`.design-sync/\` from the repo root, so a cwd-relative \`-o\` in a subpackage puts the reference where nothing will find it. Use \`npx --no-install storybook build\` directly, **not** the repo's \`npm run build-storybook\` script (wrong output dir); \`--no-install\` stops npx from installing anything: it runs a storybook that is already installed, normally the repo's own, or ends in an error. If it stops because storybook is missing ("npx canceled due to missing packages"), you are in the wrong directory, the repo's dependencies are not installed, or the repo has no \`storybook\` program in \`node_modules/.bin\` (Yarn PnP, some Storybook 6 repos). Install the dependencies with the repo's own package manager. In a Yarn PnP repo run \`yarn run -B storybook build -c ... -o ...\` (\`-B\` takes the program and not the repo's \`storybook\` script, which usually starts a dev server that never exits); Storybook 6 writes no \`index.json\`, which this shape needs, so there use the package shape. Never add \`--yes\` or install storybook by itself. Then check \`.design-sync/sb-reference/iframe.html\` exists and is >10KB - \`index.json\` alone can exist with a failed build.
 
    Long builds: background them **through your shell tool's background mode only** and wait for the completion notification. Never a bare \`&\` (untracked - the notification never comes), and never a \`pgrep -f '<script>'\` poll loop (it matches its own command line and spins to timeout). Headless / \`-p\` sessions: run long commands synchronously instead - there is no task-notification re-invocation there, so a backgrounded run is never resumed.
 
@@ -46,10 +46,10 @@ Requires React 18+. Playwright + chromium are **required** for this shape (the c
    \`\`\`bash
    mkdir -p .ds-sync && cp -r "<skill-base-dir>"/package-build.mjs "<skill-base-dir>"/package-validate.mjs "<skill-base-dir>"/resync.mjs "<skill-base-dir>"/lib "<skill-base-dir>"/storybook "<skill-base-dir>"/non-storybook .ds-sync/
    echo '{"name":"ds-sync-deps","private":true}' > .ds-sync/package.json
-   (cd .ds-sync && npm i esbuild ts-morph @types/react playwright && npx playwright install chromium)
+   (cd .ds-sync && npm i esbuild ts-morph @types/react playwright && npx --no-install playwright install chromium)
    \`\`\`
 
-   If chromium install fails, \`npx playwright install-deps chromium\` first; if the environment can't install chromium, set \`DS_CHROMIUM_PATH=<system-chromium>\`.
+   If chromium install fails, \`(cd .ds-sync && npx --no-install playwright install-deps chromium)\` first; if the environment can't install chromium, set \`DS_CHROMIUM_PATH=<system-chromium>\`.
 5. **Run the converter, validator, and compare** - synchronously, stopping at the first non-zero exit (compare only runs once build + validate are clean - §3). Large DSes (~100+ components) may need \`NODE_OPTIONS=--max-old-space-size=<MB>\` for the build; **never pipe the build through \`head\`/\`tail\`** (the pipeline masks the exit code - an OOM looks like success); redirect to a file and read it:
 
    \`\`\`bash
@@ -72,6 +72,7 @@ Fix \`[TAG]\` errors -> rebuild -> re-validate until both exit 0, **before** sta
 |---|---|---|
 | \`[SB_REFERENCE_MISSING]\` | compare can't find \`iframe.html\` | Build the reference (§2.2); set \`cfg.storybookStatic\`. |
 | \`[SB_BUILD_FAIL]\` | converter's own storybook build failed | You skipped §2.2 - build the reference yourself and set \`cfg.storybookStatic\` so the converter never needs to. |
+| \`[OVERRIDE_NPX]\` | the repo's fork of \`source-storybook.mjs\` has npx in a command | A warning; the run goes on. If the fork still builds the reference storybook through npx, bring \`installedStorybook()\` and the build step of \`resolveStorybook()\` over from \`.ds-sync/lib/source-storybook.mjs\`, and tell the user the fork changed. |
 | \`[ZERO_MATCH]\` (storybook flavor) | no story entries matched | Check the storybook config's \`stories\` glob; then \`titleMap\`. |
 | \`[TITLE_UNMAPPED]\` | N titles don't match an export | \`cfg.titleMap {<title-name>: <export-name>}\`. |
 | \`(preview: <Name> ... no story exports paired ...)\` | index story names couldn't be matched to module export keys (pairing tries the display name, then the story ID's tail) | the component shows the floor card; fix the pairing - usually an owned \`.tsx\` re-exporting the stories under matchable names. |
@@ -284,7 +285,7 @@ Which of the two paths applies was decided by the base skill §1 router (pinned-
 **Atomic path** (re-sync, or any non-empty target - it may be in active use, so it updates in one pass after everything is verified): everything below. Only after §4d and the conventions-header step (base SKILL.md). \`DesignSync(finalize_plan)\` with \`localDir: "./ds-bundle"\`.
 
 - **Writes - everything, always** (full re-verifies and re-syncs alike): \`writes: ["components/**", "tokens/**", "fonts/**", "_vendor/**", "_preview/**", "guidelines/**", "_ds_bundle.js", "_ds_bundle.css", "styles.css", "README.md", "_ds_sync.json", "_ds_needs_recompile"]\`. Re-uploading unchanged files is idempotent and cheap. An under-scoped writes list silently and permanently desyncs the project - full writes are the safe default.
-- **Deletes.** Anchored re-syncs: verbatim from the diff - copy \`.sync-diff.json\`'s \`upload.deletePaths\` exactly; never hand-derive the list, never pass \`[]\` when the diff lists paths. No anchor (a re-adopted or recovered non-empty project being fully re-verified): the diff can't see the project's history, so review its \`list_files\` NOW - before \`finalize_plan\` - for files this build doesn't produce, and put those reviewed paths in the plan's \`deletes\` (a delete not named in the plan is rejected).
+- **Deletes.** Anchored re-syncs: verbatim from the diff - copy \`.sync-diff.json\`'s \`upload.deletePaths\` exactly; never hand-derive the list, never pass \`[]\` when the diff lists paths. No anchor (a re-adopted or recovered non-empty project being fully re-verified): the diff can't see the project's history, so review its \`list_files\` NOW - before \`finalize_plan\` - for files this build doesn't produce (by stored name: a listed \`guidelines/c-guide.md\` IS this build's \`guidelines/c#-guide.md\`; the \`DesignSync\` tool's description gives the rule), and put those reviewed paths in the plan's \`deletes\` (a delete not named in the plan is rejected).
 - **The §4d closing receipt doubles as the upload's source of truth.** The session's FINAL build is already a §7 driver run (§4d); bare \`package-build.mjs\` runs wipe \`.sync-diff.json\`, and the driver's diff stage regenerates it, so \`deletePaths\` and \`upload.any\` describe the exact bytes you upload - one run is both the verification receipt and the upload manifest, with no separate full compare after it.
 - **\`upload.any === false\` -> skip the upload entirely** - the project already matches this build. (The handoff audit below still applies.)
 - **\`_ds_sync.json\` is the absolute final write** - after all content writes, all deletes, and the sentinel re-arm, in its own \`write_files\` call. Uploaded early, a mid-plan failure leaves the anchor vouching for files the project doesn't have, and deterministic rebuilds mean no later sync would repair them.

@@ -1,8 +1,10 @@
 <!--
-name: Computer user takeover remaining delay
+name: 'Computer use: backing off from re-acquiring'
 description: >-
-  Cooldown explanation preceding the remaining number of seconds after user
-  takeover.
-ccVersion: 2.1.296
+  Middle of the backoff refusal saying control will not be re-acquired for a
+  while.
+ccVersion: 2.1.330
+variables:
+  - TOOL_RESULT_COMPUTER_MOMENTS_AGO_BACKING_OFF_FROM_RE_VAR_0
 -->
-moments ago — backing off from re-acquiring it for another 
+${TOOL_RESULT_COMPUTER_MOMENTS_AGO_BACKING_OFF_FROM_RE_VAR_0} — backing off from re-acquiring it for another 

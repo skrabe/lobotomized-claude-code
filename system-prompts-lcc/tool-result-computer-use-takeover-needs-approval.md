@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Computer-use takeover needs approval'
+name: 'Tool Result: Computer Use Takeover Needs Approval'
 description: >-
-  Opening fragment of the takeover_unavailable tool_result: taking over the
-  screen needs approval and request_full_control must be called.
-ccVersion: 2.1.246
+  Computer-use tool result opening the joined refusal when a takeover needs the
+  user's approval and the call was not run, followed by app-scope tool hints.
+ccVersion: 2.1.330
 -->
-Taking over the screen needs your approval. Call 
+Taking over the screen needs the user's approval, so this call was not run.

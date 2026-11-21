@@ -1,8 +1,12 @@
 <!--
 name: Environment GitHub proxy other traffic
 description: >-
-  Clause that other traffic uses the same proxy and only git and gh trust its CA
-  bundle
-ccVersion: 2.1.310
+  Clause that other traffic uses the same proxy and that only git (and gh when
+  stood in) should be used for the governed GitHub hosts; other tools may be
+  refused there
+ccVersion: 2.1.330
+variables:
+  - SYSTEM_PROMPT_ENVIRONMENT_GITHUB_PROXY_OTHER_TRAFFIC_SAME_PROXY_VAR_0
+  - SYSTEM_PROMPT_ENVIRONMENT_GITHUB_PROXY_OTHER_TRAFFIC_SAME_PROXY_VAR_1
 -->
-other network traffic goes through the same proxy, and other tools that reach github.com there (curl, npm, or gh run with a GitHub token of its own) fail TLS verification: only git and gh trust that CA bundle.
+other network traffic goes through the same proxy. For the governed GitHub hosts (${SYSTEM_PROMPT_ENVIRONMENT_GITHUB_PROXY_OTHER_TRAFFIC_SAME_PROXY_VAR_0().join(", ")}), use only git${SYSTEM_PROMPT_ENVIRONMENT_GITHUB_PROXY_OTHER_TRAFFIC_SAME_PROXY_VAR_1?" and gh":""}; other tools may be refused there.

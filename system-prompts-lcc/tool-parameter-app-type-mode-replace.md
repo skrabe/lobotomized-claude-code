@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Parameter: App Type Mode Replace'
+name: 'Tool Parameter: app_type mode replace'
 description: >-
-  Trailing clause of app_type mode: replace selects-all then writes to overwrite
-  the field.
-ccVersion: 2.1.246
+  app_type mode parameter: replace overwrites the whole field; not for
+  Keynote-style canvas text boxes.
+ccVersion: 2.1.330
 -->
-when you need to overwrite the whole field rather than append.
+when you need to overwrite the whole field rather than append. Not for a text box on a Keynote-style canvas: there nothing gets selected first, so old text stays behind; select the box's text first as app_key describes, then insert.

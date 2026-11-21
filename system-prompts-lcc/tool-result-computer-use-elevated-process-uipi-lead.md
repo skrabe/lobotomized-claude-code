@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Result: Computer-Use Elevated Process UIPI Lead'
-description: >-
-  Opens the Windows UIPI parenthetical appended to an app-not-granted frontmost
-  tool result.
-ccVersion: 2.1.246
+name: 'Tool Result: elevated process UIPI lead'
+description: 'Windows refusal: elevated processes can''t be controlled (lead).'
+ccVersion: 2.1.330
 -->
- If this is an elevated process (Task Manager, a UAC prompt, or 
+ If this is an elevated process (Task Manager, a UAC prompt, or an installer running as administrator), it cannot be controlled 

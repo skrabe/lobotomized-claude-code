@@ -1,0 +1,6 @@
+<!--
+name: 'Tool Result: Claude in Chrome trusted devices note'
+description: Explains that trusted devices are required and what to tell the user
+ccVersion: 2.1.330
+-->
+The user's account or organization requires trusted devices, so Claude in Chrome can work in this chat only once it is linked to a computer, and a link may not be enough. The first time you tell the user that the chat isn't linked, add one sentence. For example: "Your account or organization requires trusted devices, so Claude in Chrome can't run in a chat that isn't linked to a computer."

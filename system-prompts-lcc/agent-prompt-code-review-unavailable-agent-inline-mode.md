@@ -4,14 +4,15 @@ description: >-
   Builds a single-pass inline code-review prompt that gathers a diff, evaluates
   configured angles, deduplicates findings, optionally sweeps gaps, and reports
   capped results when the Agent tool is unavailable
-ccVersion: 2.1.328
+ccVersion: 2.1.330
 variables:
   - REVIEW_MODE_TAG
   - REVIEW_LEAD_IN
   - AGENT_UNAVAILABLE_INSTRUCTIONS
+  - IS_BUGS_ONLY_REVIEW
+  - BUGS_ONLY_DIFF_GATHERING_PHASE
   - DIFF_GATHERING_PHASE
   - ANGLE_COUNT
-  - IS_BUGS_ONLY_REVIEW
   - FINDER_ANGLES_BLOCK
   - CONVENTIONS_CANDIDATES_NOTE_FN
   - CLEANUP_AND_ALTITUDE_CANDIDATES_NOTE
@@ -27,7 +28,7 @@ variables:
 ${REVIEW_LEAD_IN}
 
 ${AGENT_UNAVAILABLE_INSTRUCTIONS}
-${DIFF_GATHERING_PHASE}## Phase 1 — Find candidates (${ANGLE_COUNT} angles, single pass)
+${IS_BUGS_ONLY_REVIEW?BUGS_ONLY_DIFF_GATHERING_PHASE:DIFF_GATHERING_PHASE}## Phase 1 — Find candidates (${ANGLE_COUNT} angles, single pass)
 
 Work the ${ANGLE_COUNT} angles below in sequence. Each surfaces candidates with
 \`file\`, \`line\`, a ${IS_BUGS_ONLY_REVIEW?"short":"one-line"} \`summary\`, and a concrete \`failure_scenario\`.

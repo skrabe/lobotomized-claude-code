@@ -1,0 +1,8 @@
+<!--
+name: 'Cloud Sessions: Org Sign-In Needs claude.ai Login'
+description: >-
+  Error saying cloud sessions need a claude.ai login that isn't used under an
+  organization sign-in, with how to switch.
+ccVersion: 2.1.330
+-->
+Cloud sessions need a claude.ai login, and Claude Code does not use one under an organization sign-in. To use them, run /login in an interactive session and choose the account or organization that has your Claude subscription (individual, Team, or Enterprise). That login replaces the organization sign-in. Or run `claude auth logout` at your shell prompt, then start Claude Code and sign in.

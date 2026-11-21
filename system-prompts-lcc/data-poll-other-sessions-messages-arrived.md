@@ -1,9 +1,8 @@
 <!--
-name: 'Data: Poll Other-Sessions Messages Arrived Notice'
+name: 'Data: Poll other sessions messages arrived'
 description: >-
-  System-tagged meta user line placed before a synthetic Poll result, saying
-  messages from other sessions arrived as that result and are not a message from
-  the person.
-ccVersion: 2.1.288
+  System wrapper saying messages from other sessions or notifications arrived as
+  the result of a Poll call and are not from the person
+ccVersion: 2.1.330
 -->
-<system>One or more messages from other sessions arrived; they follow as the result of a Poll call. This is not a message from the person.</system>
+<system>One or more messages from other sessions, or notifications, arrived; they follow as the result of a Poll call. This is not a message from the person.</system>

@@ -1,11 +1,12 @@
 <!--
-name: 'Tool Result: Tool Only Available Inside Context'
+name: Tool Only Available Inside Context
 description: >-
-  No-such-tool error suffix: the tool is only available inside another context;
-  call it via that context's code API.
-ccVersion: 2.1.318
+  No-such-tool hint that a tool is only available inside the code tool, with
+  usage and an optional note that images/PDFs read are shown.
+ccVersion: 2.1.330
 variables:
   - TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_0
   - TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_1
+  - TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_2
 -->
-. ${TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_0} is only available inside ${TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_1}. Use ${TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_1} with code: await ${TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_0}({...}).
+. ${TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_0} is only available inside ${TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_1}. Use ${TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_1} with code: await ${TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_0}({...}).${TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_0===TOOL_DESCRIPTION_TOOL_ONLY_AVAILABLE_INSIDE_CONTEXT_VAR_2?" A picture or PDF that the code reads is shown to you with its result.":""}

@@ -1,8 +1,8 @@
 <!--
 name: 'Tool Parameter: Computer app_type mode'
 description: >-
-  app_type mode=replace description: select-all then write so the field is
-  cleared in one call.
-ccVersion: 2.1.246
+  Middle fragment of the app_type mode parameter (macOS arm) describing replace:
+  writes over all of the field's text in one call.
+ccVersion: 2.1.330
 -->
-selects all then writes, clearing the field in one call — use 
+writes over all of the field's text in one call — use 

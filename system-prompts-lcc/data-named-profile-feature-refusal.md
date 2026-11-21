@@ -1,0 +1,14 @@
+<!--
+name: 'Named Profile: Feature Refusal'
+description: >-
+  Template refusing a claude.ai-only feature (cloud sessions, remote control)
+  while ANTHROPIC_PROFILE is set, with needs/toUse slots.
+ccVersion: 2.1.330
+variables:
+  - DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_0
+  - DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_1
+  - DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_2
+  - DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_3
+  - DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_4
+-->
+${[`${DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_0}, so ${DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_1}`,...DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_2===void 0?DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_3:[`${DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_2.needs} a claude.ai sign-in, and a profile can't give one`,`${DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_2.toUse}, unset ANTHROPIC_PROFILE ${DATA_NAMED_PROFILE_FEATURE_REFUSAL_VAR_4}, then restart Claude Code`]].join(". ")}.

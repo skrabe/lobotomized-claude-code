@@ -1,0 +1,8 @@
+<!--
+name: 'Data: Steward watch checkout plugin remedy'
+description: >-
+  How to restore a /steward watch blocked by a plugin the checkout brings:
+  switch it off or remove it from the checkout settings
+ccVersion: 2.1.330
+-->
+To watch, switch this plugin off with /plugin (if you installed it for all projects, that switches it off in all of them), or take it and its marketplace out of the checkout's settings, or its folder out of the checkout. To keep a plugin that the checkout brought, install it yourself from outside any checkout, once its marketplace is out of the checkout's settings, and only if you have read it

@@ -1,7 +1,7 @@
 <!--
 name: 'Data: design'
 description: Text asset design that Claude Code loads by path from its bundle.
-ccVersion: 2.1.326
+ccVersion: 2.1.330
 -->
 # Design
 
@@ -52,7 +52,7 @@ A striking page that is thinner than a plain one loses. Cover everything asked, 
 
 Bold pages fail on collisions, dead space and stray edges, and one visible slip undoes the rest.
 
-- Draw charts and diagrams at real pixel size so they fill their box and text stays 14px everywhere: an svg in .fig, then draw=()=>{const W=s.clientWidth,H=s.clientHeight;s.innerHTML=...};new ResizeObserver(draw).observe(s). Scale marks to use all of W and H; if they can't, centre them or make the box shorter. When W<520 drop alternate ticks, shorten labels or turn the layout vertical. Scenes without text use a viewBox with preserveAspectRatio="xMidYMax slice", the subject near the middle so no crop loses it.
+- Draw charts and diagrams at real pixel size so they fill their box and text stays 14px everywhere: an svg in .fig, then draw=()=>{const W=s.clientWidth,H=s.clientHeight;s.innerHTML=...};const ro=new ResizeObserver(draw);ro.observe(s). Scale marks to use all of W and H; if they can't, centre them or make the box shorter. When W<520 drop alternate ticks, shorten labels or turn the layout vertical. Scenes without text use a viewBox with preserveAspectRatio="xMidYMax slice", the subject near the middle so no crop loses it.
 - Bars, meters, timelines and lists with values are simplest as HTML rows with a % width; keep SVG for curves, maps and networks.
 - Reserve margins for labels: values above bars, series names past the line's end, axis text below, round tick values. One annotation, in the chart's empty corner, with a short leader to its point. svg text{paint-order:stroke;stroke:var(--bg);stroke-width:4px}. Connectors stop at a node's edge and its label sits on a side no line uses; a block too small for its label is labelled outside. Anything wordier belongs in HTML beside the drawing. Text inside a shape must fit it at 390px.
 - Headlines and buttons get their own grid area, or a patch of plain sky; trees, figures and other tall things stand on the far side from the text. A shape that carries no information and isn't part of the picture is left out; none sits under text.
@@ -86,7 +86,7 @@ pre,.scroll{overflow-x:auto}
 @media(min-width:900px){.first{display:grid;min-height:min(100svh,920px)}}
 @media(max-width:600px){table{font-size:13px}th,td{padding:6px 4px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flex;justify-content:space-between;gap:12px}.stack td::before{content:attr(data-l)}}
 
-Start from those lines, keeping what the page needs. SVG takes var() in fill and stroke; canvas needs a resolved colour from getComputedStyle(el).color. A page that is one visual world (night scene, arcade screen, party poster) may fix one palette and its color-scheme. Write flat CSS, one rule per line and no nesting, with element selectors, grid, clamp(), color-mix(), short names; data in arrays rendered with map().join(''); a library only if it does real work. One script error blanks every graphic: wrap the script in { }, declare before use, write -(x**2), and keep fixed text in the HTML.
+Start from those lines, keeping what the page needs. SVG takes var() in fill and stroke; canvas needs a resolved colour from getComputedStyle(el).color. A page that is one visual world (night scene, arcade screen, party poster) may fix one palette and its color-scheme. Write flat CSS, one rule per line and no nesting, with element selectors, grid, clamp(), color-mix(), short names; data in arrays rendered with map().join(''); a library only if it does real work. One script error blanks every graphic: wrap the script in { }, declare before use, give every observer a name, write -(x**2), and keep fixed text in the HTML.
 
 ## When the subject has no look of its own
 

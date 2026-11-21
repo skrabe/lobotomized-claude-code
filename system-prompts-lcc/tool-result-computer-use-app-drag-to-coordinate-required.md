@@ -1,8 +1,6 @@
 <!--
-name: Computer-use App Drag To-Coordinate Required
-description: >-
-  app_drag bad_args tool_result requiring to_coordinate as [x, y] in window
-  space.
-ccVersion: 2.1.246
+name: 'Tool result: app_drag to_coordinate required'
+description: Error when app_drag to_coordinate is missing or malformed.
+ccVersion: 2.1.330
 -->
-app_drag requires `to_coordinate: [x, y]` in the same window coordinate space as `coordinate`.
+app_drag requires `to_coordinate: [x, y]` in the same window coordinate space as `coordinate`, or a `path`.

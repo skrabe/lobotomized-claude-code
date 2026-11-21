@@ -1,12 +1,15 @@
 <!--
-name: 'Tool Result: artifact type — Artifact type ……… (…).'
-description: 'Identity, optional tier and release header of an Artifact type description.'
-ccVersion: 2.1.296
+name: 'Tool result: artifact type header'
+description: >-
+  Header line of a describe-type result naming the type, its tier or third-party
+  mark, and release.
+ccVersion: 2.1.330
 variables:
   - TOOL_RESULT_ARTIFACT_TYPE_VAR_0
   - TOOL_RESULT_ARTIFACT_TYPE_VAR_1
   - TOOL_RESULT_ARTIFACT_TYPE_VAR_2
   - TOOL_RESULT_ARTIFACT_TYPE_VAR_3
   - TOOL_RESULT_ARTIFACT_TYPE_VAR_4
+  - TOOL_RESULT_ARTIFACT_TYPE_VAR_5
 -->
-Artifact type ${TOOL_RESULT_ARTIFACT_TYPE_VAR_0}${TOOL_RESULT_ARTIFACT_TYPE_VAR_1(TOOL_RESULT_ARTIFACT_TYPE_VAR_2.tier)?` [${TOOL_RESULT_ARTIFACT_TYPE_VAR_2.tier}]`:""}${typeof TOOL_RESULT_ARTIFACT_TYPE_VAR_2.release==="string"?`, release ${TOOL_RESULT_ARTIFACT_TYPE_VAR_3(TOOL_RESULT_ARTIFACT_TYPE_VAR_2.release)}`:""} (${TOOL_RESULT_ARTIFACT_TYPE_VAR_4}).
+Artifact type ${TOOL_RESULT_ARTIFACT_TYPE_VAR_0}${TOOL_RESULT_ARTIFACT_TYPE_VAR_1.third_party===!0?` ${TOOL_RESULT_ARTIFACT_TYPE_VAR_2}`:TOOL_RESULT_ARTIFACT_TYPE_VAR_3(TOOL_RESULT_ARTIFACT_TYPE_VAR_1.tier)?` [${TOOL_RESULT_ARTIFACT_TYPE_VAR_1.tier}]`:""}${typeof TOOL_RESULT_ARTIFACT_TYPE_VAR_1.release==="string"?`, release ${TOOL_RESULT_ARTIFACT_TYPE_VAR_4(TOOL_RESULT_ARTIFACT_TYPE_VAR_1.release)}`:""} (${TOOL_RESULT_ARTIFACT_TYPE_VAR_5}).

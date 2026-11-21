@@ -1,10 +1,13 @@
 <!--
-name: >-
-  Tool Result: bash exec — The Bash sandbox profile adds … filesystem deny paths
-  to eve
-description: Bash E2BIG diagnostic counts sandbox filesystem deny paths.
-ccVersion: 2.1.296
+name: 'Tool Result: Bash sandbox profile adds filesystem deny paths'
+description: >-
+  Explains in an E2BIG spawn failure that the Bash sandbox profile adds deny
+  paths to every command, with how to relax it
+ccVersion: 2.1.330
 variables:
   - TOOL_RESULT_BASH_SANDBOX_PROFILE_ADDS_FILESYSTEM_DENY_VAR_0
+  - TOOL_RESULT_BASH_SANDBOX_PROFILE_ADDS_FILESYSTEM_DENY_VAR_1
+  - TOOL_RESULT_BASH_SANDBOX_PROFILE_ADDS_FILESYSTEM_DENY_VAR_2
+  - TOOL_RESULT_BASH_SANDBOX_PROFILE_ADDS_FILESYSTEM_DENY_VAR_3
 -->
- The Bash sandbox profile adds ${TOOL_RESULT_BASH_SANDBOX_PROFILE_ADDS_FILESYSTEM_DENY_VAR_0.length} filesystem deny paths to every command
+${TOOL_RESULT_BASH_SANDBOX_PROFILE_ADDS_FILESYSTEM_DENY_VAR_0} The Bash sandbox profile adds ${TOOL_RESULT_BASH_SANDBOX_PROFILE_ADDS_FILESYSTEM_DENY_VAR_1.length} filesystem deny paths to every command${TOOL_RESULT_BASH_SANDBOX_PROFILE_ADDS_FILESYSTEM_DENY_VAR_2}.${TOOL_RESULT_BASH_SANDBOX_PROFILE_ADDS_FILESYSTEM_DENY_VAR_3}

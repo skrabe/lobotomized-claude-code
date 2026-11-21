@@ -1,0 +1,13 @@
+<!--
+name: 'Tool result: MCP connector upload, other files'' delivery unknown'
+description: >-
+  Connector file-upload error appended when other files were mid-send at refusal
+  and may have reached the connector.
+ccVersion: 2.1.330
+variables:
+  - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_0
+  - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_1
+  - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_2
+  - TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_3
+-->
+${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_0.error} It is not known whether ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_1.length} other ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_2(TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_1.length,"file")} (${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_1.map(TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_3).join(", ")}) reached the connector: ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_1.length===1?"it was":"they were"} being sent when the call stopped. Tell the user, and do not send ${TOOL_RESULT_MCP_CONNECTOR_UPLOAD_REFUSED_OTHERS_UNKNOWN_VAR_1.length===1?"it":"them"} again unless they ask.

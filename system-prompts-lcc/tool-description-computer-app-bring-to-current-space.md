@@ -1,8 +1,8 @@
 <!--
-name: Bring To Current Space Description
+name: 'Tool Description: Computer app_bring_to_current_space'
 description: >-
-  Opening description of app_bring_to_current_space for moving an off-Space
-  window onto the current desktop.
-ccVersion: 2.1.246
+  app_bring_to_current_space description: bring off-Space, minimized or hidden
+  window into current Space
+ccVersion: 2.1.330
 -->
-Bring one of this app's windows from another desktop Space onto the CURRENT Space, so you can act on it in the background. Use this when an action told you a window is off-Space and this app 
+Bring one of this app's windows from another desktop Space onto the CURRENT Space, out of the Dock when it is minimized, or back on screen when its app is hidden (all windows of that app then come back), so you can act on it in the background. Use this when an action told you a window is minimized or hidden, or that it is off-Space and this app 

@@ -1,11 +1,11 @@
 <!--
 name: 'Data: file.prelude.js'
 description: Text asset file.prelude.js that Claude Code loads by path from its bundle.
-ccVersion: 2.1.328
+ccVersion: 2.1.330
 -->
 // Generated from src/tools/EvalTool/env/file.ts by bun scripts/generate-script-globals.ts: edit that file and run the script.
 'use strict';
-(read, writeFile, editOnce, note, noteMiss) => {
+(read, writeFile, editOnce, note, noteMiss, wait) => {
 const BuiltinError = Error;
 const BuiltinString = String;
 const isArray = Array.isArray;
@@ -201,7 +201,7 @@ function file(path) {
     });
 }
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, +ms || 0));
+    return new Promise((resolve, reject) => wait(resolve, +ms || 0, () => reject(new BuiltinError("sleep() was cancelled: the script that started this code has returned, and the code it left behind can't wait. Await these steps inside one script."))));
 }
 return { edit, write, file, sleep }
 }

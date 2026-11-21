@@ -1,8 +1,6 @@
 <!--
-name: Computer-use no-workaround warning
-description: >-
-  Constant appended to permission errors warning the model not to bypass
-  restrictions.
-ccVersion: 2.1.206
+name: 'Tool Result: no workaround 1'
+description: 'Refusal suffix L: do not attempt to work around the restriction (lead).'
+ccVersion: 2.1.330
 -->
- Do not attempt to work around this restriction — never use AppleScript, 
+ Do not attempt to work around this restriction — never use scripting, 

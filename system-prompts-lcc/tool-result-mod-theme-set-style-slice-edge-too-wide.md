@@ -1,0 +1,10 @@
+<!--
+name: 'Mod theme.set: slice edge too wide'
+description: 'theme.set check refusal: a slice draws an edge over 48 points wide.'
+ccVersion: 2.1.330
+variables:
+  - TOOL_RESULT_MOD_THEME_SET_STYLE_SLICE_EDGE_TOO_WIDE_VAR_0
+  - TOOL_RESULT_MOD_THEME_SET_STYLE_SLICE_EDGE_TOO_WIDE_VAR_1
+  - TOOL_RESULT_MOD_THEME_SET_STYLE_SLICE_EDGE_TOO_WIDE_VAR_2
+-->
+${TOOL_RESULT_MOD_THEME_SET_STYLE_SLICE_EDGE_TOO_WIDE_VAR_0} draws an edge ${TOOL_RESULT_MOD_THEME_SET_STYLE_SLICE_EDGE_TOO_WIDE_VAR_1.ceil(TOOL_RESULT_MOD_THEME_SET_STYLE_SLICE_EDGE_TOO_WIDE_VAR_1.max(...TOOL_RESULT_MOD_THEME_SET_STYLE_SLICE_EDGE_TOO_WIDE_VAR_2))} points wide, and the most is 48

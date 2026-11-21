@@ -1,0 +1,9 @@
+<!--
+name: 'Computer use: screen locked (sleeping) tail'
+description: Tail of the sleeping-mode screen-locked refusal.
+ccVersion: 2.1.330
+variables:
+  - TOOL_RESULT_COMPUTER_USE_APP_ACTION_SCREEN_LOCKED_SLEEPING_TAIL_VAR_0
+  - TOOL_RESULT_COMPUTER_USE_APP_ACTION_SCREEN_LOCKED_SLEEPING_TAIL_VAR_1
+-->
+${TOOL_RESULT_COMPUTER_USE_APP_ACTION_SCREEN_LOCKED_SLEEPING_TAIL_VAR_0}. Act once the user returns. ${TOOL_RESULT_COMPUTER_USE_APP_ACTION_SCREEN_LOCKED_SLEEPING_TAIL_VAR_1}

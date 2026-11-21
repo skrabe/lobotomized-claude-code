@@ -1,16 +1,18 @@
 <!--
 name: 'Tool Description: ExitWorktree'
 description: 'Roughly, the reverse of the ExitWorktree'
-ccVersion: 2.1.326
+ccVersion: 2.1.330
+variables:
+  - IS_WORKING_COPY_BACKEND
 -->
-Exit a worktree session created by EnterWorktree this session and return to the original working directory. It operates only on worktrees EnterWorktree created in this session — not ones you made with \`git worktree add\`, ones from a previous session, or the current directory if EnterWorktree was never called. Called outside an EnterWorktree session it's a no-op: it reports no active worktree session and changes nothing.
+Exit a worktree session created by EnterWorktree this session and return to the original working directory. It operates only on worktrees EnterWorktree created in this session — not ones you made manually${IS_WORKING_COPY_BACKEND?"":" with `git worktree add`"}, ones from a previous session, or the current directory if EnterWorktree was never called. Called outside an EnterWorktree session it's a no-op: it reports no active worktree session and changes nothing.
 
 Call only when the user asks to exit/leave/end the worktree session; don't call it proactively.
 
 ## Parameters
 
-- \`action\` (required): \`"keep"\` leaves the worktree directory and branch intact (use to return later or preserve changes); \`"remove"\` deletes the worktree directory, and its branch too unless a hook made the worktree or git refuses the delete (use for a clean exit when work is done or abandoned).
-- \`discard_changes\` (optional, default false): only meaningful with \`action: "remove"\`. If the worktree has uncommitted files or commits not on the original branch, removal is refused unless this is \`true\`. When the tool returns an error listing changes, confirm with the user before re-invoking with \`discard_changes: true\`. The tool also refuses while a task may be running in the worktree: wait for the task, or ask the user before stopping it, then call the tool again, or use \`keep\`.
+- \`action\` (required): \`"keep"\` leaves the worktree directory ${IS_WORKING_COPY_BACKEND?"":"and branch "}intact (use to return later or preserve changes); \`"remove"\` deletes the worktree directory${IS_WORKING_COPY_BACKEND?", and its branch too where Claude Code made one":", and its branch too unless a hook made the worktree or git refuses the delete"} (use for a clean exit when work is done or abandoned).
+- \`discard_changes\` (optional, default false): only meaningful with \`action: "remove"\`. If the worktree has uncommitted files or ${IS_WORKING_COPY_BACKEND?"unpublished work, or its state is unknown":"commits not on the original branch"}, removal is refused unless this is \`true\`. When the tool returns an error listing changes, confirm with the user before re-invoking with \`discard_changes: true\`. The tool also refuses while a task may be running in the worktree: wait for the task, or ask the user before stopping it, then call the tool again, or use \`keep\`.
 
 ## Behavior
 

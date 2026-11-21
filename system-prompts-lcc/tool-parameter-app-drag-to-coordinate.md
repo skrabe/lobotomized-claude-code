@@ -1,8 +1,6 @@
 <!--
 name: 'Tool Parameter: app_drag to_coordinate'
-description: >-
-  inputSchema description of app_drag's to_coordinate endpoint, in the same
-  window-local space as coordinate.
-ccVersion: 2.1.246
+description: to_coordinate parameter for app_drag
+ccVersion: 2.1.330
 -->
-Drag endpoint, same coordinate space as `coordinate`.
+Drag endpoint, in the same coordinate space as `coordinate`. Give it together with `coordinate`, or use `path` instead.

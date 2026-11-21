@@ -3,13 +3,14 @@ name: 'Skill: Code Review (max / xhigh effort)'
 description: >-
   Effort-tier prompt for max and xhigh code review — 5 angles, up to 8
   candidates, recall-biased, up to 15 findings
-ccVersion: 2.1.328
+ccVersion: 2.1.330
 variables:
   - EFFORT_LEVEL
   - IS_BUGS_ONLY_REVIEW
   - FORMAT_FINDINGS_LIMIT_LABEL_FN
   - MAX_FINDINGS
-  - PHASE_0_GATHER_DIFF
+  - SKILL_CODE_REVIEW_EFFORT_MAX_5_VAR_4
+  - SKILL_CODE_REVIEW_EFFORT_MAX_5_VAR_5
   - AGENT_TOOL_NAME
   - AGENT_UNAVAILABLE_INSTRUCTIONS
   - BUGS_ONLY_FINDER_ANGLES_BLOCK
@@ -28,7 +29,7 @@ You are reviewing for **recall** at ${EFFORT_LEVEL==="max"?"maximum":"extra-high
 this level, catching real bugs matters more than avoiding false positives.
 Err on the side of surfacing.
 
-${PHASE_0_GATHER_DIFF}
+${IS_BUGS_ONLY_REVIEW?SKILL_CODE_REVIEW_EFFORT_MAX_5_VAR_4:SKILL_CODE_REVIEW_EFFORT_MAX_5_VAR_5}
 ## Phase 1 — Find candidates (5 correctness angles + ${IS_BUGS_ONLY_REVIEW?"":"3 cleanup angles + 1 altitude angle + "}1 conventions angle, up to 8 each)
 
 Run **${IS_BUGS_ONLY_REVIEW?6:10} independent finder angles** via the ${AGENT_TOOL_NAME} tool. Each

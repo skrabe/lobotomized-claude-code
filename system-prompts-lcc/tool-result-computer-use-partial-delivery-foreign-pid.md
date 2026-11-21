@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: Computer Use Partial Delivery Foreign Pid'
+name: 'Tool result: partial delivery before block'
 description: >-
-  Warns that part of a type already landed before a foreign-pid block, so the
-  model must not retype the whole string.
-ccVersion: 2.1.246
+  Continuation of the foreign-pid block partial-delivery note: characters were
+  already typed before the block; take a fresh screenshot.
+ccVersion: 2.1.330
 -->
- Part of the text was already typed before the block — take a 
+were already typed before the block — take a fresh app_screenshot 

@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Description: Computer Screenshot Use App-Star Variants Lead'
+name: 'Tool description: screenshot use app_* variants'
 description: >-
-  Opens the app-scoped suffix on the screenshot tool telling the model to use
-  app_* variants instead of taking over the screen.
-ccVersion: 2.1.246
+  Screenshot description suffix pointing to app_* background variants when
+  appScoped.
+ccVersion: 2.1.330
 -->
- To act on one application without taking over the screen, use the 
+ To act in granted applications without taking over the screen, use the app_* variants (app_screenshot, app_click, app_menu, etc.): they work in the background.

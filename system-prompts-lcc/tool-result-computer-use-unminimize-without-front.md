@@ -1,8 +1,8 @@
 <!--
 name: Computer-use Unminimize Without Front
 description: >-
-  open_application tool_result that a minimized window will un-minimize on first
-  app_click/app_type without coming to the front.
-ccVersion: 2.1.246
+  Tail of the open_application result for a running app whose window is
+  minimized/hidden: use app_list_windows for the window_id.
+ccVersion: 2.1.330
 -->
-app_click or app_type will un-minimize it without bringing it to the front. Use app_list_windows for the window_id.
+ Use app_list_windows for the window_id.

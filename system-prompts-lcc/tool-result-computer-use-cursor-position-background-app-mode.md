@@ -1,8 +1,9 @@
 <!--
 name: 'Tool Result: Computer Use Cursor Position Background App Mode'
 description: >-
-  Error tool result when cursor_position is requested while background app-mode
-  holds the lock.
-ccVersion: 2.1.246
+  cursor_position result note in background app-mode: x/y is where your last
+  app_* action landed in app_screenshot coordinates; the live cursor is only
+  reported under full-screen control.
+ccVersion: 2.1.330
 -->
-cursor_position reads the live host cursor and is not available in background app-mode. Use the last app_screenshot's coordinates instead.
+background app-mode: x/y is where your own last app_* action landed, in that window's app_screenshot coordinates (null: no click or typing at a point yet). The user's live cursor is not reported in this mode, only under full-screen control (request_full_control) while holding no app windows.

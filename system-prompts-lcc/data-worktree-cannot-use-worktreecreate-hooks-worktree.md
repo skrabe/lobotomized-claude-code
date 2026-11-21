@@ -1,10 +1,8 @@
 <!--
 name: 'Data: worktree create — Cannot use the WorktreeCreate hook''s worktree: …'
 description: >-
-  WorktreeCreate hook-path refusal reports dotted, symlink, or unverifiable
-  components.
-ccVersion: 2.1.296
-variables:
-  - DATA_WORKTREE_CANNOT_USE_WORKTREECREATE_HOOKS_WORKTREE_VAR_0
+  Prefix of the WorktreeCreate hook-path refusal (dotted path, symlink, or
+  unverifiable component); the component now follows in a prose-free template
+ccVersion: 2.1.330
 -->
-Cannot use the WorktreeCreate hook's worktree: ${DATA_WORKTREE_CANNOT_USE_WORKTREECREATE_HOOKS_WORKTREE_VAR_0.component} 
+Cannot use the WorktreeCreate hook's worktree

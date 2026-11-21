@@ -3,7 +3,7 @@ name: 'Agent Prompt: /code-review part 2 low effort mode'
 description: >-
   Low-effort /code-review prompt that reads the diff once and returns up to four
   hunk-visible runtime correctness findings
-ccVersion: 2.1.328
+ccVersion: 2.1.330
 variables:
   - SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0
   - SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_1
@@ -17,7 +17,7 @@ variables:
 
 ## Turn 1 — read
 
-One tool call: read the unified diff (\`git diff @{upstream}...HEAD; git diff HEAD\`
+One tool call: read the unified diff (\`git diff ${SKILL_CODE_REVIEW_EFFORT_LOW_2_VAR_0?"origin/HEAD":"@{upstream}"}...HEAD; git diff HEAD\`
 to cover both committed and uncommitted changes, or \`git diff main...HEAD\` /
 the target passed as an argument). Skip test/fixture
 hunks (\`test/\`, \`spec/\`, \`__tests__/\`, \`*_test.*\`, \`*.test.*\`,

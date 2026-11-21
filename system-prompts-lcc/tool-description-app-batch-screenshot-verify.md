@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Description: App Batch Screenshot Verify'
+name: 'Tool Description: app_batch screenshot verify'
 description: >-
-  app_batch description clause to include a screenshot action to verify and
-  re-anchor later coordinates.
-ccVersion: 2.1.246
+  app_batch description fragment: verify, Not confirmed stops batch, include
+  screenshot action
+ccVersion: 2.1.330
 -->
-to verify. Include {"action":"screenshot"} anywhere in the list to capture the 
+to verify. Typed text that comes back 'Not confirmed' DOES stop it. Include {"action":"screenshot"} anywhere in the list to capture the 

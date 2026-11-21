@@ -1,8 +1,9 @@
 <!--
 name: 'Tool Result: Computer Takeover Not Answered'
 description: >-
-  Tail of the isError tool_result when full-screen approval times out, telling
-  the model to retry or stay on granted app_* tools.
-ccVersion: 2.1.246
+  Fallback clause (Xn, when apps are granted) telling the model to stay with the
+  app_* tools for the granted background apps; spliced after "or"/"Instead," in
+  the full-screen approval timeout, declined and left-on-read results.
+ccVersion: 2.1.330
 -->
-or continue with the app_* tools for the granted background apps.
+stay with the app_* tools for the granted background apps

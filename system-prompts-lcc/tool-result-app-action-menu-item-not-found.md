@@ -1,8 +1,8 @@
 <!--
-name: 'Tool Result: App Action Menu Item Not Found'
+name: 'Tool result: app action menu item not found'
 description: >-
-  Reason-mapper text when the requested menu item was not found; suggests a
-  fresh screenshot or app_menu mode:'list'.
-ccVersion: 2.1.246
+  States the requested menu item was not found and suggests a fresh screenshot
+  or app_menu list.
+ccVersion: 2.1.330
 -->
-the requested menu item was not found. Take a fresh app_screenshot or use app_menu with mode:'list' to see the entries that exist
+the requested menu item was not found. Take a fresh app_screenshot or use app_menu's `list` to see the entries that exist

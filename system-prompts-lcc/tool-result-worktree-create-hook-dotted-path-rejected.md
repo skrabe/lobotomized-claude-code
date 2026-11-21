@@ -1,10 +1,9 @@
 <!--
-name: 'Tool Result: Worktree create — hook emitted a dotted path'
-description: >-
-  EnterWorktree error (head) when the WorktreeCreate hook returns a worktree
-  path containing dot segments the symlink screen cannot verify.
-ccVersion: 2.1.218
+name: 'Tool Result: Worktree create hook dotted path rejected'
+description: Rejects a hook worktree path containing dot segments
+ccVersion: 2.1.330
 variables:
   - TOOL_RESULT_WORKTREE_CREATE_HOOK_DOTTED_PATH_REJECTED_VAR_0
+  - TOOL_RESULT_WORKTREE_CREATE_HOOK_DOTTED_PATH_REJECTED_VAR_1
 -->
-Cannot use the WorktreeCreate hook's worktree: the hook emitted a path with dot segments (${TOOL_RESULT_WORKTREE_CREATE_HOOK_DOTTED_PATH_REJECTED_VAR_0.worktreePath}). The 
+${TOOL_RESULT_WORKTREE_CREATE_HOOK_DOTTED_PATH_REJECTED_VAR_0}: the hook emitted a path with dot segments (${TOOL_RESULT_WORKTREE_CREATE_HOOK_DOTTED_PATH_REJECTED_VAR_1}). The 

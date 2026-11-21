@@ -1,8 +1,6 @@
 <!--
-name: 'Tool Description: app_menu list-null Mode'
-description: >-
-  app_menu description fragment for list:null returning the top-level menu-bar
-  titles.
-ccVersion: 2.1.246
+name: 'Tool Description: app_menu list null'
+description: 'app_menu description fragment: list null returns top-level titles'
+ccVersion: 2.1.330
 -->
-list: null — return the top-level menu titles.
+too; list: null — return the top-level menu titles. Listed titles 
