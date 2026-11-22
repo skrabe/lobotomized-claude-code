@@ -1,0 +1,12 @@
+<!--
+name: 'Plugin hook error: …: $.…: value is not JSON data (…`})'
+description: >-
+  Rejection of a plugin's $-API call; when the mod's hook does not catch it, the
+  mod-under-development failure notice tells the model.
+ccVersion: 2.1.330
+variables:
+  - TOOL_RESULT_PLUGIN_STORE_VALUE_NOT_JSON_DATA_VAR_0
+  - TOOL_RESULT_PLUGIN_STORE_VALUE_NOT_JSON_DATA_VAR_1
+  - TOOL_RESULT_PLUGIN_STORE_VALUE_NOT_JSON_DATA_VAR_2
+-->
+${TOOL_RESULT_PLUGIN_STORE_VALUE_NOT_JSON_DATA_VAR_0}: $.${TOOL_RESULT_PLUGIN_STORE_VALUE_NOT_JSON_DATA_VAR_1}: value is not JSON data (${TOOL_RESULT_PLUGIN_STORE_VALUE_NOT_JSON_DATA_VAR_2===void 0?"undefined":`a ${typeof TOOL_RESULT_PLUGIN_STORE_VALUE_NOT_JSON_DATA_VAR_2}`})

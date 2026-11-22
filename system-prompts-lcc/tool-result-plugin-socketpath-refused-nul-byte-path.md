@@ -1,0 +1,13 @@
+<!--
+name: 'Plugin hook error: …: …: socketPath … refused: a NUL byte in the path'
+description: >-
+  Rejection of a plugin's $-API call; when the mod's hook does not catch it, the
+  mod-under-development failure notice tells the model.
+ccVersion: 2.1.330
+variables:
+  - TOOL_RESULT_PLUGIN_SOCKETPATH_REFUSED_NUL_BYTE_PATH_VAR_0
+  - TOOL_RESULT_PLUGIN_SOCKETPATH_REFUSED_NUL_BYTE_PATH_VAR_1
+  - TOOL_RESULT_PLUGIN_SOCKETPATH_REFUSED_NUL_BYTE_PATH_VAR_2
+  - TOOL_RESULT_PLUGIN_SOCKETPATH_REFUSED_NUL_BYTE_PATH_VAR_3
+-->
+${TOOL_RESULT_PLUGIN_SOCKETPATH_REFUSED_NUL_BYTE_PATH_VAR_0}: ${TOOL_RESULT_PLUGIN_SOCKETPATH_REFUSED_NUL_BYTE_PATH_VAR_1}: socketPath ${TOOL_RESULT_PLUGIN_SOCKETPATH_REFUSED_NUL_BYTE_PATH_VAR_2(TOOL_RESULT_PLUGIN_SOCKETPATH_REFUSED_NUL_BYTE_PATH_VAR_3)} refused: a NUL byte in the path
