@@ -3,7 +3,7 @@ name: 'Data: rm stand-in script'
 description: >-
   Shell stand-in for rm in hosted sessions whose refusal message reaches the
   model through Bash output.
-ccVersion: 2.1.330
+ccVersion: 2.1.331
 -->
 #!/bin/sh
 # Stand-in for rm, first on PATH in hosted sessions while its flag is served (src/utils/shell/rmGuard.ts).
@@ -19,12 +19,19 @@ is_system_folder() {
   case "$1" in
     /|/bin|/boot|/dev|/etc|/lib|/lib32|/lib64|/libx32|/nix|/nix/store|/opt|/proc|/run|/sbin|/srv|/sys|/usr|/var|/var/lib) return 0;;
     /usr/bin|/usr/sbin|/usr/lib|/usr/lib32|/usr/lib64|/usr/libexec|/usr/lib/x86_64-linux-gnu|/usr/lib/aarch64-linux-gnu) return 0;;
-    /usr/local|/usr/share|/usr/include|/usr/lib64/ld-linux-x86-64.so.2|/usr/lib/ld-linux-aarch64.so.1) return 0;;
+    /usr/local|/usr/share|/usr/include) return 0;;
+  esac
+  # Shells, libc and the loader, by exact name, with or without /usr: other files in these folders can be the user's own.
+  case "\${1#/usr}" in
+    /bin/sh|/bin/bash|/bin/dash) return 0;;
+    /lib/x86_64-linux-gnu/libc.so.6|/lib/aarch64-linux-gnu/libc.so.6|/lib64/libc.so.6) return 0;;
+    /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2|/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1) return 0;;
+    /lib64/ld-linux-x86-64.so.2|/lib64/ld-linux-aarch64.so.1|/lib/ld-linux-aarch64.so.1) return 0;;
   esac
   return 1
 }
 
-# Prints a rank from 0 (nothing to note) to 5 (the root); the case below names each. The worst operand decides.
+# Prints a rank from 0 (nothing to note) to 6; the case below names each. The worst operand decides.
 # A many_ rank means at least $many operands in a row directly inside that folder. This moves to each folder to resolve links, so it runs in a subshell.
 worst_rank() {
   worst=0
@@ -35,7 +42,8 @@ worst_rank() {
   run_parent=
   run=0
   here=
-  if cd -P . 2>/dev/null; then here=$PWD; fi
+  # In a deleted folder cd -P . still succeeds: dash and ash leave PWD empty, and bash sets it to a dot.
+  if cd -P . 2>/dev/null; then case "$PWD" in /*) here=$PWD;; esac; fi
   for a in "$@"; do
     if [ "$options_over" = 0 ]; then
       case "$a" in --) options_over=1; continue;; -?*) continue;; esac
@@ -43,7 +51,7 @@ worst_rank() {
     case "$a" in
       '') continue;;
       /*) p=$a;;
-      *) [ -n "$here" ] || continue; p=$here/$a;;
+      *) if [ -z "$here" ]; then note 6; continue; fi; p=$here/$a;;
     esac
     # bash keeps a leading // through cd and pwd, and it would match no name below.
     while :; do case "$p" in //*) p=\${p#/};; *) break;; esac; done
@@ -127,20 +135,26 @@ trap 'case $? in 2|254) trap - EXIT; run_next_rm "$@";; esac' EXIT
 rank=$(worst_rank "$@") 2>/dev/null
 check_status=$?
 trap - EXIT
-# A signal that ended only the subshell leaves $rank empty. In refuse mode that must not pass as a safe rm, so rm does not run; in log mode rm runs anyway.
-if [ "$refuse" = 1 ] && [ "$check_status" -gt 128 ]; then
-  printf '%s\\n' "This rm did not run, and nothing was removed: a signal stopped its safety check." >&2
-  exit "$check_status"
-fi
 
+tell='tell the user what you were trying to do.'
+next="Don't remove that another way: $tell"
 case "$rank" in
+  6)
+    reason=no_working_folder why="a relative path, and the working folder is gone or can't be reached"
+    next="To go on, name each path in full, starting with /. Don't remove these paths another way: $tell";;
   5) reason=root why='the root folder';;
   4) reason=many_root_entries why='many items directly inside the root folder';;
-  3) reason=system_folder why='a system folder or file';;
+  3)
+    reason=system_folder why='a system folder or file'
+    next="To remove files you or the user made, name only those in a new rm. Don't remove a system path another way: $tell";;
   2) reason=own_folder why="Claude Code's rm check, or a folder that holds it";;
-  1) reason=many_system_folder_entries why='many items directly inside a system folder';;
+  1)
+    reason=many_system_folder_entries why='many items directly inside a system folder'
+    next="If you or the user made these files, remove them in rm calls of fewer than $many each. Don't remove anything else, in batches or any other way: $tell";;
   *) reason=;;
 esac
+# A signal that ended only the subshell leaves $rank empty, which must not read as a safe rm.
+[ "$check_status" -le 128 ] || reason=check_stopped
 
 # Written before anything is removed: this rm may delete the words file, and the shell with it. Past a file-size limit the write would kill this shell.
 trap '' XFSZ
@@ -152,8 +166,13 @@ trap '' XFSZ
 } 2>/dev/null
 trap - XFSZ
 
+# A command such as xargs may have run other rm calls, so these messages must not claim that nothing at all was removed.
+if [ "$reason" = check_stopped ] && [ "$refuse" = 1 ]; then
+  printf '%s\\n' "This rm did not run, so none of its paths were removed: a signal stopped Claude Code's rm check. Try again, with fewer paths if that happens again." >&2
+  exit "$check_status"
+fi
 if [ -n "$reason" ] && [ "$refuse" = 1 ]; then
-  printf '%s\\n' "This rm did not run, and nothing was removed: it named $why. Don't delete that another way: tell the user what you were trying to do. To delete your own files, give paths inside your work folder." >&2
+  printf '%s\\n' "Only this rm was refused, and none of its paths were removed: it named $why. $next" >&2
   exit 1
 fi
 

@@ -1,0 +1,13 @@
+<!--
+name: 'Tool result: Bash rm guard added (named variable)'
+description: >-
+  Explains that Claude Code added a check to the rm so it does not run if the
+  named variable is empty or unset.
+ccVersion: 2.1.331
+variables:
+  - TOOL_RESULT_BASH_DANGEROUS_OP_RM_GUARD_ADDED_NAMED_VARIABLE_VAR_0
+  - TOOL_RESULT_BASH_DANGEROUS_OP_RM_GUARD_ADDED_NAMED_VARIABLE_VAR_1
+  - TOOL_RESULT_BASH_DANGEROUS_OP_RM_GUARD_ADDED_NAMED_VARIABLE_VAR_2
+  - TOOL_RESULT_BASH_DANGEROUS_OP_RM_GUARD_ADDED_NAMED_VARIABLE_VAR_3
+-->
+${TOOL_RESULT_BASH_DANGEROUS_OP_RM_GUARD_ADDED_NAMED_VARIABLE_VAR_0}. If ${TOOL_RESULT_BASH_DANGEROUS_OP_RM_GUARD_ADDED_NAMED_VARIABLE_VAR_1} holds a wrong path, even /, ${TOOL_RESULT_BASH_DANGEROUS_OP_RM_GUARD_ADDED_NAMED_VARIABLE_VAR_2}. Claude Code added a check to this rm, so if ${TOOL_RESULT_BASH_DANGEROUS_OP_RM_GUARD_ADDED_NAMED_VARIABLE_VAR_1} is empty or unset, this rm doesn't run and later steps may stop too.${TOOL_RESULT_BASH_DANGEROUS_OP_RM_GUARD_ADDED_NAMED_VARIABLE_VAR_3}

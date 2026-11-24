@@ -1,9 +1,9 @@
 <!--
 name: 'Tool result: REPL value truncated, still in REPL'
 description: >-
-  Truncation marker in REPL output saying only part of a value is shown and the
-  whole value remains under its key to slice or search.
-ccVersion: 2.1.318
+  Truncation marker in REPL output saying only part of a value is shown and to
+  slice or search the variable holding it instead of getting it again.
+ccVersion: 2.1.331
 variables:
   - TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_0
   - TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_1
@@ -13,5 +13,5 @@ variables:
   - TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_5
 -->
 ${TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_0(TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_1,TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_2)}
-... [${TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_3}: ${TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_4} of ${TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_1.length} chars shown. The whole value is still in the REPL under this key — slice or search it there; do not re-read or re-run it] ...
+... [${TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_3}: ${TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_4} of ${TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_1.length} chars shown. If a variable holds the whole value, slice or search it there instead of getting it again] ...
 ${TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_5(TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_1,TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_4-TOOL_RESULT_REPL_VALUE_TRUNCATED_STILL_IN_REPL_VAR_2)}

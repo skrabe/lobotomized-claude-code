@@ -1,9 +1,9 @@
 <!--
 name: 'System Reminder: Steward watch ended tool refused'
 description: >-
-  Refuses a tool call after the watch ended and tells Claude to report the pull
-  request state
-ccVersion: 2.1.330
+  Refuses a tool call after the watch ended and tells Claude to report where the
+  pull request or branch stands
+ccVersion: 2.1.331
 variables:
   - SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_0
   - SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_1
@@ -12,5 +12,6 @@ variables:
   - SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_4
   - SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_5
   - SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_6
+  - SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_7
 -->
-Claude Code did not run this: the watch of pull request #${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_0.pr} has ended${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_1.ranItsDays?` (its ${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_2} days are over)`:""}, so ${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_3?"it arms no more wake-ups":`nothing more runs until the user ${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_4()?"types /steward stop at the terminal":SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_5()?"types a line after this turn ends":`sends ${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_6(SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_0)}`}`}. Change nothing. Tell the user where the pull request stands, and that /steward starts a new watch.
+Claude Code did not run this: the watch of ${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_0(SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_1)} has ended${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_2.ranItsDays?` (its ${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_3} days are over)`:""}, so ${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_4?"it arms no more wake-ups":`nothing more runs until the user ${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_5()?"types /steward stop at the terminal":SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_6()?"types a line after this turn ends":`sends ${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_7(SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_1)}`}`}. Change nothing. Tell the user where ${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_1.forge==="git"?"the branch":"the pull request"} stands, and that /steward${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_1.forge==="git"?` ${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_1.baseRemote}/${SYSTEM_REMINDER_STEWARD_WATCH_ENDED_TOOL_REFUSED_VAR_1.baseBranch}`:""} starts a new watch.

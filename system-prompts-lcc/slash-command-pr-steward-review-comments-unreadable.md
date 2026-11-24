@@ -1,0 +1,10 @@
+<!--
+name: 'PR steward: review comments unreadable'
+description: 'Clause saying the host''s review comments can''t be read now, with the reason.'
+ccVersion: 2.1.331
+variables:
+  - SLASH_COMMAND_PR_STEWARD_REVIEW_COMMENTS_UNREADABLE_VAR_0
+  - SLASH_COMMAND_PR_STEWARD_REVIEW_COMMENTS_UNREADABLE_VAR_1
+  - SLASH_COMMAND_PR_STEWARD_REVIEW_COMMENTS_UNREADABLE_VAR_2
+-->
+its review comments on ${SLASH_COMMAND_PR_STEWARD_REVIEW_COMMENTS_UNREADABLE_VAR_0.host} can't be read now: ${SLASH_COMMAND_PR_STEWARD_REVIEW_COMMENTS_UNREADABLE_VAR_1(SLASH_COMMAND_PR_STEWARD_REVIEW_COMMENTS_UNREADABLE_VAR_2)}

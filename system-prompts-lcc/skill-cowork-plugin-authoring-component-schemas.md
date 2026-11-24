@@ -3,7 +3,7 @@ name: 'Skill: Cowork Plugin Authoring — Component Schemas'
 description: >-
   Cowork plugin-authoring reference: format specifications for every plugin
   component type (skills, commands, agents, MCP, hooks)
-ccVersion: 2.1.296
+ccVersion: 2.1.331
 -->
 # Component Schemas
 
@@ -184,7 +184,7 @@ Supported events: Stop, SubagentStop, UserPromptSubmit, PreToolUse.
 \`\`\`json
 {
   "type": "command",
-  "command": "bash \${CLAUDE_PLUGIN_ROOT}/hooks/scripts/validate.sh",
+  "command": "bash \\"\${CLAUDE_PLUGIN_ROOT}/hooks/scripts/validate.sh\\"",
   "timeout": 60
 }
 \`\`\`
@@ -211,7 +211,7 @@ Supported events: Stop, SubagentStop, UserPromptSubmit, PreToolUse.
       "hooks": [
         {
           "type": "command",
-          "command": "cat \${CLAUDE_PLUGIN_ROOT}/context/project-context.md",
+          "command": "cat \\"\${CLAUDE_PLUGIN_ROOT}/context/project-context.md\\"",
           "timeout": 10
         }
       ]

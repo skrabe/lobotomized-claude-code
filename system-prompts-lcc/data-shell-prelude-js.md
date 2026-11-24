@@ -1,11 +1,11 @@
 <!--
 name: 'Data: shell.prelude.js'
 description: Text asset shell.prelude.js that Claude Code loads by path from its bundle.
-ccVersion: 2.1.328
+ccVersion: 2.1.331
 -->
 // Generated from src/tools/EvalTool/env/shell.ts by bun scripts/generate-script-globals.ts: edit that file and run the script.
 'use strict';
-(rawSh, textKey, shellKind, notePartialOutput, mayLeaveUnquoted) => {
+(rawSh, textKey, shellKind, notePartialOutput, mayLeaveUnquoted, placeCheckIsOff) => {
 const PREVIEW_DEFAULT_CHARS = 200;
 const PREVIEW_SIZE_BYTES = 2000;
 const UNSANDBOXED_RETRY_TAG = '[retried outside the sandbox]';
@@ -73,7 +73,7 @@ const partialIds = new WeakMap();
 const BuiltinNumber = Number;
 const numberIsNaN = Number.isNaN;
 const { floor } = Math;
-const { lastIndexOf, trimStart, trimEnd } = String.prototype;
+const { indexOf, lastIndexOf, trimStart, trimEnd } = String.prototype;
 const savedEntryOf = (record) => {
     const saved = hasOwn(record, 'savedOutput') ? record.savedOutput : undefined;
     if (saved === null || typeof saved !== 'object') {
@@ -257,12 +257,238 @@ const ABSENT_ADVICE = ".\\nFind out why first: an earlier script may have stoppe
 const UNWRITTEN_RAW = 'an object with a raw field, but not a one-key {raw: ...} literal written in a script and unchanged since.\\nIt may be outside data, such as parsed JSON, where a string was expected, or a literal whose raw field was set again, so check the value first. \${x.raw} passes its text as one quoted argument. The {raw: ...} form is only for shell text that the script wrote itself: build that string first, then wrap it once.';
 const NOT_ONE_WORD = "an array, in a place that seems to take one word: it continues a word, as after NAME= or a quote mark, or it follows a redirect such as > or <.\\nThe other items could run as the command or become its arguments. The value may be outside data, such as parsed JSON, where a string was expected, so check it first. With no quotes of your own around them, \${x} after a space passes one argument per item, \${x.join(' ')} passes one word, and \${x.map(s => 'dir/' + s)} puts a prefix on each item. For a file's text, use write() in place of a here-document.";
 const NO_TARGET = 'an empty array, so the redirect before it has no file or takes the next word.\\nCheck the value first.';
+const NOT_SAFE_HERE = 'text that could run as shell syntax here: the quotes $ adds do not protect it in a here-document, arithmetic, a numeric test in [[ ]], backticks or a comment.\\nThe value may be outside data, so check it first. Pass text as an argument, as <<< \${x} on stdin, or with write() for a file. Use $( ) in place of backticks, and keep text out of comments. Do arithmetic and comparisons in JavaScript, or pass a Number.';
 const beforeWords = powershell
     ? /(?:^|(?:^|[^\\x60])[ \\t\\n;&|(])(?:-[\\w.-]*=?)?(?:\\x60\\r?\\n)*$/
     : /(?:^|(?:^|[^\\\\])[ \\t\\n;&|(])(?:-[\\w.-]*=?)?(?:\\\\\\n)*$/;
 const beforeTarget = powershell
     ? /[<>](?:[ \\t]|\\x60\\r?\\n)*(?:-[\\w.-]*=?(?:\\x60\\r?\\n)*)?$/
     : /(?:^|[^\\\\])(?:\\\\\\\\)*(?:<<-|[<>]&?[|!]?)(?:[ \\t]|\\\\\\n)*(?:-[\\w.-]*=?(?:\\\\\\n)*)?$/;
+const plainNumber = /^[ \\t]*(?:[+-]?[0-9]+(?:\\.[0-9]+)?[ \\t]*)?$/;
+const wordBreak = /[ \\t\\n;&|()<>]/;
+const hereWords = /\\\\.|'[^']*'|"(?:\\\\.|[^"\\\\$]|\\$(?!\\()|\\$\\((?:[^()"'\\\\]|\\\\.|'[^']*'|"(?:\\\\.|[^"\\\\])*"|\\((?:[^()"'\\\\]|\\\\.|'[^']*'|"(?:\\\\.|[^"\\\\])*")*\\))*\\))*(?:"|(?=\\$\\())|\\$?\\(\\(.*?\\)\\)|(?:^|[ \\t;&|(])#.*|<<<|<<(-?)[ \\t]*((?:\\\\.|'[^']*'|"[^"]*"|[^ \\t;&|()<>'"\\\\])+)/g;
+const endsInHereWord = /(?:^|[^<])<<-?[ \\t]*[^ \\t\\n;&|()<>]*$/;
+const openTest = /^(?:[^]*[ \\t\\n;&|()<>\`])?\\[\\[[ \\t\\n(\\\\]/;
+const numericTestAfter = /^[^ \\t\\n)]*[ \\t\\n]+-(?:eq|ne|lt|le|gt|ge)[ \\t\\n]/;
+const numericTestBefore = /[ \\t\\n]-(?:eq|ne|lt|le|gt|ge)[ \\t\\n]+[^ \\t\\n(]*$/;
+const matches = (pattern, s) => apply(regExpExec, pattern, [s]) !== null;
+const holds = (s, part) => apply(lastIndexOf, s, [part]) >= 0;
+const lastOf = (s) => apply(stringSlice, s, [-1]);
+const endsHere = (line, here, loose) => {
+    let start = 0;
+    while (here.tabs && start < line.length && line[start] === '\\t') {
+        start++;
+    }
+    const text = apply(stringSlice, line, [start]);
+    if (text === here.end) {
+        return '';
+    }
+    const after = apply(stringSlice, text, [here.end.length]);
+    return loose && apply(indexOf, text, [here.end]) === 0 && holds(after, ')')
+        ? after
+        : undefined;
+};
+const wordOf = (word) => {
+    let end = '';
+    let inSingle = false;
+    for (let i = 0; i < word.length; i++) {
+        const c = word[i];
+        const next = i + 1 < word.length ? word[i + 1] : '';
+        if (c === "'") {
+            inSingle = !inSingle;
+        }
+        else if (inSingle) {
+            end += c;
+        }
+        else if (c === '\\\\') {
+            end += next;
+            i++;
+        }
+        else if (c !== '"' && !(c === '$' && (next === "'" || next === '"'))) {
+            end += c;
+        }
+    }
+    return end;
+};
+const hereOn = (line) => {
+    let here;
+    hereWords.lastIndex = 0;
+    for (;;) {
+        const found = apply(regExpExec, hereWords, [line]);
+        if (found === null) {
+            return here;
+        }
+        if (found[2] !== undefined) {
+            const end = wordOf(found[2]);
+            here = { end, tabs: found[1] !== '', expands: end === found[2] };
+        }
+    }
+};
+const placeAtEnd = (text) => {
+    let parens = '';
+    let inDouble = false;
+    let inBackticks = false;
+    let inComment = false;
+    let openQuote = false;
+    for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        const before = i === 0 ? '\\n' : text[i - 1];
+        if (c === '\\\\') {
+            i++;
+        }
+        else if (c === '\`') {
+            inBackticks = !inBackticks;
+        }
+        else if (c === '"') {
+            inDouble = !inDouble;
+        }
+        else if (c === "'" && !inDouble) {
+            i = apply(indexOf, text, ["'", i + 1]);
+            if (i < 0) {
+                openQuote = true;
+                break;
+            }
+        }
+        else if (c === '#' && !inDouble && matches(wordBreak, before)) {
+            i = apply(indexOf, text, ['\\n', i]);
+            if (i < 0) {
+                inComment = true;
+                break;
+            }
+        }
+        else if (c === '(' && (!inDouble || before === '$')) {
+            const outer = lastOf(parens);
+            parens +=
+                before === '('
+                    ? '1'
+                    : before === '$'
+                        ? inDouble
+                            ? '2'
+                            : '0'
+                        : outer === '2'
+                            ? '0'
+                            : outer;
+            inDouble = false;
+        }
+        else if (c === ')' && !inDouble) {
+            inDouble = lastOf(parens) === '2';
+            parens = apply(stringSlice, parens, [0, -1]);
+        }
+    }
+    return { parens, inDouble, inBackticks, inComment, openQuote };
+};
+const opensSubshell = (parens, rest) => {
+    let depth = 0;
+    for (let i = parens.length - 1; i >= 0 && parens[i] === '1'; i--) {
+        depth++;
+    }
+    for (let i = 0; i + 1 < rest.length; i++) {
+        const c = rest[i];
+        const next = rest[i + 1];
+        if (c === "'" ||
+            c === '"' ||
+            c === '\`' ||
+            c === '\\\\' ||
+            c === '$' ||
+            (c === ')' && next === ')')) {
+            return false;
+        }
+        depth += c === '(' ? 1 : c === ')' ? -1 : 0;
+        if (depth === 0) {
+            return next !== '\\\\';
+        }
+    }
+    return false;
+};
+const anyLineEnds = (text, here, loose) => {
+    const textLines = apply(split, text, ['\\n']);
+    for (let l = 0; l < textLines.length; l++) {
+        if (endsHere(textLines[l], here, loose) !== undefined) {
+            return true;
+        }
+    }
+    return false;
+};
+const checkFor = (script, rest) => {
+    const lines = apply(split, script, ['\\n']);
+    const last = lines.length - 1;
+    let text = '';
+    let here;
+    let inSubstitution = false;
+    let looseEnded;
+    for (let l = 0; l < last; l++) {
+        if (looseEnded !== undefined && anyLineEnds(lines[l], looseEnded, false)) {
+            looseEnded = undefined;
+        }
+        const command = here === undefined ? lines[l] : endsHere(lines[l], here, inSubstitution);
+        if (command !== undefined) {
+            looseEnded = here !== undefined && command !== '' ? here : looseEnded;
+            text += command + '\\n';
+            here = hereOn(command);
+            inSubstitution =
+                here !== undefined && matches(/[02]/, placeAtEnd(text).parens);
+        }
+    }
+    const tail = here !== undefined && inSubstitution
+        ? endsHere(lines[last], here, true)
+        : undefined;
+    const endsOnLine = tail !== undefined && tail !== '';
+    const body = endsOnLine ? undefined : here;
+    const strictBody = endsOnLine ? here : looseEnded;
+    text += body !== undefined ? '' : (tail ?? lines[last]);
+    const { parens, inDouble, inBackticks, inComment, openQuote } = placeAtEnd(text);
+    if (openQuote && body === undefined && strictBody === undefined) {
+        return () => false;
+    }
+    const testWord = apply(regExpExec, openTest, [text]);
+    const test = testWord === null ? -1 : testWord[0].length - 3;
+    const inParens = lastOf(parens) === '1';
+    const inSubshell = inParens && opensSubshell(parens, rest);
+    const onlyNumber = (inParens && !inSubshell) ||
+        (test > apply(lastIndexOf, text, [' ]]']) &&
+            (matches(numericTestAfter, rest) ||
+                matches(numericTestBefore, apply(stringSlice, text, [test]))));
+    const inHereWord = body === undefined &&
+        !inComment &&
+        !inDouble &&
+        matches(endsInHereWord, text);
+    const lineStart = inSubstitution ? lines[last] : '';
+    return value => {
+        if (body !== undefined) {
+            if (anyLineEnds(quote(value) + ')', body, true)) {
+                return true;
+            }
+            const firstLine = apply(split, quote(value), ['\\n'])[0];
+            if (lineStart !== '' &&
+                endsHere(lineStart + firstLine, body, true) !== undefined) {
+                return true;
+            }
+        }
+        if (strictBody !== undefined &&
+            (anyLineEnds(quote(value), strictBody, false) ||
+                (strictBody.expands && matches(/[$\`\\\\]/, value)))) {
+            return true;
+        }
+        return (inHereWord ||
+            (onlyNumber && !matches(plainNumber, value)) ||
+            (inSubshell && holds(value, '))')) ||
+            (inBackticks && holds(value, '\`')) ||
+            (inComment && holds(value, '\\n')) ||
+            (body !== undefined && body.expands && matches(/[$\`\\\\]/, value)));
+    };
+};
+const quoted = (v, soFar) => {
+    const text = BuiltinString(v);
+    soFar.breaksOut ??= powershell
+        ? () => false
+        : checkFor(soFar.script, soFar.rest);
+    if (soFar.breaksOut(text) && !placeCheckIsOff()) {
+        return { why: NOT_SAFE_HERE, path: '' };
+    }
+    soFar.shape = '%';
+    soFar.script += '%';
+    return quote(text);
+};
 const piece = (v, soFar) => {
     if (v === undefined || v === null) {
         return { why: v + ABSENT_ADVICE, path: '' };
@@ -271,7 +497,9 @@ const piece = (v, soFar) => {
         typeof v === 'bigint' ||
         typeof v === 'boolean') {
         soFar.shape = '%';
-        return BuiltinString(v);
+        const word = BuiltinString(v);
+        soFar.script += word;
+        return word;
     }
     if (isArray(v)) {
         const items = apply(arraySlice, v, []);
@@ -286,6 +514,7 @@ const piece = (v, soFar) => {
         let words = '';
         for (let i = 0; i < items.length; i++) {
             soFar.shape += i === 0 ? '' : ' ';
+            soFar.script += i === 0 ? '' : ' ';
             const word = piece(items[i], soFar);
             if (typeof word !== 'string') {
                 return { why: word.why, path: '[' + i + ']' + word.path };
@@ -295,18 +524,18 @@ const piece = (v, soFar) => {
         return words;
     }
     if (v instanceof ShellOutput) {
-        soFar.shape = '%';
-        return quote(apply(replace, v.stdout, [/\\n$/, '']));
+        return quoted(apply(replace, v.stdout, [/\\n$/, '']), soFar);
     }
     if (typeof v === 'object' && hasOwn(v, 'raw')) {
         const { raw } = v;
         if (typeof raw === 'string') {
             soFar.shape += raw;
+            soFar.script += raw;
+            soFar.breaksOut = undefined;
             return mayLeaveUnquoted(v) ? raw : { why: UNWRITTEN_RAW, path: '' };
         }
     }
-    soFar.shape = '%';
-    return quote(v);
+    return quoted(v, soFar);
 };
 const lift = (s) => apply(replace, BuiltinString(s), [
     /\\\\\\\\|\\\\(\\$\\{|\`)/g,
@@ -331,8 +560,16 @@ const render = (strings, values) => {
     const raw = rawOf(strings);
     const text = (i) => raw === undefined ? BuiltinString(strings[i]) : lift(raw[i]);
     let cmd = text(0);
-    const soFar = { shape: cmd };
+    const soFar = {
+        shape: cmd,
+        script: cmd,
+        rest: '',
+        breaksOut: undefined,
+    };
     for (let i = 0; i < values.length; i++) {
+        const next = text(i + 1);
+        soFar.rest = next;
+        soFar.breaksOut = undefined;
         const word = piece(values[i], soFar);
         if (typeof word !== 'string') {
             let before = text(0);
@@ -358,9 +595,9 @@ const render = (strings, values) => {
                 ') is ' +
                 word.why);
         }
-        const next = text(i + 1);
         cmd += word + next;
         soFar.shape += next;
+        soFar.script += next;
     }
     return cmd;
 };

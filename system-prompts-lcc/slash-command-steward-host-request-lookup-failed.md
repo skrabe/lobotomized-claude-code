@@ -1,0 +1,13 @@
+<!--
+name: 'Slash Command: Steward request lookup failed'
+description: >-
+  Reason from Qot for a failed pull request lookup, with a GitLab token-scope
+  fix
+ccVersion: 2.1.331
+variables:
+  - SLASH_COMMAND_STEWARD_HOST_REQUEST_LOOKUP_FAILED_VAR_0
+  - SLASH_COMMAND_STEWARD_HOST_REQUEST_LOOKUP_FAILED_VAR_1
+  - SLASH_COMMAND_STEWARD_HOST_REQUEST_LOOKUP_FAILED_VAR_2
+  - SLASH_COMMAND_STEWARD_HOST_REQUEST_LOOKUP_FAILED_VAR_3
+-->
+${SLASH_COMMAND_STEWARD_HOST_REQUEST_LOOKUP_FAILED_VAR_0(SLASH_COMMAND_STEWARD_HOST_REQUEST_LOOKUP_FAILED_VAR_1.why)}${SLASH_COMMAND_STEWARD_HOST_REQUEST_LOOKUP_FAILED_VAR_2.kind==="gitlab"&&SLASH_COMMAND_STEWARD_HOST_REQUEST_LOOKUP_FAILED_VAR_3.is==="unknown"&&SLASH_COMMAND_STEWARD_HOST_REQUEST_LOOKUP_FAILED_VAR_3.why==="refused"?": make a new token with the scopes read_api and write_repository, and save it for git":""}
