@@ -3,7 +3,7 @@ name: 'Data: layout-css.mjs'
 description: >-
   design-sync artifact-road lib/layout-css.mjs joining styles.css for a Design
   System artifact, extracted with the skill for the model.
-ccVersion: 2.1.330
+ccVersion: 2.1.332
 -->
 // Joins styles.css and all it imports into the one stylesheet a Design System
 // artifact loads. The artifact's page loads it sometimes through a <link> and
@@ -346,7 +346,7 @@ function rebase(join, text, fromFile) {
   const { tree, uris } = join;
   return mapUrls(text, (url) => {
     const where = quoted(fromFile) + ': url(' + quoted(url) + ') ';
-    if (/^(?:https?:)?\\/\\//i.test(url)) warn(join, 'CSS_URL_REMOTE', where + 'names another site and was left as it is. It loads only if the artifact\\'s page allows that site: to be sure of it, put the file in the build and name it by a relative path');
+    if (/^(?:https?:)?\\/\\//i.test(url)) warn(join, 'CSS_URL_REMOTE', where + 'names another site and was left as it is. It loads only if the artifact\\'s page allows that site');
     if (url === '' || /^(?:[a-z][a-z0-9+.-]*:|\\/\\/|#)/i.test(url)) return null;
     const path = resolveInTree(fromFile, url);
     if (path === null || !tree.has(path)) { warn(join, 'CSS_URL_MISSING', where + (url.startsWith('/') ? 'starts at the root of a site, which an artifact does not have' : 'names no file of this build') + ', so it will not load'); return null; }
@@ -376,7 +376,7 @@ function expand(join, file, under) {
   // A browser reads every kind of line end as "\\n" before anything else.
   const css = tree.text(file).replace(/^\\uFEFF/, '').replace(/\\r\\n?|\\f/g, '\\n');
   join.joinedBytes += Buffer.byteLength(css);
-  if (join.joinedBytes > SHEET_MAX_BYTES) throw new Refusal('[STYLESHEET_TOO_LARGE] styles.css and all it imports come to more than ' + inMib(SHEET_MAX_BYTES) + ', the most one file of an artifact may be. ' + quoted(file) + ' is where the limit was passed. A sheet imported under several conditions counts once for each: import it once, or make the sheets smaller, and build again.');
+  if (join.joinedBytes > SHEET_MAX_BYTES) throw new Refusal('[STYLESHEET_TOO_LARGE] styles.css and all it imports come to more than ' + inMib(SHEET_MAX_BYTES) + ', the most one file of an artifact may be. ' + quoted(file) + ' is where the limit was passed. A sheet imported under several conditions counts once for each.');
   let out = '';
   let early = true; // a browser ignores an @import that comes after a block or after @namespace
   let dead = false;

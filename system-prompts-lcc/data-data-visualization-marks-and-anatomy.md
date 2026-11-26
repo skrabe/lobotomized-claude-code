@@ -3,7 +3,7 @@ name: 'Data: Data visualization marks and anatomy'
 description: >-
   data-visualization reference (references/marks-and-anatomy.md) the skill tells
   the model to Read.
-ccVersion: 2.1.325
+ccVersion: 2.1.332
 -->
 # Marks & anatomy
 
@@ -63,8 +63,8 @@ one swatch restates the title and costs space.
   carry the values you didn't directly label, so keep them unless every value is labeled.
 - **Text never wears the data color.** Marks - bars, lines, dots, area fills - carry
   the series color; labels, values, legends, and axis text use **text tokens**
-  (primary / secondary / muted). A light categorical hue (yellow, aqua) is illegible
-  as text on the surface. Identity comes from the colored mark *beside* the text - a
+  (\`palette.md\` lists them). A light categorical hue (orange, aqua, yellow, magenta) is
+  illegible as text on the surface. Identity comes from the colored mark *beside* the text - a
   dot, a short line-key, a swatch - never from coloring the text itself. A label set
   *inside* a colored fill (a stacked segment, a map tile) is the one exception: white or
   near-black, the same two in both modes, by the fill's luminance. \`palette.md\` says which its

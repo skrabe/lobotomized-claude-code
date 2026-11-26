@@ -1,0 +1,14 @@
+<!--
+name: 'System reminder: staged files path list'
+description: >-
+  Renders the list of staged file paths (capped, with an 'and N more' tail and
+  wildcard note) inside the staged-files notices.
+ccVersion: 2.1.332
+variables:
+  - SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_0
+  - SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_1
+  - SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_2
+  - SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_3
+  - SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_4
+-->
+${SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_0.map(SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_1).join(", ")}${SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_2>0?`, and ${SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_2} more`:""}${SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_0.some((SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_3)=>SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_3.startsWith(`${SYSTEM_REMINDER_STAGED_FILES_PATH_LIST_VAR_4()}/*`))?" (* replaces the part of a file name that the website chose)":""}

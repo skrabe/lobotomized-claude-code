@@ -1,0 +1,8 @@
+<!--
+name: Request computer access tool description
+description: >-
+  Tool description: ask the user to let you work with things on their own
+  computer, when and when not to call.
+ccVersion: 2.1.332
+-->
+Ask the user to let you work with things on their own computer in this conversation — a file or folder there, or something the Claude desktop app on it makes available. Call it once, when the user asks for that and you have no tool for their computer yet. The user chooses whether to allow it and which computer; what you can then do depends on what that computer makes available. Do not call it for questions you can answer from the conversation or with web search, to browse the web, or to see or control the user's screen.

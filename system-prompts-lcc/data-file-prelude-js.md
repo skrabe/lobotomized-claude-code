@@ -1,7 +1,7 @@
 <!--
 name: 'Data: file.prelude.js'
 description: Text asset file.prelude.js that Claude Code loads by path from its bundle.
-ccVersion: 2.1.330
+ccVersion: 2.1.332
 -->
 // Generated from src/tools/EvalTool/env/file.ts by bun scripts/generate-script-globals.ts: edit that file and run the script.
 'use strict';
@@ -33,6 +33,8 @@ const badText = (v, who) => {
         ? who + ' must be a string (got ' + kind + '). Nothing was written.'
         : undefined;
 };
+const halfAtStart = (text) => (text.charCodeAt(0) & 0xfc00) === 0xdc00 ? 1 : 0;
+const halfAtEnd = (text) => (text.charCodeAt(text.length - 1) & 0xfc00) === 0xd800 ? 1 : 0;
 const count = (hay, needle) => {
     if (needle.length === 0) {
         return 0;
@@ -119,6 +121,15 @@ async function edit(path, a, b, c) {
                     p +
                     ', and an edit must match exactly once; the file is untouched. Pass {all: true} to replace every match, or give more surrounding text.', 0);
             }
+            const at = text.indexOf(o);
+            const before = text.slice(at - halfAtStart(o), at);
+            const after = text.slice(at + o.length, at + o.length + halfAtEnd(o));
+            pairs[i] = [before + o + after, before + n + after];
+            if (count(text, pairs[i][0]) !== m) {
+                return fail(soft, 'edit ' +
+                    (i + 1) +
+                    ': the old text starts or ends in half of a character; the file is untouched', 0);
+            }
             text = all ? text.split(o).join(n) : text.replace(o, () => n);
         }
         let done = 0, applied = 0;
@@ -154,6 +165,9 @@ async function edit(path, a, b, c) {
     if (old !== '' && old === next) {
         noteSameText('edit ' + p, old);
         return { ok: true, replacements: 0 };
+    }
+    if (halfAtStart(old) + halfAtEnd(old) > 0) {
+        return edit(p, [[old, next]], { all: opts.all === true, soft });
     }
     const r = await editOnce(p, old, next, opts.all === true, !soft);
     if (r === null || typeof r !== 'object' || !('ok' in r)) {

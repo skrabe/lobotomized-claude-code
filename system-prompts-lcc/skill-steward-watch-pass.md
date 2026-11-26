@@ -12,15 +12,15 @@ variables:
   - APPEND_SYSTEM_MESSAGE_FN
   - IS_BRIEF_MODE_FN
   - SEND_USER_MESSAGE_TOOL_NAME
-  - SKILL_STEWARD_WATCH_PASS_VAR_7
+  - BUILD_REPLY_OPENING_INSTRUCTIONS_FN
   - FORMAT_QUOTED_LINES_FN
   - AUTO_MERGE_WARNING_GUIDANCE
   - REVIEW_HANDOFF_NOTE_FN
   - BUILD_WATCH_RULES_FN
   - WATCH_COMMANDS
   - SAVED_WATCH
+  - BUILD_PROJECT_REVIEW_GUIDANCE_FN
   - PROJECT_REVIEW_GUIDANCE_PATH
-  - SKILL_STEWARD_WATCH_PASS_VAR_15
   - BUILD_COMMENT_GUIDANCE_FN
   - COMMENT_SNAPSHOT
   - GET_TRUSTED_BOTS_FN
@@ -33,7 +33,7 @@ variables:
 
 You are looking after pull request #${PULL_REQUEST_NUMBER} of ${WATCHED_PULL_REQUEST.repo} from the user's own checkout, until it is merged or closed. Make one pass, then wait or stop. Start no code review.
 
-${AUTO_MERGE_WARNING===void 0?"":`${APPEND_SYSTEM_MESSAGE_FN!==void 0?"Claude Code has just shown the user this line. Don't repeat it:":IS_BRIEF_MODE_FN()?`Before anything else, send the user this line, word for word, via ${SEND_USER_MESSAGE_TOOL_NAME} (\`status: 'proactive'\`), since plain response text is treated as unread in this session:`:SKILL_STEWARD_WATCH_PASS_VAR_7("line")}
+${AUTO_MERGE_WARNING===void 0?"":`${APPEND_SYSTEM_MESSAGE_FN!==void 0?"Claude Code has just shown the user this line. Don't repeat it:":IS_BRIEF_MODE_FN()?`Before anything else, send the user this line, word for word, via ${SEND_USER_MESSAGE_TOOL_NAME} (\`status: 'proactive'\`), since plain response text is treated as unread in this session:`:BUILD_REPLY_OPENING_INSTRUCTIONS_FN("line")}
 
 ${FORMAT_QUOTED_LINES_FN([AUTO_MERGE_WARNING])}
 
@@ -41,7 +41,7 @@ ${AUTO_MERGE_WARNING_GUIDANCE} At this pass's end give \`noop: false\`, whatever
 
 `}${BUILD_WATCH_RULES_FN(WATCHED_PULL_REQUEST,WATCH_COMMANDS,SAVED_WATCH.stop)}
 
-${PROJECT_REVIEW_GUIDANCE_PATH(SKILL_STEWARD_WATCH_PASS_VAR_15)}${BUILD_COMMENT_GUIDANCE_FN(COMMENT_SNAPSHOT,GET_TRUSTED_BOTS_FN(WATCHED_PULL_REQUEST.host,SAVED_WATCH.bots),COMMENT_SNAPSHOT_PATH)}
+${BUILD_PROJECT_REVIEW_GUIDANCE_FN(PROJECT_REVIEW_GUIDANCE_PATH)}${BUILD_COMMENT_GUIDANCE_FN(COMMENT_SNAPSHOT,GET_TRUSTED_BOTS_FN(WATCHED_PULL_REQUEST.host,SAVED_WATCH.bots),COMMENT_SNAPSHOT_PATH)}
 
 ## The pass
 

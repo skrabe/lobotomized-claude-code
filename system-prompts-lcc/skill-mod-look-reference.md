@@ -5,7 +5,7 @@ description: >-
   mobile apps: building theme colors with makeColors, anchors and roles, moving
   scenes and still backdrops, what good looks like, and what fails without an
   error
-ccVersion: 2.1.330
+ccVersion: 2.1.332
 -->
 # A look
 
@@ -13,7 +13,7 @@ A look changes how a session draws in the desktop and mobile apps. It's data: a 
 
 \`$.theme.set({ colors, backdrop, overrideColorScheme, sound, style })\` names the whole theme, so a later set replaces it. Send everything in one call, from \`session.start\`. \`$.theme.clear()\` clears any mod's theme, so call it only when the person asks.
 
-The terminal and editors draw no look, and \`isDrawn: false\` with its \`reason\` says why nothing draws. \`isDrawn: true\` says only that a client that draws themes is attached. Permission prompts always keep the app's own look.
+The terminal and editors draw no look, and \`isDrawn: false\` with its \`reason\` says why nothing draws. \`isDrawn: true\` says only that a client that draws themes is attached. Permission prompts always keep the app's own look. On the terminal, color goes in what a \`ui.render\` hook draws, such as a \`StatusLine\`.
 
 ## colors
 
@@ -80,7 +80,7 @@ on('ui.render', { component: 'Backdrop' }, ($, e, next) => {
 })
 \`\`\`
 
-Give the Svg a \`viewBox\` and \`preserveAspectRatio="xMidYMid slice"\` so it fills any screen, keep it under 131,072 characters, and animate with CSS inside its own \`<style>\`. Keep it pure vector, with no embedded pictures or fonts, or the engine refuses it and says what to take out. Keep comments plain: \`<!-- sky -->\` between tags, with no \`<\` or \`--\` in it, and \`/* sky */\` in a style. The engine reads their words too, so a word such as \`href\` in one is still refused, as are a bare \`&\` in a CSS one and CDATA. Keep a CSS comment to plain words, since one that holds \`word(\` or \`@word\` can leave the scene still or undrawn. To use a picture, redraw it as SVG. Keep motion slow: a scene that flashes or is too heavy is held still, as it is on surfaces with no gate. On \`desktop\` a scene can read the mode with \`@media (prefers-color-scheme: dark)\` or \`light-dark()\` and still move, and it gets the mode the app shows, a look's own included, whatever \`color-scheme\` it sets for itself. \`glass\` is \`{ blur, tint, opacity }\`, a raw-colored veil over it, or \`false\`.
+Give the Svg a \`viewBox\` and \`preserveAspectRatio="xMidYMid slice"\` so it fills any screen, keep it under 131,072 characters, and animate with CSS inside its own \`<style>\`. Keep it pure vector, with no embedded pictures or fonts, or the engine refuses it and says what to take out. Keep comments plain: \`<!-- sky -->\` between tags, with no \`<\` or \`--\` in it, and \`/* sky */\` in a style. The engine reads their words too, so a word such as \`href\` in one is still refused, as are a bare \`&\` in a CSS one and CDATA. Keep a CSS comment to plain words, since one that holds \`word(\` or \`@word\` can leave the scene still or undrawn. To use a picture, redraw it as SVG. Keep motion slow: a scene that flashes stutters and is then held still, as it is on surfaces with no gate or no GPU, and one that is too heavy is held still after a few seconds. On \`desktop\` a scene can read the mode with \`@media (prefers-color-scheme: dark)\` or \`light-dark()\` and still move, and it gets the mode the app shows, a look's own included, whatever \`color-scheme\` it sets for itself. \`glass\` is \`{ blur, tint, opacity }\`, a raw-colored veil over it, or \`false\`.
 
 For a person who asked for reduced motion, \`desktop\` draws the scene with its animation taken out, so make it look finished that way: give each moving part a resting place and opacity in the plain markup. A scene redrawn on a timer holds still for them too, until the redraws stop for five seconds.
 
@@ -113,7 +113,7 @@ Keep it quiet and sparse, since it plays for hours beside someone's work, and do
 
 ## Style
 
-\`style\` restyles the conversation's own rows in the desktop app: bubbles, shapes and type, with no \`ui.render\` hook. The words stay the app's text, so selecting, copying, finding, Markdown and screen readers keep working. Don't draw a message as an \`Svg\` to change how it looks. \`ThemeStyle\` in the types has every field's range.
+\`style\` restyles the conversation's own rows in the desktop app: bubbles, shapes and type, with no \`ui.render\` hook. The words stay the app's text, so selecting, copying, finding, Markdown and screen readers keep working. Don't draw a message as an \`Svg\` to change how it looks. To draw a reply's code block as something else, in the terminal, hook \`ui.render\` on \`CodeBlock\` instead. \`ThemeStyle\` in the types has every field's range.
 
 | Part | What it is | Type | Box | \`rotate\` |
 | --- | --- | --- | --- | --- |

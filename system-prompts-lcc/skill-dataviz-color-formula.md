@@ -3,7 +3,7 @@ name: 'Skill Reference: Data-viz Color Formula'
 description: >-
   data-visualization reference (references/color-formula.md) the skill tells the
   model to Read.
-ccVersion: 2.1.325
+ccVersion: 2.1.332
 -->
 # Color formula
 
@@ -37,7 +37,7 @@ Every categorical color - current or proposed - must pass all six.
 
 1. **Fixed hue anchors.** Eight families in a fixed order. The order is the
    CVD-safety mechanism; it never changes. *(structural - enforced, not measured)*
-2. **Lightness band per mode.** OKLCH L ~ 0.43-0.77 light; ~ 0.48-0.67 dark. *(validator)*
+2. **Lightness band per mode.** OKLCH L ~ 0.43-0.78 light; ~ 0.48-0.70 dark. *(validator)*
 3. **Chroma floor.** OKLCH C >= ~0.10 - below it a hue reads as gray and stops doing
    identity work. *(validator)*
 4. **CVD separation.** Delta E here and everywhere in this method is Euclidean distance
@@ -48,9 +48,6 @@ Every categorical color - current or proposed - must pass all six.
    **normal-vision floor** gates the same pairs under unsimulated vision: worst
    pair Delta E >= 15, so neighbors stay easy to tell apart for full-color readers too.
    This floor is a hard gate - secondary encoding does not excuse it.
-   (This floor is what forced the first of the July 2026 re-orders of the
-   documented default palette - same hues and steps, re-ordered; the current
-   default clears it at 19.6 light / 19.3 dark; see \`palette.md\`.)
    *Adjacent* pairs for
    stacks/bars/lines (only neighbors touch - assignment never skips); **all pairs for
    scatter, bubble, choropleth, and small-multiples**, where any two marks can sit side
@@ -70,7 +67,7 @@ Every categorical color - current or proposed - must pass all six.
 
 \`\`\`
 node scripts/validate_palette.js \\
-  "#2a78d6,#eb6834,#1baf7a,#eda100,#e87ba4,#008300,#6250d6,#e34948" --mode light
+  "#257de0,#f47230,#00b894,#f2a600,#ee7fac,#008a17,#6a4ce2,#ec4647" --mode light
 \`\`\`
 
 (\`scripts/\` is relative to this skill's base directory, shown at the top of the prompt.)
@@ -82,7 +79,7 @@ Reports each computable check (2-5) with PASS / WARN / FAIL plus the worst CVD p
 Exit 0 = no hard FAIL (WARN bands - floor-band CVD 6-8 and sub-3:1 contrast
 relief - still exit 0 and require secondary encoding); exit 1 on any FAIL,
 including a normal-vision floor below 15, which is a hard gate. Run once per mode
-(\`--mode dark --surface "#1a1a19"\`), and add
+(\`--mode dark --surface "#191919"\`), and add
 \`--pairs all\` for scatter / bubble / map / small-multiples charts (where any two marks
 can be neighbors - the default adjacent check would hide a collapse). For an
 **ordinal** ramp pass \`--ordinal\` - it switches to the ramp checks (monotone L,

@@ -4,7 +4,7 @@ description: >-
   design-sync artifact-road script artifact-layout.mjs, rewriting a finished
   ds-bundle/ as Design System artifact files; extracted with the skill for the
   model to run and read.
-ccVersion: 2.1.330
+ccVersion: 2.1.332
 -->
 #!/usr/bin/env node
 // Rewrites a finished ds-bundle/ as the files of a Design System artifact on
@@ -37,13 +37,13 @@ const errors = [];
 const warnings = [];
 
 function readBundle(tree) {
-  if (!tree.has('_ds_bundle.js')) throw new Refusal('[NO_BUNDLE] the folder has no readable _ds_bundle.js. Run package-build.mjs first.');
+  if (!tree.has('_ds_bundle.js')) throw new Refusal('[NO_BUNDLE] the folder has no readable _ds_bundle.js.');
   const text = tree.text('_ds_bundle.js');
   const firstLine = text.slice(0, Math.max(0, text.indexOf('\\n')));
   let header = null;
   try { header = JSON.parse(/^\\/\\* @ds-bundle: (.*) \\*\\/$/.exec(firstLine)[1]); } catch { /* refused below */ }
   if (typeof header?.namespace !== 'string' || !IDENT.test(header.namespace) || !Array.isArray(header.components ?? [])) {
-    throw new Refusal('[BUNDLE_HEADER] _ds_bundle.js does not start with a readable @ds-bundle header. Rebuild with package-build.mjs.');
+    throw new Refusal('[BUNDLE_HEADER] _ds_bundle.js does not start with a readable @ds-bundle header.');
   }
   return { namespace: header.namespace, listed: (header.components ?? []).map((c) => c?.name), body: text.slice(firstLine.length + 1) };
 }
@@ -51,15 +51,14 @@ function readBundle(tree) {
 // Each component's name and its folder in ds-bundle/. The artifact has one folder
 // per component and no group folders, so a name must be unique.
 function findComponents(tree) {
-  const LEAVE_OUT = ' To leave a component out, set it to null in .design-sync/config.json: under componentSrcMap by its name (package shape), or under titleMap by its story title (storybook shape).';
   const found = new Map();
   for (const p of tree.paths) {
     const m = /^components\\/([^/]+)\\/([^/]+)\\/([^/]+)\\.html$/.exec(p);
     if (!m || m[2] !== m[3]) continue;
     const [, group, name] = m;
-    if (found.has(name)) errors.push('[COMPONENT_TWICE] ' + quoted(name) + ' is in two groups (' + quoted(found.get(name)) + ' and ' + quoted('components/' + group + '/' + name) + '), and an artifact has one folder per component name.' + LEAVE_OUT);
-    else if (!IDENT.test(name)) errors.push('[COMPONENT_NAME] ' + quoted(name) + ' cannot name a component\\'s folder in an artifact. The name must be an ASCII identifier (letters, digits, _ and $, not starting with a digit) of at most 64 characters, and not constructor, prototype or __proto__.' + LEAVE_OUT);
-    else if (RESERVED.test(name)) errors.push('[COMPONENT_RESERVED] a component is called ' + quoted(name) + ', and an artifact keeps components/' + name + '/ for a use of its own.' + LEAVE_OUT);
+    if (found.has(name)) errors.push('[COMPONENT_TWICE] ' + quoted(name) + ' is in two groups (' + quoted(found.get(name)) + ' and ' + quoted('components/' + group + '/' + name) + '), and an artifact has one folder per component name.');
+    else if (!IDENT.test(name)) errors.push('[COMPONENT_NAME] ' + quoted(name) + ' cannot name a component\\'s folder in an artifact. The name must be an ASCII identifier (letters, digits, _ and $, not starting with a digit) of at most 64 characters, and not constructor, prototype or __proto__.');
+    else if (RESERVED.test(name)) errors.push('[COMPONENT_RESERVED] a component is called ' + quoted(name) + ', and an artifact keeps components/' + name + '/ for a use of its own.');
     else found.set(name, 'components/' + group + '/' + name);
   }
   return found;
@@ -87,7 +86,7 @@ function put(made, path, content, from) {
   // Stopped at once: the pre-flight would refuse it too, but only after everything had been read into memory.
   made.total += bytes.length;
   if (made.total > LIMITS.totalBytes || made.out.size >= LIMITS.files) throw new Refusal('[TOO_LARGE] the design system comes to more than ' + LIMITS.files + ' files or ' + inMib(LIMITS.totalBytes) + ', the most one design system may hold. The limit was passed at ' + quoted(path) + '.');
-  if (made.out.has(path) && !made.out.get(path).equals(bytes)) errors.push('[PATH_CLASH] ' + quoted(made.from.get(path)) + ' and ' + quoted(from) + ' would both be published as ' + quoted(path) + '. Rename one.');
+  if (made.out.has(path) && !made.out.get(path).equals(bytes)) errors.push('[PATH_CLASH] ' + quoted(made.from.get(path)) + ' and ' + quoted(from) + ' would both be published as ' + quoted(path) + '.');
   made.out.set(path, bytes);
   made.from.set(path, from);
   if (made.tree.has(from)) made.consumed.add(from);
@@ -138,14 +137,14 @@ function layout(SRC, givenTitle, OUT) {
   // internals, some of which only a development build has. It sets both
   // window.React and window.ReactDOM, so it is listed once; listed twice, it would run twice.
   let react = null;
-  if (order.length && !tree.has('_vendor/react.js')) warnings.push('[REACT_MISSING] the build has components but no _vendor/react.js, so no preview will run. Rebuild with package-build.mjs.');
+  if (order.length && !tree.has('_vendor/react.js')) warnings.push('[REACT_MISSING] the build has components but no _vendor/react.js, so no preview will run.');
   else if (order.length) {
     const text = tree.text('_vendor/react.js');
     // Anything after the three numbers, as in 18.3.0-canary-1a2b, marks a test release, which may not work on the React the page loads.
     const [, version, rest, plain] = /\\bReactVersion\\s*=\\s*["'](\\d+\\.\\d+\\.\\d+)([-+.\\w]{0,40})(["'])?/.exec(text) ?? /\\bversion\\s*[:=]\\s*["'](\\d+\\.\\d+\\.\\d+)([-+.\\w]{0,40})(["'])?/.exec(text) ?? [];
     const major = PAGE_REACT.version.split('.')[0];
     const internals = [...out].some(([p, bytes]) => /(?:^|\\/)(?:bundle\\.js|preview\\.html)$/.test(p) && bytes.includes('__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED'));
-    if (!version) errors.push('[REACT_VERSION] cannot find a React version in _vendor/react.js. Rebuild with package-build.mjs.');
+    if (!version) errors.push('[REACT_VERSION] cannot find a React version in _vendor/react.js.');
     else if (version.startsWith(major + '.') && rest === '' && plain && !internals) react = { version, libraries: [{ name: 'react', version: major, global: 'React' }, { name: 'react-dom', version: major, global: 'ReactDOM' }] };
     else {
       const why = !version.startsWith(major + '.') ? undefined : rest !== '' || !plain ? 'it is a test release' : 'the compiled code uses React\\'s internals';
@@ -191,7 +190,7 @@ function layout(SRC, givenTitle, OUT) {
   const stale = readme.stale.slice(0, MAX_SAID).map((p) => quoted(p)).join(', ') + (readme.stale.length > MAX_SAID ? ' and ' + (readme.stale.length - MAX_SAID) + ' more' : '');
   if (!tree.has('README.md')) warnings.push('[README_MISSING] the build has no README.md that can be read, so the layout\\'s README.md holds only the "Consuming this system" section');
   else if (!readme.recognized) warnings.push('[README_UNRECOGNIZED] README.md is not the one the build writes, so it is kept whole, with the "Consuming this system" section added' + (stale ? '. It names ' + stale + ', which the artifact does not have' : ''));
-  else if (stale) warnings.push('[README_STALE_PATH] README.md begins with text from .design-sync/conventions.md that names ' + stale + ', which the artifact does not have. Change .design-sync/conventions.md to name the paths listed under "Where things are" in .artifact/project/README.md.');
+  else if (stale) warnings.push('[README_STALE_PATH] README.md begins with text from .design-sync/conventions.md that names ' + stale + ', which the artifact does not have.');
 
   // createdOnFiles marks an artifact that keeps its content in files. Its time
   // here is a placeholder: that and the title are for whoever publishes to
@@ -254,7 +253,7 @@ function layout(SRC, givenTitle, OUT) {
     writeFileSync(join(OUT, 'layout.json'), report, { flag: 'wx' });
   } catch (e) {
     if (e?.code !== 'EEXIST') throw e;
-    throw new Refusal('[CHANGED_WHILE_WRITING] something else put ' + quoted(e.path ?? OUT, 300) + ' there while the layout was being made. Run it again once nothing else is writing to the folder.');
+    throw new Refusal('[CHANGED_WHILE_WRITING] something else put ' + quoted(e.path ?? OUT, 300) + ' there while the layout was being made.');
   }
 
   const lines = [];
@@ -289,7 +288,7 @@ function holdsOurReport(src) {
 // Whatever goes wrong, no layout may be left for a later step to publish. Returns false if it could not be removed.
 function removeLayout(OUT) {
   try { rmSync(OUT, { recursive: true, force: true }); return true; } catch (e) {
-    console.error('\\u2717 [STALE_LAYOUT] ' + quoted(OUT, 300) + ' could not be removed (' + quoted(e?.code ?? e) + '). Remove it by hand: it is NOT the layout of this build.');
+    console.error('\\u2717 [STALE_LAYOUT] ' + quoted(OUT, 300) + ' could not be removed (' + quoted(e?.code ?? e) + '), so it still holds a layout that is not this build\\'s.');
     return false;
   }
 }
@@ -309,13 +308,13 @@ function main() {
   if (OUT && !removeLayout(OUT)) return 1;
   if (wrong) { console.error(USAGE); return 2; }
   if (!OUT) {
-    console.error('\\u2717 ' + quoted(src, 300) + (st?.isDirectory() ? ' has no _ds_bundle.js of its own (a link does not count), so it is not a build' : ' is not a folder' + (st?.isSymbolicLink() ? ' but a symbolic link, which is not followed' : '')) + '. Pass the ds-bundle/ that package-build.mjs wrote.');
+    console.error('\\u2717 ' + quoted(src, 300) + (st?.isDirectory() ? ' has no _ds_bundle.js of its own (a link does not count), so it is not a build' : ' is not a folder' + (st?.isSymbolicLink() ? ' but a symbolic link, which is not followed' : '')) + '.');
     return 1;
   }
   let done = null;
   try { done = layout(src, title, OUT); } catch (e) {
     errors.push(e instanceof Refusal ? e.message
-      : typeof e?.syscall === 'string' ? '[IO_FAILED] reading the build or writing the layout failed: ' + quoted(e.message, 300) + '. Fix what that names (a full disk or a folder that cannot be written to, for example), then run this again.'
+      : typeof e?.syscall === 'string' ? '[IO_FAILED] reading the build or writing the layout failed: ' + quoted(e.message, 300) + '.'
       : '[FAILED] the layout script stopped on an unexpected error, which is a bug in the script and not in the build: ' + quoted(e?.message ?? e, 300));
   }
   for (const w of brief(warnings)) console.error('! ' + w);

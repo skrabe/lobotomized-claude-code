@@ -3,7 +3,7 @@ name: 'Tool Description: SendUserFile'
 description: >-
   Describes the SendUserFile tool for surfacing generated deliverable files to
   the user, with optional captions and normal or proactive status
-ccVersion: 2.1.325
+ccVersion: 2.1.332
 variables:
   - STATUS_FIELD_GUIDANCE
 -->
@@ -11,6 +11,6 @@ Send files to the user. Use this for any file the user would want to see — a g
 
 \`caption\` (optional): a one-liner of context. Skip if the file speaks for itself.
 
-${STATUS_FIELD_GUIDANCE}
+Set \`status\` on every call. Use \`proactive\` when you're initiating — the user is away and you want this to reach their phone (build artifact ready, report generated). Use \`normal\` when replying to something the user just said.
 
-\`display\` (optional): \`render\` to show it inline in the side panel (chart, rendered HTML, diagram, image); \`attach\` for files saved and opened elsewhere (source, spreadsheet, doc). Unset lets the client decide by type.
+\`display\` (optional): \`render\` to show it inline in the side panel (chart, rendered HTML, diagram, image); \`attach\` for files saved and opened elsewhere (source, spreadsheet, doc). Unset lets the client decide by type.${STATUS_FIELD_GUIDANCE?" In an HTML file sent here, load libraries from cdnjs.cloudflare.com or cdn.jsdelivr.net/npm/: a preview blocks most other hosts.":""}

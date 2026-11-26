@@ -3,7 +3,7 @@ name: 'Skill Script: Data-viz validate_palette.py'
 description: >-
   Data-viz skill bundled script (scripts/validate_palette.py) that validates a
   categorical chart palette against the computable data-viz checks
-ccVersion: 2.1.310
+ccVersion: 2.1.332
 -->
 #!/usr/bin/env python3
 """
@@ -27,8 +27,8 @@ Checks 1 (fixed hue order) and 6 (values resolve to real ramp steps) are
 structural rules the skill enforces, not measurable from hexes alone.
 
 Usage:
-  python validate_palette.py "#2a78d6,#eb6834,#1baf7a,#eda100,#e87ba4,#008300,#6250d6,#e34948" --mode light
-  python validate_palette.py "#256abf,#199e70,..." --mode dark --surface "#1a1a19"
+  python validate_palette.py "#257de0,#f47230,#00b894,#f2a600,#ee7fac,#008a17,#6a4ce2,#ec4647" --mode light
+  python validate_palette.py "#338ced,#e76624,..." --mode dark --surface "#191919"
 
 Exit code 0 unless a check hard-FAILs; 1 on any FAIL. WARN bands do not fail:
 adjacent CVD in the 6\\u20138 floor band, and contrast in the sub-3:1 relief band, are
@@ -39,7 +39,7 @@ gate: a worst unsimulated pair below 15 FAILs the run.
 import sys, math, json, argparse, re
 
 # -- thresholds ----------------------------------------------------------------
-BAND = {"light": (0.43, 0.77), "dark": (0.48, 0.67)}   # OKLCH L
+BAND = {"light": (0.43, 0.78), "dark": (0.48, 0.70)}   # OKLCH L
 CHROMA_FLOOR = 0.10                                     # OKLCH C
 # Delta E is Euclidean distance in OKLab ×100. The CVD thresholds are calibrated to
 # the Machado-Oliveira-Fernandes (2009) severity-1.0 simulation below - the sim
@@ -48,7 +48,7 @@ CHROMA_FLOOR = 0.10                                     # OKLCH C
 CVD_TARGET, CVD_FLOOR = 8.0, 6.0                        # OKLab Delta E×100, min(protan, deutan), adjacent pairs
 NORMAL_FLOOR = 15.0                                     # OKLab Delta E×100, worst pair on the active pairlist, unsimulated vision
 CONTRAST_MIN = 3.0                                      # WCAG vs surface
-DEFAULT_SURFACE = {"light": "#fcfcfb", "dark": "#1a1a19"}
+DEFAULT_SURFACE = {"light": "#ffffff", "dark": "#191919"}
 
 # Machado, Oliveira & Fernandes (2009) CVD transforms at severity 1.0 (linear RGB).
 MACHADO = {
@@ -227,7 +227,7 @@ def validate(palette, mode, surface, pairs="adjacent"):
     #     unsimulated vision too. A hard gate: secondary encoding does not
     #     excuse it, and weak pairs are not masked to keep an existing palette
     #     validating (this floor forced the first of the July 2026 re-orders
-    #     of the shipped set: same steps, re-ordered, clears 19.6/19.3).
+    #     of the default palette).
     nworst = None
     for i, j in pairlist:
         d = deltaE(palette[i], palette[j])

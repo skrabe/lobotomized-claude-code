@@ -3,7 +3,7 @@ name: 'Data: layout-preflight.mjs'
 description: >-
   design-sync artifact-road lib/layout-preflight.mjs checking laid-out files
   before publish, extracted with the skill for the model.
-ccVersion: 2.1.330
+ccVersion: 2.1.332
 -->
 // Checks the files laid out for a Design System artifact. The service that
 // stores an artifact judges a publish call as a whole: one file it will not take
@@ -47,15 +47,15 @@ export function foldName(part) {
 }
 
 function pathProblem(path) {
-  if (path.length > LIMITS.pathChars) return 'its path is longer than ' + LIMITS.pathChars + ' characters. Shorten it.';
-  if (path.search(UNSEEN) >= 0 || LOOKALIKE.test(path)) return 'its path holds a character that does not show, or a lookalike of a space or of "/". Rename it.';
-  if (/[%;:\\\\?#]/.test(path)) return 'its path holds one of % ; : \\\\ ? #, which an artifact path may not hold. Rename it.';
+  if (path.length > LIMITS.pathChars) return 'its path is longer than ' + LIMITS.pathChars + ' characters.';
+  if (path.search(UNSEEN) >= 0 || LOOKALIKE.test(path)) return 'its path holds a character that does not show, or a lookalike of a space or of "/".';
+  if (/[%;:\\\\?#]/.test(path)) return 'its path holds one of % ; : \\\\ ? #, which an artifact path may not hold.';
   const parts = path.split('/');
   const folded = parts.map(foldName);
-  if (parts.some((s) => s === '' || s === '..') || folded.some((s) => s === '' || s.startsWith('.'))) return 'a part of its path is empty, "..", or starts with a dot. Rename it.';
-  if (parts.some((s) => /[. ]$/.test(s)) || folded.some((s) => /~\\d/.test(s))) return 'a part of its path ends in a dot or a space, or looks like a Windows short name (NAME~1). Rename it.';
-  if (folded.some((s) => s === '__proto__' || s === 'constructor' || s === 'prototype' || DEVICE.test(s))) return 'a part of its path is a name reserved by JavaScript or by Windows. Rename it.';
-  if (folded.includes('node_modules') || TOOL_FILES.has(folded.at(-1))) return 'it has the name of a file or folder that tools and coding agents load by themselves. ' + (path.startsWith('guidelines/') ? 'The build copied it as a guideline: list the guidelines to keep under guidelinesGlob in .design-sync/config.json (a glob there cannot leave one file out), and build again.' : 'Rename it.');
+  if (parts.some((s) => s === '' || s === '..') || folded.some((s) => s === '' || s.startsWith('.'))) return 'a part of its path is empty, "..", or starts with a dot.';
+  if (parts.some((s) => /[. ]$/.test(s)) || folded.some((s) => /~\\d/.test(s))) return 'a part of its path ends in a dot or a space, or looks like a Windows short name (NAME~1).';
+  if (folded.some((s) => s === '__proto__' || s === 'constructor' || s === 'prototype' || DEVICE.test(s))) return 'a part of its path is a name reserved by JavaScript or by Windows.';
+  if (folded.includes('node_modules') || TOOL_FILES.has(folded.at(-1))) return 'it has the name of a file or folder that tools and coding agents load by themselves.' + (path.startsWith('guidelines/') ? ' The build copied it as a guideline.' : '');
   return null;
 }
 
@@ -64,20 +64,20 @@ const SIGNATURE = /^(?:%PDF-|%!PS-Adobe-|BM|GIF8[79]a|ID3|OTTO|ttcf|wOFF|wOF2|FO
 function contentProblem(type, bytes) {
   if (bytes.length > LIMITS.fileBytes) return 'it is ' + inMib(bytes.length) + '; one file may be at most ' + inMib(LIMITS.fileBytes);
   if (type.startsWith('font/')) return ['wOF2', 'wOFF', 'OTTO', 'true', '\\u0000\\u0001\\u0000\\u0000'].includes(bytes.subarray(0, 4).toString('latin1')) ? null : 'its bytes are not those of a font file';
-  if ((bytes[0] === 0xff && bytes[1] === 0xfe) || (bytes[0] === 0xfe && bytes[1] === 0xff)) return 'it is UTF-16 text. Save it as UTF-8.';
+  if ((bytes[0] === 0xff && bytes[1] === 0xfe) || (bytes[0] === 0xfe && bytes[1] === 0xff)) return 'it is UTF-16 text, and an artifact takes text only as UTF-8.';
   let text;
-  try { text = new TextDecoder('utf-8', { fatal: true }).decode(bytes); } catch { return 'it is not valid UTF-8 text. Save it as UTF-8.'; }
-  const REMOVE = ', which the service that stores artifacts refuses. Remove it from the file of the library this was made from, and build again.';
-  if (text.includes('\\uFFFD')) return 'it holds the replacement character U+FFFD (the mark of text damaged by an earlier conversion)' + REMOVE;
-  if (/[\\u0000\\u001b]/.test(text)) return 'it holds a NUL or ESC character' + REMOVE;
+  try { text = new TextDecoder('utf-8', { fatal: true }).decode(bytes); } catch { return 'it is not valid UTF-8 text.'; }
+  const REFUSED = ', which the service that stores artifacts refuses.';
+  if (text.includes('\\uFFFD')) return 'it holds the replacement character U+FFFD (the mark of text damaged by an earlier conversion)' + REFUSED;
+  if (/[\\u0000\\u001b]/.test(text)) return 'it holds a NUL or ESC character' + REFUSED;
   if (type !== 'text/javascript' && type !== 'text/css') return null;
   // The service looks at the start of a script or stylesheet for signs that it is some other kind of file.
   if (text.trimStart().startsWith('<')) return 'it starts with "<", so it would be taken for markup';
   const head = bytes.subarray(0, 512);
   const lead = head.subarray(0, 16).toString('latin1');
   const bom = head[0] === 0xef && head[1] === 0xbb && head[2] === 0xbf;
-  if (/^[^]{4}ftyp[^]{4}/.test(lead) || (!bom && (SIGNATURE.test(lead) || (head[34] === 0x4c && head[35] === 0x50)))) return 'its first bytes are the mark of a picture, sound, font or document file, ("BM", "GIF89a", or "LP" at bytes 35 and 36, say), so it would be taken for one. Start the file of the library it came from with a comment (for tokens.css, pass another --title), and build again.';
-  if (!bom && head.some((b) => b <= 0x08 || b === 0x0b || (b >= 0x0e && b <= 0x1a) || (b >= 0x1c && b <= 0x1f))) return 'it holds a control character in its first 512 bytes' + REMOVE;
+  if (/^[^]{4}ftyp[^]{4}/.test(lead) || (!bom && (SIGNATURE.test(lead) || (head[34] === 0x4c && head[35] === 0x50)))) return 'its first bytes look like those of a picture, sound, font or document file (such as "BM", "GIF89a", or "LP" at bytes 35 and 36), so the service would take it for one.';
+  if (!bom && head.some((b) => b <= 0x08 || b === 0x0b || (b >= 0x0e && b <= 0x1a) || (b >= 0x1c && b <= 0x1f))) return 'it holds a control character in its first 512 bytes' + REFUSED;
   return null;
 }
 
@@ -95,14 +95,14 @@ export function preflight(files) {
     total += bytes.length;
     const type = contentTypeOf(path);
     const key = path.split('/').map(foldName).join('/');
-    if (folded.has(key)) errors.push('[NAME_CLASH] ' + quoted(path) + ' and ' + quoted(folded.get(key)) + ' are the same name to a file system that ignores case, hidden characters or trailing dots. Rename one.');
+    if (folded.has(key)) errors.push('[NAME_CLASH] ' + quoted(path) + ' and ' + quoted(folded.get(key)) + ' are the same name to a file system that ignores case, hidden characters or trailing dots.');
     folded.set(key, path);
     const bad = pathProblem(path) ?? (type === null ? 'an artifact cannot serve a file with this ending' : contentProblem(type, bytes));
     if (bad !== null) errors.push('[FILE_REFUSED] ' + quoted(path) + ': ' + bad);
   }
   for (const [key, path] of folded) {
     for (let at = key.lastIndexOf('/'); at > 0; at = key.lastIndexOf('/', at - 1)) {
-      if (folded.has(key.slice(0, at))) errors.push('[NAME_CLASH] ' + quoted(folded.get(key.slice(0, at))) + ' is a file, and ' + quoted(path) + ' needs a folder of the same name. Rename one.');
+      if (folded.has(key.slice(0, at))) errors.push('[NAME_CLASH] ' + quoted(folded.get(key.slice(0, at))) + ' is a file, and ' + quoted(path) + ' needs a folder of the same name.');
     }
   }
   if (files.size > LIMITS.files) errors.push('[TOO_MANY_FILES] ' + files.size + ' files; one design system may hold at most ' + LIMITS.files);

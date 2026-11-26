@@ -3,7 +3,7 @@ name: 'Data: layout-tree.mjs'
 description: >-
   design-sync artifact-road lib/layout-tree.mjs listing a finished ds-bundle's
   files, extracted with the skill for the model.
-ccVersion: 2.1.330
+ccVersion: 2.1.332
 -->
 // The files of a finished ds-bundle/, for the layout stage to read. What is in
 // the folder comes from the library being synced, so it is not trusted: a link
@@ -78,8 +78,8 @@ export class BuildFolder {
       else if (!st.isFile()) this.#skip(p, 'NOT_A_FILE', 'is a pipe, a socket or a device, not a file, and was not read');
       else if (st.nlink > 1) this.#skip(p, 'LINK', 'is a hard link (the same file has another name elsewhere on this disk) and was not read');
       else if (st.size > LIMITS.fileBytes) this.#skip(p, 'TOO_LARGE_TO_READ', 'is ' + inMib(Number(st.size)) + ', more than the ' + inMib(LIMITS.fileBytes) + ' a file of an artifact may be, and was not read');
-      else if (this.#listed.size >= MAX_LISTED) throw new Refusal('[TOO_MANY_FILES_TO_READ] the folder holds more than ' + MAX_LISTED + ' files, far more than a build writes. Find what else was put there, remove it, and run this again.');
-      else if ((this.#listedBytes += Number(st.size)) > MAX_LISTED_BYTES) throw new Refusal('[TOO_MUCH_TO_READ] the folder holds more than ' + inMib(MAX_LISTED_BYTES) + ', far more than an artifact may. Find what else was put there, remove it, and run this again.');
+      else if (this.#listed.size >= MAX_LISTED) throw new Refusal('[TOO_MANY_FILES_TO_READ] the folder holds more than ' + MAX_LISTED + ' files, far more than a build writes.');
+      else if ((this.#listedBytes += Number(st.size)) > MAX_LISTED_BYTES) throw new Refusal('[TOO_MUCH_TO_READ] the folder holds more than ' + inMib(MAX_LISTED_BYTES) + ', far more than an artifact may hold.');
       else this.#listed.set(p, idOf(st));
     }
   }
@@ -90,7 +90,7 @@ export class BuildFolder {
   // refused, and another file wherever files can be told apart; one swapped back at just the right moment is not caught.
   #read(p) {
     if (!this.#listed.has(p)) throw new Error('read of a path that is not in the listing: ' + p);
-    const changed = new Refusal('[CHANGED_WHILE_READING] ' + quoted(p) + ' changed while the layout was being made. Run it again once nothing else is writing to the folder.');
+    const changed = new Refusal('[CHANGED_WHILE_READING] ' + quoted(p) + ' changed while the layout was being made.');
     const failed = (e, what) => (['ELOOP', 'ENOENT', 'ENOTDIR'].includes(e?.code) ? changed : new Refusal('[UNREADABLE] ' + quoted(p) + ' ' + what + ' (' + quoted(e?.code) + ')'));
     const full = join(this.#root, p);
     let fd;
@@ -121,7 +121,7 @@ export class BuildFolder {
   text(p) {
     const b = this.bytes(p);
     try { return new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(b); } catch {
-      if (!this.#notUtf8.has(p)) this.#errors.push('[NOT_UTF8] ' + quoted(p) + ' is not valid UTF-8 text. Find the file of the library it was copied from and save that as UTF-8.');
+      if (!this.#notUtf8.has(p)) this.#errors.push('[NOT_UTF8] ' + quoted(p) + ' is not valid UTF-8 text.');
       this.#notUtf8.add(p);
       // The layout is refused already. No U+FFFD, so that the file this text goes into is not blamed as well.
       return b.toString('latin1');

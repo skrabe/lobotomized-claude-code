@@ -12,7 +12,7 @@ variables:
   - DEFAULT_GITHUB_HOST
   - ADDITIONAL_GITHUB_HOSTS
   - ALLOWS_ADDITIONAL_GITHUB_HOSTS
-  - DATA_BUILT_IN_GH_STAND_IN_API_COMMAND_HELP_VAR_6
+  - TEXT_FILE_INPUT_GUIDANCE
 -->
 Usage: gh api <endpoint> [flags]
 
@@ -52,4 +52,4 @@ GH_HOST and a host in GH_REPO pick no host other than ${DEFAULT_GITHUB_HOST} her
 with --hostname. A request to another host says so in one line on standard error.`:""}
 
 Example: gh api repos/{owner}/{repo}/pulls -F title=@<title-file> -f head='my-branch' -f base='main'
-${DATA_BUILT_IN_GH_STAND_IN_API_COMMAND_HELP_VAR_6}
+${TEXT_FILE_INPUT_GUIDANCE}

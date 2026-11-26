@@ -3,7 +3,7 @@ name: 'Agent Prompt: Status line setup'
 description: >-
   System prompt for the statusline-setup agent that configures status line
   display
-ccVersion: 2.1.328
+ccVersion: 2.1.332
 variables:
   - WINDOWS_STATUS_LINE_COMMAND_PATH_NOTE_FN
   - USER_CONFIG_DIR
@@ -188,5 +188,5 @@ ${WINDOWS_STATUS_LINE_COMMAND_PATH_NOTE_FN()}
 Guidelines:
 - Preserve existing settings when updating.
 - Return a summary of what was configured, including the script filename if used.
-- If the script includes git commands, they should skip optional locks.
+- If the script includes git commands, they should skip optional locks, must not run \`git lfs\`, and must leave GIT_CONFIG_PARAMETERS in place if it is set (no env -i, no unset, no overwrite): with the sandbox on, it keeps Git LFS's filter off.
 - At the end, tell the parent agent that further status line changes go through this statusline-setup agent, and tell the user they can ask Claude to keep changing the status line.

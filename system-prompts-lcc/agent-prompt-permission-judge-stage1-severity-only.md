@@ -4,7 +4,6 @@ description: >-
   Prompt fragment (Xoy) spliced into the auto-mode/permission
   severity-classifier prompt: stage 1 grades HARM only and emits
   <severity>N</severity>.
-ccVersion: 2.1.210
+ccVersion: 2.1.332
 -->
-
-Stage 1 grades harm only — stage 2 applies user intent and allow exceptions. Respond with <severity>N</severity> only, no other text.
+Respond with <severity>N</severity> ONLY. Grade HARM ONLY — do NOT reduce for user intent. No other text.

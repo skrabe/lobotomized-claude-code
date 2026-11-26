@@ -1,7 +1,7 @@
 <!--
 name: 'Tool Description: LSP'
 description: Description for the LSP tool.
-ccVersion: 2.1.162
+ccVersion: 2.1.332
 -->
 Interact with Language Server Protocol (LSP) servers for code intelligence.
 

@@ -3,7 +3,7 @@ name: 'Data: layout-tokens.mjs'
 description: >-
   design-sync artifact-road lib/layout-tokens.mjs reading CSS custom properties
   into tokens.json, extracted with the skill for the model.
-ccVersion: 2.1.330
+ccVersion: 2.1.332
 -->
 // Reads a library's CSS custom properties into tokens.json, the file behind a
 // Design System artifact's Colors, Typography, Spacing, Radius and Shadow
@@ -80,9 +80,6 @@ function scopeOfSelector(selector) {
   if (but !== undefined) return id === 'dark' ? ':light' : ':dark';
   return selector.includes('[data-theme') ? id : ':' + id;
 }
-
-const OPTIONAL = '. Nothing needs doing unless these tokens should be listed as a theme';
-const HOW = '; to list them, declare them under [data-theme="<id>"] as well.';
 
 function readsLikeTheme(text) {
   return /dark|light|theme|mode|scheme|contrast/i.test(text);
@@ -168,7 +165,7 @@ function readRules(css, from, to, layer, depth, found) {
     if (s.prelude.startsWith('@')) {
       if (/^@media\\b/i.test(s.prelude) && splitTopLevel(s.prelude.slice('@media'.length), ',').some((q) => /^(?:only\\s+)?(?:all|screen)$/i.test(q))) readRules(css, s.body[0], s.body[1], layer, depth + 1, found);
       else if (/^@media\\b[^{]*prefers-color-scheme/i.test(s.prelude) && cssStatements(css, s.body[0], s.body[1]).some((r) => r.body && selectorsOf(r.prelude).some(([x]) => themeOfSelector(x) === '') && customProperties(css, r.body).length)) {
-        found.skipped.add(quoted(s.prelude) + ' declares tokens that are not listed: a preview follows the theme picked on the page, not the system setting' + OPTIONAL + HOW);
+        found.skipped.add(quoted(s.prelude) + ' declares tokens that are not listed: a preview follows the theme picked on the page, not the system setting.');
       }
       continue;
     }
@@ -187,7 +184,7 @@ function readRules(css, from, to, layer, depth, found) {
     // ":host, .theme-dark" is that theme inside a shadow tree, not the base.
     const base = root >= 0 ? root : specs.size === 0 ? host : -1;
     if (base >= 0) for (const scope of specs.keys()) found.besideRoot.add(scope.replace(':', ''));
-    else if (specs.size === 0) for (const sel of odd) found.skipped.add(quoted(sel) + ' declares tokens that are not listed: tokens are read only from rules for :root, html, [data-theme="<id>"], .<id>, [data-mode="light"] or [data-mode="dark"], with the id in lower case. Previews still apply this rule' + OPTIONAL + '.');
+    else if (specs.size === 0) for (const sel of odd) found.skipped.add(quoted(sel) + ' declares tokens that are not listed: tokens are read only from rules for :root, html, [data-theme="<id>"], .<id>, [data-mode="light"] or [data-mode="dark"], with the id in lower case. Previews still apply this rule.');
     // A rule declares for every theme it names: themes often share one rule for the tokens they have in common.
     const order = found.rules++;
     const values = decls.map(([p, v]) => {
@@ -240,7 +237,7 @@ function readCustomProperties(css) {
       let again = 0;
       for (const name of declared.keys()) if (base.has(name)) again++;
       if (again < 3 || again * 2 < declared.size) {
-        if (readsLikeTheme(id)) skipped.add(quoted('.' + id) + ' declares tokens that are not listed as a theme: it sets too few of the base theme\\'s tokens again to tell it apart from a component\\'s own rule' + OPTIONAL + HOW);
+        if (readsLikeTheme(id)) skipped.add(quoted('.' + id) + ' declares tokens that are not listed as a theme: it sets too few of the base theme\\'s tokens again to tell it apart from a component\\'s own rule.');
         continue;
       }
     }
@@ -251,7 +248,7 @@ function readCustomProperties(css) {
       if (d && d.value !== base.get(n)) values.set(n, d.value);
     }
     if (values.size || addsNothing(declared, base)) scopes.set(id, values);
-    else skipped.add('the theme ' + quoted(id) + ' is not listed: in a preview of it, a rule for :root or html wins over each of its tokens (by !important, cascade layer, specificity or order), so it would show the base values' + OPTIONAL + '.');
+    else skipped.add('the theme ' + quoted(id) + ' is not listed: in a preview of it, a rule for :root or html wins over each of its tokens (by !important, cascade layer, specificity or order), so it would show the base values.');
   }
   // A token with no base value takes a theme's, as the page itself would: first
   // that of a theme written beside :root, last that of a dark one. This is the
@@ -281,7 +278,7 @@ function readCustomProperties(css) {
     const lacks = [...lent].filter(([n]) => !winner(n, holds));
     if (lacks.length * 2 <= base.size) continue;
     scopes.delete(id);
-    skipped.add('the theme ' + quoted(id) + ' is not listed: a preview in it would lack most tokens, which are set only under the theme ' + [...new Set(lacks.map(([, from]) => quoted(from)))].join(', ') + (modes.get(id) ? '. In ' + id + ' mode the page shows the base theme, with the rules for ' + id + ' mode applied' : '') + OPTIONAL + '.');
+    skipped.add('the theme ' + quoted(id) + ' is not listed: a preview in it would lack most tokens, which are set only under the theme ' + [...new Set(lacks.map(([, from]) => quoted(from)))].join(', ') + (modes.get(id) ? '. In ' + id + ' mode the page shows the base theme, with the rules for ' + id + ' mode applied' : '') + '.');
   }
 
   // The page reads a few themes only: the dark one first, then those that are surely themes.

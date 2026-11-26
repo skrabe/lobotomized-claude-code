@@ -3,7 +3,7 @@ name: 'Skill: dataviz validate_palette.js script'
 description: >-
   The full validate_palette.js six-checks palette validator served as a file of
   the dataviz skill for the model to run.
-ccVersion: 2.1.310
+ccVersion: 2.1.332
 -->
 /**
  * Validate a categorical chart palette against the computable data-viz checks.
@@ -26,12 +26,12 @@ ccVersion: 2.1.310
  * structural rules the skill enforces, not measurable from hexes alone.
  *
  * Usage (node):
- *   node validate_palette.js "#2a78d6,#eb6834,#1baf7a,#eda100,#e87ba4,#008300,#6250d6,#e34948" --mode light
- *   node validate_palette.js "#256abf,#199e70,..." --mode dark --surface "#1a1a19"
- *   node validate_palette.js "#86b6ef,#5598e7,#256abf,#104281" --ordinal
+ *   node validate_palette.js "#257de0,#f47230,#00b894,#f2a600,#ee7fac,#008a17,#6a4ce2,#ec4647" --mode light
+ *   node validate_palette.js "#338ced,#e76624,..." --mode dark --surface "#191919"
+ *   node validate_palette.js "#84b9f3,#519ced,#2370cd,#0f4a96" --ordinal
  *
  * Usage (browser - as a module script):
- *   <body data-palette="#2a78d6,#eb6834,..." data-mode="light">
+ *   <body data-palette="#257de0,#f47230,..." data-mode="light">
  *   <script type="module" src="validate_palette.js"></script>
  *   -> logs a console.table of the report and console.warn on any FAIL.
  *
@@ -43,7 +43,7 @@ ccVersion: 2.1.310
  */
 
 // -- thresholds ----------------------------------------------------------------
-const BAND = { light: [0.43, 0.77], dark: [0.48, 0.67] }; // OKLCH L
+const BAND = { light: [0.43, 0.78], dark: [0.48, 0.7] }; // OKLCH L
 const CHROMA_FLOOR = 0.10; // OKLCH C
 // Delta E is Euclidean distance in OKLab ×100. The CVD thresholds are calibrated to
 // the Machado-Oliveira-Fernandes (2009) severity-1.0 simulation below - the sim
@@ -52,7 +52,7 @@ const CHROMA_FLOOR = 0.10; // OKLCH C
 const CVD_TARGET = 8.0, CVD_FLOOR = 6.0; // OKLab Delta E×100, min(protan, deutan), adjacent pairs
 const NORMAL_FLOOR = 15.0; // OKLab Delta E×100, worst pair on the active pairlist, unsimulated vision
 const CONTRAST_MIN = 3.0; // WCAG vs surface
-const DEFAULT_SURFACE = { light: "#fcfcfb", dark: "#1a1a19" };
+const DEFAULT_SURFACE = { light: "#ffffff", dark: "#191919" };
 const ORDINAL_MIN_DL = 0.06; // min OKLCH delta L between adjacent steps
 const ORDINAL_LIGHT_FLOOR = 2.0; // lightest step: WCAG contrast vs surface
 
@@ -204,7 +204,7 @@ export function validate(palette, { mode = "light", surface, pairs = "adjacent" 
   //     unsimulated vision too. A hard gate: secondary encoding does not
   //     excuse it, and weak pairs are not masked to keep an existing palette
   //     validating (this floor forced the first of the July 2026 re-orders
-  //     of the shipped set: same steps, re-ordered, clears 19.6/19.3).
+  //     of the default palette).
   let nworst = null;
   for (const [i, j] of pairlist) {
     const d = deltaE(palette[i], palette[j]);

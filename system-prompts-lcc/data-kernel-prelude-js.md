@@ -3,7 +3,7 @@ name: 'Data: kernel.prelude.js'
 description: >-
   REPL kernel prelude run in the REPL VM; throws model-visible REPL errors (call
   too large, wall clock, placeholders).
-ccVersion: 2.1.331
+ccVersion: 2.1.332
 -->
 'use strict';
 (link, settings, parts) => {
@@ -307,6 +307,8 @@ const WORDS = {
 const PROMISE_WORDS = '[a promise that was not awaited: add await to get its value]';
 const UNDEFINED = { $: 'u' };
 const MOST_CHARS_OF_64_BITS = 21;
+const LEAST_LONG_CHARS = 64;
+const MARK = '\\0';
 function put(target, key, value, enumerable = true) {
     defineProperty(target, key, {
         value,
@@ -376,6 +378,69 @@ function textOf(value, most = 1 / 0) {
     return typeof value === 'string' && value.length <= most
         ? value
         : refuse('not text');
+}
+const LONG_ALONE = stringify(MARK);
+function copyOf(data, names) {
+    const copy = (names === undefined ? [] : { __proto__: null });
+    const count = (names ?? data).length;
+    for (let index = 0; index < count; index++) {
+        const key = names === undefined ? index : names[index];
+        copy[key] = data[key];
+    }
+    return copy;
+}
+function withoutLong(data, long) {
+    if (typeof data === 'string') {
+        if (data.length < LEAST_LONG_CHARS && data !== MARK) {
+            return data;
+        }
+        long[long.length] = data;
+        return MARK;
+    }
+    if (data === null || typeof data !== 'object') {
+        return data;
+    }
+    const names = isArray(data) ? undefined : keys(data);
+    const count = (names ?? data).length;
+    let copy;
+    for (let index = 0; index < count; index++) {
+        const key = names === undefined ? index : names[index];
+        const before = long.length;
+        const member = withoutLong(data[key], long);
+        if (long.length > before) {
+            copy ??= copyOf(data, names);
+            copy[key] = member;
+        }
+    }
+    return copy ?? data;
+}
+function withLong(data, long) {
+    let placed = 0;
+    const fill = (holder) => {
+        const names = isArray(holder) ? undefined : keys(holder);
+        const count = (names ?? holder).length;
+        for (let index = 0; index < count; index++) {
+            const key = names === undefined ? index : names[index];
+            const member = holder[key];
+            if (member === MARK) {
+                holder[key] = textOf(long[placed++]);
+            }
+            else if (member !== null && typeof member === 'object') {
+                fill(member);
+            }
+        }
+    };
+    const root = { data };
+    fill(root);
+    return placed === long.length ? root.data : refuse('not its long strings');
+}
+function charsOf(text, long) {
+    let chars = text.length;
+    for (let index = 0; index < long.length; index++) {
+        const each = long[index];
+        chars += typeof each === 'string' ? each.length : 0 / 0;
+    }
+    return chars;
 }
 function createCodec(realm) {
     const { mostItems, mostDepth, mostDigits, mostChars, kindOf, hides } = realm;
@@ -833,19 +898,24 @@ function createCodec(realm) {
         treeOf,
         readTree,
         tooLong,
-        encode: (value, shown, whole) => typeof value === 'string'
-            ? \`=\${value}\`
-            : isPlain(value, shown)
-                ? stringify(value)
-                : \`~\${stringify(treeOf(value, shown, whole))}\`,
-        decode: text => text[0] === '='
-            ? text.slice(1)
-            : text[0] === '~'
-                ? readTree(parse(text.slice(1)))
-                : parse(text),
+        encode: (value, shown, whole) => {
+            const long = [];
+            const text = typeof value === 'string' || isPlain(value, shown)
+                ? stringify(withoutLong(value, long))
+                : \`~\${stringify(withoutLong(treeOf(value, shown, whole), long))}\`;
+            return { text, long };
+        },
+        decode: (text, long) => {
+            const isTree = text[0] === '~';
+            const parsed = parse(isTree ? text.slice(1) : text);
+            const data = long.length > 0 || text.includes(LONG_ALONE)
+                ? withLong(parsed, long)
+                : parsed;
+            return isTree ? readTree(data) : data;
+        },
     };
 }
-return { createCodec };
+return { LONG_ALONE, withoutLong, withLong, charsOf, createCodec };
 })();
 const module_env_kernel_printing = (() => {
 const { apply, Builtin, defineProperty, put } = module_env_kernel_builtins;
@@ -956,7 +1026,7 @@ function installCaptureStackTrace() {
 return { withoutHostFrames, installCaptureStackTrace };
 })();
 const module_env_kernel_values = (() => {
-const { createCodec } = module_protocol_codec;
+const { createCodec, withLong } = module_protocol_codec;
 const { apply, Builtin, getOwnPropertyDescriptor, getPrototypeOf, globals, isArray, isObject, isView, keys, parse, put, stringify, toText } = module_env_kernel_builtins;
 const { wasMadeByProxy } = module_env_kernel_proxies;
 const { withoutHostFrames } = module_env_kernel_stacks;
@@ -1133,6 +1203,13 @@ const { tooLong } = codec;
 function namesOf(value) {
     return codec.namesOf(value);
 }
+function filled(reply) {
+    if (reply.t === undefined) {
+        return reply;
+    }
+    const { t, ...rest } = reply;
+    return withLong(rest, t);
+}
 function valueIn(reply) {
     return reply.x !== undefined
         ? codec.readTree(reply.x)
@@ -1167,12 +1244,12 @@ function lineOf(args) {
     }
     return parts.join(' ');
 }
-return { isHidden, tooLong, namesOf, valueIn, encode, encodeResult, lineOf };
+return { isHidden, tooLong, namesOf, filled, valueIn, encode, encodeResult, lineOf };
 })();
 const module_env_kernel_calls = (() => {
 const { Builtin, getPrototypeOf, isObject, messageOf, parse, put, withPlainErrors, toText, whenSettled } = module_env_kernel_builtins;
 const { budgetInUse, holdLateFirstRun, startTurn } = module_env_kernel_steps;
-const { encode, valueIn } = module_env_kernel_values;
+const { encode, filled, valueIn } = module_env_kernel_values;
 function madeInto({ type, optional }) {
     switch (type) {
         case 'string':
@@ -1227,6 +1304,7 @@ async function awaited(send) {
         return { error: messageOf(refusal) };
     }
     startTurn(reply, budget);
+    reply = filled(reply);
     if (reply.e !== undefined) {
         throw errorOf(reply.e);
     }
@@ -1248,11 +1326,16 @@ function senderOf({ name, fields }) {
         const made = madeInto(field);
         return (input) => made(input[field.name]);
     });
+    const anyAt = fields.findIndex(field => field.type === 'any');
     return input => {
         try {
             const sent = [a?.(input), b?.(input), c?.(input), d?.(input), e?.(input)];
+            const written = anyAt < 0 ? undefined : sent[anyAt];
+            if (written !== undefined) {
+                sent[anyAt] = written.text;
+            }
             holdLateFirstRun();
-            return op(sent[0], sent[1], sent[2], sent[3], sent[4]);
+            return op(sent[0], sent[1], sent[2], sent[3], sent[4], written?.long);
         }
         catch (thrown) {
             if (isObject(thrown) && getPrototypeOf(thrown) !== overflowPrototype) {
@@ -1274,7 +1357,7 @@ const ops = Object.fromEntries(settings.ops.map(({ name, mode }) => {
         case 'sync':
             return [
                 name,
-                withPlainErrors(input => valueIn(send(input))),
+                withPlainErrors(input => valueIn(filled(send(input)))),
             ];
         case 'notify':
             return [name, withPlainErrors(input => void send(input))];
@@ -1611,6 +1694,7 @@ function namesOfScripts() {
 return { installFirst, install, namesOfScripts };
 })();
 const module_env_kernel_result = (() => {
+const { charsOf } = module_protocol_codec;
 const { Builtin, getOwnPropertyDescriptor, getPrototypeOf, isArray, isObject, isView, memberOf, messageOf, ownKeys, put, toText, whenSettled } = module_env_kernel_builtins;
 const { ops } = module_env_kernel_calls;
 const { tellReached } = module_env_kernel_marks;
@@ -1701,19 +1785,20 @@ function tellWords(text, stack, wasText) {
 }
 const AWAITS_BEFORE_THE_END = 3;
 function tellReturned(value) {
-    let text;
+    let written;
     try {
-        text = encodeResult(value);
+        written = encodeResult(value);
     }
     catch (thrown) {
-        text = thrown === tooLong ? undefined : encode(undefined);
+        written = thrown === tooLong ? undefined : encode(undefined);
     }
     const most = typeof value === 'string' ? settings.mostTextChars : settings.mostJsonChars;
-    if (text === undefined || text.length > most) {
+    if (written === undefined || charsOf(written.text, written.long) > most) {
         ops.threw({ text: NOT_PASSED_BACK, stack: '', wasText: false });
     }
     else {
-        returned(text);
+        const none = undefined;
+        returned(written.text, none, none, none, none, written.long);
     }
 }
 async function tellResult(script, hasWaited) {

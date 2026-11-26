@@ -3,7 +3,7 @@ name: 'Workflow Script: deep-research'
 description: >-
   Bundled deep-research workflow — a multi-round scoped search pipeline with URL
   dedup, fetch/extract, vote-based verification, and a gap critic between rounds
-ccVersion: 2.1.325
+ccVersion: 2.1.332
 variables:
   - WORKFLOW_NAME
   - WORKFLOW_DESCRIPTION
@@ -362,7 +362,7 @@ async function researchRound(angles, round) {
         )
       ).then(verdicts => {
         // A vote can be null (user-skip or agent error) — treat as no vote cast.
-        // Three outcomes (go/ccissue/69883 — infra failure must not read as "refuted"):
+        // Three outcomes (infra failure must not read as "refuted"):
         //   survives  — quorum of valid votes AND fewer than REFUTATIONS_REQUIRED refuting
         //   isRefuted — ≥REFUTATIONS_REQUIRED refute votes (adjudicated against on merit)
         //   otherwise — unverified: too few valid votes to adjudicate (verifier agents errored)

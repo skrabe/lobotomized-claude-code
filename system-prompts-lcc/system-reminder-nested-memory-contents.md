@@ -1,10 +1,10 @@
 <!--
 name: 'System Reminder: Nested memory contents'
 description: Contents of a nested memory file
-ccVersion: 2.1.18
+ccVersion: 2.1.332
 variables:
-  - ATTACHMENT_OBJECT
+  - SYSTEM_REMINDER_NESTED_MEMORY_CONTENTS_VAR_0
 -->
-Contents of ${ATTACHMENT_OBJECT.content.path}:
+Contents of ${SYSTEM_REMINDER_NESTED_MEMORY_CONTENTS_VAR_0.content.path}${SYSTEM_REMINDER_NESTED_MEMORY_CONTENTS_VAR_0.replacesPath===void 0?"":` (in its worktree it replaces ${SYSTEM_REMINDER_NESTED_MEMORY_CONTENTS_VAR_0.replacesPath})`}:
 
-${ATTACHMENT_OBJECT.content.content}
+${SYSTEM_REMINDER_NESTED_MEMORY_CONTENTS_VAR_0.content.content}

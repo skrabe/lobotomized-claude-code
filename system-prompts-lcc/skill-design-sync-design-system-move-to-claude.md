@@ -3,7 +3,7 @@ name: 'Skill: Design-sync design system move to Claude'
 description: >-
   Routes a repo's design sync to its moved artifact, offers migration from
   Claude Design or stops when the destination needs the user
-ccVersion: 2.1.330
+ccVersion: 2.1.332
 -->
 ---
 name: design-sync
@@ -34,6 +34,7 @@ Call \`DesignSync\` with \`method: "get_project"\` and \`projectId: "<project-id
 | \`moveState\` is \`moved\`, and there is no \`movedTo\` | Give the user the \`notice\` as written, and the owner's name (\`ownerDisplayName\`) as the person to ask. Ask (\`AskUserQuestion\`) whether to look again or to stop: the look may only have failed. With no user to ask, stop. |
 | \`moveState\` is \`moving\` | Give the user the \`notice\` as written, and ask (\`AskUserQuestion\`) whether to look again now or to stop. Each time they say so, make the call again and go by this table. With no user to ask, stop. |
 | No \`moveState\`, and \`type\` is \`PROJECT_TYPE_DESIGN_SYSTEM\` | §3. |
+| An error that says \`/design-login\` can't run in this session, or that signing in again needs an interactive terminal | If it says to retry shortly, make the call again, once in this run, and go by this table. Otherwise tell the user that the look-up needs a sign-in that this session can't make, and ask (\`AskUserQuestion\`) which it is to be: they run \`/design-login\` once in Claude Code in a terminal on this machine, and you make the call again once they have; they give the link of the artifact this design system moved to, and you go on to the artifact, where it counts as **Named by the user**; or stop. With no user to ask, stop. |
 | A refusal that says Claude Design now lives in Claude and tools like Claude Code can't reach standalone projects | claude.ai/design has closed. Give the refusal to the user as written, then §4. |
 | Another error about signing in, scopes or consent, a bare 401 among them | Give the user its guidance as written or, where it has none, tell them to run \`/design-login\`. Make the call again once they have acted on it. With no user to ask, stop. |
 | "not found", or another \`type\` | The project was deleted, or the user can't see it, or they are signed in to another organization, or it is no design system: tell them which of these the answer allows. Then §4. |

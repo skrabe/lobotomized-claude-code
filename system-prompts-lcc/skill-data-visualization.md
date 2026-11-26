@@ -1,7 +1,7 @@
 <!--
 name: 'Skill: Data Visualization'
 description: 'Prompt body of the data-visualization skill, injected at skill invocation.'
-ccVersion: 2.1.325
+ccVersion: 2.1.332
 -->
 ---
 name: Data Visualization
@@ -94,7 +94,7 @@ of what goes wrong. If your chart matches an entry, it's wrong.
   selective direct labels (never a number on every point); recessive grid/axes.**
   One exception, legend kept: the tall segmented bar (*Figures* in \`references/marks-and-anatomy.md\`).
 - **Text wears text tokens, never the series color** - values, labels, and legends
-  stay in primary/secondary/muted ink; a colored mark beside them carries identity.
+  stay in the system's text inks; a colored mark beside them carries identity.
 - **Status colors are reserved** (good/warning/serious/critical) and never reused
   for "series 4"; they ship with an icon + label, never color alone.
 

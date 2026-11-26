@@ -3,6 +3,6 @@ name: Computer deny-list settings location
 description: >-
   Settings location appended to the denied-app guidance in request-access
   results.
-ccVersion: 2.1.330
+ccVersion: 2.1.332
 -->
-(Settings → This computer → System → Computer Use → Denied apps). 
+(Settings → Capabilities or System → Computer use → Denied apps). 

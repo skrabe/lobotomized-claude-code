@@ -3,7 +3,7 @@ name: 'Data: bunlink.prelude.js'
 description: >-
   REPL engine link prelude run in the REPL VM whose thrown errors reach the
   model through REPL results.
-ccVersion: 2.1.331
+ccVersion: 2.1.332
 -->
 'use strict';
 (host, listed, linkName) => {
@@ -16,6 +16,7 @@ const Builtin = { Error, RangeError, Promise };
 const { isError } = Error;
 const PROTOTYPES = [Object, Function, Array, Promise].map(builtin => builtin.prototype);
 const waiting = new Map();
+let longOfReply = [];
 for (const name of [
     'ShadowRealm',
     'WebAssembly',
@@ -34,10 +35,14 @@ for (const name of [
 ]) {
     Reflect.deleteProperty(globalThis, name);
 }
-function send(name, ...[a, b, c, d, e, f]) {
+function send(name, ...[a, b, c, d, e, long]) {
+    const count = long?.length ?? 0;
     let reply;
     try {
-        reply = host(name, a, b, c, d, e, f);
+        for (let index = 0; index < count; index++) {
+            host('+', long[index]);
+        }
+        reply = host(name, a, b, c, d, e, count);
     }
     catch {
         throw new Builtin.RangeError('Maximum call stack size exceeded.');
@@ -47,10 +52,18 @@ function send(name, ...[a, b, c, d, e, f]) {
     }
     return reply;
 }
+function parsed(reply) {
+    if (reply[0] !== '+') {
+        return parse(reply);
+    }
+    const t = longOfReply;
+    longOfReply = [];
+    return { ...parse(apply(slice, reply, [1])), t };
+}
 function stubOf({ name, mode }) {
     switch (mode) {
         case 'sync':
-            return (a, b, c, d, e, f) => parse(send(name, a, b, c, d, e, f));
+            return (a, b, c, d, e, f) => parsed(send(name, a, b, c, d, e, f));
         case 'notify':
             return (a, b, c, d, e, f) => void send(name, a, b, c, d, e, f);
         case 'async':
@@ -69,11 +82,16 @@ const link = {
     jobsFollow: () => void send('', true),
 };
 Object.defineProperty(globalThis, linkName, { value: link, configurable: true });
-function settle(id, json) {
+function addLong(index, text) {
+    longOfReply.length = index;
+    longOfReply[index] = text;
+}
+function settle(id, reply) {
     try {
         const resolve = waiting.get(id);
         waiting.delete(id);
-        resolve?.(parse(json));
+        const value = parsed(reply);
+        resolve?.(value);
     }
     catch { }
 }
@@ -99,7 +117,7 @@ function wordsOf(thrown) {
         return '';
     }
 }
-return { settle, forget, areBuiltinsFrozen, wordsOf };
+return { addLong, settle, forget, areBuiltinsFrozen, wordsOf };
 })();
 return module_engine_bunLink;
 }

@@ -3,7 +3,7 @@ name: 'Skill: Computer Use MCP'
 description: >-
   Instructions for using computer-use MCP tools including tool selection tiers,
   app access tiers, link safety, and financial action restrictions
-ccVersion: 2.1.328
+ccVersion: 2.1.332
 -->
 You have a computer-use MCP available (tools named \`mcp__computer-use__*\`) for taking desktop screenshots and controlling the desktop with mouse clicks, keyboard input, and scrolling.
 

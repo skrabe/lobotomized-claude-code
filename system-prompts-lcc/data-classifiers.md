@@ -3,7 +3,7 @@ name: 'Data: classifiers'
 description: >-
   claude-approvals skill reference file on custom classifiers, read by the model
   after SKILL.md.
-ccVersion: 2.1.331
+ccVersion: 2.1.332
 -->
 # Claude Approvals: custom classifiers
 
@@ -32,7 +32,7 @@ A custom classifier is a Claude run that answers the repository's own question a
 6. **Say what it costs.** Each pull request that a naming rule matches mostly pays for up to one run at each new patchset (see "When it runs"), and for one more for each value of an input that no \`merge\` joins (see "Inputs"). After an error or a temporary fault, Claude Approvals can start the run again by itself, more than once, billed like any other: promise no number of runs. Runs are billed by tokens to the Claude organization's usage credits, in observe mode and under \`advisory\` too. \`budget\` stops a run at about 10 US dollars by default, and spend can pass that. No typical price of a run is known: give none.
 7. **Offer a trial.** Add \`advisory: [repo/<name>]\` to the rule that already matches, keeping the names it already lists there or gets through \`use\`. The classifier runs there and is paid for, but is not waited for and decides nothing.
    - On an enforced rule, this draws the warning "rules still hold on these files, but the check cannot tell that they ask as much as this rule did". It is expected here: say so.
-   - To try it on a few paths only, add a rule with three keys and no \`verdict\`: \`purpose\`, \`paths\` and \`advisory\`. Such a rule changes no approval: it asks nobody, but for the one person that a protected file always takes. It runs the classifier only on files that a rule with a \`verdict\` matches too.
+   - To try it on a few paths only, add a rule with three keys and no \`verdict\`: \`purpose\`, \`paths\` and \`advisory\`. Such a rule changes no approval: it asks nobody, but for the one person that a protected file always takes. It runs the classifier only on files that a rule with a \`verdict\` matches too, or on a protected file it matches where a policy file above has one.
    - The trial starts once the edit is merged, and Claude Approvals can go on reading the earlier copy for about five minutes. After that, open a pull request that is no draft and changes a matching file.
    - The result shows in Claude Approvals' comment, in the part titled "Classifier results", or in the check's summary, in the part titled "Advisory classifiers (not counted toward this verdict)". It comes at the first evaluation after the run ends. An approval or a request for changes starts one; a review with only comments does not. Until then the line reads "no result recorded yet".
    - While the policy file says \`mode: observe\`, it gates nothing, so the name can go straight into an override's \`if\`. A comment, labels and reviewers cannot be tried there (see "In observe mode").
@@ -146,7 +146,7 @@ prompt: |
     advisory: [repo/migration_flags]
 \`\`\`
 
-It starts the classifier only for a changed file that a rule with a \`verdict\` matches too: a pull request with no such file brings no run, and no warning says so. The classifier's findings are shown and decide nothing. They open ordinary review threads: where the branch rules require conversations to be resolved, somebody must resolve them on GitHub before the merge. \`comment\` serves too, but only under an enforced rule (see "In observe mode").
+It starts the classifier only for a changed file that a rule with a \`verdict\` matches too, or for a protected file that it matches where a policy file above that file has a rule with a \`verdict\`: a pull request with neither brings no run, and no warning says so. The classifier's findings are shown and decide nothing. They open ordinary review threads: where the branch rules require conversations to be resolved, somebody must resolve them on GitHub before the merge. \`comment\` serves too, but only under an enforced rule (see "In observe mode").
 
 ## Keys of def.yml
 
@@ -302,7 +302,7 @@ Good practice for any classifier, beyond what the format demands. Follow it in a
 2. **Give a fixed recipe for a finding's title,** such as the kind of problem, with one finding per file and kind, whose text names its other places. The same title on the same file is the same finding, so free wording can open a duplicate at each push.
 3. **Define only outputs that a rule reads or will read, say which result to pick in doubt, and have rules name the good result** (\`= pass\`, \`<= medium\`). Never rule out the bad one with \`!=\`: \`!= fail\` is also true of every other word in \`values\`. Add no output that counts or repeats the findings: rules read the worst open one as \`.severity\`, and every output is one more that a run can leave unanswered, which gives no result.
 4. **Leave \`budget\` out until you have watched real runs.** A lower \`cost\` saves nothing on a normal run. A run that it cuts off is still paid for and reads \`incomplete\`, and large pull requests meet it first ("No result", "Cheaper and faster").
-5. **Judge by what the author cannot change.** What the classifier judges by belongs in its own folder, which is protected. \`default/\` is only as safe as the policy's review of it, and \`head/\` never is. Have the run go by what the code does, not by what the pull request's title, description or comments say of it.
+5. **Judge by what the author cannot change.** What the classifier judges by belongs in its own folder, which is protected. But with no policy file above that folder, as at the root where only directories have one, a pull request that changes nothing under a policy file asks nobody. \`default/\` is only as safe as the policy's review of it, and \`head/\` never is. Have the run go by what the code does, not by what the pull request's title, description or comments say of it.
 6. **Ask for sub-agents, which takes a line in the prompt, only where several independent readings are worth the price.** Each reads again, out of the run's own \`time\` and \`cost\`, and only the run itself reports and answers.
 
 ## How a rule reads it

@@ -3,7 +3,7 @@ name: 'Data: layout-cards.mjs'
 description: >-
   design-sync artifact-road lib/layout-cards.mjs, extracted with the skill for
   the model to read.
-ccVersion: 2.1.330
+ccVersion: 2.1.332
 -->
 // Rewrites a built preview card for a Design System artifact. The artifact's
 // page loads React, the component bundle and the stylesheet into every preview
@@ -54,7 +54,6 @@ const BUILT_SCRIPT = /^<script src="([^"]*)">$/;
 const BUILT_LINK = /^<link rel="stylesheet" href="([^"]*)">$/;
 const FORBIDDEN = /<(iframe|frame|frameset|fencedframe|object|embed|portal|noscript|base)(?=[\\s/>])|<(meta)\\s[^<>]{0,300}http-equiv/i;
 const ADDRESS = /\\s(?:src|href|srcset|poster|data|action|formaction|xlink:href)\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]*))/gi;
-const REMEDY = ' Rebuild the card with package-build.mjs, or move what it needs into its preview file, .design-sync/previews/<Name>.tsx.';
 
 function refusal(file, tag, text) {
   return new Refusal('[' + tag + '] ' + quoted(file) + ': ' + text);
@@ -72,9 +71,9 @@ function paste(card, url) {
   const { file, tree, used } = card;
   const target = resolveInTree(file, url);
   if (target !== null && PROVIDED.test(target)) return;
-  if (target === null || !OWN.test(target)) throw refusal(file, 'CARD_UNKNOWN_TAG', 'loads ' + quoted(url) + ', which is not a file the build writes for a card.' + REMEDY);
-  if (!tree.has(target)) throw refusal(file, 'CARD_FILE_MISSING', 'loads ' + quoted(url) + ', which is missing from the build folder. Rebuild with package-build.mjs.');
-  if (used.has(target)) throw refusal(file, 'CARD_UNKNOWN_TAG', 'loads ' + quoted(url) + ' twice, which the build does not write.' + REMEDY);
+  if (target === null || !OWN.test(target)) throw refusal(file, 'CARD_UNKNOWN_TAG', 'loads ' + quoted(url) + ', which is not a file the build writes for a card.');
+  if (!tree.has(target)) throw refusal(file, 'CARD_FILE_MISSING', 'loads ' + quoted(url) + ', which is missing from the build folder.');
+  if (used.has(target)) throw refusal(file, 'CARD_UNKNOWN_TAG', 'loads ' + quoted(url) + ' twice, which the build does not write.');
   used.add(target);
   const kind = target.endsWith('.css') ? 'style' : 'script';
   card.out += '<' + kind + '>' + inlineSafe(tree.text(target), kind) + '</' + kind + '>\\n';
@@ -90,7 +89,7 @@ export function layoutCard(html, { file, name, tree }) {
   const nl = html.indexOf('\\n');
   const floor = html.includes('id="ds-fallback"');
   const marker = cardMarker(nl < 0 ? html : html.slice(0, nl), { floor, single: html.includes('var MODE="single";') });
-  if (marker === null) throw refusal(file, 'CARD_MARKER', 'the first line is not a @dsCard comment, so this is not a card the build wrote. Rebuild it with package-build.mjs.');
+  if (marker === null) throw refusal(file, 'CARD_MARKER', 'the first line is not a @dsCard comment, so this is not a card the build wrote.');
   const src = nl < 0 ? '' : html.slice(nl + 1);
   const card = { file, tree, src, used: new Set(), out: '', markup: '' };
 
@@ -106,24 +105,24 @@ export function layoutCard(html, { file, name, tree }) {
     let end = gt + 1;
     if (m[1].toLowerCase() === 'link') {
       const href = BUILT_LINK.exec(tag)?.[1];
-      if (href === undefined) throw refusal(file, 'CARD_UNKNOWN_TAG', 'holds the tag ' + quoted(tag || src.slice(m.index)) + ', which the build does not write.' + REMEDY);
+      if (href === undefined) throw refusal(file, 'CARD_UNKNOWN_TAG', 'holds the tag ' + quoted(tag || src.slice(m.index)) + ', which the build does not write.');
       paste(card, href);
     } else {
       const CLOSE = /<\\/script[\\s/>]/gi;
       CLOSE.lastIndex = end;
       const close = gt < 0 ? null : CLOSE.exec(src);
       const closeEnd = close ? src.indexOf('>', close.index) + 1 : 0;
-      if (closeEnd <= 0) throw refusal(file, 'CARD_UNKNOWN_TAG', 'holds a <script> that is never closed.' + REMEDY);
+      if (closeEnd <= 0) throw refusal(file, 'CARD_UNKNOWN_TAG', 'holds a <script> that is never closed.');
       if (tag === '<script>') {
         const text = src.slice(end, close.index);
-        if (/\\bimport\\s*(?:\\(\\s*)?["'\`]\\.{0,2}\\/|\\bfrom\\s*["'\`]\\.{0,2}\\//.test(text)) throw refusal(file, 'CARD_UNKNOWN_TAG', 'imports a file by path in an inline script, which the build does not write.' + REMEDY);
+        if (/\\bimport\\s*(?:\\(\\s*)?["'\`]\\.{0,2}\\/|\\bfrom\\s*["'\`]\\.{0,2}\\//.test(text)) throw refusal(file, 'CARD_UNKNOWN_TAG', 'imports a file by path in an inline script, which the build does not write.');
         card.out += src.slice(lead, closeEnd);
         card.markup += tag;
         pos = OPEN.lastIndex = closeEnd;
         continue;
       }
       const url = BUILT_SCRIPT.exec(tag)?.[1];
-      if (url === undefined || src.slice(end, close.index) !== '') throw refusal(file, 'CARD_UNKNOWN_TAG', 'holds the tag ' + quoted(tag) + ', which the build does not write.' + REMEDY);
+      if (url === undefined || src.slice(end, close.index) !== '') throw refusal(file, 'CARD_UNKNOWN_TAG', 'holds the tag ' + quoted(tag) + ', which the build does not write.');
       paste(card, url);
       end = closeEnd;
     }
@@ -135,14 +134,14 @@ export function layoutCard(html, { file, name, tree }) {
   const { markup } = card;
 
   const bad = FORBIDDEN.exec(markup);
-  if (bad) throw refusal(file, 'CARD_FORBIDDEN_TAG', 'holds the tag <' + (bad[1] ?? bad[2]).toLowerCase() + '>, which a preview in an artifact may not hold. Show the component without it.');
+  if (bad) throw refusal(file, 'CARD_FORBIDDEN_TAG', 'holds the tag <' + (bad[1] ?? bad[2]).toLowerCase() + '>, which a preview in an artifact may not hold.');
   for (const a of markup.matchAll(ADDRESS)) {
     const url = a[1] ?? a[2] ?? a[3];
-    if (url !== '' && !/^(?:data:|#)/i.test(url)) throw refusal(file, 'CARD_UNKNOWN_TAG', 'names ' + quoted(url) + ' in its markup. Only what the build pastes into a card goes with it to the artifact.' + REMEDY);
+    if (url !== '' && !/^(?:data:|#)/i.test(url)) throw refusal(file, 'CARD_UNKNOWN_TAG', 'names ' + quoted(url) + ' in its markup. Only what the build pastes into a card goes with it to the artifact.');
   }
-  if (/@import\\b/i.test(markup)) throw refusal(file, 'CARD_UNKNOWN_TAG', 'holds an @import in a <style>, which the build does not write.' + REMEDY);
+  if (/@import\\b/i.test(markup)) throw refusal(file, 'CARD_UNKNOWN_TAG', 'holds an @import in a <style>, which the build does not write.');
   const inCss = /url\\(\\s*["']?(?!data:|#)([^)"'\\s]{1,200})/i.exec(markup);
-  if (inCss) throw refusal(file, 'CARD_UNKNOWN_TAG', 'names url(' + quoted(inCss[1]) + ') in its own styles. Only what the build pastes into a card goes with it to the artifact.' + REMEDY);
+  if (inCss) throw refusal(file, 'CARD_UNKNOWN_TAG', 'names url(' + quoted(inCss[1]) + ') in its own styles. Only what the build pastes into a card goes with it to the artifact.');
   if (card.out.length > SHEET_MAX_BYTES) throw refusal(file, 'CARD_TOO_LARGE', 'comes to ' + card.out.length + ' characters with its preview module pasted in, more than one file of an artifact may be');
 
   if (floor) {

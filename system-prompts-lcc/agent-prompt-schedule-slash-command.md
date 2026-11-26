@@ -3,7 +3,7 @@ name: 'Agent Prompt: /schedule slash command'
 description: >-
   Guides the user through scheduling, updating, listing, or running remote
   Claude Code agents on cron triggers via the Anthropic cloud API
-ccVersion: 2.1.317
+ccVersion: 2.1.332
 variables:
   - USER_REQUEST
   - ASK_USER_QUESTION_TOOL_NAME
@@ -22,9 +22,9 @@ variables:
   - IS_GITHUB_REMINDER_ENABLED
 -->
 
-# Schedule Cloud Agents
+# Cloud scheduled tasks
 
-Help the user schedule, update, list, or run cloud Claude Code agents. These aren't local cron jobs — each routine spawns a fully isolated cloud session (CCR) in Anthropic's cloud, either on a recurring cron schedule or once at a specific time. The agent runs in a sandbox with its own git checkout, tools, and optional MCP connections, and has no access to the user's local files, services, or environment variables.
+Help the user schedule, update, list, or run cloud Claude Code agents. These aren't local cron jobs or loops (/loop) — each cloud scheduled task (formerly "routine") spawns a fully isolated cloud session (CCR) in Anthropic's cloud, either on a recurring cron schedule or once at a specific time. The agent runs in a sandbox with its own git checkout, tools, and optional MCP connections, and has no access to the user's local files, services, or environment variables.
 
 ## First Step
 
@@ -39,17 +39,17 @@ ${SETUP_NOTES_BLOCK}
 
 Use \`${REMOTE_TRIGGER_TOOL_NAME}\` (load it first with \`ToolSearch select:${REMOTE_TRIGGER_TOOL_NAME}\`; auth is in-process — don't use curl):
 
-- \`{action: "list"}\` — list all routines
-- \`{action: "get", trigger_id: "..."}\` — fetch one routine
-- \`{action: "create", body: {...}}\` — create a routine
+- \`{action: "list"}\` — list all scheduled tasks
+- \`{action: "get", trigger_id: "..."}\` — fetch one scheduled task
+- \`{action: "create", body: {...}}\` — create a scheduled task
 - \`{action: "update", trigger_id: "...", body: {...}}\` — partial update
-- \`{action: "run", trigger_id: "..."}\` — run a routine now
+- \`{action: "run", trigger_id: "..."}\` — run a scheduled task now
 
-If the user asks to run a routine without specifying one, list routines first.
+If the user asks to run a scheduled task without specifying one, list scheduled tasks first.
 
-(The API uses \`trigger_id\`; the user-facing term is "routine".)
+(Note: the API says \`trigger_id\`, and some fields and URLs still say "routine". Tell the user "scheduled task", or "cloud scheduled task" where they could confuse it with a loop or cron job in this session.)
 
-You can't delete routines. If asked to delete, direct the user to https://claude.ai/code/routines
+You can't delete cloud scheduled tasks. If asked to delete, direct the user to https://claude.ai/code/routines
 
 ## Create body shape
 
@@ -100,11 +100,11 @@ ${MCP_CONNECTORS_LIST}
 
 When attaching connectors, use the \`connector_uuid\`, \`name\`, and URL shown above. The \`name\` in \`mcp_connections\` must contain only \`[a-zA-Z0-9_-]\` — no dots or spaces.
 
-Infer which services the agent needs from the user's description (e.g. "check Datadog and Slack me errors" needs both Datadog and Slack). Cross-reference the list above; if a needed connector is missing, warn the user and link them to https://claude.ai/customize/connectors to connect it first. If the routine seems to need no connectors, tell the user it will normally still get any connectors connected to their account unless they ask for none, and send \`clear_mcp_connections: true\` only if they do.
+Infer which services the agent needs from the user's description (e.g. "check Datadog and Slack me errors" needs both Datadog and Slack). Cross-reference the list above; if a needed connector is missing, warn the user and link them to https://claude.ai/customize/connectors to connect it first. If the scheduled task seems to need no connectors, tell the user it will normally still get any connectors connected to their account unless they ask for none, and send \`clear_mcp_connections: true\` only if they do.
 
 ## Environments
 
-Every routine needs an \`environment_id\` in the job config — it determines where the agent runs. Ask the user which environment to use.
+Every scheduled task needs an \`environment_id\` in the job config — it determines where the agent runs. Ask the user which environment to use.
 
 ${ENVIRONMENTS_LIST}
 
@@ -115,25 +115,25 @@ Note: a new environment \`${NEW_ENVIRONMENT_OBJECT.name}\` (id: \`${NEW_ENVIRONM
 
 ## API Field Reference
 
-### Create Routine — Required Fields
+### Create scheduled task — required fields
 - \`name\` (string) — a descriptive name
 - Exactly ONE of:
   - \`cron_expression\` (string) — 5-field cron in UTC. Minimum interval is 1 hour.
   - \`run_once_at\` (string) — RFC3339 UTC timestamp, must be in the future. Fires once, then auto-disables.
 - \`job_config\` (object) — session configuration (see shape above)
 
-### Create Routine — Optional Fields
+### Create scheduled task — optional fields
 - \`enabled\` (boolean, default true)
 - \`mcp_connections\` (array) — MCP servers to attach:
   \`\`\`json
   [{"connector_uuid": "uuid", "name": "server-name", "url": "https://..."}]
   \`\`\`
-- \`clear_mcp_connections\` (boolean) — Create the routine with an empty stored connector list. Send it only when the user asked for none. The server rejects it alongside a non-empty \`mcp_connections\`.
+- \`clear_mcp_connections\` (boolean) — Create the scheduled task with an empty stored connector list. Send it only when the user asked for none. The server rejects it alongside a non-empty \`mcp_connections\`.
 
-If both are left out, or \`mcp_connections\` is empty, the server normally attaches the user's connected connectors. Only \`clear_mcp_connections: true\` reliably leaves the routine's stored list empty. Connectors an organization admin set up can still reach its runs, so do not promise the user that a run has no connectors.
+If both are left out, or \`mcp_connections\` is empty, the server normally attaches the user's connected connectors. Only \`clear_mcp_connections: true\` reliably leaves the scheduled task's stored list empty. Connectors an organization admin set up can still reach its runs, so do not promise the user that a run has no connectors.
 
-### Update Routine — Optional Fields
-All fields optional (partial update): \`name\`, \`cron_expression\`, \`run_once_at\`, \`enabled\`, \`job_config\`, \`mcp_connections\` (replaces connections; an empty list changes nothing), \`clear_mcp_connections\` (boolean, empties the routine's stored MCP connection list).
+### Update scheduled task — optional fields
+All fields optional (partial update): \`name\`, \`cron_expression\`, \`run_once_at\`, \`enabled\`, \`job_config\`, \`mcp_connections\` (replaces connections; an empty list changes nothing), \`clear_mcp_connections\` (boolean, empties the scheduled task's stored MCP connection list).
 
 ### Cron Expression Examples
 
@@ -153,11 +153,11 @@ At invocation it was ${NOW_LOCAL_TIME} (${USER_TIMEZONE}) / ${NOW_UTC_ISO} UTC �
 
 Before computing any \`run_once_at\`, re-check the current time with \`date -u +%Y-%m-%dT%H:%M:%SZ\` via Bash rather than inferring the date from conversation context. Resolve relative requests ("tomorrow at 9am", "in 3 hours", "next Monday") against that fresh value, then echo the resolved local and UTC time back for confirmation before creating. If the resolved time is already past, ask the user to clarify instead of silently rolling forward.
 
-When listing, \`ended_reason: "run_once_fired"\` means a one-shot already ran ("Ran" in the web UI); the user can re-arm it with a new \`run_once_at\`.
+When listing scheduled tasks, \`ended_reason: "run_once_fired"\` means a one-shot already ran ("Ran" in the web UI); the user can re-arm it with a new \`run_once_at\`.
 
 ## Workflow
 
-### CREATE a routine
+### CREATE a scheduled task
 
 1. Understand the goal — what task, which repo(s)? Remind the user the agent runs in the cloud with no access to their local machine, files, or env vars.
 2. Craft the prompt — the agent starts with zero context, so make it self-contained: specific about what to do and what success looks like, which files/areas to focus on, and which actions to take (open PRs, commit, just analyze).

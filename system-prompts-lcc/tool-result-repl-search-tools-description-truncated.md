@@ -1,14 +1,11 @@
 <!--
-name: 'Tool Result: REPL searchTools description truncated'
+name: 'Tool result: REPL searchTools description truncated'
 description: >-
-  Suffix appended to a truncated MCP tool description in REPL searchTools
-  results pointing to describeTool.
-ccVersion: 2.1.331
+  Truncated MCP tool description in searchTools results, telling Claude to read
+  the rest with describeTool before a call.
+ccVersion: 2.1.332
 variables:
   - TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_0
   - TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_1
-  - TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_2
-  - TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_3
-  - TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_4
 -->
- Part of this is left out. describeTool(${TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_0(TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_1(TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_2(TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_3.name),TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_4))}) returns more.
+${TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_0}… The description has ${TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_1.length-TOOL_RESULT_REPL_SEARCH_TOOLS_DESCRIPTION_TRUNCATED_VAR_0.length} more characters. Read them with describeTool(name) before a call.

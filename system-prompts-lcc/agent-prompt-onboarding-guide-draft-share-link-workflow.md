@@ -4,7 +4,7 @@ description: >-
   Adds instructions for sharing the draft ONBOARDING.md before review, then
   updating the same ShareOnboardingGuide link after the user answers the review
   questions
-ccVersion: 2.1.288
+ccVersion: 2.1.332
 variables:
   - SHARE_ONBOARDING_GUIDE_TOOL_NAME
 -->
@@ -25,4 +25,4 @@ variables:
 
    Send this to teammates and they'll get a guided walkthrough when they open it in Claude Code.
 
-If the tool returns 'unavailable' at any point, skip that call and use the manual close from step 5.
+If the tool returns 'unavailable' or the call is refused at any point, skip that call and use the manual close from step 5.

@@ -4,7 +4,7 @@ description: >-
   Guides drafting a minimal supported project brief, handling confirmation
   declines and adapting fields to existing projects and current-session versus
   historical work
-ccVersion: 2.1.314
+ccVersion: 2.1.332
 variables:
   - SEND_TO_PROJECT_TOOL_NAME
   - IS_CURRENT_CONVERSATION_WORK
@@ -22,7 +22,7 @@ The brief is the \`proposal\` input, and every field of it is optional. Send onl
 
 - \`summary\`: two or three plain sentences. What the work is, where it stands now, and what is left to do. It is shown to the user above the setup card and saved in project memory, where every later thread reads it as context.
 - \`sessions\`: one row for each piece of work this session left unfinished that a thread could pick up. Usually one or two; none is fine when nothing is pending. The row’s \`title\` becomes the thread’s title and its \`prompt\` becomes the thread’s instructions, so a thread must be able to start on the row without asking anything: name the branch, file, pull request or decision, and say how to know it is finished. Mark a row \`who: you\` when it needs the user’s hands, such as credentials, an account, or a computer you cannot reach. Put the commit, file or session a row follows from in its \`basis\`.
-- \`routines\`: only when the user asked for one, or the work shows them running the same check by hand on more than one day. Most briefs have none.
+- \`routines\`: scheduled tasks for the project to run, only when the user asked for one, or the work shows them running the same check by hand on more than one day. Most briefs have none.
 ${IS_EXISTING_PROJECT?"- Leave `name`, `icon`, `color` and `instructions` out: the project keeps its own.":"- `instructions`: only standing rules that recurred in the work, such as how code is written, tested, reviewed and named, each as one short bullet line. A description of the project or of the work is not an instruction: it goes in `summary`. Leave the field out when no rule recurred.\n- `icon` and `color`: optional. `project_name` already names the project, so leave `name` out."}
 - ${IS_CURRENT_CONVERSATION_WORK?"Leave `evidence` out.":"In `evidence` fill only `sessions_matched`, the quoted sessions the brief draws on; the tool fills the rest."} The tool adds the repository itself, so the brief carries no \`repos\`.
 

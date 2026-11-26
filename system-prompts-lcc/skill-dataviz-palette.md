@@ -3,7 +3,7 @@ name: 'Skill Reference: Data-viz Reference Palette'
 description: >-
   data-visualization reference (references/palette.md) the skill tells the model
   to Read.
-ccVersion: 2.1.325
+ccVersion: 2.1.332
 -->
 # Reference palette
 
@@ -22,27 +22,27 @@ and the chart body is written against roles rather than raw hex:
 \`\`\`css
 .viz-root {
   color-scheme: light;
-  --surface-1:      #fcfcfb;   /* chart surface */
-  --text-primary:   #0b0b0b;
-  --text-secondary: #52514e;
-  --series-1:       #2a78d6;   /* categorical slot 1 */
+  --surface-1:      #ffffff;   /* chart surface */
+  --text-primary:   #191919;
+  --text-secondary: #666666;
+  --series-1:       #257de0;   /* categorical slot 1 */
   /* ...only the roles this chart uses */
 }
 @media (prefers-color-scheme: dark) {
   :root:where(:not([data-theme="light"])) .viz-root {
     color-scheme: dark;
-    --surface-1:      #1a1a19;
-    --text-primary:   #f0efec;
-    --text-secondary: #c3c2b7;
-    --series-1:       #3987e5;
+    --surface-1:      #191919;
+    --text-primary:   #efefef;
+    --text-secondary: #9c9c9c;
+    --series-1:       #338ced;
   }
 }
 :root[data-theme="dark"] .viz-root {
   color-scheme: dark;
-  --surface-1:      #1a1a19;
-  --text-primary:   #f0efec;
-  --text-secondary: #c3c2b7;
-  --series-1:       #3987e5;
+  --surface-1:      #191919;
+  --text-primary:   #efefef;
+  --text-secondary: #9c9c9c;
+  --series-1:       #338ced;
 }
 \`\`\`
 
@@ -58,48 +58,34 @@ dark surface, not a separate palette:
 
 | Slot | Hue | Light | Dark |
 |------|-----|-------|------|
-| 1 | blue | \`#2a78d6\` | \`#3987e5\` |
-| 2 | orange | \`#eb6834\` | \`#d95926\` |
-| 3 | aqua | \`#1baf7a\` | \`#199e70\` |
-| 4 | yellow | \`#eda100\` | \`#c98500\` |
-| 5 | magenta | \`#e87ba4\` | \`#d55181\` |
-| 6 | green | \`#008300\` | \`#0ca30c\` |
-| 7 | violet | \`#6250d6\` | \`#9085e9\` |
-| 8 | red | \`#e34948\` | \`#e66767\` |
+| 1 | blue | \`#257de0\` | \`#338ced\` |
+| 2 | orange | \`#f47230\` | \`#e76624\` |
+| 3 | aqua | \`#00b894\` | \`#00a888\` |
+| 4 | yellow | \`#f2a600\` | \`#d28e05\` |
+| 5 | magenta | \`#ee7fac\` | \`#e24d8b\` |
+| 6 | green | \`#008a17\` | \`#0aac23\` |
+| 7 | violet | \`#6a4ce2\` | \`#9887ef\` |
+| 8 | red | \`#ec4647\` | \`#eb6263\` |
 
 This order passes every hard gate in both modes on the default *adjacent*
-pairlist (stacks, bars, lines): worst adjacent CVD Delta E 9.1 light / 8.4 dark
-(OKLab ×100, >=8 target), worst adjacent normal-vision Delta E 19.6 light / 19.3
+pairlist (stacks, bars, lines): worst adjacent CVD Delta E 11.8 light / 10.1 dark
+(OKLab ×100, >=8 target), worst adjacent normal-vision Delta E 20.5 light / 21.1
 dark (>=15 floor). Under \`--pairs all\` (scatter, bubble, choropleth, small
 multiples) the full eight cannot clear the floors - with all 28 pairs in
 play no ordering can (the pairlist no longer depends on order), and
 re-stepping is off the table by the documented-palette rule - so those
 chart forms carry a series cap: **the first three slots validate all-pairs
-in both modes** (worst pair CVD Delta E 9.2 light / 9.4 dark, normal-vision 24.0
-light / 20.9 dark - clear of the CVD warn band). Past three, fold to "Other" or
+in both modes** (worst pair CVD Delta E 12.6 light / 12.8 dark, normal-vision 23.0
+light / 19.4 dark - clear of the CVD warn band). Past three, fold to "Other" or
 facet: the fourth slot puts yellow and orange on screen
-together, and that pair fails the all-pairs floors (normal-vision 13.7
-light; CVD 4.8 dark). Three light-mode slots (magenta, yellow, aqua)
-sit below 3:1 contrast on the light surface: the **relief rule** applies (ship
-visible direct labels or the table view). The dark steps were chosen for the
-dark band (OKLCH L ~ 0.48-0.67, >= 3:1 on the dark surface) and validated as a
-set. (Ordering history: adopted July 2026 for its more harmonious opening -
-the same eight hues and steps as its predecessor, re-ordered, zero hex
-changes. The predecessor validated its first FOUR slots all-pairs, with its
-dark run in the 6-8 CVD warn band, so secondary encoding was required there;
-this order deliberately trades that fourth slot - yellow now sits beside orange -
-for better-looking leading colors. Revisit the trade if yellow<->orange
-confusion shows up in real charts with four or more series; undoing it is a
-pure re-order. Light slot 7 has since been lightened, \`#4a3aa7\` -> \`#6250d6\`
-(August 2026); the adjacent-pair figures above are unchanged by that move, the
-non-adjacent blue<->violet pair now sits below both floors under \`--pairs all\`
-(normal-vision 10.5, CVD 4.5 - inside the range the series cap already
-excludes), and the order enumeration was run with the earlier value. Dark slot 6
-has since been lightened, \`#008300\` -> \`#0ca30c\` (November 2026, also after that
-enumeration). The worst adjacent figures are unchanged; under \`--pairs all\` its
-CVD distance fell from 2.7 to 1.4 against orange and from 6.9 to 3.0 against
-yellow, floor 6.) When you
-swap in your own ramps, hold your palette to the full gate.
+together, and that pair fails the all-pairs floors (normal-vision 12.4
+light / 9.8 dark; CVD 3.5 dark). No four of the eight hues pass all-pairs in
+both modes, so re-ordering cannot raise the cap. Four light-mode slots (orange,
+aqua, yellow, magenta) sit below 3:1 contrast on the light surface: the
+**relief rule** applies (ship visible direct labels or the table view). The dark
+steps sit in the dark band (OKLCH L ~ 0.48-0.70), clear 3:1 on the dark surface,
+and validate as a set. When you swap in your own ramps, hold your palette to the
+full gate.
 
 The slot **ordering** is the CVD-safety mechanism, not cosmetic - candidate
 orderings were enumerated and only those clearing every adjacent gate in both
@@ -116,34 +102,35 @@ one-hue ramp.
 
 | step | hex | step | hex | step | hex | step | hex |
 |---|---|---|---|---|---|---|---|
-| 100 | \`#cde2fb\` | 250 | \`#86b6ef\` | 400 | \`#3987e5\` | 550 | \`#1c5cab\` |
-| 150 | \`#b7d3f6\` | 300 | \`#6da7ec\` | 450 | \`#2a78d6\` | 600 | \`#184f95\` |
-| 200 | \`#9ec5f4\` | 350 | \`#5598e7\` | 500 | \`#256abf\` | 650 | \`#104281\` |
-| | | | | | | 700 | \`#0d366b\` |
+| 100 | \`#cce3fd\` | 250 | \`#84b9f3\` | 400 | \`#338ced\` | 550 | \`#1b64be\` |
+| 150 | \`#b6d5f8\` | 300 | \`#6aabf1\` | 450 | \`#257de0\` | 600 | \`#1757ac\` |
+| 200 | \`#9dc8f7\` | 350 | \`#519ced\` | 500 | \`#2370cd\` | 650 | \`#0f4a96\` |
+| | | | | | | 700 | \`#0e3d7e\` |
 
 The full 100->700 range is for **sequential** encoding (continuous magnitude -
 heatmaps, choropleths) where the lightest step means "near zero" and is allowed
 to recede toward the surface. For an **ordinal** ramp (discrete ordered marks -
 funnel stages, tiers - validated with \`--ordinal\`), the step nearest the surface
-must still clear 2:1: on light, start no lighter than **step 250** (\`#86b6ef\`,
-2.06:1); on dark, go no darker than **step 600** (\`#184f95\`, 2.15:1).
+must still clear 2:1: on light, start no lighter than **step 250** (\`#84b9f3\`,
+2.06:1); on dark, go no darker than **step 600** (\`#1757ac\`, 2.51:1; step 650
+only just clears it, at 2.04:1).
 
 ## Diverging pair
 
 **blue <-> red** - warm/cool poles that read as opposite. Neutral midpoint is gray
-(light \`#f0efec\`, dark \`#383835\`). Equal step count per arm. (blue<->aqua was
+(light \`#efefef\`, dark \`#383838\`). Equal step count per arm. (blue<->aqua was
 rejected - both cool, the midpoint doesn't read as "nothing".)
 
 ## Status palette (fixed - never themed)
 
 | role | hex | light-surface contrast | dark-surface contrast |
 |---|---|---|---|
-| good | \`#0ca30c\` | 3.27 | 5.19 |
-| warning | \`#fab219\` | 1.79 | 9.49 |
-| serious | \`#ec835a\` | 2.57 | 6.60 |
-| critical | \`#d03b3b\` | 4.68 | 3.62 |
+| good | \`#0aac23\` | 3.03 | 5.81 |
+| warning | \`#fbb315\` | 1.82 | 9.68 |
+| serious | \`#f18a59\` | 2.46 | 7.13 |
+| critical | \`#dc3c3d\` | 4.41 | 3.98 |
 
-Dark: same four steps - all clear 3:1 on the dark surface (\`#1a1a19\`), and good
+Dark: same four steps - all clear 3:1 on the dark surface (\`#191919\`), and good
 is the same green as dark slot 6. On the light surface, warning and
 serious are sub-3:1 by design; the **icon + label** pairing is the mitigation, so
 a status color never carries meaning alone. That green aside, these steps are
@@ -151,10 +138,10 @@ deliberately distinct from the categorical slots so a status color never
 impersonates a series -
 distinct enough that nothing collides at a glance, not enough for hue to
 carry the distinction unaided: measured by the series floor's own bar
-(unsimulated Delta E >= 15), around nine categorical-vs-status pairs per mode sit
-below 15 - in light mode red vs critical and yellow vs warning both measure
-4.8, slot-2 orange sits 5.8 from status-serious, and the light success text
-green \`#006300\` sits 10.1 from the series green; green vs status-good is 9.7
+(unsimulated Delta E >= 15), nine categorical-vs-status pairs per mode sit
+below 15 - in light mode yellow vs warning measures 3.6, red vs critical 3.8,
+slot-2 orange sits 5.2 from status-serious, and the success text
+green \`#006c10\` sits 9.3 from the series green; green vs status-good is 10.1
 in light mode, and the two are identical in dark. The rule is general: any series color beside a
 same-hue-family status or delta cue leans on the icon + label pairing and on
 placement; never on hue alone.
@@ -169,8 +156,8 @@ decorative, never on by default.
 
 ## Surfaces (for the validator)
 
-- Light chart surface: \`#fcfcfb\`
-- Dark chart surface: \`#1a1a19\`
+- Light chart surface: \`#ffffff\`
+- Dark chart surface: \`#191919\`
 
 These are the validator's built-in defaults. **When you swap in your own
 palette, re-run against your own surfaces:**
@@ -182,15 +169,14 @@ actually renders on.
 
 | Role | Light | Dark |
 |---|---|---|
-| Chart surface | \`#fcfcfb\` | \`#1a1a19\` |
-| Page plane | \`#f9f9f7\` | \`#0d0d0d\` |
-| Primary ink | \`#0b0b0b\` | \`#f0efec\` |
-| Secondary ink | \`#52514e\` | \`#c3c2b7\` |
-| Muted (axis/labels) | \`#898781\` | \`#898781\` |
+| Chart surface | \`#ffffff\` | \`#191919\` |
+| Page plane | \`#f9f9f9\` | \`#0b0b0b\` |
+| Primary ink | \`#191919\` | \`#efefef\` |
+| Secondary ink (axis ticks and titles, legend, subtitle) | \`#666666\` | \`#9c9c9c\` |
 | Label inside a categorical or status fill | \`#ffffff\`, except \`#0b0b0b\` on yellow and warning | \`#ffffff\`, except \`#0b0b0b\` on warning |
-| Gridline (hairline) | \`#e1e0d9\` | \`#2c2c2a\` |
-| Baseline / axis | \`#c3c2b7\` | \`#383835\` |
-| Delta up good (success text) | \`#006300\` | \`#0ca30c\` |
+| Gridline (hairline) | \`#e7e7e7\` | \`#303030\` |
+| Baseline / axis | \`#c2c2c2\` | \`#474747\` |
+| Delta up good (success text) | \`#006c10\` | \`#53c556\` |
 | Border (hairline ring) | \`rgba(11,11,11,0.10)\` | \`rgba(255,255,255,0.10)\` |
 
 ## Filter controls
